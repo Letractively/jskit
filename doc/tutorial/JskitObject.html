@@ -1,0 +1,543 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> JskitObject </TITLE>
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+ 	   <script src="../JskitLoad.js"></script>
+		
+ 	   <script src="../JskitConfig_doc.js"></script>
+		
+		<style>
+			.title_list{
+				font-size:14px;
+				font-weight:bold;
+			}
+		</style>
+</HEAD>
+
+<BODY>
+	<table>
+		<tr>
+			<td>·<a href="#object" class="title_list">HTML Element</a></td>
+		</tr>
+		<tr>
+			<td>·<a href="#string" class="title_list">String</a></td>
+		</tr>
+		<tr>
+			<td>·<a href="#date" class="title_list">Date</a></td>
+		</tr>
+	</table>
+	<!-- ///////////////////////////////////////////////////////// -->
+		<a id="object"></a>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						HTML Element "$"
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Comment:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						该内容定义在<a href="JskitBase.html">base/JskitBase.js</a>中
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						扩展HTML Element的Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).effectStyle(rStyleName);
+									</td>
+									<td>
+										得到当前的css样式值
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										obj.effectStyle("color"),得到当前对象obj的前景色值，兼容IE和FireFox
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).finalize();
+									</td>
+									<td>
+										销毁对象
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										obj.finalize(),销毁obj对象
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).clearChildren();
+									</td>
+									<td>
+										清除所有子节点
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										obj.clearChildren(),清楚对象obj下所有的子节点
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).getX();
+									</td>
+									<td>
+										得到对象的绝对横坐标，无关该对象是流式定位还是绝对定位
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).getY();
+									</td>
+									<td>
+										得到对象的绝对纵坐标，无关该对象是流式定位还是绝对定位
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>
+										$(Object).getForefather(rTagName);
+									</td>
+									<td>
+										得到对象的祖宗节点中最接近该对象且 tagName 为 rTagName 的祖宗对象
+									</td>
+									<td>
+										Element
+									</td>
+									<td>
+										
+									</td>
+								</tr>
+                                <tr>
+                                    <td>
+                                        $(Object).isOffSpringIn(string rForefatherId);
+                                    </td>
+                                    <td>
+                                        是否是id为 rForefatherId 的对象的子孙对象
+                                    </td>
+                                    <td>
+                                        Boolean
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        $(Object).isOffSpringOrSelf(string rForefatherId);
+                                    </td>
+                                    <td>
+                                        是否是id为 rForefatherId 的对象的子孙对象 或者是对象自己
+                                    </td>
+                                    <td>
+                                        Boolean
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        $(Object).isForefatherOf(string rOffSpringId);
+                                    </td>
+                                    <td>
+                                        是否是id为 rOffSpringId 的对象的祖宗对象 
+                                    </td>
+                                    <td>
+                                        Boolean
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        $(Object).isForefatherOrSelf(string rOffSpringId);
+                                    </td>
+                                    <td>
+                                        是否是id为 rOffSpringId 的对象的祖宗对象  或者对象自己
+                                    </td>
+                                    <td>
+                                        Boolean
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+								<tr>
+									<td>
+										$(Object).select(xPath);
+									</td>
+									<td>
+										在Object范围内搜索xpath
+									</td>
+									<td>
+										Element List
+									</td>
+									<td>
+										相当于$(xPath,Object);
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						遍历对象的方式“$” 
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<textarea name="JskitSyntax_code" class="js">
+						//如果对象未找到，Returnnull
+						//方式1：得到某个标签的对象集合
+						//如查找所有div对象集合。 
+						$("div"); 
+						//注意：$("body")只有一个，所以它没有下标，这是一个特例。
+
+						//方式2：得到具有idAttributes:，且Attributes:值为myid的对象
+						//如查找id为myid的对象。 
+						$("#myid"); 
+						
+						//方式3：得到具有nameAttributes:，且Attributes:值为myName的对象集合
+						//如查找name为myName的所有对象集合。 
+						$("@myName"); 
+						
+						//方式4：得到标签为div，且具有某Attributes:且Attributes:值为某值(=)或包涵某值(%)的对象集合
+						//如查找Attributes:AA等于aa，Attributes:BB等于bb，Attributes:CC包涵cc的div对象。 
+						$("div[@AA='aa',@BB='bb',@CC%'cc',....]");
+						//
+						// 注意格式:
+						// 1,@和Attributes:名之间不能有空格
+						// 2,Attributes:值必须且只能用单引号(')包裹起来
+						// 3,Attributes:不区分大小写，值区分大小写
+						
+						//方式5：传递一个element，并使element具有jskit扩展的Methods:或Attributes:
+						</textarea>
+						$在初始化中就重构了Object对象，使其具有更多的Methods:;
+						<br>下面代码展示了使用effectStyleMethods:，兼容IE的currentStyle和Firefox的相应Methods:，做到多浏览器的统一。
+						<textarea name="JskitSyntax_code" class="js">
+						//相当于IE下的rObject.currentStyle.backgroundColor;
+						rObject.effectStyle("background-color");
+						</textarea>
+						下面代码展示了使用getXMethods:，获取对象的绝对位置的x坐标(不论其position的Attributes:是否为absolute)。
+						<textarea name="JskitSyntax_code" class="js">
+						rObject.getX();
+
+						</textarea>
+						<br>
+						<a href="http://www.w3school.com.cn/xpath/index.asp" target="_blank">关于XPath的帮助</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<!-- ///////////////////////////////////////////////////////// -->
+		<a id="date"></a>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						Date
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Comment:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						该内容定义在<a href="JskitBase.html">base/JskitBase.js</a>中
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						扩展Date对象的Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Date.toJskitString()
+									</td>
+									<td>
+										输出标准格式的日期时间字符串
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										var dt = new Date();
+										<br>dt.toJskitString()
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<textarea name="JskitSyntax_code" class="js">
+						var dt = new Date();
+						document.write(dt.toJskitString());
+						// 得到:2007-07-19 13:01:29
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<!-- ///////////////////////////////////////////////////////// -->
+		<a id="string"></a>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						String
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Comment:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						该内容定义在<a href="JskitBase.html">base/JskitBase.js</a>中
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						扩展string的Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.trim()
+									</td>
+									<td>
+										去除首位空格
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										"aaa".trim()
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.encodeHtml()
+									</td>
+									<td>
+										编码一段html代码
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										"&lt;font&gt;aaa&lt;/font&gt;".encodeHtml();
+										<br>将的得到:
+										<br>&amp;lt;font&amp;gt;aaa&amp;lt;/font&amp;gt;
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.decodeHtml()
+									</td>
+									<td>
+										解码一段html代码
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										"&amp;lt;font&amp;gt;aaa&amp;lt;/font&amp;gt;".decodeHtml();
+										<br>将的得到:
+										<br>&lt;font&gt;aaa&lt;/font&gt;
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.toInt()
+									</td>
+									<td>
+										转换为整型值
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										"1".toInt()等同于parseInt("1");
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.toFloat()
+									</td>
+									<td>
+										转换为浮点型值
+									</td>
+									<td>
+										float
+									</td>
+									<td>
+										"1.01".toFloat()等同于parseFloat("1.01");
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.toFormatFloat([rDefault][,rLength])
+									</td>
+									<td>
+										转换为指定小数个数的浮点型值
+										<br/>rDefault: 如果是非法的值，返回rDefault
+										<br/>rLength: 指定要显示的小数位数，缺省为2
+									</td>
+									<td>
+										float
+									</td>
+									<td>
+										"1.013101".toFormatFloat(0,3)返回1.013;
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.cut(int rLen[,string rTail])
+									</td>
+									<td>
+										rLen: 要截取的长度
+										<br>rTail: 尾部追加字符串
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										将长字符串截断
+									</td>
+								</tr>
+								<tr>
+									<td>
+										String.select(value1[,value2][,value3]...)
+									</td>
+									<td>
+										value1...: 可选择的值
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										在选定的范围内赋值。<br>例如在设置form的提交方式时，只有get和post两种，如果代表method值的变量为m,可写成form.method=m.select("get","post")，m从get和post中选择值，如果没有匹配(m不在这些值的范围里)，则Return第一个值(此例中为get)。
+										<br>如果Parameters错误(Parameters个数少于1或Parameters不是字符串)，Return"";
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<textarea name="JskitSyntax_code" class="js">
+var s = "我是很长很长很长很长很长很长的字符串";
+document.write(s.cut(20,"..."));
+//我是很长很长很长很长...
+document.write("<br>");
+document.write(s.cut(20));
+//我是很长很长很长很长
+
+document.write("<br>");
+
+var s = "abcdefghigklmnopqrstuvwsyz";
+document.write(s.cut(20,"..."));
+//abcdefghigklmnopqrst...
+document.write("<br>");
+document.write(s.cut(20));
+//abcdefghigklmnopqrst 
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</BODY>
+</HTML>

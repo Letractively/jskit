@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Demo::Date Selector::</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <link rel="stylesheet" type="text/css" href="../../model/JskitDateSelector.css">
+        <script src="../JskitLoad.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+        <script src="../../page/JskitTable.js">
+        </script>
+        <script src="../../base/JskitCalendar.js">
+        </script>
+        <script src="../../model/JskitDateSelector.js">
+        </script>
+
+        <script>
+        	var jds = new JskitDateSelector("jds");
+            jds.setCanvasCssClass("jds_canvasCssClass");
+            jds.setCalendarTitleCssClass("jds_titleCssClass");
+            jds.setTableCssClass("jds_tableCssClass");
+            jds.setTHeadCssClass("jds_theadCssClass");
+            jds.setTBodyCssClass("jds_tbodyCssClass");
+
+            jds.setDateName("日", "一", "二","三","四","五","六");
+			jds.setWeekendCssClass("jds_weekend");
+        </script>
+    </head>
+    <body>
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="Package">
+                        输入框的日期选择
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        查看JskitDateSelector.js参考
+                        <br><a href="../tutorial/JskitTable.html">查看JskitTable.js参考</a>
+                        <br><a href="../tutorial/JskitCalendar.html">查看JskitCalendar.js参考</a>
+                        <br><a href="../tutorial/JskitDateSelector.html">查看JskitDateSelector.js参考</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td height="10">
+                        <font>请选择日期：</font></font><input type="text" onclick="jds.setMode('d');jds.open(this,event,'yyyy-mm-dd',1984,8)" />
+                        <br/><br/>
+						<font>请选择月份：</font></font><input type="text" onclick="jds.setMode('m');jds.open(this,event,'yyyy-mm',1984,8)" />
+                        <br/><br/>
+						<font>请选择时间：</font></font><input type="text" onclick="jds.setMode('dt');jds.open(this,event,'',1984,8)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <textarea name="JskitSyntax_code" class="js">
+                            var jds = new JskitDateSelector("jds");
+                            jds.setCanvasCssClass("jds_canvasCssClass");
+                            jds.setCalendarTitleCssClass("jds_titleCssClass");
+                            jds.setTableCssClass("jds_tableCssClass");
+                            jds.setTHeadCssClass("jds_theadCssClass");
+                            jds.setTBodyCssClass("jds_tbodyCssClass");
+
+                            jds.setDateName("日", "一", "二","三","四","五","六");
+                            jds.setWeekendCssClass("jds_weekend");
+                        </textarea>
+                        <textarea name="JskitSyntax_code" class="html">
+请选择日期：&lt;input type="text" onclick="jds.open(this,event,'',1984,8)" /&gt;
+请选择月份：&lt;input type="text" onclick="jds.setMode('m');jds.open(this,event,'yyyy-mm',1984,8)" /&gt;
+请选择时间：&lt;input type="text" onclick="jds.setMode('dt');jds.open(this,event,'',1984,8)" /&gt;
+                        </textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>JskitEvents.html</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../JskitLoad.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+        <script src="../../page/JskitTable.js">
+        </script>
+        <style>
+            .tableCssClass {
+                border: #000000 solid 1px;
+                border-collapse: collapse;
+            }
+            
+            .tableCssClass TD {
+                border: #000000 solid 1px;
+                font-family: verdana;
+            }
+            
+            .theadCssClass TD {
+                font-size: 12px;
+                font-weight: bold;
+                color: #ffff00;
+                text-align: center;
+                border-collapse: collapse;
+                padding: 5px 5px 5px 5px;
+                background-color: #336699;
+            }
+            
+            .tbodyCssClass TD {
+                font-size: 11px;
+                font-weight: bold;
+                padding: 5px 5px 5px 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="package">
+                        JskitTable.js
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Author:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        AnyRock
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Initializtion:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        var jTable = new JskitTable();
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Required:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        base/JskitBase.js
+                        <br>
+                        base/JskitUtil.js
+                        <br>
+                        base/JskitXml.js
+                        <br>
+                        base/JskitEvents.js
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        <font color="#ff6600">
+                            Methods:
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list" id="Table2">
+                            <tbody>
+                                <tr bgcolor="#cccccc">
+                                    <td>
+                                        Name
+                                    </td>
+                                    <td>
+                                        Parameters
+                                    </td>
+                                    <td>
+                                        Return
+                                    </td>
+                                    <td>
+                                        Comment
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        addColumn(String rKey,String rTitle[,rHidden])
+                                    </td>
+                                    <td>
+                                        rKey: 字段Name(不能重复)
+                                        <br>
+                                        rTitle: 数据表显示的列Name
+                                        <br>
+                                        hidden: 是否为隐藏Attributes:，隐藏的列，在out时不被输出
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        增加一个列,
+                                        <br>
+                                        如：addColumn("sex","性别");
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setColumn([column1][,column2]...)
+                                    </td>
+                                    <td>
+                                        column1...列名，不能重复
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        同时设置所有列，列的title同key
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        insert([data1][,data2][,data3]....)
+                                    </td>
+                                    <td>
+                                        rData: 一条记录
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        按列顺序，填入对应的数据
+                                        <br>
+                                        如：insert(1,"Edwon","Male");
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getTable([beginIndex,count])
+                                    </td>
+                                    <td>
+                                        beginIndex: 起始行索引
+                                        <br>
+                                        count: 行数
+                                    </td>
+                                    <td>
+                                        html代码
+                                    </td>
+                                    <td>
+                                        得到table的HTML代码，out(1,3)表示从索引1的行开始，打印3行
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getBodyContent([beginIndex,count])
+                                    </td>
+                                    <td>
+                                        beginIndex: 起始行索引
+                                        <br>
+                                        count: 行数
+                                    </td>
+                                    <td>
+                                        html代码
+                                    </td>
+                                    <td>
+                                        得到table中tbody部分(包括thead)的HTML代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getHeadContent()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        html代码
+                                    </td>
+                                    <td>
+                                        得到table中thead部分(包括thead)的HTML代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        out([beginIndex,count])
+                                    </td>
+                                    <td>
+                                        beginIndex: 起始行索引
+                                        <br>
+                                        count: 行数
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        打印getTable()取得的内容
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getValue(rRowIndex,rCellIndex)
+                                    </td>
+                                    <td>
+                                        rRowIndex: 行索引
+                                        <br>
+                                        rCellIndex: 列索引或者列名
+                                    </td>
+                                    <td>
+                                        string
+                                    </td>
+                                    <td>
+                                        得到某行某列的值（单元格内容）
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setValue(rRowIndex,rCellIndex,rValue)
+                                    </td>
+                                    <td>
+                                        rRowIndex: 行索引
+                                        <br>
+                                        rCellIndex: 列索引或者列名
+                                        <br>
+                                        rValue: 值或内容
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置某行某列的值（单元格内容）
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        clear()
+                                    </td>
+                                    <td>
+                                      
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        清楚table中的数据
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTableCssClass(cssClass)
+                                    </td>
+                                    <td>
+                                        cssClass: 样式定义
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置table的样式定义
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTHeadCssClass(cssClass)
+                                    </td>
+                                    <td>
+                                        cssClass: 样式定义
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置thead的样式定义
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTBodyCssClass(cssClass)
+                                    </td>
+                                    <td>
+                                        cssClass: 样式定义
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置tbody的样式定义
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setColumnCssClass(rCIdx,cssClass)
+                                    </td>
+                                    <td>
+                                    	rCIdx: 列的key值或索引值
+                                        <br>cssClass: 样式定义
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置某一列单元格的样式定义,rCIdx可以是索引值（整数），也可以是列的键值（字符串）。
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setAction(actionName,functionName)
+                                    </td>
+                                    <td>
+                                        actionName: 事件Name
+										<br>functionName: 响应时间的Methods:Name（注：没有括号部分）
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置单元格的事件，如setAction("onclick","showMe")
+										<br>1)Methods:只提供Methods:名，该Methods:有且只有一个Parameters，即该单元格对象。如:showMe(obj){//do sth.}
+										<br>2)可通过单元格Attributes:获取行索引和列索引，如obj.getAttribute("row")得到行索引，obj.getAttribute("col")得到列索引。
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Example:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <textarea name="JskitSyntax_code" class="css">
+                            TABLE.tableCssClass{
+                            border:#000000 solid 1px;
+                            border-collapse:collapse;
+                            }
+                            TABLE.tableCssClass TD{
+                            border:#000000 solid 1px;
+                            font-family:verdana;
+                            }
+                            THEAD.theadCssClass TD{
+                            font-size:12px;
+                            font-weight:bold;
+                            color: #ffff00;
+                            text-align: center;
+                            border-collapse: collapse;
+                            padding: 5px 5px 5px 5px;
+                            background-color:#336699;
+                            }
+                            TBODY.tbodyCssClass TD{
+                            font-size:11px;
+                            font-weight:bold;
+                            padding:5px 5px 5px 5px;
+                            }
+                            .btnDeleteCssClass {
+                            font-size:11px;
+                            height:18px;
+                            border:1px outset #f6f6f6;
+                            }
+                        </textarea>
+                        <textarea name="JskitSyntax_code" class="js">
+var jskitTable = new JskitTable("jskitTable");
+jskitTable.setIndexColumn(false);
+
+//--set style
+jskitTable.setTableCssClass("tableCssClass");
+jskitTable.setTHeadCssClass("theadCssClass");
+jskitTable.setTBodyCssClass("tbodyCssClass");
+
+//--set columns
+jskitTable.setColumns("ID", "Name","Sex");
+
+//--inset data
+jskitTable.insert(1, "Edwon", "M");
+jskitTable.insert(2, "Luke", "M");
+jskitTable.insert(3, "Alina", "F");
+
+//--print out
+jskitTable.out();
+jskitTable.out(1,1);
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        效果
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <script>
+                            var jskitTable = new JskitTable("jskitTable");
+                            jskitTable.setIndexColumn(false);
+                            
+                            jskitTable.setTableCssClass("tableCssClass");
+                            jskitTable.setTHeadCssClass("theadCssClass");
+                            jskitTable.setTBodyCssClass("tbodyCssClass");
+                            
+                            jskitTable.setColumns("ID", "Name", "Sex");
+                            
+                            jskitTable.insert(1, "Edwon", "M");
+                            jskitTable.insert(2, "Luke", "M");
+                            jskitTable.insert(3, "Alina", "F");
+                            
+                            document.write("jskitTable.out()");
+                            jskitTable.out();
+                            document.write("<br>jskitTable.out(1,1)");
+                            jskitTable.out(1, 1);
+                        </script>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

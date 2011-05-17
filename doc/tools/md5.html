@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE> Md5 :: Jskit Test </TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../JskitLoad.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+<script>
+	function doMd5(){
+		var _s = jskitUtil.md5($("#txt_input").value);
+
+		$("#txt_output").innerHTML = "UpperCase: <input size='36' value='"+_s +"' />"
+			+"<br><br>"
+			+"LowerCase: <input size='36' value='" + _s.toLowerCase()+"'/>";
+	}
+</script>
+<style>
+	input{
+		font-family:Courier New;
+	}
+	.regex_table{
+		border:1px solid #aaaaaa;
+		border-collapse:collapse;
+	}
+	.regex_table TD{
+		border:1px solid #cccccc;
+		background-color:#eeeeee;
+	}
+	.result_table{
+		border-collapse:collapse;
+	}
+	.result_table TD{
+		background-color:#ffffff;
+		border-collapse:collapse;
+	}
+	TEXTAREA{
+		background-color:#ffffff;
+	}
+	.regex_title{
+		text-align:right;
+		padding:2px 5px 2px 5px;
+	}
+	.result_title{
+		color:#ff0000;
+		width:30px;
+		padding:2px 2px 2px 2px;
+		background-color:#ffffff;
+	}
+	.result_content{
+		color:#00aa00;
+		padding:2px 2px 2px 2px;
+		background-color:#ffffff;
+	}
+</style>
+</HEAD>
+
+<BODY>
+	<div>
+		<table class="regex_table" border="1" cellpadding="4" cellspacing="0">
+			<tr>
+				<td class="regex_title">输入字符串:</td>
+				<td>
+					<textarea id="txt_input" cols="60" rows="5">this is a test!</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center" style="background-color:#ffffff">
+					<input type="button" value="MD5" style="padding-top:2px;width:200px" onclick="doMd5()" />
+				</td>
+			</tr>
+			<tr>
+				<td class="regex_title">结果:</td>
+				<td>
+					<div id="txt_output" >&nbsp;</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</BODY>
+</HTML>
+

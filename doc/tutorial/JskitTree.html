@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitTree.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../JskitLoad.js"></script>
+		
+ 	   <script src="../JskitConfig_doc.js"></script>
+		
+		<script src="../../page/JskitTree.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitTree.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						构造树形菜单
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitTree = new JskitTree("jskitTree");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/*
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										newNode(rParent,rOpen,rText,rUrl[,rTarget])
+									</td>
+									<td>
+										(Object)rParent: 父对象
+										<br>(Boolean)rOpen : 缺省状态,true开启,false关闭
+										<br>(String)rText : 菜单标题
+										<br>(String)rUrl : 菜单链接,""或"#"为无链接
+										<br>(Enum)rTarget : _self,_blank
+									</td>
+									<td>
+										Object
+									</td>
+									<td>
+										创建一个新的菜单节点对象
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setPath(rPath)
+									</td>
+									<td>
+										(String)rPath: 节点链接的前缀
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										设置节点链接的前缀，如setPath("doc/"),节点所有的链接都以doc/开始。
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setPrefixText(rPrefix)
+									</td>
+									<td>
+										(String)rPrefix: 节点的前缀字符串，缺省为"·"
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										设置节点的前缀字符串
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setClosePrefix(rPrefix)
+									</td>
+									<td>
+										(String)rPrefix: 节点关闭状态的前缀字符串，缺省为"4"
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										设置节点关闭状态的前缀字符串，在webdings字体下，4显示为<font style="font-family:webdings;">4</font>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setOpenPrefix(rPrefix)
+									</td>
+									<td>
+										(String)rPrefix: 节点打开状态的前缀字符串，缺省为"6"
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										设置节点打开状态的前缀字符串，在webdings字体下，6显示为<font style="font-family:webdings;">6</font>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										out(rTarget)
+									</td>
+									<td>
+										rTarget可选择类型:
+										<br>等于"html"的字符串 : Return一段html代码
+										<br>不等于"html"的字符串 : 输出到id=rTarget的对象的innerHTML
+										<br>Html 对象 : 输出到该对象的innerHTML
+										<br>其他 : 直接打印输出
+										
+									</td>
+									<td>
+										Object
+									</td>
+									<td>
+										创建一个新的菜单节点对象
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						样式表：
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						菜单样式的定义规则:
+						<br>关闭状态: "l"+菜单层级+"_skitTreeNodeText"
+						<br>开启状态: "l"+菜单层级+"_skitTreeNodeText_active"
+						<br>叶子节点的前缀样式: "JskitTreePrefix"
+						<br>目录节点的前缀样式: "JskitTreePrefix_action"
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<textarea name="JskitSyntax_code" class="js" width="100%">
+						//注意：css class的名字是固定的
+						&lt;style&gt;
+							.JskitTreePrefix_action{
+								font-family:"webdings";
+								font-size:14px;
+							}
+							.JskitTreePrefix{
+								font-family:"verdana";
+								font-size:12px;
+							}
+							.l1_JskitTreeNodeText{
+								font-size:13px;
+								font-weight:bold;
+								color:#944646;
+								background-color:transparent;
+								cursor:hand;
+								padding:2px 2px 2px 2px;
+							}
+							.l1_JskitTreeNodeText_active{
+								font-size:13px;
+								font-weight:bold;
+								color:#ffffff;
+								background-color:#944646;
+								cursor:hand;
+								padding:2px 2px 2px 2px;
+							}
+							.l2_JskitTreeNodeText{
+								font-size:12px;
+								color:#000000;
+								cursor:hand;
+								padding:2px 2px 2px 20px;
+							}
+							.l2_JskitTreeNodeText_active{
+								font-size:12px;
+								color:#ff0000;
+								cursor:hand;
+								padding:2px 2px 2px 20px;
+							}
+							.l3_JskitTreeNodeText{
+								font-size:12px;
+								color:#000000;
+								cursor:hand;
+								padding:2px 2px 2px 40px;
+							}
+							.l3_JskitTreeNodeText_active{
+								font-size:12px;
+								color:#ff0000;
+								cursor:hand;
+								padding:2px 2px 2px 40px;
+							}
+						&lt;/style&gt;
+						
+						&lt;script&gt;
+						//////////////////////////////////////////////////////
+						var demoTree = new JskitTree("demoTree");
+						demoTree.prefixText = "·";
+						demoTree.openPrefix = "6";
+						demoTree.closePrefix = "4";
+						var n0 = demoTree.newNode();
+						var n1 = demoTree.newNode(n0,true,"Menu1","");
+						var n11 = demoTree.newNode(n1,true,"Menu1-1","");
+						var n12 = demoTree.newNode(n1,true,"Menu1-2","");
+						var n13 = demoTree.newNode(n1,true,"Menu1-3","");
+						var n14 = demoTree.newNode(n1,true,"Menu1-4","");
+						
+						var n2 = demoTree.newNode(n0,false,"Menu2","");
+						var n21 = demoTree.newNode(n2,true,"Menu2-1","");
+						var n22 = demoTree.newNode(n2,true,"Menu2-2","");
+						demoTree.out();
+						&lt;/script&gt;
+						</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						效果
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<script>
+						var demoTree = new JskitTree("demoTree");
+						demoTree.prefixText = "·";
+						demoTree.openPrefix = "6";
+						demoTree.closePrefix = "4";
+						var n0 = demoTree.newNode();
+						var n1 = demoTree.newNode(n0,true,"Menu1","");
+						var n11 = demoTree.newNode(n1,true,"Menu1-1","");
+						var n12 = demoTree.newNode(n1,true,"Menu1-2","");
+						var n13 = demoTree.newNode(n1,true,"Menu1-3","");
+						var n14 = demoTree.newNode(n1,true,"Menu1-4","");
+						
+						var n2 = demoTree.newNode(n0,false,"Menu2","");
+						var n21 = demoTree.newNode(n2,true,"Menu2-1","");
+						var n22 = demoTree.newNode(n2,true,"Menu2-2","");
+						demoTree.out();
+						</script>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitXml.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../JskitLoad.js"></script>
+ 	   <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitXml.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						统一IE和Mozilla的xml dom操作
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/JskitBase.js
+						<br>base/JskitUtil.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="code">
+						<textarea  name="JskitSyntax_code" class="js">
+							//demo.xml文件的内容
+							&lt;?xml version="1.0" encoding="utf-8"?&gt;
+							&lt;root&gt;
+								&lt;item id="0001"&gt;
+									&lt;title&gt;haha&lt;/title&gt;
+									&lt;price&gt;10.21&lt;/price&gt;
+								&lt;/item&gt;
+								&lt;item id="0002"&gt;
+									&lt;title&gt;heihei&lt;/title&gt;
+									&lt;price&gt;10.22&lt;/price&gt;
+								&lt;/item&gt;
+								&lt;item id="0003"&gt;
+									&lt;title&gt;hoho&lt;/title&gt;
+									&lt;price&gt;156.21&lt;/price&gt;
+								&lt;/item&gt;
+							&lt;/root&gt;
+														
+							//从xml文件装载
+							var xml = jskitXml.load("demo.xml");	
+							//而从字符串装载用下面的方式
+							//var xmlDocument = jskitXml.load("<a><b><c></c></b></a>","text");	
+							
+							//查找节点(xpath)
+							var node = xml.selectSingleNode("//item[@id='0002']");
+							var nodeList = xml.selectNodes("//item");	
+							for(var i=0;i<nodeList.length;i++){
+								//根据索引得到节点对象
+								var _node = nodeList[i];
+								//得到文本内容
+								var text = _node.text;
+								//得到xml格式的内容(包括_node自己，类似outerHTML)
+								var xml = _node.xml;
+								//得到Attributes:值
+								var id = _node.getAttribute("id");
+								//得到node下面的price子节点
+								var _priceNode = _node.selectSingleNode("price");
+							}			
+						</textarea>
+						<br>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						相关知识
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<li><a href="http://www.w3schools.com/dom/default.asp" target="_blank">XML DOM</a></li>
+						<li><a href="http://www.zvon.org/xxl/XPathTutorial/General_chi/examples.html" target="_blank">XPath Tutorial</a></li>
+						<li><a href="http://developer.mozilla.org/en/docs/Introduction_to_using_XPath_in_JavaScript#document.evaluate">Introduction to using XPath in JavaScript</a></li>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

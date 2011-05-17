@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>倒计时</TITLE>
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    <script src="../JskitLoad.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+
+    <script src="../../plugin/office/JskitTimer.js"></script>
+    <script>
+        jskitTimer.configuation.dateTime = "2046-5-11 00:00:00";
+        jskitTimer.configuation.language = "zh_cn";
+        jskitTimer.configuation.textStyle = "color:#ffffff;";
+        jskitTimer.configuation.mode = "forward";//forward | behind
+        //jskitTimer.configuation.imgPath = "images/";
+        jskitTimer.configuation.displayerId = "timer_displayer";
+        jskitTimer.configuation.timeInterVal = 1;
+        function changeDateTime() {
+            jskitTimer.changeDateTime($("#enddate").value);
+        }
+        function changeMode(rValue) {
+            jskitTimer.configuation.mode = rValue;
+            if (rValue == "forward") {
+                $("#displayer_title").innerText = "距离" + jskitTimer.configuation.dateTime + "还有:";
+            } else {
+                $("#displayer_title").innerText = "离" + jskitTimer.configuation.dateTime + "已经过去:";
+            }
+        }
+    </script>
+</HEAD>
+
+<BODY>
+<div>
+    <div style="font-size:14px;">设置截止时间:</div>
+    <div>
+        <input type="text" id="enddate" value="2046-5-11 00:00:00" style="background-color:#ffffc0"/>
+        <input type="button" value="更改" onclick="changeDateTime();"/>
+    </div>
+    <div style="font-size:14px;">设置执行间隔时间:</div>
+    <div>
+        <select onchange="jskitTimer.configuation.timeInterVal=parseInt(this.value);" style="background-color:#ffffc0">
+            <option value="1">1毫秒</option>
+            <option value="10">10毫秒</option>
+            <option value="100">100毫秒</option>
+            <option value="1000">1000毫秒</option>
+        </select>
+    </div>
+    <div style="font-size:14px;">设置比较模式:</div>
+    <div>
+        <select onchange="changeMode(this.value);" style="background-color:#ffffc0">
+            <option value="forward">向前倒数（距离某时间点还有多少剩余时间）</option>
+            <option value="behind">已过时间（离某时间点已经过去了多少时间）</option>
+        </select>
+    </div>
+    <div style="font-size:14px;" id="displayer_title">时间显示：</div>
+
+    <div id="timer_displayer"
+         style="height:30px;width:350px;text-align:center;padding-top:5px;background-color:#000000;"></div>
+</div>
+</BODY>
+</HTML>

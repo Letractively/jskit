@@ -1,0 +1,576 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitCalendar.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+	  	   <script src="../JskitLoad.js"></script>
+	 	   <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitCalendar.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						日历工具包
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jc = new JskitCalendar();
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						无
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Index:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<ul>
+							<li><font size="4"><a href="#parent">JskitCalendar 的 Methods 和 Attributes</a></font></li>
+							<li><font size="4"><a href="#lunar">JskitCalendar.lunar(农历)的 Methods 和 Attributes</a></font></li>
+							<li><font size="4"><a href="#solar">JskitCalendar.solar(阳历)的 Methods 和 Attributes</a></font></li>
+                            <li><font size="4"><a href="#clock">JskitCalendar.clock(时钟)的 Methods 和 Attributes</a></font></li>
+                            <li><font size="4"><a href="../demo/demo_calendar.html">使用JskitTable.js 和JskitCalendar.js输出一个日历</a></font></li>
+							<li><font size="4"><a href="#demo">Example:</a></font></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td class="package2">
+						<a id="parent"></a>JskitCalendar
+					</td>
+					</tr>
+                <tr>
+                    <td class="title">
+                        Methods:
+                    </td>
+                </tr>
+                 <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list">
+                            <tbody>
+                                    <tr bgcolor="#cccccc">
+                                        <td>
+                                            Name
+                                        </td>
+                                        <td>
+                                            Parameters
+                                        </td>
+                                        <td>
+                                            Return
+                                        </td>
+                                        <td>
+                                            Comment
+                                        </td>
+                                    </tr>
+                                <tr>
+                                    <td>
+                                        {}
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        构造函数，初始化JskitCalendar.lunar对象和JskitCalendar.solar对象，
+										通过getYear(),getMonth(),getDay()，将得到当前阳历日期的年月日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getYear()/setYear(year)
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得/设置阳历年
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getMonth()/setMonth(month)
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得/设置阳历月
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getDay()/setDay(day)
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得/设置阳历日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getCalendarList()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        Array[][]
+                                    </td>
+                                    <td>
+                                        取得阳历日在一个日历页中的排列，第一个维度表示周，第二个维度表示日，如arr[2][0],表示第三周的星期日
+                                    </td>
+                                </tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+               <tr>
+                    <td class="package2">
+                        <a id="lunar"></a>JskitCalendar.lunar(农历)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Methods:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list">
+                            <tbody>
+                                    <tr bgcolor="#cccccc">
+                                        <td>
+                                            Name
+                                        </td>
+                                        <td>
+                                            Parameters
+                                        </td>
+                                        <td>
+                                            Return
+                                        </td>
+                                        <td>
+                                            Comment
+                                        </td>
+                                    </tr>
+                                <tr>
+                                    <td>
+                                        getYear()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得农历年
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getMonth()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得农历月
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getDay()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得农历日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getShengXiao()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        string
+                                    </td>
+                                    <td>
+                                        取得该年的生肖
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getGanZhiYear()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        string
+                                    </td>
+                                    <td>
+                                        得到该年的天干地支
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>
+                                        getGanZhiMonth()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        string
+                                    </td>
+                                    <td>
+                                        得到月柱
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getGanZhiDay()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        String
+                                    </td>
+                                    <td>
+                                        得到日柱
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getSolarTerm()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        得到节气，如果该日不是节气，Return""
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getFestival()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        得到农历传统节日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        parse(year,month,day)
+                                    </td>
+                                    <td>
+                                        year:阳历年
+										<br>month:阳历月
+										<br>day:阳历日
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        将阳历日期，解析成农历，使用lunar.parseMethods:后，可以使用lunar.date集合。该Methods:Returnxxxx-xx-xx形式的农历日期字符串
+                                    </td>
+                                </tr>
+		    	            </tbody>
+						</table>
+					</td>
+				</tr>
+                <tr>
+                    <td class="title">
+                        集合
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                    	在使用lunar.date[]集合前，需要实行lunar.parse将阳历日期解析为农历日期。
+                        <table border="1" cellspacing="0" class="content_list">
+                        	<tr bgcolor="#cccccc">
+                        		<td>key</td>
+								<td>value</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"SYear"</font>]</td>
+								<td>阳历年</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"SMonth"</font>]</td>
+								<td>阳历月</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"SDay"</font>]</td>
+								<td>阳历日</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"Year"</font>]</td>
+								<td>年(数值)</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"Month"</font>]</td>
+								<td>月(数值)</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"MonthText"</font>]</td>
+								<td>月(中文)</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"Day"</font>]</td>
+								<td>日(数值)</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"DayText"</font>]</td>
+								<td>日(中文)</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"GanzhiYear"</font>]</td>
+								<td>年柱,如：甲子，辛亥</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"GanzhiMonth"</font>]</td>
+								<td>月柱</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"GanzhiDay"</font>]</td>
+								<td>日柱</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"ShengXiao"</font>]</td>
+								<td>生肖</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"SolarTerm"</font>]</td>
+								<td>节气</td>
+                        	</tr>
+                        	<tr>
+                        		<td>jskitCalendar.lunar.<b>date</b>[<font color="red">"Festival"</font>]</td>
+								<td>传统农历节日</td>
+                        	</tr>
+                        </table>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="package2">
+                        <a id="solar"></a>JskitCalendar.solar(阳历)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Methods:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list">
+                            <tbody>
+                                    <tr bgcolor="#cccccc">
+                                        <td>
+                                            Name
+                                        </td>
+                                        <td>
+                                            Parameters
+                                        </td>
+                                        <td>
+                                            Return
+                                        </td>
+                                        <td>
+                                            Comment
+                                        </td>
+                                    </tr>
+                                <tr>
+                                    <td>
+                                        getFestival()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        得到阳历（及国际）节日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        parse(year,month,day)
+                                    </td>
+                                    <td>
+                                        year:阳历年
+										<br>month:阳历月
+										<br>day:阳历日
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        使用solar.parseMethods:后，可以使用solar.date集合。该Methods:Returnxxxx-xx-xx形式的农历日期字符串
+                                    </td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="package2">
+                        <a id="clock"></a>JskitCalendar.Clock(时钟)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list">
+                            <tbody>
+                                    <tr bgcolor="#cccccc">
+                                        <td>
+                                            Name
+                                        </td>
+                                        <td>
+                                            Parameters
+                                        </td>
+                                        <td>
+                                            Return
+                                        </td>
+                                        <td>
+                                            Comment
+                                        </td>
+                                    </tr>
+                                <tr>
+                                    <td>
+                                        toString(String format)
+                                    </td>
+                                    <td>
+                                        format:日期格式
+                                    </td>
+                                    <td>
+                                    	string
+                                    </td>
+                                    <td>
+                                        得到当前时间
+                                    </td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        日期格式：
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <a href="http://www.w3.org/TR/NOTE-datetime" target="_blank">http://www.w3.org/TR/NOTE-datetime</a>
+                          <pre>
+Year:
+  YYYY (eg 1997)
+Year and month:
+  YYYY-MM (eg 1997-07)
+Complete date:
+  YYYY-MM-DD (eg 1997-07-16)
+Complete date plus hours and minutes:
+  YYYY-MM-DDThh:mmTZD (eg 1997-07-16T19:20+01:00)
+Complete date plus hours, minutes and seconds:
+  YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
+Complete date plus hours, minutes, seconds and a decimal fraction of a second
+  YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
+where:
+ YYYY = four-digit year
+ MM   = two-digit month (01=January, etc.)
+ DD   = two-digit day of month (01 through 31)
+ hh   = two digits of hour (00 through 23) (am/pm NOT allowed)
+ mm   = two digits of minute (00 through 59)
+ ss   = two digits of second (00 through 59)
+ s    = one or more digits representing a decimal fraction of a second
+ TZD  = time zone designator (Z or +hh:mm or -hh:mm)
+                          </pre>
+                    </td>
+                </tr>
+				<tr>
+					<td class="title">
+						<a id="demo"></a>Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jc = new JskitCalendar(); 
+						<br>jc.lunar.parse(2008,5,14); 
+						<br>var y = jc.lunar.date["GanzhiYear"]; 
+						<br>var m = jc.lunar.date["MonthText"]; 
+						<br>var d = jc.lunar.date["DayText"]; 
+						<br>document.write(y+"年"+m+"月"+d); 
+						<br>输出：戊子年四月初十
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

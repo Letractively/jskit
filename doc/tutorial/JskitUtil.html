@@ -1,0 +1,651 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitUtil.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+    	<script src="../JskitLoad.js"></script>
+		
+	    <script src="../JskitConfig_doc.js"></script>
+		
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						<font size="4"><strong>JskitUtil.js</strong> </font>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitUtil = new JskitUtil();
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						JskitBase.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Attributes:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						无
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<thead>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										guid()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										Return一个JID+17位随机数的伪GUID
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getFunctionName()
+									</td>
+									<td>
+										rFunction: function对象
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										Returnfunction对象的Name，如function aa() = {alert(1);}, getFunctionName(aa)Return"aa";
+									</td>
+								</tr>
+								<tr>
+									<td>
+										rgbToHex()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										将rgb格式的颜色值转换为#ffffff格式的颜色值
+									</td>
+								</tr>
+								<tr>
+									<td>
+										sleep(rMilliseconds)
+									</td>
+									<td>
+										rMilliseconds: 毫秒数
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										程序暂停一定时间后继续执行
+									</td>
+								</tr>
+								<tr>
+									<td>
+										md5(rString)
+									</td>
+									<td>
+										rString: 需要加密的字符串
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										得到字符串的md5加密
+									</td>
+								</tr>
+								<tr>
+									<td>
+										select(obj,value1[,value2]...)
+									</td>
+									<td>
+										obj: 比较的对象或值
+										<br>value1...: 可选择的值
+									</td>
+									<td>
+										obj
+									</td>
+									<td>
+										在选定的范围内赋值。<br>例如在设置form的提交方式时，只有get和post两种，如果代表method值的变量为m,可写成form.method=jskitUtil.select(m,"get","post")，m从get和post中选择值，如果没有匹配(m不在这些值的范围里)，则Return第一个值(此例中为get)。
+										<br>如果Parameters错误(Parameters个数少于2)，Returnnull;
+									</td>
+								</tr>
+								<!--//#BEGIN: url ------------------------------------------------------ -->
+								<tr>
+									<td colspan="4"
+										style="background-color: #ccff33; border: 1px solid">
+										::url
+									</td>
+								</tr>
+								<tr>
+									<td>
+										get(rKey)
+									</td>
+									<td>
+										rKey ：传递过来的Parameters名
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										得到通过get方式传递过来的数据
+										<br>http://foo?a=hello&b=world
+										<br>get("a")得到"hello"
+									</td>
+								</tr>
+								<!--//#BEGIN: browser ------------------------------------------------------ -->
+								<tr>
+									<td colspan="4"
+										style="background-color: #ccff33; border: 1px solid">
+										::browser
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.info()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										Array
+									</td>
+									<td>
+										获取浏览器信息,Example:：<a href="javascript:_demo_showBrowserInfo();">查看</a>
+										<script>
+											function _demo_showBrowserInfo(){
+												var list = jskitUtil.browser.info();
+												var _str = "";
+												for(var i=0;i<list.length;i++){
+													_str += "["+list[i][0]+"] : "+list[i][1]+"\n";
+												}
+												alert(_str);
+											}
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isIE()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否为IE浏览器
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isMaxthon()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否遨游(MyIE)浏览器
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isMac()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否为Mac浏览器
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isOpera()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否为Opera浏览器
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isNS7()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否为Netscape7浏览器
+									</td>
+								</tr>
+								<tr>
+									<td>
+										browser.isNS71()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										是否为Netscape7.1浏览器
+									</td>
+								</tr>
+								<!--//#END: browser ------------------------------------------------------ -->
+								<!--//#BEGIN: Message ------------------------------------------------------ -->
+								<tr>
+									<td colspan="4"
+										style="background-color: #ccff33; border: 1px solid">
+										::Message
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Message.text(rKey[,parms])
+									</td>
+									<td>
+										rKey: 键值
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										根据键值获得对应的text，<a href="#example_message">Example:</a>
+									</td>
+								</tr>
+								<!--//#END: Message ------------------------------------------------------ -->
+								<tr>
+									<td colspan="4" style="background-color: #ccff33; border: 1px solid">
+										::date
+									</td>
+								</tr>
+								<tr>
+									<td>
+										date.getDateStr(rDate)
+									</td>
+									<td>
+										&nbsp;rDate: Date型
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										Returnyyyy-MM-dd格式的日期字符创
+									</td>
+								</tr>
+								<tr>
+									<td>
+										date.getDateTimeStr(rDate)
+									</td>
+									<td>
+										&nbsp;rDate: Date型
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										得到日期时间字符创，格式为yyyy-MM-dd hh:mm:ss
+									</td>
+								</tr>
+								<tr>
+									<td>
+										date.getTimeStr(rDate)
+									</td>
+									<td>
+										&nbsp;rDate: Date型
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										得到当前时间，格式为yyyy-MM-dd hh:mm:ss
+									</td>
+								</tr>
+								<tr>
+									<td>
+										date.parse(rDt)
+									</td>
+									<td>
+										rDt: 
+										<br>1,string: 日期时间字符串
+										<br>2,date: 日期对象
+									</td>
+									<td>
+										Date
+									</td>
+									<td>
+										根据输入值解析得到日期对象，Parameters如果为string，格式必须为一下三种的中的一种：
+										<br />
+										yyyy-MM-dd
+										<br />
+										yyyy-MM-dd hh:mm:ss
+										<br />
+										hh:mm:ss
+									</td>
+								</tr>
+								<tr>
+									<td>
+										date.timeSpan(rDt1,rDt2)
+									</td>
+									<td>
+										rDt1: Parameters要求同Methods:parse(rDt)
+										<br />
+										rDt2: Parameters要求同Methods:parse(rDt)
+									</td>
+									<td>
+										map
+									</td>
+									<td>
+										//计算从rDt1到rDt2的时间跨度,<a href="#example_timeSpan">Example:</a>
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" style="background-color: #ccff33">
+										::html
+									</td>
+								</tr>
+								<tr>
+									<td>
+										html.table(rRows,rCells,rDefaultCellContent)
+									</td>
+									<td>
+										rRows: 行数
+										<br>rCells: 列数
+										<br>rDefaultCellContent: td中的缺省内容,可以是html
+									</td>
+									<td>
+										Object
+									</td>
+									<td>
+										Return一个新的html table对象
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" style="background-color: #ccff33">
+										::dom
+									</td>
+								</tr>
+								<tr>
+									<td>
+										dom.getValue(rElementId)
+									</td>
+									<td>
+										rElementId:标签对象的id
+									</td>
+									<td>
+										string
+									</td>
+									<td>
+										Return对象（具有该id的第一个标签）的value
+									</td>
+								</tr>
+								<tr>
+									<td>
+										dom.setValue(rElementId,rValue)
+									</td>
+									<td>
+										rElementId:标签对象的id
+										<br />
+										rVlaue:值
+									</td>
+									<td>
+										&nbsp;
+									</td>
+									<td>
+										设置对象（具有该id的第一个标签）的值
+									</td>
+								</tr>
+								<tr>
+									<td>
+										dom.removeObjectById(rElementId)
+									</td>
+									<td>
+										rElementId : 对象id
+									</td>
+									<td>
+										object
+									</td>
+									<td>
+										移除id为rElementId的对象
+									</td>
+								</tr>
+								<tr>
+									<td>
+										dom.insertAfter(rObj1,rObj2)
+									</td>
+									<td>
+										rObj1,rObj2 : 对象
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										将rObj1对象插入到rObj2对象之后
+									</td>
+								</tr>
+								<tr>
+									<td>
+										dom.insertNode(rParent,rObj,rIndex)
+									</td>
+									<td>
+										rParent : 父对象
+										<br>rObj : 要插入的对象
+										<br>rIndex : 插入的位置索引
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										将rObj对象插入到rParent下指定的位置
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" style="background-color: #ccff33">
+										::doc
+									</td>
+								</tr>
+								<tr>
+									<td>
+										doc.htmlView(rCode,rCharset)
+									</td>
+									<td>
+										rCode : html代码
+										<br>rCharset : 编码,如未提供,为utf-8;
+									</td>
+									<td>
+										&nbsp;
+									</td>
+									<td>
+										在新窗口浏览对象的html代码
+									</td>
+								</tr>
+								<tr>
+									<td>
+										doc.importCssFile(rCssFileUrl)
+									</td>
+									<td>
+										rCssFileUrl:css文件的url
+									</td>
+									<td>
+										&nbsp;
+									</td>
+									<td>
+										动态加载css文件
+									</td>
+								</tr>
+								<tr>
+									<td style="text-decoration:line-through;">
+										doc.getX(obj)
+									</td>
+									<td>
+										obj:节点对象
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										得到obj节点在页面中的绝对横坐标<font color="red">(已不推荐使用)</font>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-decoration:line-through;">
+										doc.getY(obj)
+									</td>
+									<td>
+										obj:节点对象
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										得到obj节点在页面中的绝对纵坐标<font color="red">(已不推荐使用)</font>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-decoration:line-through;">
+										doc.centreDiv([Number rWidth][,Number rHeight][,String rClassName])
+									</td>
+									<td>
+										rWidth : div的宽度,缺省100
+										rHeight : div的高度,缺省100
+										rClassName : div的样式表定义
+									</td>
+									<td>
+										HTMLElement
+									</td>
+									<td>
+										在页面中心绘制一个div,并Return这个div对象
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						jskitUtil使用Example:
+						<textarea name="JskitSyntax_code" class="js">
+						 var jsUtil = new JskitUtil();
+						 alert(jsUtil.date.getDatetimeStr(new Date()));
+						 //注意:在使用JskitLoad.js后,var jskitUtil = JskitUtil()自动被执行
+						</textarea>
+						<a id="example_message"></a>
+						获取资源文件文字内容使用Example::
+						<textarea name="JskitSyntax_code" class="js">
+						//定义messages:
+						var msg = new Object;
+						msg["text.submit"] = "Submit";
+						msg["text.cancel"] = "Cancel $1,$2";
+						//使用messages:
+						var aa = new jskitUtil.Message(msg);
+						button.value = aa.text("text.submit");
+						//从第二个Parameters起顺次替换$1,$2...
+						button.value = aa.text("text.cancel","111","222")
+						</textarea>
+						<a id="example_timeSpan"></a>
+						时间比较函数Example::
+						<textarea name="JskitSyntax_code" class="js">
+						var ts = jskitUtil.date.timeSpan("1971-11-22","1978-3-1");
+						//输出结果：
+						ts["totalYear"]=7
+						ts["totalMonth"]=76
+						ts["totalDay"]=2291
+						ts["day"]=0
+						ts["totalHour"]=54984
+						ts["hour"]=0
+						ts["totalMinute"]=3299040
+						ts["minute"]=0
+						ts["totalSecond"]=197942400
+						ts["second"]=0
+						ts["totalMilliSecond"]=197942400000
+						ts["milliSecond"]=293 
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,190 @@
+.jskitLog_viewer_btn{
+	height:16px;
+	font-family:verdana;
+	font-size:11px;
+	border:1px solid #ffffff;
+	cursor:hand;
+}
+.jskitLog_viewer_btn_onoff{
+	height:16px;
+	width:50px;
+	font-size:11px;
+	font-family:verdana;
+	background-color:#ff8800;
+	border:1px solid #ffffff;
+	cursor:hand;
+}
+.jskitLog_viewer_btngroup{
+}
+.jskitLog_viewer_title{
+	color:#ffffff;
+	font-weight:bold;
+	font-size:12px;
+	padding-left:5px;
+	height:18px;
+	FILTER:dropshadow(color=#000000, offx=2, offy=2, positive=1);
+}
+.jskitLog_viewer_ddl{
+	font-size:10px;
+	border:1px solid #000000;
+}
+.jskitLog_viewer_ddl OPTION{
+	font-size:10px;
+	border:1px solid #000000;
+}
+/*----------------------------------------------*/
+.jskitScriptEditor_toolbar_table{
+	height:24px;
+}
+.jskitScriptEditor_toolbar_btn{
+	height:20px;
+	font-family:verdana;
+	border:1px solid #ffffff;
+}
+.jskitScriptEditor_toolbar_btn_close{
+	height:20px;
+	font-size:13px;
+	font-weight:bold;
+	font-family:verdana;
+	border:1px solid #ffffff;
+}
+.jskitScriptEditor_panel_textarea{
+	background-color:#ffffe0;
+	height:200px;
+	width:300px;
+	
+}
+.jskitScriptEditor_toolbar_title{
+	color:#ffffff;
+	font-weight:bold;
+	font-size:13px;
+	padding-left:5px;
+	height:18px;
+	font-family:verdana;
+	font-size:10px;
+	width:140px;
+	FILTER:dropshadow(color=#000000, offx=2, offy=2, positive=1);
+}
+/*----------------------------------------------*/
+.JskitSpirit_list_table{
+	background-color:#ffffff;
+}
+.JskitSpirit_toolbar_btn{
+	height:16px;
+	width:16px;
+	font-size:10px;
+	font-weight:bold;
+	font-family:verdana;
+	padding-bottom:2px;
+	padding-top:0px;
+	border:1px solid #555555;
+}
+.JskitSpirit_toolbar_title{
+	font-family:verdana;
+	height:20px;
+	FILTER:dropshadow(color=#000000, offx=1, offy=1, positive=1);
+	color:#ffffff;
+	font-weight:bold;
+	font-size:11px;
+	padding-left:5px;
+	border-bottom:1px solid #666666;
+}
+.JskitSpirit_list_title{
+	font-family:verdana;
+	background-color:#aaaaaa;
+	color:#ffffff;
+	width:75px;
+	text-align:right;
+	font-size:11px;
+}
+.JskitSpirit_list_content{
+	font-family:verdana;
+	background-color:#f6f6f6;
+	color:#000000;
+	font-size:11px;
+}
+.JskitSpirit_list_top_table{
+	background-color:#888888;
+	width:100%;
+	border-top:1px solid #000000;
+}
+.JskitSpirit_list_top_title{
+	font-family:verdana;
+	color:#ffffff;
+	text-align:right;
+	font-size:11px;
+}
+.JskitSpirit_list_top_content{
+	width:55px;
+	font-family:verdana;
+	color:#ffff00;
+	font-size:11px;
+}
+/*------------------------------------------------*/
+TABLE.JskitToolbar_list{
+}
+.JskitToolbar_title{
+	border-bottom:2px solid #333333;
+	background-color:#555555;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#ffffff;
+	text-align:left;
+}
+.JskitToolbar_interVal{
+	height:0px;
+	border-top:1px solid #aaaaaa;
+	border-bottom:1px inset #ffffff;
+	background-color:#cccccc;
+	font-size:0px;
+	font-family:arial;
+}
+.JskitToolbar_item_disabled{
+	background-color:#d4d0c8;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#888888;
+}
+.JskitToolbar_item{
+	background-color:#d4d0c8;
+	cursor:hand;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#000000;
+}
+.JskitToolbar_item_over{
+	color:#ffffff;
+	background-color:#0a246a;
+	cursor:hand;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+}
+/*------------------------------------------*/
+.JskitContextMenu_title{
+	border-bottom:2px solid #333333;
+	background-color:#555555;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#ffffff;
+	text-align:left;
+}
+.JskitContextMenu_item{
+	background-color:#d4d0c8;
+	cursor:hand;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#000000;
+}
+.JskitContextMenu_item_disabled{
+	background-color:#d4d0c8;
+	padding:3px 10px 3px 10px;
+	font-family:verdana;
+	font-size:12px;
+	color:#888888;
+}
