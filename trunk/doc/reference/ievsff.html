@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>IE vs FF</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../JskitLoad.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+<script>
+var columns = new Array("Title","IE","Firefox","w3c","Jskit");
+var cells = new Array();
+//-------------------------------------------------------------------------------------------------/
+var cell = new Array();
+cell[columns[0]] = "Element(HTML对象)的获取";
+cell[columns[1]] = "特有的方法:<br />IE中element具有all集合对象，<br />通过element.all在得到该element所有子孙对象";
+cell[columns[2]] = "Firefox不支持element.all";
+cell[columns[3]] = "通用的方法:<br>document.getElementById(rId)"
+	+ "<br />document.getElementsByName(rName)//只对表单项有效"
+	+ "<br />document.getElementsByTagName(rTagName)";
+cell[columns[4]] = "//得到tagName=xxx的对象集合<br />$(\"xxx\");"
+	+ "<br />//得到id=xxx的对象<br />$(\"#xxx\");"
+	+ "<br />//得到name=xxx的对象集合<br />$(\"@xxx\");"
+	+ "<br />//得到标签为xxx,其yyy属性值等于zzz的对象集合<br />$(\"xxx[@yyy='zzz']\");"
+	+ "<br />//得到标签为xxx,其yyy属性值包涵zzz的对象集合<br />$(\"xxx[@yyy%'zzz']\");";
+cells.push(cell);
+//-------------------------------------------------------------------------------------------------/
+var cell = new Array();
+cell[columns[0]] = "得到当前文档中对象的css属性";
+cell[columns[1]] = "element.currentStyle";
+cell[columns[2]] = "document.defaultView.getComputedStyle(_obj,null).getPropertyValue(rStyle)";
+cell[columns[3]] = "无";
+cell[columns[4]] = "//使用'$'来扩展对象的方法:"
+	+ "<br />$(\"#myid\").effectStyle(\"background-color\");"
+	+ "<br />或者:"
+	+ "<br />var _div = $(\"#myid\");<br />$(_div).effectStyle(\"background-color\");";
+cells.push(cell);
+//-------------------------------------------------------------------------------------------------/
+var cell = new Array();
+cell[columns[0]]  = "自定义属性";
+cell[columns[1]]     = "var aa = element.myAttribute;"
+	+ "<br />element.myAttribute = aa;";
+cell[columns[2]]     = "var aa = element.getAttribute(\"myAttribute\");"
+	+ "<br />element.setAttribute(\"myAttribute\",aa);";
+cell[columns[3]] = "使用getAttribute,setAttribute方法来设置自定义属性,是标准的用法";
+cell[columns[4]]  = "var aa = element.getAttribute(\"myAttribute\");"
+	+ "<br />element.setAttribute(\"myAttribute\",aa);";
+cells.push(cell);
+//-------------------------------------------------------------------------------------------------/
+var cell = new Array();
+cell[columns[0]] = "window.event及获取触发event的对象";
+cell[columns[1]] = "function aa(){<br> var obj = event.srcElement; <br>}<br>或:<br>function aa(e){<br> var obj = e.srcElement; <br>}";
+cell[columns[2]] = "function aa(e){<br>var obj = e.target;<br>}";
+cell[columns[3]] = "无";
+cell[columns[4]] = "jskit在firefox环境下模拟IE的event实现方式，在触发时执行jskitFfEvent(event);注册全局event，<br>对event的操作方法和属性，与IE定义的同名：<br />function aa(){<br> var obj = event.srcElement; <br>}<br>或:<br>function aa(e){<br> var obj = e.srcElement; <br>}";
+cells.push(cell);
+//-------------------------------------------------------------------------------------------------/
+var cell = new Array();
+cell[columns[0]] = "移除对象";
+cell[columns[1]] = "element.removeNode(true);<br>parent.removeChild(child);";
+cell[columns[2]] = "parent.removeChild(child);";
+cell[columns[3]] = "parent.removeChild(child)是标准的用法";
+cell[columns[4]] = "parent.removeChild(child);";
+cells.push(cell);
+var cell = new Array();
+cell[columns[0]] = "iframe中获取document对象";
+cell[columns[1]] = "_iframe.contentDocument";
+cell[columns[2]] = "_iframe.document";
+cell[columns[3]] = "无";
+cell[columns[4]] = "无";
+cells.push(cell);
+var cell = new Array();
+cell[columns[0]] = "打开模式对话框";
+cell[columns[1]] = "window.showModalDialog";
+cell[columns[2]] = "已经取消对modal的支持,window.open方法中，增加modal=yes，经测试无效";
+cell[columns[3]] = "无";
+cell[columns[4]] = "无";
+cells.push(cell);
+var cell = new Array();
+cell[columns[0]] = "pixelLeft,pixelTop属性";
+cell[columns[1]] = "Element.style.pixelLeft,Element.style.pixelTop";
+cell[columns[2]] = "没有这样的属性";
+cell[columns[3]] = "无";
+cell[columns[4]] = "parseFloat($(Element).effectStyle(\"left\"))"
+				+ "<br>parseFloat($(Element).effectStyle(\"left\"))";
+cells.push(cell);
+//-------------------------------------------------------------------------------------------------/
+
+function showIEFFcontent(){
+	showIndex();
+	var _str = '<table class="list_table">';
+	for(var i=0;i<cells.length;i++){
+		_str += '<tr><td class="title" colspan="2">·<a id='+i+'></a>'+cells[i]["Title"]+'</td></tr>';
+		_str += '<tr><td class="item_title">IE:</td><td class="ie">'+cells[i]["IE"]+'</td></tr>';
+		_str += '<tr><td class="item_title">Firefox:</td><td class="ff">'+cells[i]["Firefox"]+'</td></tr>';
+		_str += '<tr><td class="item_title2">JsKit:</td><td class="jskit">'+cells[i]["Jskit"]+'</td></tr>';
+		_str += '<tr><td class="item_title">W3C:</td><td class="result">'+cells[i]["w3c"]+'</td></tr>';
+	}
+	_str += '</table>';
+	$("#JskitIEvsFFDoc_displayer").innerHTML = _str;
+}
+function showIndex(){
+	var _str = '<table>';
+	for(var i=0;i<cells.length;i++){
+		_str += '<tr><td class="index">'+(i+1)+'. <a href="#'+i+'">'+cells[i]["Title"]+'</a></td></tr>';
+	}
+	_str += '</table>';
+	$("#JskitIEvsFFIndex_displayer").innerHTML = _str;
+}
+jskitEvents.ready("onload","showIEFFcontent");
+</script>
+<style>
+TABLE.list_table{
+    BORDER-COLLAPSE:COLLAPSE;
+	border:1px solid #aaaaaa;
+}
+TABLE.list_table TD{
+	border:1px solid #cccccc;
+	padding:4px 4px 4px 4px;
+}
+.item_title{
+	font-weight:bold;
+	text-align:right;
+	color:#336699;
+	background-color:#eeeeee;
+	vertical-align:top;
+}
+.item_title2{
+	font-weight:bold;
+	text-align:right;
+	color:#ff5500;
+	background-color:#eeeeee;
+	vertical-align:top;
+}
+.title{
+	font-weight:bold;
+	height:30px;
+	font-size:14px;
+	color:#ffff00;
+	background-color:#aaaaaa;
+}
+.ie{
+}
+.ff{
+}
+.result{
+}
+.jskit{
+}
+</style>
+	</head>
+	<body>
+	<font class="package">Javascript 在IE和Firefox中的异同及解决方案（整理中...)</font>
+	<div id="JskitIEvsFFIndex_displayer">
+	</div><br>
+	<div id="JskitIEvsFFDoc_displayer">
+	</div>
+</body>
+</html>

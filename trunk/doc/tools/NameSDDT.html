@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Name Standardization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script type="text/javascript" src="../JskitLoad.js"></script>
+    <script type="text/javascript" src="../JskitConfig_doc.js"></script>
+    <script type="text/javascript">
+        var nameStandardization = function(rType, rName) {
+            var _name = rName;
+            var _idx = 0;
+            if (rType == "class_name") {
+                _name = _name.toLowerCase();
+                _name = _name.substring(0, 1).toUpperCase() + _name.substr(1);
+                while (_name.indexOf("_") != -1) {
+                    _idx = _name.indexOf("_");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                while (_name.indexOf("-") != -1) {
+                    _idx = _name.indexOf("-");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                while (_name.indexOf(".") != -1) {
+                    _idx = _name.indexOf(".");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                return _name;
+            }else if(rType=="java_attribute"){
+                _name = _name.toLowerCase();
+                while (_name.indexOf("_") != -1) {
+                    _idx = _name.indexOf("_");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                while (_name.indexOf("-") != -1) {
+                    _idx = _name.indexOf("-");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                while (_name.indexOf(".") != -1) {
+                    _idx = _name.indexOf(".");
+                    _name = _name.substring(0, _idx) + _name.substring(_idx + 1, _idx + 2).toUpperCase() + _name.substr(_idx + 2);
+                }
+                return _name;
+            }else if(rType=="database"){
+
+            }
+        };
+
+        function doTransform() {
+            var src = $("#srcNames").value.split('\n');
+            var dst = new Array();
+            for (var i = 0; i < src.length; i++) {
+                dst.push(nameStandardization("class_name", src[i]));
+            }
+            $("#dstNames").value = dst.join('\n');
+        }
+    </script>
+    <style type="text/css">
+        TEXTAREA {
+            background-color: #ffffd0;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <table align="center">
+        <tr>
+            <td>
+                <textarea rows="20" cols="20" id="srcNames">a1234_b567_c89</textarea>
+            </td>
+            <td>
+                <select id="type">
+                    <option value="class_name">class_name</option>
+                </select>
+                <button onclick="doTransform()">&gt;&gt;</button>
+            </td>
+            <td>
+                <textarea rows="20" cols="20" id="dstNames"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

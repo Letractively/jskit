@@ -1,0 +1,62 @@
+﻿/* BEGIN: JskitRichDropDownList */
+.JskitRichDropDownList_panel
+{
+	border:1px solid #000000;
+	background-color:#ffffff;
+	overflow:auto;
+	padding:2px 2px 2px 2px;
+	height:200px;
+	}
+.JskitRichDropDownList_panel_loading
+{
+	border:1px solid #000000;
+	background-color:#ffffff;
+	overflow:auto;
+	padding:2px 2px 2px 2px;
+	height:200px;
+	background-image:url(images/animated_loading.gif);
+	background-position:center center;
+	background-repeat:no-repeat;
+	}
+.JskitRichDropDownList_panel div
+{
+	padding:2px 2px 2px 2px;
+	cursor:pointer;
+	}
+.JskitRichDropDownList_btn
+{
+	font-size:8px;
+	font-family:Arial;
+	width:12px;
+	padding:0px 0px 0px 0px;
+	margin:0px;
+	}
+.JskitRichDropDownList_item_active
+{
+	padding:4px 4px 4px 4px;
+	border-bottom:1px solid #cccccc;
+	cursor:pointer;
+	background-color:#0000aa;
+	color:#ffffff;
+	}
+/* END: JskitRichDropDownList */
+
+/* BEGIN: JskitAjaxGridView */
+.JskitAjaxGridView_Container_Loading
+{
+	background-image:url(images/animated_loading.gif);
+	background-position:center center;
+	background-repeat:no-repeat;
+	}
+.JskitAjaxGridView_Container_Loading
+{
+	background-image:none;
+	}
+.JskitAjaxGridView_Container_empty
+{
+	text-align:center;
+	padding-top:3px;
+	padding-bottom:3px;
+	color:#ff5500;
+	}
+/* END: JskitAjaxGridView */

@@ -1,0 +1,60 @@
+.jskitmenu_panel_f
+{
+	background-color:transparent;
+	height:26px;
+	padding-top:4px;
+}
+.jskitmenu_item_f
+{
+	padding:4px 10px 4px 10px;
+	background-color:transparent;
+	cursor:pointer;
+	color:#ffffff;
+	border-top:1px solid transparent;
+	border-left:1px solid transparent;
+	text-decoration:none;
+	height:20px;
+	font-weight:bold;
+}
+.jskitmenu_item_f_over
+{
+	padding:4px 10px 4px 10px;
+	background-color:#ffffff;
+	border-top:1px solid #000000;
+	border-left:1px solid #000000;
+	cursor:pointer;
+	background-image:url(/cellula_client/default/images/menu_bg_item_f.png);
+	background-position:center top;
+	background-repeat:repeat-x;
+	text-decoration:none;
+	font-weight:bold;
+	height:20px;
+}
+.jskitmenu_panel_d
+{
+	border-right:solid 1px #6b7586;
+	border-bottom:solid 1px #6b7586;
+	}
+.jskitmenu_item{
+	padding:4px 15px 1px 15px;
+	background-color:#ffffff;
+	border-left:1px solid #dddddd;
+	cursor:pointer;
+	text-decoration:none;
+	height:20px;
+	background-image:url(/cellula_client/controls/images/dot_list_0.png);
+	background-position:0px 0px;
+	background-repeat:no-repeat;
+}
+.jskitmenu_item_over{
+	padding:4px 15px 1px 15px;
+	border-left:1px solid #dddddd;
+	background-color:#6b7586;
+	color:#ffffff;
+	cursor:pointer;
+	text-decoration:none;
+	height:20px;
+	background-image:url(/cellula_client/controls/images/dot_list_1.png);
+	background-position:0px 0px;
+	background-repeat:no-repeat;
+}

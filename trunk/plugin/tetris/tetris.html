@@ -1,0 +1,953 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>tetris</title>
+<style type="text/css">
+div.dvBlocks div {
+	width:28px; height:28px; position:absolute;
+	background-image: url(tetris_images/tetris.gif);
+	background-repeat: no-repeat;
+}
+div.title {
+	height:65px; width:196px; position:absolute; left:310px; top: 505px;
+	background: url(tetris_images/tetris.gif) no-repeat 0px 37px; text-align:left;
+}
+
+body { text-align:center; background-color:#DFEAFF; font-size:12px; }
+
+#dvStage { width:520px; height:582px; margin:0 auto; text-align:center; position:relative; }
+#dvStage {border: 1px dashed #3399CC;}
+#dvRightBar { position:absolute; left:310px; top: 6px; }
+
+div.dvOut { width:288px; height: 568px; position:absolute; left:6; top:6px; overflow:hidden; background-color: #6699FF; }
+div.dvIn { width:280px; height: 560px; position:absolute; left:4px; top:4px; overflow:hidden; background-color: #B9CFFF; }
+
+#dvBlocks, #dvGrid, #dvBgColor, #dvBgImg, #dvBgImgMask, #dvGameOver, #dvGameOverBg { width:100%; height: 100%; position:absolute; left:0; top:0; overflow: hidden; }
+
+#dvGameOver { z-index:12; left:40px; top:170px; width:200px; height:130px; background-image:url(tetris_images/tetris_gameover.png); background-repeat:no-repeat; background-position:center center; }
+#dvGameOverBg { z-index:11; background-color: #FFFFFF; }
+#dvBlocks { z-index:10; }
+#dvGrid { z-index:5; background-image: url(tetris_images/tetris_grid.gif); }
+#dvBgImgMask { z-index:4; }
+#dvBgImg { z-index:3; }
+#dvBgColor { z-index:2; background-color: #B9CFFF; }
+
+#dvBgImg img { width:100%; height: 100%; }
+.opacity50  { opacity: 0.5; -moz-opacity: 0.5; filter:alpha(opacity=50); }
+#dvGameOverBg.opacity50_opera, #dvBgImgMask { background-color:transparent; background-image: url(tetris_images/tetris_opacity50.png); }
+
+#dvNextOutF { width: 130px; height: 130px; position:relative; left:0; top: 0; background-color: #6699FF; text-align:left; }
+#dvNextOut { width: 122px; height: 122px; position:relative; margin:4px; background-color: #B9CFFF; text-align:left; }
+#dvNextBlocks { position:relative; }
+
+.dvScoreF { margin:20px 0; }
+.dvScoreF .lable { font-family:Arial; font-size:14pt; font-weight:bold; color:#6699FF; }
+#dvScore,#dvLevel { font-family:Arial; font-size:14pt; font-weight:bold; color:#6699FF; }
+#btnViewNext {  }
+#btnNewGame {  }
+#btnPause {  }
+
+.tabs { height:25px; background-image:url(tetris_images/tab.gif); background-position:0 -49px; }
+.tabs div.focus, .tabs div.blur { cursor:default; margin-right:2px; width:39px; background-image:url(tetris_images/tab.gif); font-size:12px; overflow:hidden; float:left; }
+.tabs div.blur { margin-top:1px; height:24px; color:#808080; background-position:0 -25px; }
+.tabs div.focus { margin-top:0; height:25px; color:#000000; background-position:0 0; }
+.tabs div div { text-align:center; margin-top:6px; }
+
+#dvTabKey_C input.tx { border:solid 1px #6699CC; text-align:center; width:60px; margin:1px 0 1px 0; }
+#dvTabScore_C td {font-size:12px;text-align:center;background-color:#DFEAFF; }
+#dvTabScore_C table { background-color:#6699CC; }
+
+input.btn2 { width:49px;height:19px; border:none; background:url(tetris_images/btn_bg.gif) no-repeat; }
+body { overflow:auto; }
+</style>
+<style type="text/css"></style>
+<!--[if lt IE 7]>
+<style type="text/css">
+#dvGameOver { _background:none;/*IE6*/
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src='tetris_images/tetris_gameover.png');/*IE6*/ }
+</style>
+<![endif]-->
+<!--[if lt IE 7]>
+<script type="text/javascript">var ltIE7=true;</script>
+<![endif]-->
+<!--[if IE]>
+<script type="text/javascript">var isIE=true;</script>
+<![endif]-->
+<!--[if lt IE 5]>
+<script type="text/javascript">alert('您的IE浏览器版本太低，可能无法运行本游戏。');</script>
+<![endif]-->
+<script type="text/javascript">
+var oSheet=document.styleSheets[1];
+//var colors = ["blue","purple","orange","gold","green","fuchsia","darkred"];
+var bgimgs = (("01,02,03,04,05,06,07,08,09,10").replace(/(\d\d)/g,"tetris_images/bg$1.jpg")).split(",");
+var blockSkins = ["方块1","蔬菜","方块2","方块3","Office图标"];
+function addCss(){
+	var rules = oSheet.rules || oSheet.cssRules;
+	var j=rules.length;
+	var ar = oSheet.addRule?(function(a,b){oSheet.addRule(a,b)}):(function(a,b){oSheet.insertRule(a+"{"+b+"}",j++)});
+	for(var i=0;i<7;i++)
+		ar(".c"+i,"background-position: -"+(i*28)+"px 0;");
+	for(var i=0;i<10;i++)
+		ar(".x"+i,"left: "+(i*28)+"px;");
+	for(var i=-4;i<20;i++)
+		ar(".y"+i,"top: "+(i*28)+"px;");
+	for(var i=0;i<bgimgs.length;i++)
+		ar(".bgimg"+i,"background-image: url("+bgimgs[i]+")");
+}
+function setBlockSkin(x){
+	var rules = oSheet.rules || oSheet.cssRules;
+	for(var i=0;i<7;i++)
+		rules[i].style.backgroundPosition=(-28*i)+"px "+(-28*x)+"px";
+}
+function setBg(i,b){
+	display(dvBgImg,b);
+	if(!isOpera){
+		dvBgImg.className=(cfg.ui.bgImgAlpha?"opacity50 ":"")+((i>=0)?("bgimg"+i):"");
+		return;
+	}
+	//Opera bug: when css background image changed, screen doesn't show new bg until switch to other window and then back to this window, so using a <img> instead of css change.
+	//Opera bug: if opacity was used, page response would be very slowly.
+	if(i>=0){
+		if($("bgimg_"+cfg.ui.bgImg))display($("bgimg_"+cfg.ui.bgImg),false);
+		if(!$("bgimg_"+i))dvBgImg.innerHTML+="<img id='bgimg_"+i+"' src='"+bgimgs[i]+"'>";
+		else display($("bgimg_"+i),true);
+	}
+	cfg.ui.bgImg=i||0;
+	cfg.ui.bgImgUse=!!b;
+	display(dvBgImgMask, cfg.ui.bgImgUse && cfg.ui.bgImgAlpha);
+}
+function setBgAlpha(b){
+	var v=dvBgImg.className, s="opacity50 ";
+	if(!isOpera)dvBgImg.className=b?(v.indexOf(s)<0?(s+v):v):v.replace(s,"");
+	else display(dvBgImgMask, b);
+}
+addCss();
+</script>
+</head>
+
+<body>
+
+<div id="dvStage">
+
+<div class="dvOut"><div class="dvIn">
+	<div id="dvGameOver" style="display:none"></div>
+	<div id="dvGameOverBg" class="opacity50" style="display:none"></div>
+	<div id="dvBlocks" class="dvBlocks"></div>
+	<div id="dvGrid"></div>
+	<div id="dvBgImgMask"></div>
+	<div id="dvBgImg"></div>
+	<div id="dvBgColor"></div>
+</div></div>
+
+<div id="dvRightBar" style="text-align:left;">
+
+<div id="dvNextOutF" style="border-top:1px solid #DFEAFF;"><div id="dvNextOut"><div id="dvNextBlocks" class="dvBlocks"></div></div></div>
+
+<div class="dvScoreF">速度：<span id="dvLevel">&nbsp;</span>&nbsp; 得分：<span id="dvScore">&nbsp;</span></div>
+
+<input type="button" id="btnSwitch" value="开始" class="btn2">
+<br><br>
+
+<div class="tabs"  id="dvTabs" style="width:196px; margin-right:10px;">
+	<div class="blur" id="dvTabUI" style="margin-left:6px;"><div>显示</div></div>
+	<div class="blur" id="dvTabKey"><div>按键</div></div>
+	<div class="blur" id="dvTabScore"><div>成绩</div></div>
+	<div class="focus" id="dvTabAbout"><div>关于</div></div>
+	<!-- <div class="blur"><div>存档</div></div> -->
+</div>
+<div style="clear:left;font-size:12px; width:196px; height:235px; margin-right:10px; overflow:hidden;border:solid 1px #ADCAD3; border-top:none;"><div style="margin: 5px;">
+	<div id="dvTabUI_C" style="display:none;">
+		<input type="checkbox" id="ckBgImg" checked><label for="ckBgImg">显示背景图：</label>
+		<select id="seBg"></select>
+		<br>
+		<input type="checkbox" id="ckBgImgAlpha" checked><label for="ckBgImgAlpha">背景图半透明</label>
+		<br>(Opera浏览器某些版本下，半透明可能会导致运行缓慢。)
+		<br>
+		<input type="checkbox" id="ckGrid" checked><label for="ckGrid">显示网格</label>
+		<br><br>
+		方块样式：<select id="seBlockSkin"></select>
+		<br><br>
+		初始速度：<select id="seLevel"></select>
+	</div>
+	<div id="dvTabKey_C" style="display:none;">
+		左移 <input type="text" class="tx" id="txL" readonly><br>
+		右移 <input type="text" class="tx" id="txR" readonly><br>
+		旋转 <input type="text" class="tx" id="txR1" readonly>或<input type="text" class="tx" id="txR2" readonly><br>
+		落地 <input type="text" class="tx" id="txD1" readonly>或<input type="text" class="tx" id="txD2" readonly><br>
+		加速下降 <input type="text" class="tx" id="txF" readonly><br>
+		开始/暂停/继续1 <input type="text" class="tx" id="txP1" readonly><br>
+		开始/暂停/继续2 <input type="text" class="tx" id="txP2" readonly><br>
+		按键灵敏度 <select id="seKeySpeed"><option value="0">&nbsp;高&nbsp;</option><option value="1">&nbsp;中&nbsp;</option><option value="2">&nbsp;低&nbsp;</option></select><br>
+		<br><input type="button" id="btnApplyKeyDefine" value="应用" class="btn2" disabled>
+		&nbsp; <input type="button" id="btnKeyDefineHelp" value="说明" class="btn2" _tip="按键自定义功能说明：\n按键自定义增添了游戏的方便性和趣味性。\n玩家可以一只手控制左右、另一只手控制旋转（我喜欢用左手按<Ctrl>旋转），双手配合比只使用一只手轻松多了！\n也可以锻炼一下逆向思维，左右键功能互换，上下键功能互换，看看你脑子转不转得过来！">
+	</div>
+	<div id="dvTabScore_C" style="display:none;">
+		<table id="tblTopScores" width="186" border="0" cellspacing="1" cellpadding="2">
+		<tr><td width="20%">名次</td><td width="40%">分数</td><td width="40%">日期</td></tr>
+		<tr><td>1</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>2</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>3</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>4</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>5</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>6</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>7</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>8</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr><td>9</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		</table>
+	</div>
+	<div id="dvTabAbout_C">
+		<b>Javascript漂亮俄罗斯方块</b><br><br>
+		作者：cuixiping<br>
+		时间：2009年7月<br>
+		联系：cuixiping@yeah.net<br>
+		<br>经作者测试，本游戏在IE 8/7/6、Firefox 3.0、Opera 9.6中能正常运行，其他浏览器未做测试。
+		编程疏漏在所难免，欢迎发现BUG的朋友进行修正和反馈给我。<br><br>欢迎与我探讨Javascript游戏编程方面的知识。
+	</div>
+</div></div>
+
+</div>
+
+<div class="title">Javascript漂亮俄罗斯方块<br>作者：cuixiping</div>
+
+</div>
+<noscript><span style="color:red;font-weight:bold;">本游戏需要开启JavaScript支持！</span></noscript>
+<script language="Javascript">
+function $(id){ return document.getElementById(id); }
+function $each(arr,func){for(var n=arr.length,i=0;i<n;i++)func(arr[i],i);}
+function viewObj(obj){var v,s=[];for(v in obj) s.push[v];alert(s.join(' '));}
+function display(obj,b){ obj.style.display = b ?'':'none'; }
+
+//按键设置
+var cfg={
+  "key": {
+	"rotate":[17,38] //38↑ 17<CTRL>
+	,"left":37
+	,"right":39
+	,"down":[32,35] //直接落地 32<Space> 35<END>
+	,"pause":[19,13] //19<Pause> 13<Enter>
+	,"fast":40 //加速下降 40↓
+	,"speed":0 //灵敏度[0|1|2]
+  }
+  ,"ui": {
+	"skin":0, "bgImg":3, "bgImgUse":true, "bgImgAlpha":false, "grid":true, "shadow":false, "next":true
+  }
+  ,"direction":1 //旋转方向: 1顺时针 -1逆时针
+  ,"startLevel":7
+  ,"topScores":[]
+}
+//每个keyCode对应到的键名称
+var keymap={16:"<Shift>",17:"<Ctrl>",18:"<Alt>",32:"<Space>",20:"<Caps>",9:"<Tab>",27:"<Esc>",13:"<Enter>",8:"<Back>", 33:"<PgUp>",34:"<PgDn>",145:"<Scroll>",19:"<Pause>",36:"<Home>",35:"<End>",45:"<Ins>",46:"<Del>",37:"←",38:"↑",39:"→",40:"↓", 144:"<Num>",12:"<5*>",111:"<[/]>",106:"<[*]>",109:"<[-]>",107:"<[+]>",110:"<[.]>", 192:"~",189:"-",187:"+",220:"|", 219:"{",221:"}",186:":",222:"\"",188:",",190:".",191:"?"};
+for(var i=112;i<=123;i++)keymap[i]="<F"+(i-111)+">";
+for(var i=96;i<=105;i++)keymap[i]="<["+(i-96)+"]>";
+for(var i=48;i<=57;i++)keymap[i]=(i-48)+"";
+for(var i=65;i<=90;i++)keymap[i]=String.fromCharCode(i);
+//按键灵敏度级别
+var keySpeeds=[[160,50],[260,80],[400,100]];
+
+//升级行数，每消多少行升到下一级速度(两种升级策略，按行数和按分数，这里取按行数)
+var uplevelLines = 50;
+var gLevelLines = 0; //本级已消行数，升级或换级时清零
+//var uplevelScroe = 10000;
+//var gLevelScroe = 0; //本级已消分数，升级或换级时清零
+
+//级别时间，每多少毫秒下落一格
+var levels = [550,500,450,400,350,300,250,200,150,100];
+var addScores = [0,100,300,600,1000]; //消行加分
+var gScore = 0; //总分
+var gLines = 0; //总行数
+var currLevel=cfg.startLevel;
+var T=6,curr=0,currColor=0,currX=0,currY=0;
+var currMill = levels[currLevel]; //速度级别，间隔毫秒数
+var timer_movie, timer_ani, timer_keydown=0,timer_keydown1=0; //定时器
+var timer_down, timer_left, timer_right, timer_rotate;
+//只有“左、右、上(旋转)”三种键是需要重复触发的，要判断何时按下何时释放
+//当两个同等作用的键都按下，只产生一个的效果，其中一个释放后，另一个要继续有效
+//当有左右都在按下状态，则左右抵销。旋转作用不抵销。
+var keyHasDown = {}; //记录键的是否按下状态，如keyHasDown[32]==true表示空格键已按下未释放
+var repeat_delay1=keySpeeds[cfg.key.speed][0],repeat_delay=keySpeeds[cfg.key.speed][1]; //自动重复keydown的毫秒间隔
+var cfgNextBlock = {"T":0, "curr":0, "color":0};
+var st_ready=0, st_playing=1, st_paused=2, st_over=3;
+var gStatus = st_ready; //状态：ready, playing, paused, over
+var currBlocks=[]; //当前控制方块的数组
+var lastCannotDown = nowCannotDown = nowCannotLeft = nowCannotRight = false;
+var movieY=19,movieX=0,aniTime=0;
+var isOpera = navigator.userAgent.indexOf("Opera/")==0;
+if(typeof ltIE7=="undefined")var ltIE7=false;
+if(typeof isIE=="undefined")var isIE=false;
+
+
+if(typeof dvStage=="undefined"){
+	function id2var(tag){
+		var os=document.getElementsByTagName(tag);
+		for(var i=0;i<os.length;i++){if(os[i].id)window[os[i].id]=os[i]}
+	}
+	id2var("div");
+	id2var("span");
+	id2var("select");
+	id2var("input");
+}
+
+
+//var Ts=["S","Z","L","J","I","O","T"]; //形状类型
+//color=[4,3,2,1,5,6,0];
+var layout = {
+	"length":7
+	,0: { //S
+		"xy": [
+			[[0,1,1,2],[0,0,-1,-1]]
+			,[[0,0,1,1],[-2,-1,-1,0]]
+		]
+	}
+	,1: { //Z
+		"xy": [
+			[[0,1,1,2],[-1,-1,0,0]]
+			,[[0,0,1,1],[0,-1,-1,-2]]
+		]
+	}
+	,2: { //L
+		"xy": [
+			[[0,0,1,2],[0,-1,-1,-1]]
+			,[[0,1,1,1],[-2,-2,-1,0]]
+			,[[0,1,2,2],[0,0,0,-1]]
+			,[[0,0,0,1],[-2,-1,0,0]]
+		]
+	}
+	,3: { //J
+		"xy": [
+			[[0,1,2,2],[-1,-1,-1,0]]
+			,[[0,1,1,1],[0,0,-1,-2]]
+			,[[0,0,1,2],[-1,0,0,0]]
+			,[[0,0,0,1],[0,-1,-2,-2]]
+		]
+	}
+	,4: { //I
+		"xy": [
+			[[1,1,1,1],[-3,-2,-1,0]]
+			,[[0,1,2,3],[0,0,0,0]]
+		]
+	}
+	,5: { //O
+		"xy": [
+			[[0,0,1,1],[0,-1,0,-1]]
+		]
+	}
+	,6: { //T
+		"xy": [
+			[[0,1,2,1],[-1,-1,-1,0]]
+			,[[1,1,1,0],[-2,-1,0,-1]]
+			,[[0,1,2,1],[0,0,0,-1]]
+			,[[0,0,0,1],[0,-1,-2,-1]]
+		]
+	}
+}
+
+//初始化方阵
+var XY=[];
+XY.reset = function(){
+	for(var i=0;i<10;i++){
+		XY[i]=[];
+		for(var j=0;j<20;j++) XY[i][j]=false;
+	}
+}
+XY.toString = function(){
+	var s=[];
+	for(var i=0;i<20;i++){
+		s.push('\n');
+		for(var j=0;j<10;j++){
+			s.push(XY[j][i]?'\u25A0':'\u25A1');
+		}
+	}
+	return s.join("");
+}
+XY.reset();
+
+//初始化预览框
+dvNextBlocks.innerHTML="<div></div><div></div><div></div><div></div>";
+//初始化速度级别框
+for(var i=0;i<levels.length;i++)seLevel.options.add(new Option(i+1,i));
+//初始化方块风格框
+for(var i=0;i<blockSkins.length;i++)seBlockSkin.options.add(new Option(blockSkins[i],i));
+//初始化背景图片框
+//seBg.options.add(new Option("none","-1"));
+$each(bgimgs,function(e,i){seBg.options.add(new Option("\u7F8E\u5973 "+(i+1),i))});
+
+function saveUserData(n,v){
+	var d=new Date();d.setYear(d.getFullYear()+2);
+	document.cookie=n+"="+v+"; expires=" + d.toGMTString();
+}
+function loadUserData(n){
+	var s=document.cookie.match(new RegExp("\\b"+n+"=([^;]+)",""));
+	return RegExp.$1||"";
+}
+function saveScore(){
+	var d=new Date(),s=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+	cfg.topScores.push([gScore,s]);
+	cfg.topScores.sort(function(a,b){return b[0]-a[0]});
+	if(cfg.topScores.length>9)cfg.topScores.length=9;
+	printScore();
+	saveUserData("topScores",cfg.topScores);
+}
+function loadScore(){
+	var s=loadUserData("topScores");
+	if(!s)return;
+	var arr=s.split(",");
+	var rg1=/^\d{3,7}$/;
+	for(var i=1;i<arr.length;i+=2){
+		if(rg1.test(arr[i-1]))cfg.topScores.push([eval(arr[i-1]),arr[i]]);
+	}
+	printScore();
+}
+function stopEvent(evt){
+	var e=window.event||evt;
+	if(e){
+		if(e.preventDefault)e.preventDefault();
+		if(e.stopPropagation)e.stopPropagation();
+		if(window.event){
+			e.returnValue=false;
+			e.cancelBubble=true;
+			if(e.type.indexOf("key")==0){
+				try{e.keyCode=0;}catch(err){}
+			}
+		}
+	}
+}
+function min(arr){
+	for(var i=1,m=arr[0];i<arr.length;i++){
+		if(arr[i]<m)m=arr[i];
+	}
+	return m;
+}
+function max(arr){
+	for(var i=1,m=arr[0];i<arr.length;i++){
+		if(arr[i]>m)m=arr[i];
+	}
+	return m;
+}
+//每组坐标中的最小最大xy
+for(var i=0;i<layout.length;i++){
+	var xy=layout[i].xy;
+	for(var j=0;j<xy.length;j++){
+		var d=xy[j];
+		d[2]=[min(d[0]),max(d[0]),min(d[1]),max(d[1])];
+	}
+}
+
+function viewNext(){
+	var T=Math.floor(layout.length * Math.random());
+	var color=Math.floor(7 * Math.random());
+	var curr=Math.floor(layout[T].xy.length * Math.random());
+	var d=layout[T].xy[curr];
+	var xmin=d[2][0],ymin=d[2][2];
+	var w=d[2][1]-d[2][0]+1, h=d[2][3]-d[2][2]+1;
+	var style = dvNextBlocks.style;
+	style.left=(122/2 - w*28/2)+"px";
+	style.top=(122/2 - h*28/2)+"px";
+	for(var i=0;i<4;i++){
+		dvNextBlocks.childNodes[i].className = "c"+color+" x"+(d[0][i]-xmin)+" y"+(d[1][i]-ymin);
+	}
+	cfgNextBlock.T=T, cfgNextBlock.curr=curr, cfgNextBlock.color=color;
+}
+function draw4(T,x,y,b){
+	//if(b && $("T0"))return;
+	var xy=layout[T].xy;
+	var d=xy[0];
+	var color=currColor;
+	currBlocks=[];
+	for(var i=0;i<4;i++){
+		var div=draw1(color, x+d[0][i], y+d[1][i]);
+		if(!b)div.id = "T"+i;
+		if(!b)currBlocks.push(div);
+	}
+	currX=x;
+	currY=y;
+}
+function draw1(c,x,y,b){
+	var div = document.createElement("div");
+	div.className = "c"+c+" x"+x+" y"+y;
+	if(b && x>=0 && x<10 && y>=0 && y<20){
+		XY[x][y]=true;
+		div.id = 'end_'+x+'_'+y;
+	}
+	return dvBlocks.appendChild(div);
+}
+function dropNewBlock(){
+	T=cfgNextBlock.T;
+	curr = cfgNextBlock.curr;
+	currColor = cfgNextBlock.color;
+	var xy2=layout[T].xy[cfgNextBlock.curr][2];
+	var x = Math.floor((10-(xy2[1]-xy2[0]+1)-xy2[0]) / 2);
+	draw4(T,x,-1);
+	down_T();
+	viewNext();
+}
+
+function move(T,x,y){
+	x = currX+x;
+	y = currY+y;
+	var xy=layout[T].xy;
+	var d=xy[curr];
+	var color="c"+currColor;
+	var cx=[],cy=[];
+	for(var i=0;i<4;i++){
+		cx[i]=(x+d[0][i]),cy[i]=(y+d[1][i]);
+		if(cx[i]<0||cx[i]>9||cy[i]<-4||cy[i]>19)return;
+	}
+	for(var i=0;i<4;i++){
+		currBlocks[i].className = color+" x"+cx[i]+" y"+cy[i];
+	}
+	currX=x;
+	currY=y;
+}
+
+
+function printScore(){
+	var rows=$("tblTopScores").rows;
+	for(var i=0;i<cfg.topScores.length;i++){
+		rows[i+1].cells[1].innerHTML=cfg.topScores[i][0];
+		rows[i+1].cells[2].innerHTML=cfg.topScores[i][1];
+	}
+	for(var i=cfg.topScores.length+1;i<rows.length;i++){
+		rows[i].cells[1].innerHTML="&nbsp;";
+		rows[i].cells[2].innerHTML="&nbsp;";
+	}
+}
+function end(T){
+	currBlocks.end=true;
+	clearTimeout(timer_down);
+	var lines=[]; //消除行号y
+	for(var i=0;i<4;i++){
+		var xy=layout[T].xy[curr];
+		var x=currX+xy[0][i];
+		var y=currY+xy[1][i];
+		//如果y<0则game over
+		if(y<0){
+			gStatus=st_over;
+			display(dvGameOver,true);
+			display(dvGameOverBg,!isOpera);
+			animate(dvGameOver);
+			//movie(); //结尾动画
+			btnSwitch.value=" 开始 ";
+			if(gScore)saveScore();
+			return;
+		}
+		XY[x][y]=true;
+		currBlocks[i].id='end_'+x+'_'+y;
+		var j=0;
+		for(j=0;j<10;j++){ if(!XY[j][y])break; }
+		if(j==10)lines.push(y);
+	}
+	currBlocks=[];
+	var N=lines.length;
+	if(N>0){
+		gScore += addScores[N]; //加分
+		dvScore.innerHTML=gScore;
+		gLines += N;
+		gLevelLines += N;
+		//判断是否升级
+		if(gLevelLines >= uplevelLines){
+			if(currLevel<levels.length-1)currLevel++;
+			currMill = levels[currLevel];
+			dvLevel.innerHTML = currLevel+1;
+			gLevelLines = 0;
+		}
+		//开始消行
+		for(var i=0;i<N;i++){
+			for(var j=0;j<10;j++){
+				dvBlocks.removeChild($('end_'+j+'_'+lines[i]));
+				XY[j][lines[i]]=false;
+			}
+		}
+		lines = lines.sort();
+		var yadds=[]; //记录每行各要下落几行
+		for(var i=N-1;i>=0;i--){
+			for(var j=lines[i]-1;j>=0;j--){
+				yadds[j] = (yadds[j]||0)+1;
+			}
+			yadds[lines[i]] = 0;
+		}
+		//循环下移各行
+		for(var j=lines[N-1]-1;j>=0;j--){
+			var addy = yadds[j];
+			if(addy>0)
+			for(var i=0;i<10;i++){
+				if(XY[i][j]){
+					XY[i][j] = false;
+					XY[i][j+addy] = true;
+					var obj = $('end_'+i+'_'+j);
+					obj.className = obj.className.replace("y"+j,"y"+(j+addy));
+					obj.id = 'end_'+i+'_'+(j+addy);
+				}
+			}
+		}
+	}
+	dropNewBlock();
+}
+function rotate(T){
+	var xy=layout[T].xy;
+	if(xy.length<2)return;
+	var curr2=((curr+cfg.direction)+xy.length) % xy.length;
+	var d=xy[curr2];
+	var color="c"+currColor;
+	var cxmin=d[2][0],cxmax=d[2][1];
+	var x=currX,y=currY;
+	//旋转时靠边，则可能需要平移
+	if(x+cxmin<0) x = 0;
+	else if(x+cxmax>9) x = 9-cxmax;
+	//判断是否能够旋转，即旋转后的占位在现在是否都为空
+	for(var i=0;i<4;i++){
+		if(XY[x+d[0][i]][y+d[1][i]]){
+			return;
+		}
+	}
+	//旋转
+	curr=curr2;
+	currX=x;
+	for(var i=0;i<4;i++){
+		currBlocks[i].className = color+" x"+(x+d[0][i])+" y"+(y+d[1][i]);
+	}
+}
+//自然下落一步
+function down_T(){
+	var nowCannotDown = !canMove4(T,0,1);
+	var nowCannotLeft = !canMove4(T,-1,0);
+	var nowCannotRight = !canMove4(T,1,0);
+	if(lastCannotDown && nowCannotDown || nowCannotLeft && nowCannotRight && nowCannotDown){
+		end(T);
+		lastCannotDown = nowCannotDown = nowCannotLeft = nowCannotRight = false;
+		return false;
+	}
+	timer_down = setTimeout(down_T, currMill);
+	nowCannotDown = !canMove4(T,0,1);
+	if(nowCannotDown){
+		lastCannotDown=true;
+	}else{
+		move(T,0,1);
+	}
+	return true;
+}
+//手动移动一步
+function move_1step(T,x,y){
+	if(!canMove4(T,x,y)){
+		return false;
+	}
+	move(T,x,y);
+	return true;
+}
+//直接快速落地
+function move_quickdown(T){
+	var y=0;
+	while(canMove4(T,0,y+1))y++;
+	if(y){
+		move(T,0,y);
+		end(T);
+	}
+}
+function canMove4(T,addx,addy){
+	var xy = layout[T].xy[curr];
+	var x0 = currX+addx, y0 = currY+addy;
+	for(var i=0;i<4;i++){
+		var x = x0+xy[0][i], y = y0+xy[1][i];
+		if(x<0 || x>9 || y>19 || XY[x][y]) return false;
+	}
+	return true;
+}
+function resetGame(){
+	if(gStatus == st_playing || gStatus == st_paused){
+		if(!confirm("\u8981\u7EC8\u6B62\u5F53\u524D\u6E38\u620F\u91CD\u65B0\u5F00\u59CB\u5417\uFF1F"))
+		return false;
+	}
+	display(dvGameOver,false);
+	display(dvGameOverBg,false);
+	dvScore.innerHTML="0";
+	currLevel=cfg.startLevel;
+	currMill = levels[currLevel];
+	dvLevel.innerHTML=currLevel+1;
+	if(timer_down)clearTimeout(timer_down);
+	if(timer_movie)clearTimeout(timer_movie);
+	if(timer_ani)clearInterval(timer_ani);
+	gStatus = st_ready;
+	gScore=0;
+	gLevelLines = 0;
+	dvBlocks.innerHTML="";
+	XY.reset();
+	return true;
+}
+function startNewGame(){
+	if(!resetGame())return false;
+	gStatus = st_playing;
+	dropNewBlock();
+}
+function switchGame(){
+	if(gStatus==st_playing){
+		btnSwitch.value = "继续";
+		gStatus = st_paused;
+		clearTimer();
+	}else if(gStatus==st_paused){
+		btnSwitch.value = "暂停";
+		gStatus = st_playing;
+		timer_down = setTimeout(down_T, currMill);
+	}else if(gStatus==st_ready||gStatus==st_over){
+		btnSwitch.value = "暂停";
+		startNewGame();
+	}
+}
+
+function handleKeydown(kcode){
+	if(gStatus==st_playing && !currBlocks.end){
+		switch (kcode){
+			case cfg.key.left:  move_1step(T,-1,0); break;
+			case cfg.key.right: move_1step(T,1,0); break;
+			case cfg.key.rotate[0]:
+			case cfg.key.rotate[1]: rotate(T);break;
+			case cfg.key.down[0]:
+			case cfg.key.down[1]:  move_quickdown(T);break;
+			default: break;
+		}
+	}
+	if(kcode==cfg.key.pause[0]||kcode==cfg.key.pause[1]){
+		switchGame();
+	}
+	if(kcode==cfg.key.fast){
+		currMill=30;
+		move_1step(T,0,1);
+	}
+}
+function repeatKeydown(){
+	if(timer_keydown1)clearTimeout(timer_keydown1);
+	if(timer_keydown)clearTimeout(timer_keydown);
+	var L=keyHasDown[cfg.key.left], R=keyHasDown[cfg.key.right], T=keyHasDown[cfg.key.rotate[0]] || keyHasDown[cfg.key.rotate[1]];
+	if(L && !R) handleKeydown(cfg.key.left);
+	if(R && !L) handleKeydown(cfg.key.right);
+	if(T) handleKeydown(cfg.key.rotate[0]);
+	if(L || R || T)
+		timer_keydown=setTimeout(repeatKeydown,repeat_delay);
+	//else
+	//	clearTimeout(timer_keydown);
+}
+function clearTimer(){
+	if(timer_down)clearTimeout(timer_down);
+	if(timer_movie)clearTimeout(timer_movie);
+	if(timer_keydown1)clearTimeout(timer_keydown1);
+	if(timer_keydown)clearTimeout(timer_keydown);
+}
+//动画，填满空格，用于游戏结束后
+function movie(){
+	if(movieY>-10) timer_movie = setTimeout(movie, 50);
+	else {movieY=19,movieX=0,clearTimeout(timer_movie);}
+	for(var y=movieY--,x=0; y<20 && x<10; y++,x++){
+		if(y>=0 && !XY[x][y])
+			draw1(Math.floor(Math.random()*7),x,y,true);
+	}
+}
+function animate(){
+	if(timer_ani)clearInterval(timer_ani);
+	timer_ani=window.setInterval(function(){
+	if(aniTime>=1.6*6)aniTime=0;
+	//跳3下，停2秒
+	if(aniTime>5.2){clearInterval(timer_ani);aniTime-=4.8;setTimeout(animate,2000);}
+	var x=aniTime-Math.floor(aniTime/1.6)*1.6;
+	x=(x>0.8)?(1.59-x):x;
+	dvGameOver.style.top=Math.floor(720*x*x)+'px';
+	aniTime+=0.03;
+	},50);
+}
+
+window.onload = function(evt){
+	loadScore();
+	loadUICfg();
+	var dvs = [dvTabUI,dvTabKey,dvTabScore,dvTabAbout];
+	$each(dvs,(function(e,i){
+		e.onclick=function(evt){
+			if(this.className=="focus")return;
+			var ele=this;
+			$each(dvs,function(e,i){
+				e.className = e==ele?"focus":"blur";
+				display(eval(e.id+'_C'),e==ele);
+			})
+		}
+	}));
+
+	currLevel = cfg.startLevel;
+	dvLevel.innerHTML = currLevel+1;
+	dvScore.innerHTML="0";
+
+	display(dvGrid, cfg.ui.grid);
+	display(dvBgImg, cfg.ui.bgImg);
+	display(dvNextOutF, cfg.ui.next);
+	$("ckGrid").checked = cfg.ui.grid;
+	$("ckBgImg").checked = cfg.ui.bgImgUse;
+	$("seBg").value = cfg.ui.bgImg+"";
+	setBg(cfg.ui.bgImg, cfg.ui.bgImgUse);
+	seLevel.value = cfg.startLevel+'';
+	ckBgImgAlpha.checked = cfg.ui.bgImgAlpha;
+	display(dvBgImgMask, cfg.ui.bgImgAlpha && isOpera);
+	//if(isOpera){dvGameOverBg.className="opacity50_opera";}
+
+	//初始化放置一些方块在场景中
+	currColor=0,draw4(6,2,4,true);
+	currColor=1,draw4(4,5,5,true);
+	currColor=2,draw4(2,6,8,true);
+	currColor=3,draw4(1,2,8,true);
+	currColor=4,draw4(0,2,12,true);
+	currColor=5,draw4(5,6,12,true);
+	currColor=6,draw4(3,2,16,true);
+	viewNext();
+
+	btnSwitch.onclick = switchGame;
+	//$("btnNewGame").onclick=startNewGame;
+	$("seBlockSkin").onchange=function(evt){setBlockSkin(this.value);cfg.ui.skin=parseInt(this.value);saveUICfg()}
+	$("ckBgImg").onclick=function(evt){setBg(cfg.ui.bgImg,this.checked);cfg.ui.bgImgUse=this.checked;saveUICfg()}
+	$("seBg").onchange=function(evt){setBg(parseInt(this.value),cfg.ui.bgImgUse);cfg.ui.bgImg=parseInt(this.value||0);saveUICfg()}
+	$("ckGrid").onclick=function(evt){display(dvGrid,this.checked);cfg.ui.grid=this.checked;saveUICfg()}
+	//$("btnViewNext").onclick=viewNext;
+	//$("btnReset").onclick=resetGame;
+	//$("btnXY").onclick=function(){alert(XY)};
+	//$("btnMovie").onclick=movie;
+	ckBgImgAlpha.onclick=function(){setBgAlpha(this.checked);cfg.ui.bgImgAlpha=this.checked;saveUICfg()}
+	seLevel.onchange=function(){
+		cfg.startLevel=parseInt(seLevel.value);saveUICfg();
+		if(gStatus == st_playing || gStatus == st_paused) startNewGame();
+		else resetGame();
+		seLevel.blur();
+		dvLevel.click();
+	}
+
+	loadKeyCfg();
+	seKeySpeed.value = cfg.key.speed+"";
+	var arrtx=[txL,txR,txR1,txR2,txD1,txD2,txP1,txP2,txF];
+		arrtx[0].setAttribute("_kcode",cfg.key.left); arrtx[0].value=keymap[cfg.key.left]||"";
+		arrtx[1].setAttribute("_kcode",cfg.key.right); arrtx[1].value=keymap[cfg.key.right]||"";
+		arrtx[2].setAttribute("_kcode",cfg.key.rotate[0]); arrtx[2].value=keymap[cfg.key.rotate[0]]||"";
+		arrtx[3].setAttribute("_kcode",cfg.key.rotate[1]); arrtx[3].value=keymap[cfg.key.rotate[1]]||"";
+		arrtx[4].setAttribute("_kcode",cfg.key.down[0]); arrtx[4].value=keymap[cfg.key.down[0]]||"";
+		arrtx[5].setAttribute("_kcode",cfg.key.down[1]); arrtx[5].value=keymap[cfg.key.down[1]]||"";
+		arrtx[6].setAttribute("_kcode",cfg.key.pause[0]); arrtx[6].value=keymap[cfg.key.pause[0]]||"";
+		arrtx[7].setAttribute("_kcode",cfg.key.pause[1]); arrtx[7].value=keymap[cfg.key.pause[1]]||"";
+		arrtx[8].setAttribute("_kcode",cfg.key.fast); arrtx[8].value=keymap[cfg.key.fast]||"";
+	//检测按键设置冲突
+	function checkKeyConflict(){
+		var conflict=false;
+		for(var j=0;j<arrtx.length;j++){
+			for(var k=j+1;k<arrtx.length;k++){
+				if(arrtx[j].value==arrtx[k].value && arrtx[j].value!=""){
+					arrtx[j].style.backgroundColor="#FF0000";
+					arrtx[k].style.backgroundColor="#FF0000";
+					conflict=true;
+				}
+			}
+		}
+		return conflict;
+	}
+	if(checkKeyConflict()){
+		alert("\u60A8\u7684\u6309\u952E\u8BBE\u7F6E\u5B58\u5728\u51B2\u7A81\uFF0C\u8BF7\u8C03\u6574\u6309\u952E\u8BBE\u7F6E\u3002");
+	}
+	$each(arrtx,function(e,i){
+		e.onkeydown = function(evt){
+			var event = evt || window.event;
+			var kcode = event.charCode || event.keyCode;
+			if(kcode==9)return true;
+			stopEvent(evt);
+			if(!(kcode in keymap))return false;
+			var vNew=keymap[kcode],vOld=this.value;
+			if(vNew==vOld)return false;
+			this.value=vNew;
+			this.setAttribute("_kcode",kcode);
+			for(var j=0;j<arrtx.length;j++)
+				arrtx[j].style.backgroundColor="";
+			btnApplyKeyDefine.disabled=checkKeyConflict();
+			return false;
+		}
+		e.onkeyup = stopEvent;
+		e.onkeypress = stopEvent;
+	});
+	btnApplyKeyDefine.onclick = function(evt){
+		for(var ks=[],j=0;j<arrtx.length;j++)
+			ks.push(parseInt(arrtx[j].getAttribute("_kcode")));
+		cfg.key.left=ks[0];
+		cfg.key.right=ks[1];
+		cfg.key.rotate=[ks[2],ks[3]];
+		cfg.key.down=[ks[4],ks[5]];
+		cfg.key.pause=[ks[6],ks[7]];
+		cfg.key.fast=ks[8];
+
+		cfg.key.speed=parseInt(seKeySpeed.value)||0;
+		repeat_delay1=keySpeeds[cfg.key.speed][0];
+		repeat_delay=keySpeeds[cfg.key.speed][1];
+
+		btnApplyKeyDefine.disabled=true;
+		saveKeyCfg();
+	};
+	btnApplyKeyDefine.disabled=true;
+
+	btnKeyDefineHelp.onclick = function(evt){
+		alert(btnKeyDefineHelp.getAttribute('_tip').replace(/\\n/g,'\n'));
+	};
+	seKeySpeed.onchange =  function(evt){
+		btnApplyKeyDefine.disabled=checkKeyConflict();
+	}
+
+	document.onkeydown = function(evt){
+		var event = evt || window.event;
+		var ele = event.target || event.srcElement;
+		if(ele.tagName=="INPUT"||ele.tagName=="SELECT")return;
+		var kcode = event.charCode || event.keyCode;
+		if(keyHasDown[kcode])return; //已按下的键，重复触发的keydown事件忽略
+		keyHasDown[kcode]=true;
+		handleKeydown(kcode);
+		if(kcode==cfg.key.left||kcode==cfg.key.right||kcode==cfg.key.rotate[0]||kcode==cfg.key.rotate[1]){
+			if(timer_keydown1)clearTimeout(timer_keydown1);
+			if(timer_keydown)clearTimeout(timer_keydown);
+			timer_keydown1=setTimeout(repeatKeydown,repeat_delay1);
+			stopEvent(event);
+		}
+		if(kcode==cfg.key.down[0]||kcode==cfg.key.down[1])stopEvent(event);
+	};
+	document.onclick = function(evt){
+		var event = evt || window.event;
+		var ele = event.target || event.srcElement;
+		if(ele.tagName=="INPUT" && (ele.type=="button" || ele.type=="checkbox"))ele.blur();
+	};
+	document.onkeyup = function(evt){
+		var event = evt || window.event;
+		var kcode = event.charCode || event.keyCode;
+		if(keyHasDown[kcode])keyHasDown[kcode]=false;
+		if(kcode==cfg.key.fast)currMill=levels[currLevel];
+	};
+};
+function saveKeyCfg(){
+	saveUserData("key_cfg",[cfg.key.left,cfg.key.right, cfg.key.rotate[0],cfg.key.rotate[1], cfg.key.down[0],cfg.key.down[1], cfg.key.pause[0],cfg.key.pause[1],cfg.key.fast, cfg.key.speed]);
+}
+function loadKeyCfg(){
+	var s=loadUserData("key_cfg");
+	if(s.search(/^\d+(\,\d+){7,}$/)<0)return;
+	var ks=s.split(",");
+	for(var i=0;i<ks.length;i++)ks[i]=parseInt(ks[i]);
+	cfg.key.left=ks[0];
+	cfg.key.right=ks[1];
+	cfg.key.rotate=[ks[2],ks[3]];
+	cfg.key.down=[ks[4],ks[5]];
+	cfg.key.pause=[ks[6],ks[7]];
+	cfg.key.fast=ks[8]||cfg.key.fast;
+	cfg.key.speed=ks[9]||0;
+}
+function saveUICfg(){
+	saveUserData("ui_cfg",[cfg.ui.skin, cfg.ui.bgImg, cfg.ui.bgImgUse?1:0, cfg.ui.bgImgAlpha?1:0, cfg.ui.grid?1:0, cfg.ui.shadow?1:0, cfg.ui.next?1:0, cfg.startLevel]);
+}
+function loadUICfg(){
+	var s=loadUserData("ui_cfg");
+	if(s.search(/^\d+(\,\d+){7}$/)<0)return;
+	var x=s.split(",");
+	for(var i=0;i<x.length;i++)x[i]=parseInt(x[i]);
+	cfg.ui.skin=x[0];
+	cfg.ui.bgImg=x[1];
+	cfg.ui.bgImgUse=x[2]==1;
+	cfg.ui.bgImgAlpha=x[3]==1;
+	cfg.ui.grid=x[4]==1;
+	cfg.ui.shadow=x[5]==1;
+	cfg.ui.next=x[6]==1;
+	cfg.startLevel=x[7];
+}
+</script>
+</body>
+</html>

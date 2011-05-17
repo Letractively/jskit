@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>数组的排序</title>
+		<link rel="stylesheet" type="text/css" href="../main.css">
+ 	   <script src="../JskitLoad.js"></script>
+ 	   <script src="../JskitConfig_doc.js"></script>
+	  <style>
+	  	.parm_a{
+	  		color:#ff0000;
+	  	}
+		.parm_b{
+			color:#00aa00;
+		}
+		.arr{
+			color:#aaaaaa;
+		}
+		.list_title{
+			background-color:#336699;
+			color:#ffffff;
+		}
+	  </style>
+  	</head>
+	<body>
+		<div>
+			<table>
+				<tr>
+					<td class="package">Array :: sort()</td>
+				</tr>
+				<tr>
+					<td class="title">
+						代码示例：
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<textarea name="JskitSyntax_code" class="js">
+							function sortNumber(a,b){
+							    //得到由小到大的排序
+								return a - b; 
+								
+								//得到由大到小的排序
+								//return b - a;
+							}
+							var arr = new Array(6);
+							arr[0] = "10";
+							arr[1] = "5";
+							arr[2] = "40";
+							arr[3] = "25";
+							arr[4] = "1000";
+							arr[5] = "1";
+							
+							document.write(arr + "<br />");
+							document.write(arr.sort(sortNumber));
+							
+							输出结果:
+							10,5,40,25,1000,1
+							1,5,10,25,40,1000
+						</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						分析：
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<script type='text/javascript'>
+						var log = '';
+						var count = 0;
+						function sortNumber(a,b)
+						{
+							count++;
+							log += '<tr>';
+							log += '<td align="right" class="parm_a">'+a+'</td>';
+							log += '<td class="parm_b">'+b+'</td>';
+							log += '<td class="arr">'+(a-b)+'</td>';
+							log += '<td class="arr">['+getIndex(a)+':'+getIndex(b)+']</td>';
+							log += '</tr>';
+							return a - b;
+						}
+						function getIndex(v){
+							for(var i=0;i<arr.length;i++){
+								if(v==arr[i])return i;
+							}
+						}
+						function init(){
+							log = "";
+							count = 0;
+						}
+						function showResult(){
+							document.write("<br>=======================================");
+							document.write("<br>比较 <b>"+arr.length+"</b> 个数值");
+							document.write("<br>原始数组:"+arr)
+							document.write("<br>排序结果:"+arr.sort(sortNumber));
+							log = '<table width="100%" border="1" cellspacing="0" >'
+								+ '<tr>'
+								+ '<td class="list_title">a</td>'
+								+ '<td class="list_title">b</td>'
+								+ '<td class="list_title">a-b</td>'
+								+ '<td class="list_title">index</td>'
+								+ '<tr>'
+								+ log
+								+ '</table>';
+							document.write('<br>'+log);
+							document.write('Times: '+count);
+							document.write('<br>');
+						}
+						var arr = new Array();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						showResult();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						arr[2] = '40';
+						showResult();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						arr[2] = '40';
+						arr[3] = '25';
+						showResult();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						arr[2] = '40';
+						arr[3] = '25';
+						arr[4] = '1000';
+						showResult();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						arr[2] = '40';
+						arr[3] = '25';
+						arr[4] = '1000';
+						arr[5] = '1';
+						showResult();
+
+						init();
+						arr[0] = '10';
+						arr[1] = '500';
+						arr[2] = '400';
+						arr[3] = '250';
+						arr[4] = '100';
+						arr[5] = '1';
+						showResult();
+						
+						init();
+						arr[0] = '10';
+						arr[1] = '5';
+						arr[2] = '40';
+						arr[3] = '25';
+						arr[4] = '1000';
+						arr[5] = '1';
+						arr[6] = '123';
+						showResult();
+						</script> 
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

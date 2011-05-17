@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>demo dynamic</title>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../JskitLoad.js"></script>
+	
+    <script src="../JskitConfig_doc.js"></script>
+     <script>
+ 		function demo_pangeOnload(){
+			jskitDynamic.add("#demo_dynamic_div");
+			jskitDynamic.setOnMoveDone("onMoveDone()")
+			//jskitLog.open();
+			$("#movabletags").innerHTML = convertString(jskitDynamic.getMovableTags());
+			$("#unmovabletags").innerHTML = convertString(jskitDynamic.getUnmovableTags());
+			$("#blocktags").innerHTML = convertString(jskitDynamic.getBlockTags());
+		}
+		jskitEvents.ready("onload","demo_pangeOnload");
+		function doPause(obj){
+			if (obj.value == "Pause") {
+				obj.value = "Play";
+				jskitDynamic.pause();
+			}else{
+				obj.value = "Pause";
+				jskitDynamic.play();
+			}
+			
+		}
+		function convertString(s){
+			s = s.toUpperCase();
+			s = s.replace(/,/gi,"&gt;, &lt;");
+			return "&lt;"+s+"&gt;";
+		}
+		function onMoveDone(){
+			$("#offsetx").value = jskitDynamic.getOffsetX();
+			$("#offsety").value = jskitDynamic.getOffsetY();
+		}
+		function doSwitchRealTime(obj){
+			var rt = jskitDynamic.getRealTime();
+			jskitDynamic.setRealTime(!rt);
+			$("#realtime").value = !rt;
+		}
+    </script>
+	<style>
+		TABLE.test_panel{background-color:#336699;}
+		TABLE.test_panel TD{background-color:#ffffff;}
+		TD.list_title{text-align:right;font-weight:bold;color:#ff5500;}
+		TD.tab_title{color:#ffffff;background-color:#6699cc;}
+	</style>
+  </head>
+  
+   <body>
+   		<table>
+   			<tr>
+   				<td class="package">对象拖动(page/JskitDynamic)</td>
+   			</tr>
+			<tr>
+				<td class="content">
+					<a href="../tutorial/JskitDynamic.html">查看JskitDynamic参考</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="content">
+					<table class="test_panel" cellspacing="1" cellpadding="3">
+						<tr>
+							<td class="tab_title" style="background-color:#6699cc;">测试项</td>
+							<td class="tab_title" style="background-color:#6699cc;">显示信息</td>
+							<td class="tab_title" style="background-color:#6699cc;">对应方法</td>
+						</tr>
+						<tr>
+							<td class="list_title">Pause/Play:</td>
+							<td><input type="button" value="Pause" onclick="doPause(this)" /></td>
+							<td>
+								jskitDynamic.pause()
+								<br>jskitDynamic.play()
+							</td>
+						</tr>
+						<tr>
+							<td class="list_title">Realtime:</td>
+							<td><input type="button" value="Switch" onclick="doSwitchRealTime(this)" />
+					<input type="text" id="realtime" value="false" /></td>
+							<td>
+								jskitDynamic.setRealTime(boolean)
+							</td>
+						</tr>
+						<tr>
+							<td class="list_title">movable tags:</td>
+							<td><div id="movabletags"></div></td>
+							<td>
+								jskitDynamic.getMoveableTags()
+							</td>
+						</tr>
+						<tr>
+							<td class="list_title">unmovable tags:</td>
+							<td><div id="unmovabletags"></div></td>
+							<td>
+								jskitDynamic.getUnmoveableTags()
+							</td>
+						</tr>
+						<tr>
+							<td class="list_title">block tags:</td>
+							<td><div id="blocktags"></div></td>
+							<td>
+								jskitDynamic.getBlockTags()
+							</td>
+						</tr>
+						<tr>
+							<td class="list_title">on move done:</td>
+							<td>
+								OffsetX=<input type="text" id="offsetx" />
+								<br>OffsetY=<input type="text" id="offsety" />
+							</td>
+							<td>
+								function onMoveDone(){
+								<br>&nbsp;&nbsp;&nbsp;&nbsp;$("#offsetx").value = jskitDynamic.getOffsetX();
+								<br>&nbsp;&nbsp;&nbsp;&nbsp;$("#offsety").value = jskitDynamic.getOffsetY();
+								<br>}
+								<br>jskitDynamic.setOnMoveDone("onMoveDone");
+							</td>
+						</tr>
+					</table>
+					
+					
+				</td>
+			</tr>
+   			<tr>
+   				<td>
+   					<div id="demo_dynamic_div" align="center" style="background-color:#0000ff;width:300px;height:300px;border:2px outset #ffffff;">
+						&lt;DIV&gt;
+						<br>
+						<br>
+   						<table cellspacing="0" cellpadding="0" height="100" width="260" border="1">
+   							<tr><td bgcolor="#eeeeee" colspan="2">&lt;table&gt;</td></tr>
+   							<tr><td bgcolor="#ff0000">&lt;td&gt;</td><td bgcolor="#00ff00">&lt;td&gt;</td></tr>
+   							<tr><td bgcolor="#aa00aa">&lt;td&gt;</td><td bgcolor="#ff00ff">&lt;td&gt;</td></tr>
+   						</table>
+						<br>
+						<textarea rows="5" cols="30">&lt;textarea&gt;</textarea>
+						<br><br>
+						<input type="text" value="&lt;input&gt;" size="38" />
+   					</div>
+   				</td>
+   			</tr>
+   		</table>
+</BODY>
+</HTML>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Demo::RichSelect::</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../JskitLoad.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+ 	   <script src="../../server/JskitXmlHttp.js"></script>
+ 	   <script src="../../model/controls/JskitRichDropDownList.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../model/controls/JskitControls.css" />
+   <script type="text/javascript">
+        var jrddl1 = new JskitRichDropDownList("jrddl1");
+        var jrddl2 = new JskitRichDropDownList("jrddl2");
+        function PageOnLoad(){
+            jrddl1.deploy("text_feild_1","value_feild_1","demo_richselect_data.asp?act=country");
+            jrddl2.deploy("text_feild_2","value_feild_2","demo_richselect_data.asp?act=city","value_feild_1");
+        }
+   </script>
+
+    </head>
+    <body onload="PageOnLoad()">
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="Package">
+                        使用JskitRichDropDownList.js 构造一个复杂的下拉列表和级联列表
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <a href="../tutorial/JskitXmlHttp.html">查看JskitXmlHttp.js参考</a>
+                        <br><a href="../tutorial/JskitRichDropDownList.html">查看JskitRichDropDownList.js参考</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30">
+                    </td>
+                </tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="code">
+						<table>
+							<tr>
+								<td>选择国家：</td>
+								<td><input type="text" id="text_feild_1" /><input type="hidden" id="value_feild_1" /></td>
+								<td>选择城市：</td>
+								<td><input type="text" id="text_feild_2" /><input type="hidden" id="value_feild_2" /></td>
+							</tr>
+						</table>
+							
+
+						js脚本
+<textarea  name="JskitSyntax_code" class="js">
+//第一个下拉列表
+var jrddl1 = new JskitRichDropDownList("jrddl1");
+//第二个下拉列表
+var jrddl2 = new JskitRichDropDownList("jrddl2");
+//在页面装载完之后运行
+function PageOnLoad(){
+	jrddl1.deploy("text_feild_1","value_feild_1","demo_richselect_data.asp?act=country");
+	jrddl2.deploy("text_feild_2","value_feild_2","demo_richselect_data.asp?act=city","value_feild_1");
+	//如果设置了ParmFeildID参数（如上面的value_feild_1），那么在获取数据时，将在URL自动构造&parm={value_feild_1.value}
+	//webservice可通过parm参数进行对数据的过滤。实现通过ParmFeild的下拉列表的级联。
+}
+</textarea>
+						对应的HTML代码
+<textarea  name="JskitSyntax_code" class="html">
+	...
+		<body onload="PageOnLoad()">
+	...
+	<input type="text" id="text_feild_1" />
+	<input type="hidden" id="value_feild_1" />
+	<input type="text" id="text_feild_2" />
+	<input type="hidden" id="value_feild_2" />
+</textarea>
+获取数据的demo_richselect_data.asp内容如下
+<textarea  name="JskitSyntax_code" class="vb">
+<%@ codepage=65001%>
+<%
+If Request.QueryString("act")="country" then
+	response.write("[[""china"",""China""],[""japan"",""Japan""]]")
+Else 
+	If Request.QueryString("parm")="china" then
+		response.write("[[""1"",""Beijing""],[""2"",""Shanghai""],[""3"",""Chongqing""],[""4"",""Tianjin""],[""5"",""Dalian""]]")
+	Else 
+		response.write("[[""1"",""Tokyo""],[""2"",""SHINJUKU""],[""3"",""GINZA""]]")
+	End if
+End if
+%>
+</textarea>
+						<br>
+					</td>
+				</tr>
+            </tbody>
+        </table>
+    </body>
+</html>

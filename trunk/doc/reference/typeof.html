@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Resource -- Typeof</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../JskitLoad.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <style type="text/css">
+         BODY,TD{
+         }
+        .typeof_table{
+            background-color:#cccccc;
+            border:1px solid #000000;
+        }
+        .typeof_table TD{
+            padding:3px 5px 3px 5px;
+            background-color:#f4f4f4;
+
+        }
+    </style>
+    <script>
+        function OnPageLoad(sender,e){
+            var str = "";
+            var arrList = new Array();
+            arrList.push(new Array("Array",new Array()));
+            arrList.push(new Array("function",function(){}));
+            arrList.push(new Array("new function",new function(){}));
+            arrList.push(new Array("string","aa"));
+            arrList.push(new Array("boolean",true));
+            arrList.push(new Array("int",1));
+            arrList.push(new Array("float",1.1));
+            arrList.push(new Array("html element",$("body")));
+            arrList.push(new Array("window",window));
+            arrList.push(new Array("document",document));
+            arrList.push(new Array("event",e));
+            arrList.push(new Array("datetime",new Date()));
+
+            str += '<table class="typeof_table" cellspacing="1" cellpadding="0">';
+            str += '<tr>';
+            str += '<td>数据</td>';
+            str += '<td>类型</td>';
+            str += '</tr>';
+            for(var i=0;i<arrList.length;i++){
+                str += '<tr>';
+                str += '<td>'+arrList[i][0]+'</td>';
+                str += '<td>'+typeof(arrList[i][1])+'</td>';
+                str += '</tr>';
+            }
+            str += '</table>';
+            $("#canvas").innerHTML = str;
+        }
+    </script>
+</head>
+<body onload="OnPageLoad(this,event)">
+    <div id="canvas"></div>
+</body>
+</html>

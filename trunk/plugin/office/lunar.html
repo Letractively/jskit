@@ -1,0 +1,234 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style type="text/css">
+			body,p,td,div,span,a,font,button{
+				font-family:verdana;
+				font-size:12px;
+			}
+			body{
+				background-color:#000088;
+			}
+			p {line-height:18px;color:#000000;}
+				
+			TD {fONT-FAMILY: "simsun"; }
+			a:link{ color:#000000; text-decoration:none}     
+			a:visited{COLOR: #000000; TEXT-DECORATION: none} 
+			a:active{color:green;text-decoration:none}
+			a:hover{color:red;text-decoration:underline}  
+			.todaycolor {
+				BACKGROUND-COLOR: #eeeeee;
+			}
+			.calendar_panel{
+				border:0px solid #000000;
+				background-color:#000055;
+			}
+			.calendar_body_panel{
+			    BORDER-COLLAPSE:COLLAPSE;
+			}
+			.calendar_body_panel td{
+				border:1px solid #eeeeee;
+			}
+			.week_index{
+				background-color:#000055;
+				text-align:center;
+				color:#ffffff;
+				padding-top:3px;
+			}
+			.btn_data_switch{
+				width:20px;
+				height:20px;
+				font-size:9px;
+				font-weight:bold;
+				border:1px solid #ffffff;
+			}
+			.btn_data_switch_today{
+				padding-top:2px;
+				width:20px;
+				height:20px;
+				font-size:11px;
+				border:1px solid #ffffff;
+			}
+		</style>
+		<SCRIPT language=JavaScript src="../../JskitLoad.js"></SCRIPT>
+		<SCRIPT language=JavaScript src="../../plugin/office/JskitLunarCalendar.js"></SCRIPT>
+<script>
+	function showCalendarSheet(){
+		var gNum;
+		var _html = "";
+		for(i=0;i<6;i++) {
+		   _html += '<tr id="movedetails_tr" style="cursor:hand" >';
+		   for(j=0;j<7;j++) {
+			  gNum = i*7+j
+			  _html += "<td id=\"GD" + gNum +"\" onMouseOver=\"jskitBase.bindGlobalEvent(event);mOvr(" + gNum +")\" align='center' style='background-color:#ffffff'>";
+			  _html += "<div id=\"SD" + gNum +"\" style=\"font-size:16px;font-weight:bold;font-family:Arial;width:100%\" ";
+			  if(j==0 || j==6){_html += " color=\"#ff0000\" ";}
+			  _html += ">";
+			  _html += "</div>";
+			  _html += "<div id=\"LD" + gNum + "\" style=\"color:#900000;font-size:11px;width:100%;font-family:arial\"></div>";
+			  _html += "</td>";
+		   }
+		   _html += "</tr>";
+		}
+	   document.write(_html);
+	}
+</script>
+		<SCRIPT language=VBScript>
+			Function TimeAdd(UTC,T)
+			   Dim PlusMinus, DST, y,tSave
+			   If Left(T,1)="-" Then PlusMinus = -1 Else PlusMinus = 1
+			   UTC=Right(UTC,Len(UTC)-5)
+			   UTC=Left(UTC,Len(UTC)-4)
+			   y = Year(UTC)
+			   TimeAdd=DateAdd("n", (Cint(Mid(T,2,2))*60 + Cint(Mid(T,4,2))) * PlusMinus, UTC)
+			   '美国日光节约期间: 4月第一个星日00:00 至 10月最後一个星期日00:00
+			   If Mid(T,6,1)="*" And DateSerial(y,4,(9 - Weekday(DateSerial(y,4,1)) mod 7) ) <= TimeAdd And DateSerial(y,10,31 - Weekday(DateSerial(y,10,31))) >= TimeAdd Then
+				  TimeAdd=CStr(DateAdd("h", 1, TimeAdd)) & "<FONT STYLE='font-size:18pt;font-family:Wingdings; color:red'>R</FONT>"
+			   Else
+			   End If
+			   TimeAdd = CStr(TimeAdd)
+			End Function
+		</SCRIPT>
+	</HEAD>
+	<BODY leftMargin=0 topMargin=0 onload="initial();document.body.scroll='no';" onMouseOver="jskitBase.bindGlobalEvent(event);mOvr();">
+		<DIV id=detail style="POSITION: absolute"></DIV>
+			<FORM name=CLD>
+				<TABLE align="center" cellspacing="0" id="main">
+					<TBODY>
+						<TR>
+							<TD valign="top" align="middle" style="width:310px;height:292;border-right:1px solid #eeeeee">
+								<DIV style="Z-INDEX: -1; POSITION: absolute; TOP: 30px">
+									<span id="YMBG" style="padding-top:10px;FONT-SIZE:70px;width:100%;COLOR:#f0f0f0; FONT-FAMILY:Arial Black;tet-align:center;"></span>
+								</DIV>
+								<TABLE class="calendar_panel" cellspacing="0" cellpadding="0" width="100%">
+									<tr>
+										<td style="padding-top:3px;background-color:#000055;height:24px;" align="center"><span id="GZ" style="color:#ffff00;font-size:13px;"></span></td>
+									</tr>
+									<TR>
+										<TD style="color:#ffffff;background-color:#000055;">
+											<table width="100%">
+												<td>
+													<BUTTON onfocus="this.blur()" class="btn_data_switch_today" style="width:35px" onclick="pushBtm('')">今日</BUTTON>
+												</td>
+												<td>
+													<BUTTON onfocus="this.blur()" class="btn_data_switch" onclick="pushBtm('YU')">&lt;&lt;</BUTTON>
+												</td>
+												<td>
+													<BUTTON onfocus="this.blur()" class="btn_data_switch" onclick="pushBtm('MU');">&lt;</BUTTON>
+												</td>
+												<td style="color:#ffffff">公历</td>
+												<td>
+												<SELECT style="font-size:12px" onchange="changeCld();this.blur();" name="SY">
+													<SCRIPT language=JavaScript>for(i=1900;i<2050;i++){document.write('<option>'+i);}</SCRIPT>
+												</SELECT>
+												</td>
+												<td style="color:#ffffff">年</td>
+												<td>
+												<SELECT onfocus="this.blur()" onchange="changeCld()" name="SM">
+													<SCRIPT language=JavaScript>for(i=1;i<13;i++){document.write('<option>'+i);}</SCRIPT>
+												</SELECT>
+												</td>
+												<td style="color:#ffffff">月</td>
+												<td align="right">
+													<BUTTON onfocus="this.blur()" class="btn_data_switch" onclick="pushBtm('MD')">&gt;</BUTTON>
+												</td>
+												<td>
+													<BUTTON onfocus="this.blur()" class="btn_data_switch" onclick="pushBtm('YD')">&gt;&gt;</BUTTON>
+												</td>
+											</table>
+										</TD>
+									</TR>
+								</TABLE>
+								<table id="cdp" cellspacing="0" cellpadding="0" height="235" width="100%" class="calendar_body_panel">
+									<TR >
+										<TD class="week_index" width="14.3%">日</TD>
+										<TD class="week_index" width="14.3%">一</TD>
+										<TD class="week_index" width="14.3%">二</TD>
+										<TD class="week_index" width="14.3%">三</TD>
+										<TD class="week_index" width="14.3%">四</TD>
+										<TD class="week_index" width="14.3%">五</TD>
+										<TD class="week_index" width="14.3%">六</TD>
+									</TR>
+									<SCRIPT language=JavaScript>
+										showCalendarSheet();
+									</SCRIPT>
+								</table>
+							</TD>
+							<td width="5"></td>
+							<TD valign="top" align="center" style="border:0px solid #000000;color:#ffff00;">
+								<!-- //////////////////////////////////////// -->
+								<br />
+								本机时间:
+								<br />
+								<FONT id="Clock" style="color:#ffff00;font-size:13px;"  align="center"></FONT>
+								<br />
+								<P>
+									<!--时区 *表示自动调整为日光节约时间-->
+									<SELECT style="font-size:12px" onchange="changeTZ()" name="TZ">
+										<option value="-1200 安尼威土克、瓜甲兰">国际换日线</option>
+										<option value="-1100 中途岛、萨摩亚群岛">萨摩亚</option>
+										<option value="-1000 夏威夷">夏威夷</option>
+										<option value="-0900*阿拉斯加">阿拉斯加</option>
+										<option value="-0800*太平洋时间(美加)、提亚纳">太平洋</option>
+										<option value="-0700*亚历桑那">美国山区</option>
+										<option value="-0700*山区时间(美加)">美加山区</option>
+										<option value="-0600*萨克其万(加拿大)">加拿大中部</option>
+										<option value="-0600*墨西哥市、塔克西卡帕">墨西哥</option>
+										<option value="-0600*中部时间(美加)">美加中部</option>
+										<option value="-0500*波哥大、里玛">南美洲太平洋</option>
+										<option value="-0500*东部时间(美加)">美加东部</option>
+										<option value="-0500*印第安纳(东部)">美东</option>
+										<option value="-0400*加拉卡斯、拉帕兹">南美洲西部</option>
+										<option value="-0400*大西洋时间 加拿大)">大西洋</option>
+										<option value="-0330 新岛(加拿大东岸)">纽芬兰</option>
+										<option value="-0300 波西尼亚">东南美洲</option>
+										<option value="-0300 布鲁诺斯爱丽斯、乔治城">南美洲东部</option>
+										<option value="-0200*大西洋中部">大西洋中部</option>
+										<option value="-0100*亚速尔群岛、维德角群岛">亚速尔</option>
+										<option value="+0000 格林威治时间、都柏林、爱丁堡、伦敦">英国夏令</option>
+										<option value="+0000 莫洛维亚(赖比瑞亚)、卡萨布兰卡">格林威治标准</option>
+										<option value="+0100 巴黎、马德里">罗马</option>
+										<option value="+0100 布拉格, 华沙, 布达佩斯">中欧</option>
+										<option value="+0100 柏林、斯德哥尔摩、罗马、伯恩、布鲁赛尔、维也纳">西欧</option>
+										<option value="+0200 以色列">以色列</option>
+										<option value="+0200*东欧">东欧</option>
+										<option value="+0200*开罗">埃及</option>
+										<option value="+0200*雅典、赫尔辛基、伊斯坦堡">GFT</option>
+										<option value="+0200*赫拉雷、皮托里">南非</option>
+										<option value="+0300*巴格达、科威特、奈洛比(肯亚)、里雅德(沙乌地)">沙乌地阿拉伯</option>
+										<option value="+0300*莫斯科、圣彼得堡、贺占、窝瓦格瑞德">俄罗斯</option>
+										<option value="+0330*德黑兰">伊朗</option>
+										<option value="+0400*阿布达比(东阿拉伯)、莫斯凯、塔布理斯(乔治亚共和)">阿拉伯</option>
+										<option value="+0430*喀布尔">阿富汗</option>
+										<option value="+0500 伊斯兰马巴德、克洛奇、伊卡特林堡、塔须肯">西亚</option>
+										<option value="+0530 孟买、加尔各答、马垂斯、新德里、可伦坡">印度</option>
+										<option value="+0600 阿马提、达卡">中亚</option>
+										<option value="+0700 曼谷、亚加达、胡志明市">曼谷</option>
+										<option value="+0800 北京、重庆、黑龙江" selected >中国</option>
+										<option value="+0800 台湾、香港、新加坡">台北</option>
+										<option value="+0900 东京、大阪、扎幌、汉城、亚库兹(东西伯利亚)">东京</option>
+										<option value="+0930 达尔文">澳洲中部</option>
+										<option value="+1000 布里斯本、墨尔本、席德尼">席德尼</option>
+										<option value="+1000 霍巴特">塔斯梅尼亚</option>
+										<option value="+1000 关岛、莫斯比港、海  威">西太平洋</option>
+										<option value="+1100*马哥大、所罗门群岛、新卡伦多尼亚">太平洋中部</option>
+										<option value="+1200 威灵顿、奥克兰">纽西兰</option>
+										<option value="+1200 斐济、肯加塔、马歇尔群岛">斐济</option>										
+										</SELECT> 时间 
+									<br />
+									<FONT id="Clock2" style="color:#ffff00;font-size:13px;z-index:10px;" align="center"></FONT>
+									<br /><br><br>
+									<FONT style="FONT-SIZE:90px; COLOR: green; FONT-FAMILY: Webdings;z-index:-1px">û</FONT>
+									<br /><br><br>
+									<FONT id="CITY" style="font-size:12px; WIDTH: 150px; COLOR:#99aacc;"></FONT>
+								</P>
+								<!-- //////////////////////////////////////// -->
+							</TD>
+							<td width="5"></td>
+						</TR>
+					</TBODY>
+				</TABLE>
+			</FORM>
+	</BODY>
+</HTML>

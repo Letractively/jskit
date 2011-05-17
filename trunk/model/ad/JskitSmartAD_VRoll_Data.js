@@ -1,0 +1,37 @@
+var JskitSmartAD_VRoll_Data = [
+	{//第一张图片
+		"imgSrc":"slidad/images/P001.jpg",
+		"text":"这里是第一张图片描述文字",
+		"url":"#这里是链接",
+		"alt":"这里是鼠标放在图片上时显示的tip文字",
+		"target":"_blank"
+	}
+	,{//第二张图片
+		"imgSrc":"slidad/images/P002.jpg",
+		"text":"这里是第二张图片描述文字",
+		"url":"#这里是链接",
+		"alt":"这里是鼠标放在图片上时显示的tip文字",
+		"target":"_blank"
+	}
+	,{//第三张图片
+		"imgSrc":"slidad/images/P003.jpg",
+		"text":"这里是第三张图片描述文字",
+		"url":"#这里是链接",
+		"alt":"这里是鼠标放在图片上时显示的tip文字",
+		"target":"_blank"
+	}
+	,{//第三张图片
+		"imgSrc":"slidad/images/P003.jpg",
+		"text":"这里是第三张图片描述文字",
+		"url":"#这里是链接",
+		"alt":"这里是鼠标放在图片上时显示的tip文字",
+		"target":"_blank"
+	}
+	,{//第三张图片
+		"imgSrc":"slidad/images/P003.jpg",
+		"text":"这里是第三张图片描述文字",
+		"url":"#这里是链接",
+		"alt":"这里是鼠标放在图片上时显示的tip文字",
+		"target":"_blank"
+	}
+];

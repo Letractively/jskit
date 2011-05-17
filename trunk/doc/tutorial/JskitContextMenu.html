@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitContextMenu.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../JskitLoad.js"></script>
+
+ 	   <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitContextMenu.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						页面的右键菜单
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitContextMenu = new JskitContextMenu();
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/*
+						<br>JskitLoad.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Configuation:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table3">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										DataType
+									</td>
+									<td>
+										DefaultValue
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										configuation.open
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										无
+									</td>
+									<td>
+										是否使用自定义右键菜单
+									</td>
+								</tr>
+								<tr>
+									<td>
+										configuation.provider
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										jskitToolbar.getContent
+									</td>
+									<td>
+										指定菜单内容的来源，由哪个函数来提供，该函数至多有一个eventParameters，传递右键点击的事件
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<font class="comment">//在JskitConfig.js中Configuation:JskitContextMenu
+						<br>//下面例子中使用了jskitToolbar.getContentMethods:，如使用此Methods:请确定"<a href="JskitToolbar.html">page/JskitToolbar.js</a>"被装载</font>
+						<font class="code"><br>jskitContextMenu.configuation.provider = "jskitToolbar.getContent";</font>
+						<font class="comment"><br>//下面例子中使用了自定义的Methods:</font>
+						<font class="code"><br>jskitContextMenu.configuation.provider = "myContextMenu";</font>
+						<font class="comment"><br>//myContextMenu的定义如下：</font>
+						<font class="code">
+							<br>&lt;script&gt;
+							<br>function myContextMenu(rEvent){<font class="comment">!!注意：Methods:至多有一个Parameters，且只能是event!!</font>
+							<br>&nbsp;&nbsp;&nbsp;&nbsp;return "menu item";
+							<br>}
+							<br>&lt;/script&gt;
+						</font>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

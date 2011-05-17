@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitTaskTimer.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../JskitLoad.js"></script>
+		
+ 	   <script src="../JskitConfig_doc.js"></script>
+		
+		<script src="../../page/JskitTree.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitTaskTimer.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						构造树形菜单
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitTaskTimer = new JskitTaskTimer("jskitTaskTimer");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/*
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Configuation:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0"  class="content_list" id="Table3">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										DataType
+									</td>
+									<td>
+										DefaultValue
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										interval
+									</td>
+									<td>
+										int
+									</td>
+									<td>
+										1000
+									</td>
+									<td>
+										任务执行间隔的毫秒数
+									</td>
+								<tr>
+									<td>
+										autoRun
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										true
+									</td>
+									<td>
+										是否页面装载就开始执行任务
+									</td>
+								</tr>
+								</tr>
+								<tr>
+									<td>
+										checkStatus
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										true
+									</td>
+									<td>
+										是否要验证任务执行执行完成(提交的页面已经装载则证明该任务完成,执行下一个任务)
+									</td>
+								</tr>
+								<tr>
+									<td>
+										monitorCssClass
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										进度文字的样式定义
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										newTask(rUrl,rTitle)
+									</td>
+									<td>
+										(String)rUrl: 要执行的url
+										<br>(String)rTitle : 任务Name
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										增加一个任务
+									</td>
+								</tr>
+								<tr>
+									<td>
+										run()
+									</td>
+									<td>
+									</td>
+									<td>
+									</td>
+									<td>
+										执行任务
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<textarea name="JskitSyntax_code" class="js" width="100%">
+							var taskTimer = new JskitTaskTimer("taskTimer");
+							taskTimer.interval = 1000;
+							taskTimer.autoRun = true;
+							taskTimer.newTask("update.jsp?id=1","更新第一条");
+							taskTimer.newTask("update.jsp?id=2","更新第二条");
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

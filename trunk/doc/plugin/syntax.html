@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+    <title>plugin syntax</title>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../JskitLoad.js"></script>
+	
+    <script src="../JskitConfig_doc.js"></script>
+	
+</HEAD>
+
+<BODY>
+	<div>
+	<font class="package">JskitSyntax</font>
+	<br>Jskit.org中的脚本高亮显示插件使用了:<a href="http://www.dreamprojections.com/SyntaxHighlighter/" target="_blank">SyntaxHighlighter</a>
+	，使用示例：
+	//在&lt;head&gt;中装载syntax
+	<textarea name="JskitSyntax_code" class="html">
+		&lt;script src="JskitLoad.js"&gt;&lt;/script&gt;
+		&lt;script src="../JskitConfig.js"&gt;&lt;/script&gt;
+	</textarea>		
+		//设置目标textarea的name属性值,syntax将根据它来查找对应的textarea标签
+		//缺省为：JskitSyntax_code
+	<textarea name="JskitSyntax_code" class="html">
+		jskitLoad.loadScript("plugin/syntax/JskitSyntax.js");
+		jskitSyntax.configuation.codeName = "JskitSyntax_code";
+	</textarea>		
+	在&lt;body&gt;中显示脚本,textarea的name属性值要和上面的codeName参数一致,class属性表示要解析的文档类型，如：html，js...
+	<textarea name="JskitSyntax_code" class="html">
+		&lt;textarea name="JskitSyntax_code" class="js" rows="20" cols="40"&gt;
+		&nbsp;function foo(){
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var a = 10;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var b = 20;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.write(a*b);
+		&nbsp;}
+		&lt;/textarea&gt;
+	</textarea>
+	<br><a href="http://www.dreamprojections.com/SyntaxHighlighter/" target="blank">查看更多SyntaxHighlighter示例</a>
+	</div>
+</BODY>
+</HTML>

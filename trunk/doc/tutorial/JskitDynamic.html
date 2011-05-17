@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitDynamic.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+ 	   <script src="../JskitLoad.js"></script>
+		
+ 	   <script src="../JskitConfig_doc.js"></script>
+		
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitDynamic.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitDynamic = new JskitDynamic();
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/JskitBase.js
+						<br />base/JskitUtil.js
+						<br />base/JskitEvents.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setMovableTags(rTags)
+									</td>
+									<td>
+										rTags: 允许被拖动的对象的TagName，多个用逗号分隔，不区分大小写，缺省为：“div,font,span,table,a,img”
+									</td>
+									<td>
+									</td>
+									<td>
+										设定哪些对象（标签）允许被拖动，例如:setMovableTags("div,table"),只有div和table可以被拖动。
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setUnmovableTags(rTags)
+									</td>
+									<td>
+										rTags: 不允许被拖动的对象的TagName，多个用逗号分隔，不区分大小写，缺省为：“body,head,html,script,style,form,meta,frame,textarea,input,frameset,link”
+									</td>
+									<td>
+									</td>
+									<td>
+										设定哪些对象（标签）不允许被拖动，例如:setUnmovableTags("div,table")，则div,table不能被拖动，该优先级高于setMovableTags。
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setBlockTags(rTags)
+									</td>
+									<td>
+										rTags: 不触发拖动事件的对象的TagName，多个用逗号分隔，不区分大小写，缺省为：“textarea,input,select,button,a”
+									</td>
+									<td>
+									</td>
+									<td>
+										当鼠标事件发生在这些标签上时，不触发拖动事件。比如一个可以移动的div中有一个textarea对象，那么拖拽该textarea时不会触发div的移动。
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setRealTime(rRealTime)
+									</td>
+									<td>
+										(boolean)rRealTime  :是否是实时的，缺省为false
+									</td>
+									<td>
+									</td>
+									<td>
+										如果设置为实时，移动时对象也一起移动。否则，先移动cover，移动结束后对象位置切换到移动后的坐标。
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getRealTime()
+									</td>
+									<td>
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										获得realtimeAttributes:值
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setOnMoveDone(rFunctionString)
+									</td>
+									<td>
+										(string)rFunctionString  :执行的程序代码
+									</td>
+									<td>
+									</td>
+									<td>
+										设置在移动结束后执行的程序代码，如：setOnMoveDonw("aletrt(1)");
+									</td>
+								</tr>
+								<tr>
+									<td>
+										stop()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+									</td>
+									<td>
+										停止对当前对象的拖动控制
+									</td>
+								</tr>
+								<tr>
+									<td>
+										add(xpath)
+									</td>
+									<td>
+										xpath: 查找对象的xpath
+									</td>
+									<td>
+									</td>
+									<td>
+										将需要移动的对象注册到jskitDynamic的队列中
+									</td>
+								</tr>
+								<tr>
+									<td>
+										remove(xpath)
+									</td>
+									<td>
+										xpath: 查找对象的xpath
+									</td>
+									<td>
+									</td>
+									<td>
+										将需要移动的对象从jskitDynamic的队列中移除
+									</td>
+								</tr>
+								<tr>
+									<td>
+										pause()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+									</td>
+									<td>
+										暂停jskitDynamic的功能
+									</td>
+								</tr>
+								<tr>
+									<td>
+										play()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+									</td>
+									<td>
+										从暂停恢复jskitDynamic的功能
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getOffsetX()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										integer
+									</td>
+									<td>
+										获得移动的x偏移量(像素)
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getOffsetY()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										integer
+									</td>
+									<td>
+										获得移动的y偏移量(像素)
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:：
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<a href="../demo/demo_dynamic.html">JskitDynamic Demo</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+  </body>
+</html>

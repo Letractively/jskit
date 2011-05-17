@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <TITLE> JskitTask </TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../JskitLoad.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <script>
+    </script>
+    <style>
+    </style>
+</HEAD>
+
+<BODY>
+<div title="content">
+    <table border="0" id="Table1">
+        <tbody>
+        <tr>
+            <td class="package">
+                JskitTask.js
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Author:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                AnyRock
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Initializtion:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                var jt = new JskitTask("jt");
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Required:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                base/*
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Methods:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <table border="1" cellspacing="0" class="content_list" id="Table3">
+                    <tbody>
+                    <tr bgcolor="#cccccc">
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            Parameters
+                        </td>
+                        <td>
+                            Return
+                        </td>
+                        <td>
+                            Comment
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            setTimeout(Integer time)
+                        </td>
+                        <td>
+                            time : 时间
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            设定任务执行的等待时间，单位为秒；如果某任务执行时间超过设定的过期时间，则执行下一个任务。缺省：5秒
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            addUrlTask(String taskName,String url)
+                        </td>
+                        <td>
+                            taskName : 任务名称
+                            <br>url : 执行任务的url
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            增加一个url类型的任务，该任务提交给一个内嵌的iframe对象
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            addFuncTask(String taskName,String funcName)
+                        </td>
+                        <td>
+                            taskName : 任务名称
+                            <br>funcName : 方法名
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            增加一个函数型的任务，该任务执行指定的方法名
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            done()
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            通知当前任务状态为完成
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            setLogOuter(HtmlElelemt obj)
+                        </td>
+                        <td>
+                            obj : html对象
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            指定日志输出对象
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            start()
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            开始执行
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            pause()
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            暂停执行
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            stop
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            所有任务终止
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            load(Array tasks)
+                        </td>
+                        <td>
+                            tasks : 任务列表,json格式
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</BODY>
+</HTML>
+

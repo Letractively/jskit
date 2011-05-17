@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitMenu.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../JskitLoad.js"></script>
+		
+ 	   <script src="../JskitConfig_doc.js"></script>
+		
+		<script src="../../page/JskitMenu.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitMenu.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						构造多级菜单
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var JskitMenu = new JskitMenu("JskitMenu");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/*
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										load(rXmlUrl)
+									</td>
+									<td>
+										(String)rXmlUrl: 菜单Configuation:文件(xml格式)的url地址
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										导入菜单数据
+									</td>
+								</tr>
+								<tr>
+									<td>
+										loadXml(rXmlContent)
+									</td>
+									<td>
+										(String)rXmlContent: 菜单Configuation:数据(xml格式)
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										导入菜单数据
+									</td>
+								</tr>
+								<tr>
+									<td>
+										expand()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										展开菜单
+									</td>
+								</tr>
+								<tr>
+									<td>
+										add(rParent, rCaption, rUrl, rTarget, rCss, rDirection, rLocation)
+									</td>
+									<td>
+										(XmlElement)rParent: 父节点，如果为null则为根节点
+										<br>(String)rCaption：菜单项标题
+										<br>(String)rUrl: 菜单项链接
+										<br>(String)rTarget: 链接打开方式
+										<br>(String)rCss: 菜单项样式
+										<br>(Int)rDirection: 子菜单展开方式
+										<br>(Int)rLocation: 子菜单相对于父菜单项显示的位置
+										<br>
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										添加一个菜单项
+										<br>"打开方式"Parameters可用值,缺省为_self：
+										<br>        "_self"
+										<br>        "_blank"
+										<br>        "_top"
+										<br>        "_parent"
+										<br>        "_opener"
+										<br>"子菜单的展开方向"Parameters可用值：
+										<br>        1(jm.Direction.VER) 横向
+										<br>        2(jm.Direction.HOR) 纵向
+										<br>"子菜单显示的位置"Parameters可用值：
+										<br>        1(jm.Location.UP) 上方
+										<br>        2(jm.Location.RIGHT) 右方
+										<br>        3(jm.Location.DOWN) 下方
+										<br>        4(jm.Location.LEFT) 左方
+									</td>
+								</tr>
+								<tr>
+									<td>
+										push(rParent,rNode)
+									</td>
+									<td>
+										(XmlElement)rParent: 父节点，如果为null则为根节点
+										<br>(XmlElement)rNode: 新的节点
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										添加一个菜单项
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getContent()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										获取可见菜单的Html代码
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getData()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										XmlDocument
+									</td>
+									<td>
+										获取菜单数据
+									</td>
+								</tr>
+								<tr>
+									<td>
+										remove()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+									</td>
+									<td>
+										移除当前选中的菜单项
+									</td>
+								</tr>
+								<tr>
+									<td>
+										move(rParent)
+									</td>
+									<td>
+										(XmlElement)rParent: 父节点
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										将当前选中的菜单项移动到指定的父节点下
+									</td>
+								</tr>
+								<tr>
+									<td>
+										select(rId)
+									</td>
+									<td>
+										(String)rId: 节点idAttributes:值
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										选中节点对象
+									</td>
+								</tr>
+								<tr>
+									<td>
+										select(rElement)
+									</td>
+									<td>
+										(XmlElement)rElement: 节点
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										选中节点对象
+									</td>
+								</tr>
+                                <tr>
+                                    <td>
+                                        setDynamic(rDynamic)
+                                    </td>
+                                    <td>
+                                        (boolean)rDynamic: 菜单是否动态显示，缺省为false
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        设置菜单是否动态显示
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setRootDirection(rDirection)
+                                    </td>
+                                    <td>
+                                        (Int)rDirection: 菜单张开方式
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        设置菜单张开方式
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setIsShowArrow(boolean v)
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        是否显示指示箭头，缺省为ture
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setUpArrowHtml(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html代码
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置上箭头&#9650;的html代码，替换内置的html代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setRightArrowHtml(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html代码
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置右箭头&#9658;的html代码，替换内置的html代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setleftArrowHtml(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html代码
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置左箭头&#9668;的html代码，替换内置的html代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setDownArrowHtml(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html代码
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置下箭头&#9660;的html代码，替换内置的html代码
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        clone(String jskitMenuName)
+                                    </td>
+                                    <td>
+                                       (String)jskitMenuName: 新的jskitMenu对象的名字
+                                    </td>
+                                    <td>
+                                        JskitMenu
+                                    </td>
+                                    <td>
+                                        克隆一个新的JskitMenu对象
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        expandTree()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        输出一个树形菜单
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTreePrefixCssClass(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : style class name
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置树形菜单结构线条的样式
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTreeFolderCssClass(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : style class name
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置树形菜单非叶子节点的样式
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTreeLeafCssClass(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : style class name
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置树形菜单叶子节点的样式
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTreeFolderSignCode(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html code
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置树形菜单非叶子节点标识
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setTreeLeafSignCode(String v)
+                                    </td>
+                                    <td>
+                                        (String)v : html code
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        设置树形菜单叶子节点标识
+                                    </td>
+                                </tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Comments:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						菜单样式的定义规则:
+						<br>如果某个菜单的样式定义为class1,那么该菜单项鼠标悬停的状态为class1_over,被选中的状态为class1_selected
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<a href="../demo/demo_menu.html">JskitMenu Demo</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

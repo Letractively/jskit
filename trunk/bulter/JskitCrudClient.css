@@ -1,0 +1,178 @@
+FONT.crud_notnull_flag
+{
+	color:#ff0000;
+	font-size:13px;
+	}
+.crud_readonly_field
+{
+	background-color:#dddddd;
+	}
+/*----- action bar -----------------------------*/
+TABLE.crud_action_bar
+{
+	background-color:Transparent;
+}
+TABLE.crud_action_bar TD
+{
+	padding:3px 3px 3px 3px;
+}
+A.crud_action_link:hover{
+	font-size:13px;
+	color:#ff0000;
+	text-decoration:underline;	
+}
+A.crud_action_link{
+	font-size:13px;
+	color:#0000ff;
+	text-decoration:underline;	
+}
+/*----- grid view --------------------------*/
+TABLE.crud_list
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+	}
+THEAD.crud_list_head{}
+THEAD.crud_list_head TD
+{	
+	border:solid 1px #ffffff;
+	padding:3px 3px 3px 3px;
+	font-weight:bold;
+	background-color:#ff5500;
+	color:#ffffff;
+	font-size:13px;
+	}
+TBODY.crud_list_body
+{
+		background-color:#ffffff;
+}
+TBODY.crud_list_body TD
+{
+	border:solid 1px #aaaaaa;
+	padding:3px 3px 3px 3px;
+	color:#000000;
+	font-size:13px;
+	}
+TFOOT.crud_list_foot{}
+TFOOT.crud_list_foot TD	
+{
+	border:0px;
+	padding:3px 3px 3px 3px;
+	color:#000000;
+	background-color:#eeeeee;
+	font-size:13px;
+}
+/*----- create form -----------------------*/
+TABLE.crud_create
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+}
+TABLE.crud_create TD
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+	font-size:13px;
+	padding:3px 3px 3px 3px;
+}
+TD.crud_create_label
+{
+	background-color:#eeeeee;
+}
+TD.crud_create_field
+{
+	background-color:#ffffff;
+	}
+INPUT.crud_create_button
+{
+	font-size:13px;
+	margin-right:10px;}
+/*-------- read form ----------------------*/
+TABLE.crud_read
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+}
+TABLE.crud_read TD
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+	font-size:13px;
+	padding:3px 3px 3px 3px;
+}
+TD.crud_read_label
+{
+	background-color:#ffffff;
+	font-weight:bold;
+}
+TD.crud_read_field
+{
+	background-color:#ffffff;
+	}
+INPUT.crud_read_button
+{
+	font-size:13px;
+	margin-right:10px;}
+/*----- update form -----------------------*/
+TABLE.crud_update
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+}
+TABLE.crud_update TD
+{
+	border-collapse:collapse;
+	border:solid 1px #aaaaaa;
+	font-size:13px;
+	padding:3px 3px 3px 3px;
+}
+TD.crud_update_label
+{
+	background-color:#eeeeee;
+}
+TD.crud_update_field
+{
+	background-color:#ffffff;
+	}
+INPUT.crud_update_button
+{
+	font-size:13px;
+	margin-right:10px;}
+/*----- search form -----------------------*/
+TABLE.crud_search
+{
+	border-collapse:collapse;
+	border:0px;
+}
+TABLE.crud_search TD
+{
+	border-collapse:collapse;
+	border:0px;
+	font-size:13px;
+	padding:3px 0px 3px 0px;
+}
+TD.crud_search_label
+{
+}
+TD.crud_search_field
+{
+	}
+INPUT.crud_search_button
+{
+	font-size:13px;
+	border:1px outset #ffffff;
+	padding-top:2px;
+	height:22px;
+}
+/*------- pager ----------------------------*/
+A.crud_pager_link
+{
+	color:#0000ff;
+	text-decoration:underline;
+	}	
+
+FONT.crud_pager_disabled
+{
+	color:#aaaaaa;
+	text-decoration:none;
+}	
