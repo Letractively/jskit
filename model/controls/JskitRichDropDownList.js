@@ -19,6 +19,7 @@ var JskitRichDropDownList = function(rHd){
     var __data = null;
     var __ajax = null;
     var __url = "";
+	var __isTree = false;
     
     
     var __textFeild = null;
@@ -53,31 +54,78 @@ var JskitRichDropDownList = function(rHd){
         __panel.innerHTML = __buildPanelCode();
     };
     
+	var __buildTreeCode = function(rData){
+        var _str = new Array();
+		var _txt = null;
+		var _val = null;
+		var _sub = null;
+		for(var i=0;i<rData.length;i++){
+			_txt = rData[i][1];
+			_val = rData[i][0];
+			if(rData[i].length>2){
+				_sub = rData[i][2];
+			}
+			_str.push('<div class="JskitRichDropDownList_tree_group" >');
+			if(_sub!=null && _sub.length>0){
+				_str.push('<div key="" idx="'+i+'" class="JskitRichDropDownList_tree_txt" >'+_txt+'</div>');
+				_str.push('<div class="JskitRichDropDownList_tree_sub">');
+				_str.push(__buildTreeCode(_sub));
+				_str.push('</div>');
+			}else{
+				_str.push('<div key="'+_val+'" idx="'+i+'" class="JskitRichDropDownList_item" ');
+				_str.push(' onmouseout="'+__hd+'.onItemMouseOut(this,event);" ');
+				_str.push(' onmouseover="'+__hd+'.onItemMouseOver(this,event);" ');
+				_str.push(' onclick="'+__hd+'.onSelect(this,event);" ');
+				_str.push(' >');
+				_str.push(_txt);
+				_str.push('</div>');
+			}
+			_str.push('</div>');
+		}   
+		_txt = _val = _sub = null;
+        return _str.join('');
+	};
+	var __buildItemCode = function(){
+        var _input = __textFeild.value.toLowerCase();
+        var _str = new Array();
+		var _txt = null;
+		var _val = null;
+		var _sub = null;
+		for(var i=0;i<__data.length;i++){
+			_txt = __data[i][1];
+			_val = __data[i][0];
+			if(!__inputHold || (_input=="" || _txt.toLowerCase().indexOf(_input)==0) ){
+				_str.push('<div key="'+_val+'" idx="'+i+'" class="JskitRichDropDownList_item" ');
+				_str.push(' onmouseout="'+__hd+'.onItemMouseOut(this,event);" ');
+				_str.push(' onmouseover="'+__hd+'.onItemMouseOver(this,event);" ');
+				_str.push(' onclick="'+__hd+'.onSelect(this,event);" ');
+				_str.push(' >');
+				_str.push(_txt);
+				_str.push('</div>');
+			}
+		}   
+		_txt = _val = _sub = null;
+        return _str.join('');
+	};
+
     var __buildPanelCode = function(){
         var _str = new Array();
         if(__data==null){
             _str.push(unescape("%u65E0%u6CD5%u88C5%u8F7D%u6570%u636E"));  
             _str.push('<a href="'+__url+'" target="_blank">...</a>');  
+	        return _str.join('');
         }else if(__data.length==0){
             _str.push(unescape("%u6CA1%u6709%u6570%u636E"));    
             _str.push('<a href="'+__url+'" target="_blank">...</a>');  
+	        return _str.join('');
         }else{
-            var _input = __textFeild.value.toLowerCase();
-            var _txt = null;
-            for(var i=0;i<__data.length;i++){
-                _txt = __data[i][1];
-                if(!__inputHold || (_input=="" || _txt.toLowerCase().indexOf(_input)==0) ){
-                    _str.push('<div key="'+__data[i][0]+'" idx="'+i+'" ');
-                    _str.push(' onmouseout="'+__hd+'.onItemMouseOut(this,event);" ');
-                    _str.push(' onmouseover="'+__hd+'.onItemMouseOver(this,event);" ');
-                    _str.push(' onclick="'+__hd+'.onSelect(this,event);" ');
-                    _str.push(' >');
-                    _str.push(__data[i][1]);
-                    _str.push('</div>');
-                }
-            }   
-        }
-        __inputHold = true;
+			if(__isTree){
+				_str.push(__buildTreeCode(__data));
+			}else{
+				_str.push(__buildItemCode());
+			}
+		}
+		__inputHold = true;
         return _str.join('');
     };
     var __open = function(){
@@ -117,7 +165,7 @@ var JskitRichDropDownList = function(rHd){
         sender.className = "JskitRichDropDownList_item_active";
     };
     this.onItemMouseOut = function(sender,e){
-        sender.className = "";
+        sender.className = "JskitRichDropDownList_item";
     };
     this.onKeyDown = function(e){
         if(!__init){alert("init failed");return;}
@@ -130,6 +178,9 @@ var JskitRichDropDownList = function(rHd){
         if(__data!=null){
             __panel.innerHTML = __buildPanelCode();
         }
+		if(__textFeild.value==""){
+			__valueFeild.value = "";
+		}
     };
     this.getKey = function(idx){
         return __data[idx][0];
@@ -151,6 +202,11 @@ var JskitRichDropDownList = function(rHd){
     this.open = function(e){
         __open();
     };
+	this.onTextBlur = function(e){
+		if(__textFeild.value==""){
+			__valueFeild.value = "";
+		}
+	};
     this.close = function(){
         if(!__init){alert("init failed");return;}
         __close();
@@ -162,7 +218,6 @@ var JskitRichDropDownList = function(rHd){
         if(typeof(v)=="string"){
             __onSelectAction = v.replace(/\([^\)]*\)/,"");
         }
-        
     };
     this.onBodyClick = function(e){
 		var _sender = e.srcElement;
@@ -201,7 +256,7 @@ var JskitRichDropDownList = function(rHd){
         __panel.innerHTML = unescape("%u6570%u636E%u88C5%u8F7D%u4E2D")+"...";
 	    jskitUtil.dom.insertAfter(__panel,__textFeild);
 	};
-    this.deploy = function(rTextFeildID,rValueFeildID,rUrl,rParmFeildID){
+    var __deploy = function(rTextFeildID,rValueFeildID,rUrl,rParmFeildID){
         __textFeild = $("#"+rTextFeildID);
         if(__textFeild==null){
             alert("TextFeild("+rTextFeildID+") init error");
@@ -209,6 +264,7 @@ var JskitRichDropDownList = function(rHd){
         }
         jskitEvents.add(__textFeild,"onkeyup",__hd+".onKeyUp");   
         jskitEvents.add(__textFeild,"onclick",__hd+".open");   
+        jskitEvents.add(__textFeild,"onblur",__hd+".onTextBlur");   
         __valueFeild = $("#"+rValueFeildID);
         if(__valueFeild==null){
             alert("ValueFeild("+rValueFeildID+") init error");
@@ -223,4 +279,12 @@ var JskitRichDropDownList = function(rHd){
         __url = rUrl;
         __init = true;
     };
+	this.deploy = function(rTextFeildID,rValueFeildID,rUrl,rParmFeildID){
+		__isTree = false;
+		__deploy(rTextFeildID,rValueFeildID,rUrl,rParmFeildID);
+	};
+	this.deployTree = function(rTextFeildID,rValueFeildID,rUrl){
+		__isTree = true;
+		__deploy(rTextFeildID,rValueFeildID,rUrl);
+	};
 };
