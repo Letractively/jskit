@@ -14,31 +14,58 @@
 	overflow:auto;
 	padding:2px 2px 2px 2px;
 	height:200px;
-	background-image:url(images/animated_loading.gif);
+	background-image:url(../images/loading.gif);
 	background-position:center center;
 	background-repeat:no-repeat;
 	}
 .JskitRichDropDownList_panel div
 {
-	padding:2px 2px 2px 2px;
 	cursor:pointer;
 	}
 .JskitRichDropDownList_btn
 {
-	font-size:8px;
+	font-size:7px;
 	font-family:Arial;
-	width:12px;
+	width:17px;
+	height:13px;
+	border-width:0px;
 	padding:0px 0px 0px 0px;
-	margin:0px;
+	margin-left:0px;
+	margin-bottom:1px;
+	background-image:url(/cellula_client/default/images/bg_menu_g_t.png);
+	background-position:left top;
+	background-repeat:repeat-x;
+	}
+.JskitRichDropDownList_item
+{
+	padding:2px 2px 2px 2px;
+	cursor:pointer;
+	background-color:#ffffff;
+	color:#000000;
 	}
 .JskitRichDropDownList_item_active
 {
-	padding:4px 4px 4px 4px;
-	border-bottom:1px solid #cccccc;
+	padding:2px 2px 2px 2px;
 	cursor:pointer;
 	background-color:#0000aa;
 	color:#ffffff;
 	}
+.JskitRichDropDownList_tree_group
+{
+	}
+.JskitRichDropDownList_tree_sub
+{
+	padding-left:15px;
+	}
+.JskitRichDropDownList_tree_txt
+{
+	padding:0px 4px 0px 4px;
+	border-bottom:1px solid #ffffff;
+	cursor:pointer;
+	background-color:#ffffff;
+	color:#3366aa;
+	}
+
 /* END: JskitRichDropDownList */
 
 /* BEGIN: JskitAjaxGridView */

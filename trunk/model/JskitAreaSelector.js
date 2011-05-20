@@ -97,6 +97,29 @@ var JskitAreaSelector = function(rHd){
 		__container.innerHTML = _str.join('');
 		_str = _data = null;
 	};
+	this.getNameByKey = function(rKey){
+		if(typeof(rKey)!="string" || rKey=="")return "";
+		var pl = null;
+		var cl = null;
+		for(var i=0;i<__data.length;i++){
+			pl = __data[i].Sub;
+			for(var j=0;j<pl.length;j++){
+				cl = pl[j].Sub;
+				for(var k=0;k<cl.length;k++){
+					if(cl[k].Key==rKey){
+						if(__startLevel==1){
+							return __data[i].Name + "," + pl[j].Name + "," + cl[k].Name;
+						}else{
+							return pl[j].Name + "," + cl[k].Name;
+						}
+					}
+				}
+				cl = null;
+			}
+			pl = null;
+		}
+		return "";
+	};
 	this.setTextField = function(v){
 		__textObj = (typeof(v)=="object")?v:null;
 	};
@@ -105,6 +128,11 @@ var JskitAreaSelector = function(rHd){
 	};
 	this.setData = function(v){
 		__data = v;
+	};
+	this.setStartLevel = function(v){
+		if(v==1 || v==2){
+			__startLevel = parseInt(v);
+		}
 	};
 	this.active = function(sender,e){
 		sender.className = "JskitAreaSelector_item_c";
