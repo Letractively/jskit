@@ -16,7 +16,8 @@ var JskitRichDropDownList = function(rHd){
     var __panelID = null;
     var __dropBtn = null;
     var __dropBtnID = null;
-    var __data = null;
+    //data format : [[key,value,sub[...]],[key,value,sub[...]]...]
+	var __data = null;
     var __ajax = null;
     var __url = "";
 	var __isTree = false;
@@ -54,6 +55,20 @@ var JskitRichDropDownList = function(rHd){
         __panel.innerHTML = __buildPanelCode();
     };
     
+	var __parseText2Value = function(rText){
+		if(!__isTree){
+			if(__textFeild.value==""){
+				__valueFeild.value = "";
+			}else{
+				for(var i=0;i<__data.length;i++){
+					if(__data[i][1]==__textFeild.value){
+						__valueFeild.value = __data[i][0];
+					}
+				}
+			}
+		}
+	};
+    //
 	var __buildTreeCode = function(rData){
         var _str = new Array();
 		var _txt = null;
@@ -178,10 +193,8 @@ var JskitRichDropDownList = function(rHd){
         if(__data!=null){
             __panel.innerHTML = __buildPanelCode();
         }
-		if(__textFeild.value==""){
-			__valueFeild.value = "";
-		}
-    };
+		__parseText2Value();
+	};
     this.getKey = function(idx){
         return __data[idx][0];
     };
@@ -203,9 +216,7 @@ var JskitRichDropDownList = function(rHd){
         __open();
     };
 	this.onTextBlur = function(e){
-		if(__textFeild.value==""){
-			__valueFeild.value = "";
-		}
+		__parseText2Value();
 	};
     this.close = function(){
         if(!__init){alert("init failed");return;}
@@ -262,9 +273,13 @@ var JskitRichDropDownList = function(rHd){
             alert("TextFeild("+rTextFeildID+") init error");
             return;
         }
-        jskitEvents.add(__textFeild,"onkeyup",__hd+".onKeyUp");   
-        jskitEvents.add(__textFeild,"onclick",__hd+".open");   
-        jskitEvents.add(__textFeild,"onblur",__hd+".onTextBlur");   
+        jskitEvents.add(__textFeild,"onfocus",__hd+".open");   
+		if(__isTree){
+			__textFeild.readOnly = true;
+		}else{
+	        jskitEvents.add(__textFeild,"onkeyup",__hd+".onKeyUp");   
+	        jskitEvents.add(__textFeild,"onblur",__hd+".onTextBlur");   
+		}
         __valueFeild = $("#"+rValueFeildID);
         if(__valueFeild==null){
             alert("ValueFeild("+rValueFeildID+") init error");
