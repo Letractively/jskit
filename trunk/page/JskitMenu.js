@@ -380,8 +380,10 @@ function JskitMenu(rHd) {
         var _tmpNode = _node;
         while (_tmpNode != null && _tmpNode.tagName.toLowerCase() != "root") {
             _tmpItem = $("#" + _tmpNode.getAttribute("id"));
-            _tmpItem.className = _tmpNode.getAttribute("css") + "_over";
-            _tmpNode = _tmpNode.parentNode;
+			if(_tmpItem!=null){
+	            _tmpItem.className = _tmpNode.getAttribute("css") + "_over";
+		        _tmpNode = _tmpNode.parentNode;
+			}
         }
     };
     var __resetHoverStyle = function(rItem) {
