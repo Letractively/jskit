@@ -186,6 +186,10 @@ function JskitMenu(rHd) {
         for (var i = 0; i < _nodes.length; i++) {
 			_type = _nodes[i].getAttribute("type");
             _id = _nodes[i].getAttribute("id");
+			if(_id==""){
+				_id = jskitUtil.guid();
+				_nodes[i].setAttribute("id",_id);
+			}
 			_title = _nodes[i].getAttribute("name");
 			_url = _nodes[i].getAttribute("url");
 			_target = _nodes[i].getAttribute("target");
@@ -383,6 +387,8 @@ function JskitMenu(rHd) {
 			if(_tmpItem!=null){
 	            _tmpItem.className = _tmpNode.getAttribute("css") + "_over";
 		        _tmpNode = _tmpNode.parentNode;
+			}else{
+				_tmpNode = null;
 			}
         }
     };
