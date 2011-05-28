@@ -528,6 +528,38 @@ function JskitUtil(){
 			}
 			return panel;
 		};
+		//resize image when loaded
+		this.resizeImageOnLoad = function(img,ifChangeParent){
+			if(img==null || img.tagName!="IMG"){return true;}
+			try{
+				var parent = img.parentNode;
+				var iw = img.offsetWidth;
+				var ih = img.offsetHeight;
+				var pw = parent.offsetWidth;
+				var ph = parent.offsetHeight;
+				var ow = iw;
+				var oh = ih;
+				if(iw>pw || ih>ph){
+					if(iw/ih > pw/ph){
+						iw = pw-2;
+						ih = (iw/ow)*ih;
+						ph = ih;
+					}else{
+						ih = ph-2;
+						iw = (ih/oh)*iw;
+						pw = iw;
+					}
+				}
+				img.style.width = iw+"px";
+				img.style.height = ih+"px";
+				if(ifChangeParent){
+					parent.style.width = pw+"px";
+					parent.style.height = ph+"px";
+				}
+				iw = ih = ph = pw = img = parent = null;
+			}catch(e){}
+			return true;
+		};
 	};
 	/*#End ==================================================*/
 	/*#Begin Dom package ====================================*/

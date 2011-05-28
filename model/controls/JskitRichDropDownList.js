@@ -27,7 +27,7 @@ var JskitRichDropDownList = function(rHd){
     var __valueFeild = null;
     var __parmFeild = null;
     var __onSelectAction = null;
-    
+    var __emptySelectText = null;
     
     var __getData = function(){
         var _url = __url;
@@ -63,9 +63,11 @@ var JskitRichDropDownList = function(rHd){
 				for(var i=0;i<__data.length;i++){
 					if(__data[i][1]==__textFeild.value){
 						__valueFeild.value = __data[i][0];
+						return;
 					}
 				}
 			}
+			__valueFeild.value = "";
 		}
 	};
     //
@@ -135,6 +137,17 @@ var JskitRichDropDownList = function(rHd){
 	        return _str.join('');
         }else{
 			if(__isTree){
+				if(__emptySelectText!=null){
+					_str.push('<div class="JskitRichDropDownList_tree_group" >');
+					_str.push('<div key="" class="JskitRichDropDownList_item" ');
+					_str.push(' onmouseout="'+__hd+'.onItemMouseOut(this,event);" ');
+					_str.push(' onmouseover="'+__hd+'.onItemMouseOver(this,event);" ');
+					_str.push(' onclick="'+__hd+'.onSelect(this,event);" ');
+					_str.push(' >');
+					_str.push(__emptySelectText);
+					_str.push('</div>');
+					_str.push('</div>');
+				}
 				_str.push(__buildTreeCode(__data));
 			}else{
 				_str.push(__buildItemCode());
@@ -225,6 +238,9 @@ var JskitRichDropDownList = function(rHd){
     this.setUrl = function(v){
         __url = v;
     };
+	this.setEmptySelectText = function(v){
+		__emptySelectText = v;
+	};
     this.setSelectAction = function(v){
         if(typeof(v)=="string"){
             __onSelectAction = v.replace(/\([^\)]*\)/,"");
@@ -251,9 +267,6 @@ var JskitRichDropDownList = function(rHd){
 	    __dropBtn.setAttribute("type","button");
 	    __dropBtn.className = "JskitRichDropDownList_btn";
 	    __dropBtn.setAttribute("value",unescape("%u25BC"));
-	    __dropBtn.style.height = __textFeild.offsetHeight;
-	    __dropBtn.style.border = "outset 1px #ffffff";
-	    __dropBtn.style.overflow = "hidden";
 	    jskitUtil.dom.insertAfter(__dropBtn,__textFeild);
 	    jskitEvents.add(__dropBtn,"onclick",__hd+".expand");
         
