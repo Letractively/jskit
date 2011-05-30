@@ -1,71 +1,26 @@
-/**
- * $Id: mctabs.js 520 2008-01-07 16:30:32Z spocke $
+/*****************************************************
  *
- * Moxiecode DHTML Tabs script.
+ * JskitTabs
+ * #author    : AnyRock
+ * #email     : jiang.edwon@gmail.com
+ * #homepage  : http://www.mending.cn
+ * #copyright : Copyright(c)jskit.org,All right reserved
  *
- * @author Moxiecode
- * @copyright Copyright � 2004-2008, Moxiecode Systems AB, All rights reserved.
- */
-
-function JskitTabs() {
-	this.settings = new Array();
-};
-
-JskitTabs.prototype.init = function(settings) {
-	this.settings = settings;
-};
-
-JskitTabs.prototype.getParam = function(name, default_value) {
-	var value = null;
-
-	value = (typeof(this.settings[name]) == "undefined") ? default_value : this.settings[name];
-
-	// Fix bool values
-	if (value == "true" || value == "false")
-		return (value == "true");
-
-	return value;
-};
-
-JskitTabs.prototype.displayTab = function(tab_id, panel_id) {
-	var panelElm = document.getElementById(panel_id);
-	var panelContainerElm = panelElm ? panelElm.parentNode : null;
-	var tabElm = document.getElementById(tab_id);
-	var tabContainerElm = tabElm ? tabElm.parentNode : null;
-	var selectionClass = this.getParam('selection_class', 'current');
-
-	if (tabElm && tabContainerElm) {
-		var nodes = tabContainerElm.childNodes;
-
-		// Hide all other tabs
-		for (var i=0; i<nodes.length; i++) {
-			if (nodes[i].nodeName == "LI")
-				nodes[i].className = '';
-		}
-
-		// Show selected tab
-		tabElm.className = 'current';
-	}
-
-	if (panelElm && panelContainerElm) {
-		var nodes = panelContainerElm.childNodes;
-
-		// Hide all other panels
-		for (var i=0; i<nodes.length; i++) {
-			if (nodes[i].nodeName == "DIV")
-				nodes[i].className = 'panel';
-		}
-
-		// Show selected panel
-		panelElm.className = 'current';
-	}
-};
-
-JskitTabs.prototype.getAnchor = function() {
-	var pos, url = document.location.href;
-
-	if ((pos = url.lastIndexOf('#')) != -1)
-		return url.substring(pos + 1);
-
-	return "";
+ * #Necessary : base/*;
+ *
+ ******************************************************/
+var JskitTabsData = [
+	{tabsId:"tabs1",containerId:"tabs1",content:""}
+	{tabsId:"tabs2",containerId:"tabs2",content:""}
+	{tabsId:"tabs3",containerId:"tabs3",content:""}
+	{tabsId:"tabs4",containerId:"tabs4",content:""}
+];
+var JskitTabs = function(rHd){
+    var __hd = (typeof(rHd)=="string")?rHd:"jskitTabs";
+	var __key = jskitUtil.guid();
+	var __data = null;
+	
+	var __showTabsBar = function(){
+		
+	};
 };

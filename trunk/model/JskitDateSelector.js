@@ -198,7 +198,9 @@ var JskitDateSelector = function(rHd) {
         }
     };
     var __dateSelect = function() {
-        if (__canvas == null)__appendCanvas();
+        if (__canvas == null){
+			__appendCanvas();
+		}
         __canvas.style.clear = "left";
         __canvas.style.position = "absolute";
         __drawCalendar();
