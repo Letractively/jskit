@@ -57,12 +57,14 @@ function $(){//HTMLElement
         __root = document;
     }
     else {
-        if (arguments[1] == null || typeof(arguments[1]) != "object" || !arguments[1].tagName) {
+        if (arguments==null || arguments[1] == null || typeof(arguments[1]) != "object" || !arguments[1].tagName) {
             __obj = null;
         }
         __root = arguments[1];
     }
-    if (typeof(arguments[0]) == "object" && typeof(arguments[0].tagName) != "undefined") {
+	if (arguments==null){
+		__obj = null;
+	}else if (typeof(arguments[0]) == "object" && typeof(arguments[0].tagName) != "undefined") {
         __obj = arguments[0];
     }
     else if (typeof(arguments[0]) != "string") {//if is not string,return it redirect
@@ -182,7 +184,16 @@ function $(){//HTMLElement
                     _ableft += _curOb.offsetParent.offsetLeft;
                     _curOb = _curOb.offsetParent;
                 }
-                return _ableft;
+				//fix scroll
+				_curOb = this;
+                var _fixleft = 0;
+                while (_curOb !== null && _curOb.parentNode !== null && _curOb.parentNode.tagName !== "BODY") {
+					if(_curOb.parentNode.scrollLeft){
+						_fixleft += _curOb.parentNode.scrollLeft;
+					}
+                    _curOb = _curOb.parentNode;
+                }
+                return _ableft-_fixleft;
             } 
             catch (e) {
                 return NaN;
@@ -196,7 +207,16 @@ function $(){//HTMLElement
                     _abtop += _curOb.offsetParent.offsetTop;
                     _curOb = _curOb.offsetParent;
                 }
-                return _abtop;
+				//fix scroll
+				_curOb = this;
+                var _fixtop = 0;
+                while (_curOb !== null && _curOb.parentNode !== null && _curOb.parentNode.tagName !== "BODY") {
+					if(_curOb.parentNode.scrollTop){
+						_fixtop += _curOb.parentNode.scrollTop;
+					}
+                    _curOb = _curOb.parentNode;
+                }
+                return _abtop-_fixtop;
             } 
             catch (e) {
                 return NaN;

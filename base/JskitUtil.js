@@ -626,9 +626,9 @@ function JskitUtil(){
 		this.hasForefather = function(rObj,rFfId){
 			if(rObj==null){return false;}
 			var curOb = rObj;
-			while( curOb.offsetParent !== null && curOb.offsetParent.tagName !== "BODY" ){
+			while( curOb.parentNode !== null && curOb.parentNode.tagName !== "BODY" ){
 				if(curOb.getAttribute("id")!=rFfId ){return true;}
-				else{curOb = curOb.offsetParent;}
+				else{curOb = curOb.parentNode;}
 			}
 			return false;
 		};

@@ -269,8 +269,10 @@ function JskitTable(rHd){
 		return this.getTableHtml(true,rIndex,rCount);
 	};
 	this.clear = function(){
-		$(__tbody).clearChildren();
-        __cursor = 0;
+		if(__tbody!=null){
+			$(__tbody).clearChildren();
+			__cursor = 0;
+		}
 	};
     this.appendContent = function(rContent){
         var _row = parseInt(__cursor/__columns.length);
