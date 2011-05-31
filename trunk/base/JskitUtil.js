@@ -549,12 +549,12 @@ function JskitUtil(){
 						iw = (ih/oh)*iw;
 						pw = iw;
 					}
-				}
-				img.style.width = iw+"px";
-				img.style.height = ih+"px";
-				if(ifChangeParent){
-					parent.style.width = pw+"px";
-					parent.style.height = ph+"px";
+					img.style.width = iw+"px";
+					img.style.height = ih+"px";
+					if(ifChangeParent){
+						parent.style.width = pw+"px";
+						parent.style.height = ph+"px";
+					}
 				}
 				iw = ih = ph = pw = img = parent = null;
 			}catch(e){}
