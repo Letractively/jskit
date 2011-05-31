@@ -38,6 +38,7 @@ var JskitRichDropDownList = function(rHd){
                 _url += "?parm="+__parmFeild.value;
             }
         }
+		_url = (_url.indexOf("?")!=-1)?(_url+"&rm="+jskitUtil.guid()):(_url+"?rm="+jskitUtil.guid());
         __ajax = new JskitXmlHttpAction(_url,__hd+".refreshData","text"); 
         __panel.className = "JskitRichDropDownList_panel_loading";
         _url = null;
@@ -49,7 +50,6 @@ var JskitRichDropDownList = function(rHd){
             eval("__data = "+rText+";");
         }catch(e){
             alert("JSException:"+e.message);
-            window.open(__url);
             return;
         }
         __panel.innerHTML = __buildPanelCode();
