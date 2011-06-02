@@ -59,7 +59,7 @@ var JskitRichDropDownList = function(rHd){
 		if(!__isTree){
 			if(__textFeild.value==""){
 				__valueFeild.value = "";
-			}else{
+			}else if(__data!=null && __data.length){
 				for(var i=0;i<__data.length;i++){
 					if(__data[i][1]==__textFeild.value){
 						__valueFeild.value = __data[i][0];

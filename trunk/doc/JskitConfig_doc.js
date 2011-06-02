@@ -171,6 +171,7 @@ np = tree.newNode(n0, true, "Reference", "");
 	tree.newNode(np, true, "Meta Reference", "reference/ref_meta.html");
 	tree.newNode(np, true, "Regex expression", "reference/regex.html");
 	tree.newNode(np, true, "Resource", "reference/resource.html");
+    tree.newNode(np, true, "KeyCode", "reference/keyCode.html");
     tree.newNode(np, true, "Typeof", "reference/typeof.html");
 
 np = null;
