@@ -105,6 +105,11 @@ function JskitValidation(rHd){
     this.setShowError = function(v){
         __showError = (v==true);
     };
+	var __MaxLengthCheck = true;
+	this.setMaxLengthCheck = function(v){
+		__MaxLengthCheck = (v==true);
+	};
+
     var __settingData = null;
     var __settingType = null;
     //#End
@@ -296,6 +301,33 @@ function JskitValidation(rHd){
 		//no good method now
         return 0;
 	};
+	var __MaxLengthErrorMessage = unescape("?%u8F93%u5165%u7684%u5185%u5BB9%u8D85%u8FC7%u4E86%u6700%u5927%u7684%u957F%u5EA6%u8981%u6C42%uFF0C%u8BF7%u8F93%u5165%u5C0F%u4E8E?%u4E2A%u5B57%u7B26%u7684%u5185%u5BB9\n%uFF08%u6BCF%u4E2A%u6C49%u5B57%u76F8%u5F53%u4E8E%u4E24%u4E2A%u5B57%u7B26%uFF09");
+	var __validateMaxLength = function(){
+		//check all input element whitin MaxLength attribute
+		var _nl = $("input[@maxlength]");
+		if(_nl!=null && _nl.length){
+			var len = null;
+			var max = null;
+			var item = null;
+			var title = null;
+			for(var i=0;i<_nl.length;i++){
+				item = _nl[i];
+				max = parseInt(item.getAttribute("maxlength"));
+				title = item.getAttribute("title");
+				title = (typeof(title)!="string")?title="":"["+title+"]";
+				if(!isNaN(max)){
+					len = item.value.getByteLength();
+					if(len>max){
+						alert(__MaxLengthErrorMessage.replace(/\?/,title).replace(/\?/,"["+max+"]"));
+						item.focus();
+						return 1;
+					}
+				}
+			}
+			_nl = item = max = len = null;
+		}
+		return 0;
+	};
     var __doValidate = function(){
         switch (__vo.validator) {
             case __VALIDATOR.QUERY:
@@ -435,15 +467,23 @@ function JskitValidation(rHd){
     this.checkAll = function(){
         var bk = 0;
         __alertTimes = 0;
-        for (var i = __tasks.length-1; i >=0; i = i - 1) {
-            __vo = __tasks[i];
-            bk += parseInt(__doValidate());
-            __vo = null;
-            if(bk>0 && __display=="alert"){
-                return false;
-            }
-        }
-        return (bk == 0);
+		try{
+			if(__MaxLengthCheck){
+				bk += __validateMaxLength();
+			}
+			for (var i = __tasks.length-1; i >=0; i = i - 1) {
+				if(bk>0 && __display=="alert"){
+					return false;
+				}
+				__vo = __tasks[i];
+				bk += parseInt(__doValidate());
+				__vo = null;
+			}
+			return (bk == 0);
+		}catch(e){
+			alert(e.message);
+			return false;
+		}
     };
 	this.onFormSubmit = function(sender,e){
 		return this.checkAll();

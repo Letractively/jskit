@@ -86,7 +86,7 @@ function $(){//HTMLElement
                 __obj = __root.getElementsByTagName(_xpath);
             }
         }
-        else {//$("div[@aa='bb']")
+        else {//eg.$("div[@aa='bb']"),$("div[@aa%'bb']")
             var _re = new RegExp("^([\\w]+)\\s*\\[\\s*([^\\]]+)\\s*\\]$", "ig");
             var _g = _re.exec(_xpath);
             if (_g != null) {
@@ -95,34 +95,53 @@ function $(){//HTMLElement
                 var _exps = RegExp.$2.split(',');
                 var _expList = new Array();
                 for (var i = 0; i < _exps.length; i++) {
-                    _re = new RegExp("^\\s*@([\\w-\\.]+)\\s*([=|%])\\s*'([^']+)'\\s*$", "ig");
+                    _re = new RegExp("^\\s*@([\\w-\\.]+)\\s*([=|%])\\s*'([^']*)'\\s*$", "ig");
                     _g = _re.exec(_exps[i]);
                     if (_g != null) {
                         var _attr = RegExp.$1;
                         var _symbol = RegExp.$2;
                         var _val = RegExp.$3;
                         _expList.push(new Array(_attr, _symbol, _val));
-                    }
+					}else{//div[@aa]
+						_re = new RegExp("^\s*@(.+)\s*$", "ig");
+						_g = _re.exec(_exps[i]);
+						if (_g != null) {
+							var _attr = RegExp.$1;
+							var _symbol = "";
+							var _val = "";
+							_expList.push(new Array(_attr, _symbol, _val));
+						}
+					}
                 }
                 _exps = _val = _symbol = _attr = null;
                 //get obj list
                 __obj = new Array();
                 var _item = null;
                 var _express = null;
-                for (var i = 0; i < _list.length; i++) {
+                var _attr = null;
+				for (var i = 0; i < _list.length; i++) {
                     _item = _list[i];
                     _express = true;
                     for (var j = 0; j < _expList.length; j++) {
-                        if (_expList[j][1] == "=") 
-                            _express = _express && (_item.getAttribute(_expList[j][0]) == _expList[j][2]);
-                        else if (_expList[j][0] == "%") 
-                            _express = _express && (_item.getAttribute(_expList[j][0]).indexOf(_expList[j][2]) != -1);
-                        else 
-                            _express = false;
+						_attr = _item.getAttribute(_expList[j][0]);
+                        if(_expList[j][1]==null || _expList[j][1]==""){
+							_express = _express && (typeof(_attr)=="string");
+						}else if(typeof(_attr)=="string"){
+							if (_expList[j][1] == "=") 
+								_express = _express && (_attr == _expList[j][2]);
+							else if (_expList[j][1] == "%") 
+								_express = _express && (_attr.indexOf(_expList[j][2]) != -1);
+							else 
+								_express = false;
+								break;
+						}else{
+							_express = false;
+							break;
+						}
                     }
-                    if (_express) __obj.push(_item);
+                    if (_express){__obj.push(_item);}
                 }
-                _expList = _express = _item = _list = null;
+                _expList = _express = _item = _list = _attr = null;
             }else{
 				__obj = null;
 			}
