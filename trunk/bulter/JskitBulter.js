@@ -115,8 +115,9 @@ var JskitBulter = function(){
             jskitDateSelector.setTableCssClass("jds_tableCssClass");   
             jskitDateSelector.setTHeadCssClass("jds_theadCssClass");   
             jskitDateSelector.setTBodyCssClass("jds_tbodyCssClass");   
-            jskitDateSelector.setDateName("Su", "Mo", "Tu","We","Th","Fr","St");   
             jskitDateSelector.setWeekendCssClass("jds_weekend");   
+			jskitDateSelector.setTodayCssClass("jds_today");
+            jskitDateSelector.setDateName("日", "一", "二","三","四","五","六");
         }
         if(typeof(PageOnLoad)=="function"){PageOnLoad();}
     };
