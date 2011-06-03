@@ -112,6 +112,13 @@ function JskitTable(rHd){
 		else
 			return "";
 	};
+	var __getCellCssClass = function(rRIdx,rCIdx){
+		var _cell = __getCell(rRIdx,rCIdx);
+		if(_cell!=null)
+			return _cell.className;
+		else
+			return "";
+	};
 	var __setValue = function(rRowIndex,rCellIndex,rValue){
 		var _cell = __getCell(rRowIndex,rCellIndex);
 		if(_cell!=null){
@@ -220,11 +227,16 @@ function JskitTable(rHd){
 			if(_end>=_count || _end<0)_end=_count;
 		}
 		_s.push('<tbody class="'+__cssClass.body+'">');
+		var _cellCssClass = null;
 		for(var i=_begin;i<_end;i++){
 			_s.push('<tr>');
 			for(var j=0;j<__columns.length;j++){
 				if(__columns[j].visible==false)continue;
-				_s.push('<td row="'+i+'" col="'+j+'" class="'+__columns[j].cssClass+'" '+__buildActionGroup()+' >');
+				_cellCssClass = __getCellCssClass(i,j);
+				if(_cellCssClass==null || _cellCssClass==""){
+					_cellCssClass = __columns[j].cssClass;
+				}
+				_s.push('<td row="'+i+'" col="'+j+'" class="'+_cellCssClass+'" '+__buildActionGroup()+' >');
 				_s.push(__getValue(i,j));
 				_s.push('</td>');
 			}
@@ -245,6 +257,13 @@ function JskitTable(rHd){
 	this.setColumnTitle = function(c,v){
 		var _c = __getColumn(c);
 		_c.title = (typeof(v)=="string")?v:_c.key;
+	};
+	this.setCellCssClass = function(rRow,rCol,rCssClass){
+		var _cell = __getCell(rRow,rCol);
+		if(_cell!=null && typeof(rCssClass)=="string" ){
+			_cell.className = rCssClass;
+		}
+		_cell = __getCell(rRow,rCol);
 	};
 	this.setAction = function(act,func){
 		for(var i=0;i<__action.length;i++){

@@ -37,13 +37,12 @@
 
 .jds_theadCssClass TD {
     font-size: 12px;
-    font-weight: bold;
     color: #ffffff;
     text-align: center;
     border: #aaaaaa solid 1px;
     border-collapse: collapse;
     padding: 5px 5px 5px 5px;
-    background-color: #336699;
+    background-color: #113377;
     width: 30px;
     font-family:arial;
 }
@@ -56,7 +55,6 @@
 
 .jds_tbodyCssClass TD {
     font-size: 12px;
-    font-weight: bold;
 	text-align:center;
     border: #aaaaaa solid 1px;
     border-collapse: collapse;
@@ -65,8 +63,13 @@
     font-family:arial;
 }
 .jds_weekend{
-	background-color:#ffffc0;
+	background-color:#ffffa0;
 	color:#ff0000;
+}
+.jds_today{
+	background-color:#336699;
+	color:#ffff00;
+	font-weight:bold;
 }
 #jds_time_box
 {

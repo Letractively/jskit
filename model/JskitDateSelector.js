@@ -28,6 +28,7 @@ var JskitDateSelector = function(rHd) {
     var __yearSelector = null;
 
 	var __CssWeekend = "";
+	var __CssToday= "";
 	
 	var __datetime = null;
 
@@ -62,7 +63,7 @@ var JskitDateSelector = function(rHd) {
         _str.push('			<a href="javascript:' + __hd + '.__goNextYear()">&#9658;&#9658;</a>');
         _str.push('		</td>');
         _str.push('		<td align="right">');
-        _str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
+        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="Now">&#9728;&nbsp;</a>');
         _str.push('		</td>');
 		_str.push('	</tr>');
         _str.push('	<tr>');
@@ -88,10 +89,27 @@ var JskitDateSelector = function(rHd) {
 			__jt.setColumnCssClass(__dateName[0], __CssWeekend);
 			__jt.setColumnCssClass(__dateName[6], __CssWeekend);
 			__dayListInCalendar = __jc.getCalendarList();
+			var _currRowIdx = -1;
+			var _currColIdx = -1;
+			var _today = (__datetime!=null)?__datetime.getDate():__jc.getDay();
 			for (var i = 0; i < __dayListInCalendar.length; i++) {
 				var _w = __dayListInCalendar[i];
+				if(_currRowIdx<0 && _currColIdx<0){
+					for(var j=0;j<7;j++){
+						if(_w[j]== _today){
+							_currRowIdx = i;
+							_currColIdx = j;
+							break;
+						}
+					}
+				}
 				__jt.insert(__getCell(_w[0]), __getCell(_w[1]), __getCell(_w[2]), __getCell(_w[3]), __getCell(_w[4]), __getCell(_w[5]), __getCell(_w[6]));
 			}
+			_today = null;
+			if(_currRowIdx>=0 && _currColIdx>=0 && __CssToday!=null){
+				__jt.setCellCssClass(_currRowIdx,_currColIdx,__CssToday);
+			}
+
 			$("#"+__canvasId+"_body").innerHTML = __jt.getTable();
 		}
 	};
@@ -125,7 +143,8 @@ var JskitDateSelector = function(rHd) {
         _str.push('			&nbsp;<a href="javascript:' + __hd + '.__goNextYear()">&#9658;&#9658;</a>');
         _str.push('		</td>');
         _str.push('		<td align="right">');
-        _str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
+        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="Now">&#9728;&nbsp;</a>');
+        //_str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
         _str.push('		</td>');
         _str.push('	</tr>');
         _str.push('	<tr>');
@@ -142,6 +161,12 @@ var JskitDateSelector = function(rHd) {
 				_h = __datetime.getHours();
 				_m = __datetime.getMinutes();
 				_s = __datetime.getSeconds();
+			}else{
+				var _now = new Date();
+				_h = _now.getHours();
+				_m = _now.getMinutes();
+				_s = _now.getSeconds();
+				_now = null;
 			}
 			_str.push('	<tr>');
 			_str.push('		<td colspan="6">');
@@ -209,12 +234,23 @@ var JskitDateSelector = function(rHd) {
         __canvas.style.display = "block";
     };
 	var __getValue = function(cell){
-		if(__mode=="d"){
-			return __getDate(cell);
-		}else if(__mode=="dt"){
-			return __getDateTime(cell);
-		}else if(__mode=="m"){
-			return __getYearMonth(cell);
+		if(cell!=null){
+			if(__mode=="d"){
+				return __getDate(cell);
+			}else if(__mode=="dt"){
+				return __getDateTime(cell);
+			}else if(__mode=="m"){
+				return __getYearMonth(cell);
+			}
+		}else{
+			var _date = new Date();
+			if(__mode=="d"){
+				return _date.getYear()+"-"+(_date.getMonth()+1)+"-"+_date.getDate();
+			}else if(__mode=="dt"){
+				return _date.getYear()+"-"+(_date.getMonth()+1)+"-"+_date.getDate()+ " " + _date.getHours()+":"+_date.getMinutes()+":"+_date.getSeconds();
+			}else if(__mode=="m"){
+				return _date.getYear()+"-"+(_date.getMonth()+1);
+			}
 		}
 	};
 	var __getYearMonth = function(cell){
@@ -233,6 +269,7 @@ var JskitDateSelector = function(rHd) {
 	var __getDateTime = function(cell){
         try {
             var _val = __getDate(cell);
+			if(_val==null || _val==""){return "";}
 			var _hour = $("#"+__hd+"_t_h").value;
 			var _min = $("#"+__hd+"_t_m").value;
 			var _sec = $("#"+__hd+"_t_s").value;
@@ -250,9 +287,9 @@ var JskitDateSelector = function(rHd) {
             var _day = __dayListInCalendar[_row][_col];
             var _year = __jc.getYear();
             var _month = __jc.getMonth();
+            if (_day == ""){return "";}
             if (__format == null) {
-                if (_day == ""){return "";}
-                else{return _year + "-" + _month + "-" + _day;}
+                return _year + "-" + _month + "-" + _day;
             } else {
                 var _str = __format;
                 _str = _str.replace(/yyyy/gi, _year);
@@ -325,6 +362,12 @@ var JskitDateSelector = function(rHd) {
     this.setTBodyCssClass = function(v) {
         __jt.setTBodyCssClass(v);
     };
+	this.setTodayCssClass = function(v){
+		__CssToday = v;
+	};
+    this.setWeekendCssClass = function(v) {
+		__CssWeekend = v;
+    };
     this.setFormat = function(v) {
         if (typeof(v) == "string")
             __format = v;
@@ -344,9 +387,6 @@ var JskitDateSelector = function(rHd) {
 			__jt.setColumns("","","","");
 		}
     };
-    this.setWeekendCssClass = function(v) {
-		__CssWeekend = v;
-    };
     this.getJskitCalerdar = function() {
         return __jc;
     };
@@ -362,6 +402,18 @@ var JskitDateSelector = function(rHd) {
 		_date = null;
         __close();
     };
+	this.selectNow = function(){
+		var _date = __getValue(null);
+		if (__caller.tagName.toLowerCase() == "input"){
+			__caller.value = _date;
+		}else if(__caller.tagName!="undefined"){
+			__caller.innerHTML = _date;
+		}else{
+			alert(_date);
+		}
+		_date = null;
+        __close();
+	};
     this.selectMonth = function(sender, e) {
         __jc.setMonth(sender.value);
 		__refreshCalendar();
@@ -388,7 +440,9 @@ var JskitDateSelector = function(rHd) {
             if (__datetime!=null && !isNaN(__datetime) && /Date/.test(__datetime.constructor)) {
                 __jc.setYear(__datetime.getFullYear());
                 __jc.setMonth(__datetime.getMonth() + 1);
-            }
+            }else{
+				__datetime = new Date();
+			}
         } else {
             if (typeof(year) == "number" && year >= 1) {
                 __jc.setYear(year);
@@ -411,7 +465,7 @@ var JskitDateSelector = function(rHd) {
         __close();
     };
 	this.onBodyClick = function(e){
-		if(!jskitUtil.dom.hasForefather(e.srcElement,__canvasId)){
+		if(e.srcElement!=__caller && !jskitUtil.dom.hasForefather(e.srcElement,__canvasId) ){
 			this.close();
 		}
 	};
