@@ -427,8 +427,8 @@ function JskitUtil(){
 				div.style.height = rHeight;
 				if(typeof(rClassName)=="string")
 					div.className = rClassName;
-				div.style.left = (document.documentElement.clientWidth-rWidth)/2;
-				div.style.top = (document.documentElement.clientWidth-rHeight)/2;
+				div.style.left = ((document.documentElement.clientWidth-rWidth)/2+document.documentElement.scrollLeft)+"px";
+				div.style.top = ((document.documentElement.clientHeight-rHeight)/2+document.documentElement.scrollTop)+"px";
 			}
 			return div;
 		};
@@ -626,7 +626,7 @@ function JskitUtil(){
 		this.hasForefather = function(rObj,rFfId){
 			if(rObj==null){return false;}
 			var curOb = rObj;
-			while( curOb !== null && curOb.tagName !== "BODY" ){
+			while( curOb !== null && curOb.getAttribute && curOb.tagName && curOb.tagName !== "BODY" ){
 				if(curOb.getAttribute("id")==rFfId ){
 					return true;
 				}

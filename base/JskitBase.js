@@ -11,7 +11,7 @@ function JskitBase(rHd){
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "2.1.4.20110518(B)";
+    this.version = "0.9.20110603(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -125,8 +125,8 @@ function $(){//HTMLElement
                     for (var j = 0; j < _expList.length; j++) {
 						_attr = _item.getAttribute(_expList[j][0]);
                         if(_expList[j][1]==null || _expList[j][1]==""){
-							_express = _express && (typeof(_attr)=="string");
-						}else if(typeof(_attr)=="string"){
+							_express = _express && (typeof(_attr)!="undefined");
+						}else if(typeof(_attr)!="undefined"){
 							if (_expList[j][1] == "=") 
 								_express = _express && (_attr == _expList[j][2]);
 							else if (_expList[j][1] == "%") 

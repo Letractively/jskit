@@ -63,7 +63,7 @@ var JskitDateSelector = function(rHd) {
         _str.push('			<a href="javascript:' + __hd + '.__goNextYear()">&#9658;&#9658;</a>');
         _str.push('		</td>');
         _str.push('		<td align="right">');
-        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="Now">&#9728;&nbsp;</a>');
+        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="'+unescape("%u9009%u62E9%u5F53%u524D%u6708%u4EFD")+'" style="font-family:arial;font-size:14px;font-weight:normal;">&#9788;&nbsp;</a>');
         _str.push('		</td>');
 		_str.push('	</tr>');
         _str.push('	<tr>');
@@ -143,7 +143,7 @@ var JskitDateSelector = function(rHd) {
         _str.push('			&nbsp;<a href="javascript:' + __hd + '.__goNextYear()">&#9658;&#9658;</a>');
         _str.push('		</td>');
         _str.push('		<td align="right">');
-        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="Now">&#9728;&nbsp;</a>');
+        _str.push('			<a href="javascript:' + __hd + '.selectNow()" title="'+unescape("%u9009%u62E9%u5F53%u524D%u65E5%u671F%u65F6%u95F4")+'" style="font-family:arial;font-size:14px;font-weight:normal;">&#9788;&nbsp;</a>');
         //_str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
         _str.push('		</td>');
         _str.push('	</tr>');
