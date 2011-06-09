@@ -124,7 +124,7 @@ var n3 = tree.newNode(n0, false, "Tutorial", "");
     var n32 = tree.newNode(n3, true, "JskitLoad.js", "tutorial/JskitLoad.html");
     var n33 = tree.newNode(n3, true, "JskitConfig.js", "tutorial/JskitConfig.html");
 
-np = tree.newNode(n0, false, "Demo", "");
+np = tree.newNode(n0, true, "Demo", "");
     tree.newNode(np, true, "对象拖动和改变大小", "demo/demo_dynamic.html");
 	tree.newNode(np, true, "对象的动态移动", "demo/demo_animation.html");
 	tree.newNode(np, true, "表单验证", "demo/demo_JskitValidation.html");
@@ -138,7 +138,7 @@ np = tree.newNode(n0, false, "Demo", "");
     tree.newNode(np, true, "显示一个相册", "demo/demo_JskitAlbum.html");
     tree.newNode(np, true, "级联菜单", "demo/demo_richselect.html");
 
-np = tree.newNode(n0, false, "Tools", "");
+np = tree.newNode(n0, true, "Tools", "");
     tree.newNode(np, true, "日志(调试)工具", "tools/jskitLog.html");
     tree.newNode(np, true, "设定弹开窗口", "tools/winopen.html");
     tree.newNode(np, true, "字符串编码", "tools/escape.html");
@@ -162,7 +162,7 @@ np = tree.newNode(n0, false, "Editor", "");
 	tree.newNode(np, true, "构造多级菜单", "editor/JskitMenuMaker.html");
 
 
-np = tree.newNode(n0, true, "Reference", "");
+np = tree.newNode(n0, false, "Reference", "");
     tree.newNode(np, true, "ANSI Characters", "reference/ANSICharacters.html");
 	tree.newNode(np, true, "browsers", "reference/browsers.html");
     tree.newNode(np, true, "ServerVariables", "reference/ServerVariables.html");

@@ -313,6 +313,7 @@ function JskitValidation(rHd){
 			for(var i=0;i<_nl.length;i++){
 				item = _nl[i];
 				max = parseInt(item.getAttribute("maxlength"));
+				if(max==2147483647){continue;}
 				title = item.getAttribute("title");
 				title = (typeof(title)!="string")?title="":"["+title+"]";
 				if(!isNaN(max)){
