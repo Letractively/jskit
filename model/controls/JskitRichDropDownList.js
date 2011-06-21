@@ -29,6 +29,9 @@ var JskitRichDropDownList = function(rHd){
     var __onSelectAction = null;
     var __emptySelectText = null;
     
+
+	var __folderSelectable = true;
+
     var __getData = function(){
         var _url = __url;
         if(__parmFeild!=null){
@@ -84,7 +87,15 @@ var JskitRichDropDownList = function(rHd){
 			}
 			_str.push('<div class="JskitRichDropDownList_tree_group" >');
 			if(_sub!=null && _sub.length>0){
-				_str.push('<div key="" idx="'+i+'" class="JskitRichDropDownList_tree_txt" >'+_txt+'</div>');
+				if(__folderSelectable){
+					_str.push('<div key="'+_val+'" idx="'+i+'" class="JskitRichDropDownList_item"  ');
+					_str.push(' onmouseout="'+__hd+'.onItemMouseOut(this,event);" ');
+					_str.push(' onmouseover="'+__hd+'.onItemMouseOver(this,event);" ');
+					_str.push(' onclick="'+__hd+'.onSelect(this,event);" ');
+					_str.push(' >'+_txt+'</div>');
+				}else{
+					_str.push('<div key="" idx="'+i+'" class="JskitRichDropDownList_tree_txt" >'+_txt+'</div>');
+				}
 				_str.push('<div class="JskitRichDropDownList_tree_sub">');
 				_str.push(__buildTreeCode(_sub));
 				_str.push('</div>');
