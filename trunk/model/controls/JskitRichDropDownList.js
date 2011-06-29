@@ -120,6 +120,7 @@ var JskitRichDropDownList = function(rHd){
 		var _val = null;
 		var _sub = null;
 		for(var i=0;i<__data.length;i++){
+			if(typeof(__data[i])!="object"){continue;};
 			_txt = __data[i][1];
 			_val = __data[i][0];
 			if(!__inputHold || (_input=="" || _txt.toLowerCase().indexOf(_input)==0) ){
