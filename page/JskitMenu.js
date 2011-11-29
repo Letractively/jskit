@@ -194,7 +194,7 @@ function JskitMenu(rHd) {
 			_url = _nodes[i].getAttribute("url");
 			_target = _nodes[i].getAttribute("target");
             _css = _nodes[i].getAttribute("css");
-            if(_type==__INTERNAL){//geduan
+            if(_type==__INTERNAL){//ge duan
                 _html.push('<div class="' + _css + '" '
                         + ' style="float:' + _float + ';" '
                         + ' type="' + _type + '" '
@@ -231,11 +231,12 @@ function JskitMenu(rHd) {
                  _css += "_selected";
                  */
 				 var tag = (_url != null && _url.trim() != "")?"div":"div";
-                _html.push('<'+tag+' class="' + _css + '" '
+				 var item = '<'+tag+' class="' + _css + '" '
                         + ' style="float:' + _float + ';" '
                         + ' type="' + _type + '" '
                         + ' id="' + _id + '" '
-                        + _action + '><a href="'+_url+'" target="'+_target+'" style="display:none"></a>' + _title + '</'+tag+'>');
+                        + _action + '><a href="'+_url+'" target="'+_target+'" style="display:none"></a>' + _title + '</'+tag+'>';
+				_html.push(item);
             }
         }
         _css = _id = _title = _url = _target = _type = null;
@@ -266,13 +267,14 @@ function JskitMenu(rHd) {
             _dynamicBox = $("#" + _id);
         } else {
             _dynamicBox = document.createElement(__TAG);
-            _dynamicBox.setAttribute("id", _id);
             $("body").appendChild(_dynamicBox);
-            _dynamicBox.style.position = "absolute";
-            _dynamicBox.style.display = "block";
-			_dynamicBox.className = __cssPanelDynamic;
+            _dynamicBox.setAttribute("id", _id);
+			_dynamicBox.style.position = "absolute";
         }
-        _dynamicBox.innerHTML = rContent;
+		_dynamicBox.style.display = "none";
+		_dynamicBox.innerHTML = rContent;
+		_dynamicBox.className = __cssPanelDynamic;
+
         rLocation = jskitUtil.select(rLocation, 3, 1, 2, 4);
         var _x = null;
         var _y = null;
@@ -295,9 +297,10 @@ function JskitMenu(rHd) {
                 break;
         }
 
-        _dynamicBox.style.left = _x;
-        _dynamicBox.style.top = _y;
-        _x = _y = null;
+        _dynamicBox.style.left = _x+"px";
+        _dynamicBox.style.top = _y+"px";
+		_dynamicBox.style.display = "block";
+		_x = _y = null;
     };
     var __isOutOfMenu = function(rObj) {//Abandon!!!
         while (rObj != null && rObj.parentNode != null && rObj.tagName != "BODY") {
@@ -572,10 +575,11 @@ function JskitMenu(rHd) {
                 return true;
             }
             if (__dynamic) {
-                if (__selectedItem != null)
+                if (__selectedItem != null){
                     __openDynamicBox(_location, __getItemsContent(_direction));
-                else
+                }else{
                     alert("rSrcItem is null");
+				}
             }
             else {
                 //if selected item is opened,remove it

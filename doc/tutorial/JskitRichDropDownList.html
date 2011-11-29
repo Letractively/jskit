@@ -80,7 +80,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        deploy(rTextFeildID,rValueFeildID,rUrl,rParmFeildID)
+                                        deploy(rTextFeildID,rValueFeildID,rUrl,rParmName,rParmFeildID)
                                     </td>
                                     <td>
                                         rTextFeildID: 显示Text的表单项ID
@@ -89,6 +89,8 @@
                                         <br>
                                         rUrl: 获取下拉列表数据的webservice的URL
 										<br>
+										rParmName: 参数名称
+										<br>
 										rParmFeildID: 保存参数值的表单项ID
                                     </td>
                                     <td>
@@ -96,12 +98,12 @@
                                     <td>
 										<br> 必须在页面装载完成后使用。
 										<br> 通过ajax方式获取的数据必须是json格式的。
-										<br> 如果设置了rParmFeildID，会在Url后面自动增加&parm={ParmFeild.value}，方便webservice获取数据时进行过滤。
+										<br> 如果设置了rParmName和rParmFeildID，会在Url后面自动增加&ParmName={ParmFeild.value}，方便webservice获取数据时进行过滤。
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        deployTree(rTextFeildID,rValueFeildID,rUrl)
+                                        deployTree(rTextFeildID,rValueFeildID,rUrl,rParmName,rParmFeildID)
                                     </td>
                                     <td>
                                         rTextFeildID: 显示Text的表单项ID
@@ -109,6 +111,10 @@
                                         rValueFeildID: 保存Value值的表单项ID
                                         <br>
                                         rUrl: 获取下拉列表数据的webservice的URL
+										<br>
+										rParmName: 参数名称
+										<br>
+										rParmFeildID: 保存参数值的表单项ID
                                     </td>
                                     <td>
                                     </td>
