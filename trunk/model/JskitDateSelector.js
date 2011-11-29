@@ -171,7 +171,7 @@ var JskitDateSelector = function(rHd) {
 			_str.push('	<tr>');
 			_str.push('		<td colspan="6">');
 			_str.push('			<div id="jds_time_box">');
-			_str.push('<select id="'+__hd+'_t_h">');
+			_str.push('Clock:<select id="'+__hd+'_t_h">');
 			for(var i=0;i<24;i++){
 				if(i==_h){
 					_str.push('<option value="'+i+'" selected="selected">'+i+'</option>');
@@ -179,7 +179,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>');
+			_str.push('</select>h');
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_m">');
 			for(var i=0;i<60;i++){
@@ -189,7 +189,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>');
+			_str.push('</select>m');
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_s">');
 			for(var i=0;i<60;i++){
@@ -199,7 +199,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>');
+			_str.push('</select>s');
 			_str.push('			</div>');
 			_str.push('		</td>');
 			_str.push('	</tr>');
