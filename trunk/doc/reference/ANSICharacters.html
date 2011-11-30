@@ -62,6 +62,12 @@
         function closeDetails(){
             $("#details").style.display = "none";
         }
+		function ParseChar(sender,e){
+			var c = sender.value;
+			if(c!==""){
+				$("#charCode").value = c.charCodeAt(0);
+			}
+		}
         function showDetails(e) {
             var str = "";
             var obj = e.srcElement;
@@ -137,6 +143,9 @@
         To:<input id="max" size="5" style="background-color:#eeeeee" value="500" disabled="true" readonly="readonly"/>
         <button onclick="prev()">&#9668;&#9668;Prev</button>
         <button onclick="next()">Next&#9658;&#9658;</button>
+		&nbsp;
+		Char2Code:<input id="char" size="5" value="" onpropertychange="ParseChar(this,event);" />
+		<input id="charCode" size="5" value=""   style="background-color:#eeeeee"  disabled="true" readonly="readonly"/>
     </div>
     <div id="list" style="line-height:18px;background-color:#ffffff;border:1px solid #aaaaaa;">
     </div>
