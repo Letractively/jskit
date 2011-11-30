@@ -239,7 +239,6 @@ var JskitRichDropDownList = function(rHd){
     };
     var __open = function(){
         if(__data==null || __valueFeild.value===""){
-			alert(1);
 			__getData();
         }else{
             __panel.innerHTML = __buildPanelCode();
