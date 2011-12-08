@@ -16,9 +16,13 @@
    <script type="text/javascript">
         var jrddl1 = new JskitRichDropDownList("jrddl1");
         var jrddl2 = new JskitRichDropDownList("jrddl2");
-        function PageOnLoad(){
+        var jrddl3 = new JskitRichDropDownList("jrddl3");
+        jrddl3.setIsMultiSelect(true);
+        jrddl3.setColumns(["国家名称"]);
+        function PageOnLoad() {
             jrddl1.deploy("text_feild_1","value_feild_1","demo_richselect_data.asp?act=country");
             jrddl2.deploy("text_feild_2","value_feild_2","demo_richselect_data.asp?act=city","parm","value_feild_1");
+            jrddl3.deploy("text_feild_3", "value_feild_3", "demo_richselect_data.asp?act=country");
         }
    </script>
 
@@ -48,12 +52,20 @@
 				</tr>
 				<tr>
 					<td class="code">
+                        单选，级联
 						<table>
 							<tr>
 								<td>选择国家：</td>
 								<td><input type="text" id="text_feild_1" /><input type="hidden" id="value_feild_1" /></td>
 								<td>选择城市：</td>
 								<td><input type="text" id="text_feild_2" /><input type="hidden" id="value_feild_2" /></td>
+							</tr>
+						</table>
+                        多选
+						<table>
+							<tr>
+								<td>选择国家：</td>
+								<td><input type="text" id="text_feild_3" /><input type="hidden" id="value_feild_3" /></td>
 							</tr>
 						</table>
 							
