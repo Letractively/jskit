@@ -343,6 +343,7 @@ var JskitDateSelector = function(rHd) {
 			__mode = null;
 		}
 	};
+
     this.setTableCssClass = function(v) {
         __jt.setTableCssClass(v);
     };
@@ -470,6 +471,15 @@ var JskitDateSelector = function(rHd) {
 		}
 	};
 	{
+		__jt.setTableCssClass("jds_tableCssClass");
+		__jt.setTHeadCssClass("jds_theadCssClass");
+		__jt.setTBodyCssClass("jds_tbodyCssClass");
+		__jt.setColumns(unescape("%u65E5"), unescape("%u4E00"), unescape("%u4E8C"),unescape("%u4E09"),unescape("%u56DB"),unescape("%u4E94"),unescape("%u516D"));
+		__calendarTitleCssClass = "jds_titleCssClass";
+		__canvasCssClass = "jds_canvasCssClass";
+		__CssWeekend = "jds_weekend";
+		__CssToday = "jds_today";
+		__dateName = [unescape("%u65E5"), unescape("%u4E00"), unescape("%u4E8C"),unescape("%u4E09"),unescape("%u56DB"),unescape("%u4E94"),unescape("%u516D")];
 		jskitEvents.ready("onclick",__hd+".onBodyClick");
 	}
 };

@@ -130,13 +130,13 @@ np = tree.newNode(n0, true, "Demo", "");
 	tree.newNode(np, true, "表单验证", "demo/demo_JskitValidation.html");
 	tree.newNode(np, true, "翻页器", "demo/demo_JskitPager.html");
     tree.newNode(np, true, "日期输入控件", "demo/date_selector.html");
-	tree.newNode(np, true, "显示日历", "demo/demo_calendar.html");
+    tree.newNode(np, true, "高级下拉列表", "demo/demo_richselect.html");
+    tree.newNode(np, true, "显示日历", "demo/demo_calendar.html");
 	tree.newNode(np, true, "显示多级菜单和目录树", "demo/demo_menu.html");
     tree.newNode(np, true, "倒计时器", "demo/timer.html");
     tree.newNode(np, true, "顺序执行任务", "demo/task.html");
     tree.newNode(np, true, "页面效果", "demo/effects.html");
     tree.newNode(np, true, "显示一个相册", "demo/demo_JskitAlbum.html");
-    tree.newNode(np, true, "级联菜单", "demo/demo_richselect.html");
 
 np = tree.newNode(n0, true, "Tools", "");
     tree.newNode(np, true, "日志(调试)工具", "tools/jskitLog.html");
