@@ -337,7 +337,9 @@ var JskitRichDropDownList = function (rHd) {
     var __selected = false;
     this.onSelect = function (sender, e) {
         if (!__init) { alert("init failed"); return; }
-        __finalSelected(sender.innerHTML, sender.getAttribute("key"));
+        var _key = sender.getAttribute("key");
+        var _val = (_key != "") ? sender.innerHTML : "";
+        __finalSelected(_val, _key);
         __selected = true;
         if (__onSelectAction != null) {
             var _hd = __onSelectAction + '("' + __valueFeild.value + '")';
@@ -532,9 +534,9 @@ var JskitRichDropDownList = function (rHd) {
             return;
         }
         jskitEvents.add(__textFeild, "onfocus", __hd + ".open");
-        if(!__isMultiSelect){
+        if (!__isMultiSelect) {
             jskitEvents.add(__textFeild, "onkeyup", __hd + ".onKeyUp");
-            jskitEvents.add(__textFeild, "onblur", __hd + ".onTextBlur");
+            //jskitEvents.add(__textFeild, "onblur", __hd + ".onTextBlur");
         }
         __valueFeild = $("#" + rValueFeildID);
         if (__valueFeild == null) {
