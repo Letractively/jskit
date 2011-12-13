@@ -370,6 +370,15 @@ String.prototype.has = function(rPattern,rOptions){
     var regx = new RegExp(rPattern,rOptions);
     return regx.test(this);
 };
+String.prototype.replaceAll = function (rPattern, rNewStr, rOptions) {
+    var _str = this;
+    try {
+        var _act = "_str=_str.replace(/" + rPattern + "/" + rOptions + ",\"" + rNewStr.replace(/"/gi, "\\\"") + "\");"
+        eval(_act);
+        _act = null;
+        return _str;
+    } catch (e) { return this; }
+};
 /*#END ====================================================================*/
 /*#BEGIN ( Jskit Date definition ) =====================================*/
 Date.prototype.toJskitString = function(){
