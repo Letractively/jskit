@@ -286,6 +286,10 @@ var $out = function(rContent){
 var $outln = function(rContent){
 	document.write('<div style="display:block">'+rContent+'</div>');
 };
+var $eval = function(rScript){
+	if(window.execScript){window.execScript(rScript);}
+	else{window.eval(rScript);}
+};
 /*#END ====================================================================*/
 /*#BEGIN ( expand System Object methods ) =================================*/
 //Object.prototype.clone = function(){
