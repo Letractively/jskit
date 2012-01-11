@@ -25,9 +25,13 @@ var JskitBulter = function(){
 			__msgPanel.style.left = ($("body").clientWidth-__msgPanel.offsetWidth)/2;
 			__msgPanel.style.top = "200px";
 		};
-        this.show = function(){
-            if(typeof(BULTER_MSG)!="object"){return true;}
-            __msg = BULTER_MSG;
+        this.show = function(rData){
+            if(typeof(rData)!="object"){
+				if(typeof(BULTER_MSG)!="object"){return true;}
+				else{__msg = BULTER_MSG;}
+			}else{
+				__msg = rData;
+			}
             //push a center div
             __initPanel();
             __msgPanel.style.display = "block";
