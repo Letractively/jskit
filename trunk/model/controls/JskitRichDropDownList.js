@@ -34,6 +34,8 @@ var JskitRichDropDownList = function (rHd) {
 
     var __debug = false;
 
+	var __prefix = unescape("%u25CF");
+
 
     var __textFeild = null;
     var __valueFeild = null;
@@ -155,7 +157,8 @@ var JskitRichDropDownList = function (rHd) {
                     _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                     _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
                     _str.push(' >');
-                    _str.push(_txt);
+                    _str.push(__prefix);
+					_str.push(_txt);
                     _str.push('</div>');
                 }
             }
@@ -215,6 +218,7 @@ var JskitRichDropDownList = function (rHd) {
                     _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                     _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
                     _str.push(' >');
+					_str.push(__prefix);
                     _str.push(_txt);
                     _str.push('</div>');
                 }
@@ -435,6 +439,9 @@ var JskitRichDropDownList = function (rHd) {
     this.setColumns = function (v) {
         __columns = v;
     };
+	this.setPrefix = function(v){
+		__prefix = v;
+	};
     this.getKey = function (idx) {
         return __data[idx][0];
     };

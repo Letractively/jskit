@@ -426,6 +426,10 @@ var JskitDateSelector = function(rHd) {
     this.appendCanvas = function() {
         __appendCanvas();
     };
+	this.openMode = function(sender,e,mode,format,year,month){
+		__mode = mode;
+		this.open(sender,e,format,year,month);
+	};
     this.open = function(sender, e, format, year, month) {
 		if(typeof(sender)=="object"){
 			__caller = sender;
