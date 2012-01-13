@@ -1,7 +1,13 @@
-﻿.jds_canvasCssClass{
+﻿.jds_canvas_top
+{
+    border:1px solid #aaaaaa;
+    background-color:#eeeeee;
+    }
+.jds_canvasCssClass{
     border:1px solid #aaaaaa;
     background-color:#eeeeee;
     width:240px;
+	z-index:1000;
 }
 .jds_titleCssClass{
     font-size:11px;

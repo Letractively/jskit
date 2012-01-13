@@ -220,6 +220,7 @@ var JskitDateSelector = function(rHd) {
             __canvas.style.display = "none";
             __canvas.style.clear = "left";
             __canvas.style.position = "absolute";
+			__canvas.className = "jds_canvas_top";
         }
     };
     var __dateSelect = function() {
@@ -231,7 +232,8 @@ var JskitDateSelector = function(rHd) {
         __drawCalendar();
         __canvas.style.left = $(__caller).getX()+"px";
         __canvas.style.top = ($(__caller).getY() + __caller.offsetHeight)+"px";
-        __canvas.style.display = "block";
+        __canvas.style.display = "";
+		__canvas.style.zIndex = 1000;
     };
 	var __getValue = function(cell){
 		if(cell!=null){
