@@ -280,24 +280,7 @@ function JskitUtil(){
 	            if(/Date/.test(rDt.constructor)){
 	                d = rDt;
 	            }else if(typeof(rDt)=="string"){
-					rDt = rDt.replace(/-0/gi,"-");
-					rDt = rDt.replace(/:0/gi,"-");
-					if( rDt.indexOf(":")!=-1 && rDt.indexOf("-")!=-1){ //date time
-						var arrD = rDt.split(" ")[0].split("-");
-						var arrT = rDt.split(" ")[1].split(":");
-						d.setFullYear(parseInt(arrD[0]),(parseInt(arrD[1])-1),parseInt(arrD[2]));
-						d.setHours(arrT[0],arrT[1],arrT[2]);            
-					}else if(typeof(rDt)=="string" && rDt.indexOf("-")!=-1){ //date
-						var arrd = rDt.split("-");
-						if(arrd.length==3){ //yyyy-mm-dd
-							d.setFullYear(arrd[0],(arrd[1]-1),arrd[2]);
-						}else{ //yyyy-mm
-							d.setFullYear(arrd[0],(arrd[1]-1));
-						}
-					}else if(typeof(rDt)=="string" && rDt.indexOf(":")!=-1){ //time
-						var arrt = rDt.split(":");
-						d.setHours(parseInt(arrt[0]),parseInt(arrt[1]),parseInt(arrt[2]));
-					}
+					d = new Date(Date.parse(rDt.replace(/-/g,"/")));
 	            }else{
 					d = null;
 	            }
@@ -307,6 +290,7 @@ function JskitUtil(){
 	        }
 	    };
 	    this.timeSpan = function (rDate1, rDate2) {
+			/*if rDate2 last than rDate1,return positive number*/
 	    	var _debug = "";
 	        var date1 = this.parse(rDate1);
 	        var date2 = this.parse(rDate2);

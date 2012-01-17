@@ -305,8 +305,8 @@ var JskitRichDropDownList = function (rHd) {
         } else {
             __body.innerHTML = __buildPanelCode();
         }
-        __panel.style.left = __textFeild.getX();
-        __panel.style.top = __textFeild.getY() + __textFeild.offsetHeight;
+        __panel.style.left = __textFeild.getX()+"px";
+        __panel.style.top = (__textFeild.getY() + __textFeild.offsetHeight)+"px";
         if (__autoWidth) {
             __panel.style.width = (__textFeild.offsetWidth + __dropBtn.offsetWidth) + "px";
         } else if (__width != null) {
@@ -522,6 +522,7 @@ var JskitRichDropDownList = function (rHd) {
         __panel.setAttribute("id", __panelID);
         __panel.style.position = "absolute";
         __panel.style.display = "none";
+		__panel.style.zIndex =1000;
         __panel.className = "JskitRichDropDownList_panel";
         if (__isMultiSelect) {
             __header = document.createElement("div");
@@ -532,7 +533,7 @@ var JskitRichDropDownList = function (rHd) {
         __body.className = "JskitRichDropDownList_body";
         __body.innerHTML = unescape("%u6570%u636E%u88C5%u8F7D%u4E2D") + "...";
         __panel.appendChild(__body);
-        jskitUtil.dom.insertAfter(__panel, __textFeild);
+        $("body").appendChild(__panel);
     };
     var __deploy = function (rTextFeildID, rValueFeildID, rUrl, rParmName, rParmFeildID, rData) {
         __textFeild = $("#" + rTextFeildID);

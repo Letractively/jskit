@@ -147,12 +147,6 @@ var JskitDateSelector = function(rHd) {
         //_str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
         _str.push('		</td>');
         _str.push('	</tr>');
-        _str.push('	<tr>');
-        _str.push('		<td colspan="6">');
-        _str.push('			<div id="'+__canvasId+'_body">');
-        _str.push('			</div>');
-        _str.push('		</td>');
-        _str.push('	</tr>');
 		if(__mode=="dt"){
 			var _h = 0;
 			var _m = 0;
@@ -171,7 +165,7 @@ var JskitDateSelector = function(rHd) {
 			_str.push('	<tr>');
 			_str.push('		<td colspan="6">');
 			_str.push('			<div id="jds_time_box">');
-			_str.push('Clock:<select id="'+__hd+'_t_h">');
+			_str.push('<select id="'+__hd+'_t_h">');
 			for(var i=0;i<24;i++){
 				if(i==_h){
 					_str.push('<option value="'+i+'" selected="selected">'+i+'</option>');
@@ -179,7 +173,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>h');
+			_str.push('</select>'+unescape("%u65F6"));
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_m">');
 			for(var i=0;i<60;i++){
@@ -189,7 +183,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>m');
+			_str.push('</select>'+unescape("%u5206"));
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_s">');
 			for(var i=0;i<60;i++){
@@ -199,11 +193,17 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>s');
+			_str.push('</select>'+unescape("%u79D2"));
 			_str.push('			</div>');
 			_str.push('		</td>');
 			_str.push('	</tr>');
 		}
+        _str.push('	<tr>');
+        _str.push('		<td colspan="6">');
+        _str.push('			<div id="'+__canvasId+'_body">');
+        _str.push('			</div>');
+        _str.push('		</td>');
+        _str.push('	</tr>');
         _str.push('</table>');
         __canvas.innerHTML = _str.join('');
 		__refreshCalendar();
