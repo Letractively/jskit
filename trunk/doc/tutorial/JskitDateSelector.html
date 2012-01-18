@@ -81,10 +81,10 @@
                             </td>
                             <td>
                                 sender: 输入日期的输入框
-                                event: 触发控件的事件
-                                format: 日期格式，缺省为yyyy-M-d
-                                year: 初始年，缺省为当前年
-                                month: 初始月，缺省为当前月
+                                <br/>event: 触发控件的事件
+                                <br/>format: 日期格式，缺省为yyyy-M-d
+                                <br/>year: 初始年，缺省为当前年
+                                <br/>month: 初始月，缺省为当前月
                             </td>
                             <td>
                             </td>
@@ -174,7 +174,55 @@
                             </td>
                             <td>设置选择的模式
                             </td>
-                        </tr>                    </tbody>
+                        </tr>
+                        <tr>
+                            <td>openMode(sender,e,mode[,format][,year][,month])
+                            </td>
+                            <td>
+								sender: 输入日期的输入框
+                                <br/>event: 触发控件的事件
+								<br/>mode: 模式（d:选择日期，缺省；dt:选择日期时间；m:选择月份）
+                                <br/>format: 日期格式，缺省为yyyy-M-d
+                                <br/>year: 初始年，缺省为当前年
+                                <br/>month: 初始月，缺省为当前月
+                            </td>
+                            <td>
+                            </td>
+                            <td>带模式展开日期选择控件
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>getJskitCalerdar()
+                            </td>
+                            <td>
+                            </td>
+                            <td>JskitCalerdar
+                            </td>
+                            <td>返回该Selector中的JskitCalerdar对象
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>close()
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>关闭选择面板
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setSelectedHandler(rFuncName)
+                            </td>
+                            <td>rFuncName: 方法名
+                            </td>
+                            <td>
+                            </td>
+                            <td>当日期时间选择完成后触发的事件，相当于执行$rFuncName($SelectedDate);
+                            </td>
+                        </tr>
+						
+					</tbody>
                 </table>
             </td>
         </tr>
