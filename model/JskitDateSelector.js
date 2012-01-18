@@ -22,7 +22,7 @@ var JskitDateSelector = function(rHd) {
 	var __canvas = null;
     var __canvasId = jskitUtil.guid();
     var __canvasCssClass = "border:1px solid #aaaaaa;background-color:#eeeeee;";
-    var __calendarTitleCssClass = "font-size:11px;font-weight:bold;color:#336699;";
+    var __calendarTitleCssClass = "";
     var __caller = null;
     var __format = null;
     var __yearSelector = null;
@@ -31,7 +31,7 @@ var JskitDateSelector = function(rHd) {
 	var __CssToday= "";
 	
 	var __datetime = null;
-
+	var __selectedHandler = null;
 	var __drawCalendar = function(){
 		if(__mode=="m"){
 			__drawMonthCalendar();
@@ -56,7 +56,7 @@ var JskitDateSelector = function(rHd) {
         _str.push('		</td>');
         _str.push('		<td align="center">');
         _str.push('			<div id="info" ' + __calendarTitleCssClass + '>');
-        _str.push('			<input type="text" style="width:50px" maxlength="5" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
+        _str.push('			<input type="text" size="4" maxlength="5" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
 		_str.push('			</div>');
 		_str.push('		</td>');
         _str.push('		<td align="right">');
@@ -109,7 +109,6 @@ var JskitDateSelector = function(rHd) {
 			if(_currRowIdx>=0 && _currColIdx>=0 && __CssToday!=null){
 				__jt.setCellCssClass(_currRowIdx,_currColIdx,__CssToday);
 			}
-
 			$("#"+__canvasId+"_body").innerHTML = __jt.getTable();
 		}
 	};
@@ -124,9 +123,9 @@ var JskitDateSelector = function(rHd) {
         _str.push('		</td>');
         _str.push('		<td align="center">');
         _str.push('			<div id="info" ' + __calendarTitleCssClass + '>');
-        _str.push('			<input type="text" style="width:50px" maxlength="5" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
+        _str.push('			<input type="text" size="4" maxlength="4" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
         _str.push('-');
-        _str.push('<select class="' + __calendarTitleCssClass + '" onchange="' + __hd + '.selectMonth(this,event)" >');
+        _str.push('<select onchange="' + __hd + '.selectMonth(this,event)" >');
         for (var i = 1; i <= 12; i++) {
             if (i != __jc.getMonth()) {
                 _str.push('<option value="' + i + '">' + i + '</option>');
@@ -393,29 +392,41 @@ var JskitDateSelector = function(rHd) {
     this.getJskitCalerdar = function() {
         return __jc;
     };
-    this.__onClick = function(cell) {
-		var _date = __getValue(cell);
-		if (__caller.tagName.toLowerCase() == "input"){
-			__caller.value = _date;
-		}else if(__caller.tagName!="undefined"){
-			__caller.innerHTML = _date;
-		}else{
-			alert(_date);
+
+    var __onSelected = function(rVal){
+		if(__caller!=null){
+			if (__caller.tagName.toLowerCase() == "input"){
+				if(__caller.getAttribute("type")==null || __caller.getAttribute("type").toLowerCase()=="text"){
+					__caller.value = rVal;
+				}else{
+					/*do nothing*/
+				}
+			}else if(__caller.tagName!="button"){
+				/*do nothing*/
+			}else if(__caller.tagName!="undefined"){
+				__caller.innerHTML = rVal;
+			}else{
+				/*do nothing*/
+			}
 		}
-		_date = null;
+		if(__selectedHandler!=null){
+			try{eval(__selectedHandler+"('"+rVal+"')");}
+			catch(e){
+				alert(e.message);
+			}
+		}
         __close();
+	};
+	this.__onClick = function(cell) {
+		var _date = __getValue(cell);
+		__onSelected(_date);
+		_date = null;
     };
+	
 	this.selectNow = function(){
 		var _date = __getValue(null);
-		if (__caller.tagName.toLowerCase() == "input"){
-			__caller.value = _date;
-		}else if(__caller.tagName!="undefined"){
-			__caller.innerHTML = _date;
-		}else{
-			alert(_date);
-		}
+		__onSelected(_date);
 		_date = null;
-        __close();
 	};
     this.selectMonth = function(sender, e) {
         __jc.setMonth(sender.value);
@@ -425,6 +436,9 @@ var JskitDateSelector = function(rHd) {
         __jc.setYear(sender.value);
         __refreshCalendar();
     };
+	this.setSelectedHandler = function(v){
+		__selectedHandler = v;
+	};
     this.appendCanvas = function() {
         __appendCanvas();
     };
@@ -433,12 +447,13 @@ var JskitDateSelector = function(rHd) {
 		this.open(sender,e,format,year,month);
 	};
     this.open = function(sender, e, format, year, month) {
-		if(typeof(sender)=="object"){
-			__caller = sender;
-		}else if(typeof(sender)=="string"){
-			__caller = $("#"+sender);
-		}else{
-			__caller = null;
+		__caller = sender;
+		if(sender!=null){
+			if(typeof(sender)=="object"){
+				__caller = sender;
+			}else if(typeof(sender)=="string"){
+				__caller = $("#"+sender);
+			}
 		}
         if (typeof(format) == "string" && format.length > 0)
             __format = format;
