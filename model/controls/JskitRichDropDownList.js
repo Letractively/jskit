@@ -34,7 +34,7 @@ var JskitRichDropDownList = function (rHd) {
 
     var __debug = false;
 
-	var __prefix = unescape("%u25CF");
+	var __prefix = "";
 
 
     var __textFeild = null;
