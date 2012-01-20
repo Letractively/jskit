@@ -149,6 +149,9 @@ function JskitCalendar(){
 	this.getMonth = function(){
 		return __month;
 	};
+	this.loadDate = function(v){
+		return new Date(__year,__month,__day);
+	};
 	this.setMonth = function(v){
 		__month = v;
 	};

@@ -23,6 +23,7 @@ var JskitDateSelector = function(rHd) {
     var __canvasId = jskitUtil.guid();
     var __canvasCssClass = "border:1px solid #aaaaaa;background-color:#eeeeee;";
     var __calendarTitleCssClass = "";
+	var __calendarTimeBoxCssClass = "";
     var __caller = null;
     var __format = null;
     var __yearSelector = null;
@@ -146,6 +147,12 @@ var JskitDateSelector = function(rHd) {
         //_str.push('			<a href="javascript:' + __hd + '.__close()">[X]</a>');
         _str.push('		</td>');
         _str.push('	</tr>');
+        _str.push('	<tr>');
+        _str.push('		<td colspan="6">');
+        _str.push('			<div id="'+__canvasId+'_body">');
+        _str.push('			</div>');
+        _str.push('		</td>');
+        _str.push('	</tr>');
 		if(__mode=="dt"){
 			var _h = 0;
 			var _m = 0;
@@ -163,7 +170,7 @@ var JskitDateSelector = function(rHd) {
 			}
 			_str.push('	<tr>');
 			_str.push('		<td colspan="6">');
-			_str.push('			<div id="jds_time_box">');
+			_str.push('			<div id="jds_time_box" class="'+__calendarTimeBoxCssClass+'">');
 			_str.push('<select id="'+__hd+'_t_h">');
 			for(var i=0;i<24;i++){
 				if(i==_h){
@@ -172,7 +179,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>'+unescape("%u65F6"));
+			_str.push('</select>');
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_m">');
 			for(var i=0;i<60;i++){
@@ -182,7 +189,7 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>'+unescape("%u5206"));
+			_str.push('</select>');
 			_str.push(':');
 			_str.push('<select id="'+__hd+'_t_s">');
 			for(var i=0;i<60;i++){
@@ -192,17 +199,12 @@ var JskitDateSelector = function(rHd) {
 					_str.push('<option value="'+i+'">'+i+'</option>');
 				}
 			}
-			_str.push('</select>'+unescape("%u79D2"));
+			_str.push('</select>');
+			_str.push('&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:'+__hd+'.seletctDateTime(this,event);" >['+unescape("%u786E%u5B9A")+']</a>');
 			_str.push('			</div>');
 			_str.push('		</td>');
 			_str.push('	</tr>');
 		}
-        _str.push('	<tr>');
-        _str.push('		<td colspan="6">');
-        _str.push('			<div id="'+__canvasId+'_body">');
-        _str.push('			</div>');
-        _str.push('		</td>');
-        _str.push('	</tr>');
         _str.push('</table>');
         __canvas.innerHTML = _str.join('');
 		__refreshCalendar();
@@ -234,61 +236,38 @@ var JskitDateSelector = function(rHd) {
         __canvas.style.display = "";
 		__canvas.style.zIndex = 1000;
     };
-	var __getValue = function(cell){
-		if(cell!=null){
-			if(__mode=="d"){
-				return __getDate(cell);
-			}else if(__mode=="dt"){
-				return __getDateTime(cell);
-			}else if(__mode=="m"){
-				return __getYearMonth(cell);
-			}
+	var __getValue = function(){
+		if(__mode=="d"){
+			return __getDate();
+		}else if(__mode=="dt"){
+			return __getDateTime();
+		}else if(__mode=="m"){
+			return __getYearMonth();
 		}else{
-			var _date = new Date();
-			if(__mode=="d"){
-				return _date.getYear()+"-"+(_date.getMonth()+1)+"-"+_date.getDate();
-			}else if(__mode=="dt"){
-				return _date.getYear()+"-"+(_date.getMonth()+1)+"-"+_date.getDate()+ " " + _date.getHours()+":"+_date.getMinutes()+":"+_date.getSeconds();
-			}else if(__mode=="m"){
-				return _date.getYear()+"-"+(_date.getMonth()+1);
-			}
+			return "error";
 		}
 	};
-	var __getYearMonth = function(cell){
+	var __getYearMonth = function(){
         try {
-            var _row = cell.getAttribute("row").toInt(0);
-            var _col = cell.getAttribute("col").toInt(0);
-            var _year = __jc.getYear();
-			var _month = (_row)*4+_col+1;
-			var _str = _year+"-"+_month;
-			return _str;
+            return __datetime.getYear()+"-"+(__datetime.getMonth()+1);
         } catch(e) {
             alert("[JskitDateSelector]:" + e.message);
             return "";
         }
 	};
-	var __getDateTime = function(cell){
+	var __getDateTime = function(){
         try {
-            var _val = __getDate(cell);
-			if(_val==null || _val==""){return "";}
-			var _hour = $("#"+__hd+"_t_h").value;
-			var _min = $("#"+__hd+"_t_m").value;
-			var _sec = $("#"+__hd+"_t_s").value;
-			_val += " "+_hour+":"+_min+":"+_sec;
-			return _val;
+ 			return  __getDate()+" "+__datetime.getHours()+":"+__datetime.getMinutes()+":"+__datetime.getSeconds();
         } catch(e) {
             alert("[JskitDateSelector]:" + e.message);
             return "";
         }
 	};
-    var __getDate = function(cell) {
+    var __getDate = function() {
         try {
-            var _row = cell.getAttribute("row").toInt(0);
-            var _col = cell.getAttribute("col").toInt(0);
-            var _day = __dayListInCalendar[_row][_col];
-            var _year = __jc.getYear();
-            var _month = __jc.getMonth();
-            if (_day == ""){return "";}
+            var _year = __datetime.getYear();
+            var _month = __datetime.getMonth()+1;
+			var _day = __datetime.getDate();
             if (__format == null) {
                 return _year + "-" + _month + "-" + _day;
             } else {
@@ -308,22 +287,27 @@ var JskitDateSelector = function(rHd) {
     };
     var __close = function() {
         if (__canvas == null)return;
+		__selectedCell = null;
         __canvas.style.display = "none";
     };
     this.__goNext = function() {
         __jc.nextMonth();
+		__datetime.setMonth(__jc.getMonth()-1);
         __drawCalendar();
     };
     this.__goNextYear = function() {
         __jc.nextYear();
+		__datetime.setYear(__jc.getYear());
         __drawCalendar();
     };
     this.__goPrev = function() {
         __jc.prevMonth();
+		__datetime.setMonth(__jc.getMonth()-1);
         __drawCalendar();
     };
     this.__goPrevYear = function() {
         __jc.prevYear();
+		__datetime.setYear(__jc.getYear());
         __drawCalendar();
     };
     this.__close = function(){
@@ -367,6 +351,9 @@ var JskitDateSelector = function(rHd) {
 	this.setTodayCssClass = function(v){
 		__CssToday = v;
 	};
+	this.setTimeBoxCssClass = function(v){
+		__calendarTimeBoxCssClass = v;
+	};
     this.setWeekendCssClass = function(v) {
 		__CssWeekend = v;
     };
@@ -393,24 +380,25 @@ var JskitDateSelector = function(rHd) {
         return __jc;
     };
 
-    var __onSelected = function(rVal){
+    var __onSelected = function(){
+		var val = __getValue();
 		if(__caller!=null){
 			if (__caller.tagName.toLowerCase() == "input"){
 				if(__caller.getAttribute("type")==null || __caller.getAttribute("type").toLowerCase()=="text"){
-					__caller.value = rVal;
+					__caller.value = val;
 				}else{
 					/*do nothing*/
 				}
 			}else if(__caller.tagName!="button"){
 				/*do nothing*/
 			}else if(__caller.tagName!="undefined"){
-				__caller.innerHTML = rVal;
+				__caller.innerHTML = val;
 			}else{
 				/*do nothing*/
 			}
 		}
 		if(__selectedHandler!=null){
-			try{eval(__selectedHandler+"('"+rVal+"')");}
+			try{eval(__selectedHandler+"('"+val+"')");}
 			catch(e){
 				alert(e.message);
 			}
@@ -418,24 +406,45 @@ var JskitDateSelector = function(rHd) {
         __close();
 	};
 	this.__onClick = function(cell) {
-		var _date = __getValue(cell);
-		__onSelected(_date);
-		_date = null;
+		var _row = cell.getAttribute("row").toInt(0);
+		var _col = cell.getAttribute("col").toInt(0);
+		var _day = __dayListInCalendar[_row][_col];
+		__jc.setDay(_day);
+		__datetime.setDate(_day);
+		if(__mode=="dt"){
+			_day = null;
+			__refreshCalendar();
+		}else if(__mode=="m"){
+			var _month = _row*4+_col+1;
+			__jc.setMonth(_month);
+			__datetime.setMonth(_month-1);
+			_month = null;
+			__onSelected();
+		}else{
+			__onSelected();
+		}
     };
 	
 	this.selectNow = function(){
-		var _date = __getValue(null);
-		__onSelected(_date);
-		_date = null;
+		__datetime = new Date();
+		__onSelected();
 	};
     this.selectMonth = function(sender, e) {
         __jc.setMonth(sender.value);
+		__datetime.setMonth(__jc.getMonth()-1);
 		__refreshCalendar();
     };
     this.selectYear = function(sender, e) {
         __jc.setYear(sender.value);
+		__datetime.setYear(sender.value);
         __refreshCalendar();
     };
+	this.seletctDateTime  = function(sender,e){
+		__datetime.setHours($("#"+__hd+"_t_h").value);
+		__datetime.setMinutes($("#"+__hd+"_t_m").value);
+		__datetime.setSeconds($("#"+__hd+"_t_s").value);
+		__onSelected();
+	};
 	this.setSelectedHandler = function(v){
 		__selectedHandler = v;
 	};
@@ -455,30 +464,28 @@ var JskitDateSelector = function(rHd) {
 				__caller = $("#"+sender);
 			}
 		}
-        if (typeof(format) == "string" && format.length > 0)
-            __format = format;
+        if (typeof(format) == "string" && format.length > 0){__format = format;}
         if (sender.value != "") {
             __datetime = jskitUtil.date.parse(sender.value);
             if (__datetime!=null && !isNaN(__datetime) && /Date/.test(__datetime.constructor)) {
                 __jc.setYear(__datetime.getFullYear());
                 __jc.setMonth(__datetime.getMonth() + 1);
-            }else{
+			}else{
 				__datetime = new Date();
 			}
         } else {
+			__datetime = new Date();
             if (typeof(year) == "number" && year >= 1) {
                 __jc.setYear(year);
+				__datetime.setYear(year);
             }else{
-				var d = new Date();
-				__jc.setYear(d.getYear());
-				d = null;
+				__jc.setYear(__datetime.getYear());
 			}
             if (typeof(month) == "number" && month <= 12 && month >= 1) {
                 __jc.setMonth(month);
+				__datetime.setMonth(month-1);
             }else{
-				var d = new Date();
-				__jc.setMonth(d.getMonth()+1);
-				d = null;
+				__jc.setMonth(__datetime.getMonth()+1);
 			}
         }
         __dateSelect();
@@ -487,7 +494,8 @@ var JskitDateSelector = function(rHd) {
         __close();
     };
 	this.onBodyClick = function(e){
-		if(e.srcElement!=__caller && !jskitUtil.dom.hasForefather(e.srcElement,__canvasId) ){
+		var fireObj = (e.srcElement!=null)?e.srcElement:e.target;
+		if(fireObj!=__caller && !jskitUtil.dom.hasForefather(fireObj,__canvasId) ){
 			this.close();
 		}
 	};
@@ -497,6 +505,7 @@ var JskitDateSelector = function(rHd) {
 		__jt.setTBodyCssClass("jds_tbodyCssClass");
 		__jt.setColumns(unescape("%u65E5"), unescape("%u4E00"), unescape("%u4E8C"),unescape("%u4E09"),unescape("%u56DB"),unescape("%u4E94"),unescape("%u516D"));
 		__calendarTitleCssClass = "jds_titleCssClass";
+		__calendarTimeBoxCssClass = "jds_timeBoxCssClass";
 		__canvasCssClass = "jds_canvasCssClass";
 		__CssWeekend = "jds_weekend";
 		__CssToday = "jds_today";
