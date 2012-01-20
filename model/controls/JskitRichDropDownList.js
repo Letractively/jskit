@@ -167,6 +167,17 @@ var JskitRichDropDownList = function (rHd) {
         _txt = _val = _sub = null;
         return _str.join('');
     };
+	var __muiltSelectFilterValue = null;
+	this.onMuiltSelectFilter = function(rColumnIdx,rVal){
+		if(rVal==null){
+			__muiltSelectFilterValue = null;
+		}else{
+			__muiltSelectFilterValue = new Array();
+			__muiltSelectFilterValue[0] = rColumnIdx;
+			__muiltSelectFilterValue[1] = rVal;
+		}
+		__refreshStaticData();
+	};
     var __buildItemCode = function () {
         var _input = __textFeild.value.toLowerCase();
         var _str = new Array();
@@ -188,6 +199,9 @@ var JskitRichDropDownList = function (rHd) {
                 } else {
                     _txtArray.push(_txt);
                 }
+				if(__muiltSelectFilterValue!=null){
+					if(_txtArray[__muiltSelectFilterValue[0]]!=__muiltSelectFilterValue[1]){continue;}
+				}
                 _str.push('<tr class="JskitRichDropDownList_m_row">');
                 _str.push('<td><input type="checkbox" name="cbx_' + __hd + '" ');
                 _str.push(' key="' + _val + '" idx="' + i + '" ');
@@ -197,7 +211,7 @@ var JskitRichDropDownList = function (rHd) {
                 }
                 _str.push(' onclick="' + __hd + '.onCheck(this,event);" /></td>');
                 for (var j = 0; j < _txtArray.length; j++) {
-                    _str.push('<td>' + _txtArray[j] + '</td>');
+                    _str.push('<td><a href="javascript:'+__hd+'.onMuiltSelectFilter('+j+',\''+_txtArray[j]+'\');">' + _txtArray[j] + '</a></td>');
                 }
                 _str.push('</tr>');
 
@@ -236,7 +250,7 @@ var JskitRichDropDownList = function (rHd) {
             _outer.push('<tr class="JskitRichDropDownList_m_header">');
             _outer.push('<th class="JskitRichDropDownList_m_h0"><input type="checkbox" onclick="' + __hd + '.onCheckAll(this,event);" /></th>');
             for (var i = 0; i < __columns.length; i++) {
-                _outer.push('<th>' + __columns[i] + '</th>');
+                _outer.push('<th onclick="'+__hd+'.onMuiltSelectFilter('+i+',null)">' + __columns[i] + '</th>');
             }
             _outer.push('</tr>');
             _outer.push('</thead>');
@@ -406,7 +420,6 @@ var JskitRichDropDownList = function (rHd) {
         __close();
     };
     this.onCheckClear = function (sender, e) {
-        alert("clear");
         __finalSelected("", "");
         if (__onSelectAction != null) {
             var _hd = __onSelectAction + '("' + __valueFeild.value + '")';
