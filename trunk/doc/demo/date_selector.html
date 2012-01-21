@@ -52,11 +52,13 @@
                 </tr>
                 <tr>
                     <td height="10">
-                        <font>请选择日期：</font></font><input type="text" onclick="jds.setMode('d');jds.open(this,event)" />
+                        <font>请选择日期：</font></font><input type="text" onclick="jds.openMode(this,event,'d')" />
                         <br/><br/>
-						<font>请选择月份：</font></font><input type="text" onclick="jds.setMode('m');jds.open(this,event)" />
+						<font>请选择月份：</font></font><input type="text" onclick="jds.openMode(this,event,'m')" />
                         <br/><br/>
-						<font>请选择时间：</font></font><input type="text" value="2011-12-1 09:00:12" onclick="jds.setMode('dt');jds.open(this,event,'',1984,8)" />
+						<font>请选择时间1：</font></font><input type="text" onclick="jds.openMode(this,event,'dt','yy-MM-dd hh:mm:ss',1984,8)" />
+                        <br/><br/>
+						<font>请选择时间2：</font></font><input type="text" value="2011-12-1 09:00:12" onclick="jds.openMode(this,event,'dt')" />
                     </td>
                 </tr>
                 <tr>
@@ -73,9 +75,10 @@
                             jds.setWeekendCssClass("jds_weekend");
                         </textarea>
                         <textarea name="JskitSyntax_code" class="html">
-请选择日期：&lt;input type="text" onclick="jds.open(this,event,'',1984,8)" /&gt;
-请选择月份：&lt;input type="text" onclick="jds.setMode('m');jds.open(this,event,'yyyy-mm',1984,8)" /&gt;
-请选择时间：&lt;input type="text" onclick="jds.setMode('dt');jds.open(this,event,'',1984,8)" /&gt;
+请选择日期：&lt;input type="text" onclick="jds.openMode(this,event,'d')" /&gt;
+请选择月份：&lt;input type="text" onclick="jds.openMode(this,event,'m')" /&gt;
+请选择时间1：&lt;input type="text" onclick="jds.openMode(this,event,'dt','yy-MM-dd hh:mm:ss',1984,8)" /&gt;
+请选择时间2：&lt;input type="text" onclick="jds.openMode(this,event,'dt')" /&gt;
                         </textarea>
                     </td>
                 </tr>
