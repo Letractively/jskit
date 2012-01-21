@@ -57,7 +57,7 @@ var JskitDateSelector = function(rHd) {
         _str.push('		</td>');
         _str.push('		<td align="center">');
         _str.push('			<div id="info" ' + __calendarTitleCssClass + '>');
-        _str.push('			<input type="text" size="4" maxlength="5" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
+        _str.push('			<input type="text" size="4" maxlength="4" onkeyup="' + __hd + '.selectYear(this,event)" value="'+__jc.getYear()+'" />');
 		_str.push('			</div>');
 		_str.push('		</td>');
         _str.push('		<td align="right">');
@@ -236,55 +236,25 @@ var JskitDateSelector = function(rHd) {
         __canvas.style.display = "";
 		__canvas.style.zIndex = 1000;
     };
-	var __getValue = function(){
-		if(__mode=="d"){
-			return __getDate();
-		}else if(__mode=="dt"){
-			return __getDateTime();
-		}else if(__mode=="m"){
-			return __getYearMonth();
-		}else{
-			return "error";
-		}
-	};
-	var __getYearMonth = function(){
-        try {
-            return __datetime.getYear()+"-"+(__datetime.getMonth()+1);
-        } catch(e) {
-            alert("[JskitDateSelector]:" + e.message);
-            return "";
-        }
-	};
-	var __getDateTime = function(){
-        try {
- 			return  __getDate()+" "+__datetime.getHours()+":"+__datetime.getMinutes()+":"+__datetime.getSeconds();
-        } catch(e) {
-            alert("[JskitDateSelector]:" + e.message);
-            return "";
-        }
-	};
-    var __getDate = function() {
-        try {
-            var _year = __datetime.getYear();
-            var _month = __datetime.getMonth()+1;
-			var _day = __datetime.getDate();
-            if (__format == null) {
-                return _year + "-" + _month + "-" + _day;
-            } else {
-                var _str = __format;
-                _str = _str.replace(/yyyy/gi, _year);
-                _str = _str.replace(/yy/gi, _year);
-                _str = _str.replace(/mm/gi, _month);
-                _str = _str.replace(/m/gi, _month);
-                _str = _str.replace(/dd/gi, _day);
-                _str = _str.replace(/d/gi, _day);
-                return _str;
-            }
-        } catch(e) {
-            alert("[JskitDateSelector]:" + e.message);
-            return "";
-        }
+	var __numberFix = function(rNum){
+        return (rNum < 10) ? "0" + rNum : rNum + "";
     };
+	var __getValue = function(){
+		var _str = __format;
+		_str = _str.replace(/yyyy/g,__datetime.getFullYear());
+		_str = _str.replace(/yy/g,(__datetime.getFullYear()+"").substr(2,2));
+		_str = _str.replace(/MM/g,__numberFix(__datetime.getMonth()+1));
+		_str = _str.replace(/mm/g,__numberFix(__datetime.getMinutes()));
+		_str = _str.replace(/dd/g,__numberFix(__datetime.getDate()));
+		_str = _str.replace(/hh/g,__numberFix(__datetime.getHours()));
+		_str = _str.replace(/ss/g,__numberFix(__datetime.getSeconds()));
+		_str = _str.replace(/M/g,__datetime.getMonth()+1);
+		_str = _str.replace(/m/g,__datetime.getMinutes());
+		_str = _str.replace(/d/g,__datetime.getDate());
+		_str = _str.replace(/h/g,__datetime.getHours());
+		_str = _str.replace(/s/g,__datetime.getSeconds());
+		return _str;
+	};
     var __close = function() {
         if (__canvas == null)return;
 		__selectedCell = null;
@@ -316,13 +286,15 @@ var JskitDateSelector = function(rHd) {
 	this.setMode = function(v){
 		if(v.toLowerCase()=="d" || v=="0" || v==0){
 			__mode = "d";
+			__format = "yyyy-MM-dd";
 		    __jt.setColumns(__dateName[0],__dateName[1],__dateName[2],__dateName[3],__dateName[4],__dateName[5],__dateName[6]);
 		}else if(v.toLowerCase()=="dt" || v=="3" || v==3){
 			__mode = "dt";
+			__format = "yyyy-MM-dd hh:mm:ss";
 		    __jt.setColumns(__dateName[0],__dateName[1],__dateName[2],__dateName[3],__dateName[4],__dateName[5],__dateName[6]);
-		}else if(v=="m" || v=="M" || v=="1" || v==1){
+		}else if(v.toLowerCase()=="m" || v=="1" || v==1){
 			__mode = "m";
-			__format = "yyyy-mm";
+			__format = "yyyy-MM";
 		    __jt.setColumns("1", "2", "3", "4");
 		}else{
 			__mode = null;
@@ -408,10 +380,10 @@ var JskitDateSelector = function(rHd) {
 	this.__onClick = function(cell) {
 		var _row = cell.getAttribute("row").toInt(0);
 		var _col = cell.getAttribute("col").toInt(0);
-		var _day = __dayListInCalendar[_row][_col];
-		__jc.setDay(_day);
-		__datetime.setDate(_day);
 		if(__mode=="dt"){
+			var _day = __dayListInCalendar[_row][_col];
+			__jc.setDay(_day);
+			__datetime.setDate(_day);
 			_day = null;
 			__refreshCalendar();
 		}else if(__mode=="m"){
@@ -421,6 +393,10 @@ var JskitDateSelector = function(rHd) {
 			_month = null;
 			__onSelected();
 		}else{
+			var _day = __dayListInCalendar[_row][_col];
+			__jc.setDay(_day);
+			__datetime.setDate(_day);
+			_day = null;
 			__onSelected();
 		}
     };
@@ -435,9 +411,15 @@ var JskitDateSelector = function(rHd) {
 		__refreshCalendar();
     };
     this.selectYear = function(sender, e) {
-        __jc.setYear(sender.value);
-		__datetime.setYear(sender.value);
-        __refreshCalendar();
+		if(isNaN(parseInt(sender.value))){
+			sender.value = __datetime.getFullYear();
+		}else{
+			__jc.setYear(parseInt(sender.value));
+			__datetime.setYear(parseInt(sender.value));
+			if(__mode!="m"){
+				__refreshCalendar();
+			}
+		}
     };
 	this.seletctDateTime  = function(sender,e){
 		__datetime.setHours($("#"+__hd+"_t_h").value);
@@ -452,7 +434,7 @@ var JskitDateSelector = function(rHd) {
         __appendCanvas();
     };
 	this.openMode = function(sender,e,mode,format,year,month){
-		__mode = mode;
+		this.setMode(mode);
 		this.open(sender,e,format,year,month);
 	};
     this.open = function(sender, e, format, year, month) {
@@ -479,7 +461,7 @@ var JskitDateSelector = function(rHd) {
                 __jc.setYear(year);
 				__datetime.setYear(year);
             }else{
-				__jc.setYear(__datetime.getYear());
+				__jc.setYear(__datetime.getFullYear());
 			}
             if (typeof(month) == "number" && month <= 12 && month >= 1) {
                 __jc.setMonth(month);
