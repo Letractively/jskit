@@ -11,7 +11,7 @@ function JskitBase(rHd){
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "0.9.20120119(B)";
+    this.version = "0.9.20120123(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
