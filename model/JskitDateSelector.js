@@ -16,7 +16,6 @@ var JskitDateSelector = function(rHd) {
     __jt.setAction("onclick", __hd + ".__onClick");
     var __dateName = ["Su", "Mo", "Tu","We","Th","Fr","St"];
     var __dayListInCalendar = null;
-
     var __mode = "d";//d:date,m:month,t:time,dt,date+time
 
 	var __canvas = null;
@@ -25,7 +24,7 @@ var JskitDateSelector = function(rHd) {
     var __calendarTitleCssClass = "";
 	var __calendarTimeBoxCssClass = "";
     var __caller = null;
-    var __format = null;
+    var __format = "yyyy-MM-dd";
     var __yearSelector = null;
 
 	var __CssWeekend = "";
@@ -240,6 +239,7 @@ var JskitDateSelector = function(rHd) {
         return (rNum < 10) ? "0" + rNum : rNum + "";
     };
 	var __getValue = function(){
+		if(__format==null || __format==''){return "";}
 		var _str = __format;
 		_str = _str.replace(/yyyy/g,__datetime.getFullYear());
 		_str = _str.replace(/yy/g,(__datetime.getFullYear()+"").substr(2,2));
