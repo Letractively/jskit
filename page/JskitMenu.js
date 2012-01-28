@@ -370,10 +370,12 @@ function JskitMenu(rHd) {
     };
     //#End
     var __getMenuNodeById = function(rId) {
-        return __root.selectSingleNode("//" + __TAG + "[@id='" + rId + "']");
+		if(__root==null){return null;}
+        else{return __root.selectSingleNode("//" + __TAG + "[@id='" + rId + "']")};
     };
     var __getNodeList = function() {
-        return __root.selectNodes("//" + __TAG + "[@type='" + __TYPE_NODE + "']");
+		if(__root==null){return null;}
+		else{return __root.selectNodes("//" + __TAG + "[@type='" + __TYPE_NODE + "']")};
     };
     var __getMenuNodeByItem = function(rItem) {
         if (rItem == null || rItem.getAttribute == null)return null;
@@ -431,6 +433,36 @@ function JskitMenu(rHd) {
         }
         return false;
     };
+
+	var __convertJsonItem2Xml = function(rDoc,rParent,rItem){
+		for(var i=0;i<rJson.length;i++){
+			_item = rJson[i];
+			_node = rDoc.createElement("div");
+			_node.setAttribute("type",_item.jmnode);
+			_node.setAttribute("id",_item.id);
+			_node.setAttribute("target",_item.target);
+			_node.setAttribute("css",_item.css);
+			_node.setAttribute("url",_item.url);
+			_node.setAttribute("name",_item.name);
+			_node.setAttribute("direction",_item.direction);
+			_node.setAttribute("location",_item.location);
+			rParent.appendChild(_node);
+			if(_item.children.length>0){
+				rDoc = __convertJsonItem2Xml(rDoc,_node,_item.children);
+			}
+		}
+		return rDoc;
+	};
+	var __convertJson2Xml = function(rJson){
+		//<div type=\"jmnode\" id=\"jm1\" target=\"_self\" css=\"jskitmenu_item_f\" url=\"\" name=\"操作\" direction=\"2\" location=\"3\">
+		var _item = null;
+		var _doc = jskitXml.loadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><root id=\"root\"></root>");
+		var _root = _doc.documentElement;
+		var _node = null;
+		if(rJson.length>0){
+			_doc = __convertJsonItem2Xml(_doc,_root,rJson);
+		}
+	};
     //#Begin Public methods
     //----------------------------------------------------
     //valid in dynamic menu
@@ -856,13 +888,13 @@ function JskitMenu(rHd) {
         return __root;
     };
     this.getNodeById = function(id) {
-        return __root.selectSingleNode("//div[@id='" + id + "']");
+        return __root.selectSingleNode("//"+__TAG+"[@id='" + id + "']");
     };
     this.getMenuHtmlCode = function() {
         return __getMenuHtmlCode();
     };
     this.nodeList = function() {
-        return __root.selectNodes("//div[@type='" + __TYPE_NODE + "']");
+        return __root.selectNodes("//"+__TAG+"[@type='" + __TYPE_NODE + "']");
     };
     this.isNode = function(rNode) {
         return __isNode(rNode);
@@ -947,6 +979,42 @@ function JskitMenu(rHd) {
         __root = __data.documentElement;
         __dynamic = (__root.getAttribute("dynamic") == "true");
     };
+	
+	var __convertJson2Xml = function(rItem){
+		var _str = new Array();
+		for(var i=0;i<rItem.length;i++){
+			_item = rItem[i];
+			_str.push('<'+__TAG);
+			_str.push(' type=\"'+_item.type+'\" ');
+			_str.push(' id=\"'+_item.id+'\" ');
+			_str.push(' target=\"'+_item.target+'\" ');
+			_str.push(' css=\"'+_item.css+'\" ');
+			_str.push(' url=\"'+_item.url+'\" ');
+			_str.push(' name=\"'+_item.name+'\" ');
+			_str.push(' direction=\"'+_item.direction+'\" ');
+			_str.push(' location=\"'+_item.location+'\" ');
+			if(_item.children.length>0){
+				_str.push(' >');
+				_str.push(__convertJson2Xml(_item.children));
+				_str.push('</div>');
+			}else{
+				_str.push(' />');
+			}
+		}
+		return _str.join('');
+	};
+	this.loadJson = function(rJson,rDynamic){
+		if(rJson.length>0){
+			var _xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><root id=\"root\">"+ __convertJson2Xml(rJson)+"</root>";
+			__data = jskitXml.loadXml(_xml);
+			__root = __data.documentElement;
+			_xml = null;
+		}else{
+			__data = null;
+			__root = null;
+		}
+        __dynamic = (typeof(rDynamic)== "boolean" && rDynamic);
+	};
     this.onDocumentLoad = function(){
         __documentLoaded = true;
     };

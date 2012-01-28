@@ -90,7 +90,7 @@ function JskitEvents(rHd){
 			//return true;
 		}
 		var _bk = false;
- 		var _handler = (rHandler.indexOf("(")!=-1)?rHandler:rHandler+"(event)";
+ 		var _handler = (typeof(rHandler)=="string" && rHandler.indexOf(")")==(rHandler.length-1))?rHandler:rHandler+"(event)";
 		if ( $jvm["event"] ) {//for browsers which support window.event
 			eval("_bk = rObj.attachEvent(\""+rName+"\", function(){return "+ _handler+";})");
 			if(_bk){
