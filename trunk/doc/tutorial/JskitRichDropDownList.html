@@ -136,7 +136,7 @@
                                     <td>
                                     </td>
                                     <td>
-                                        不通过ajax方式加载数据，直接取用已有的数据
+                                        不通过ajax方式加载数据，直接取用通过参数传递进来的已有的数据
                                     </td>
                                 </tr>
                                 <tr>
@@ -144,7 +144,8 @@
                                         setSelectAction(rFuncName)
                                     </td>
                                     <td>
-                                        rFuncName：方法名（不包括参数）
+                                        rFuncName：方法名（不包括参数），系统自动为其传递选择项的Key和Value两个参数
+                                        <br />如：setSelectAction("aaa"),实际执行aaa(key,value);
                                     </td>
                                     <td>
                                     </td>

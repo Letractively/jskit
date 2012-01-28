@@ -102,6 +102,7 @@
             <ul>
                 <li><a href="#menu">1、输出导航菜单</a></li>
                 <li><a href="#tree">2、输出树形菜单</a></li>
+                <li><a href="#format">2、菜单数据格式</a></li>
             </ul>
         </td>
     </tr>
@@ -259,7 +260,64 @@
             </div>
         </td>
     </tr>
-    </tbody>
+    <tr>
+        <td class="package2">
+            <a id="format"></a>3、菜单数据的格式
+        </td>
+    </tr>
+    <tr>
+        <td>
+			格式1：Xml
+            <textarea name="JskitSyntax_code" class="xml">
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;root id="root">
+	&lt;div type="jmnode" id="id0" target="_self" css="jskitmenu_item_f" url="1.html" name="菜单1" direction="2" location="3">
+		&lt;div type="jmnode" id="id0-0" target="_self" css="jskitmenu_item" url="1-1.html" name="菜单1-1" direction="2" location="3" />
+	&lt;/div>
+	&lt;div type="jmnode" id="id1" target="_self" css="jskitmenu_item_f" url="2.html" name="菜单2" direction="2" location="3" />
+&lt;/root>
+            </textarea>
+			格式2：Json
+			<textarea name="JskitSyntax_code" class="js">
+[
+	{	type:"jmnode",
+		id:"jm1",
+		target:"_self",
+		css:"jskitmenu_item_f",
+		url:"",
+		name:"Action1",
+		direction:2,
+		location:3,
+		children:[
+			{	type:"jmnode",
+				id:"jm1-1",
+				target:"_self",
+				css:"jskitmenu_item_f",
+				url:"",
+				name:"Action1-1",
+				direction:2,
+				location:3,
+				children:[
+				
+				]
+			}
+		]
+	}
+	,{	type:"jmnode",
+		id:"jm2",
+		target:"_self",
+		css:"jskitmenu_item_f",
+		url:"",
+		name:"Action2",
+		direction:2,
+		location:3,
+		children:[]
+	}
+];
+			</textarea>
+        </td>
+    </tr>
+	</tbody>
 </table>
 </body>
 </html>
