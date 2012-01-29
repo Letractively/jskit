@@ -239,21 +239,7 @@ var JskitDateSelector = function(rHd) {
         return (rNum < 10) ? "0" + rNum : rNum + "";
     };
 	var __getValue = function(){
-		if(__format==null || __format==''){return "";}
-		var _str = __format;
-		_str = _str.replace(/yyyy/g,__datetime.getFullYear());
-		_str = _str.replace(/yy/g,(__datetime.getFullYear()+"").substr(2,2));
-		_str = _str.replace(/MM/g,__numberFix(__datetime.getMonth()+1));
-		_str = _str.replace(/mm/g,__numberFix(__datetime.getMinutes()));
-		_str = _str.replace(/dd/g,__numberFix(__datetime.getDate()));
-		_str = _str.replace(/hh/g,__numberFix(__datetime.getHours()));
-		_str = _str.replace(/ss/g,__numberFix(__datetime.getSeconds()));
-		_str = _str.replace(/M/g,__datetime.getMonth()+1);
-		_str = _str.replace(/m/g,__datetime.getMinutes());
-		_str = _str.replace(/d/g,__datetime.getDate());
-		_str = _str.replace(/h/g,__datetime.getHours());
-		_str = _str.replace(/s/g,__datetime.getSeconds());
-		return _str;
+		return __datetime.toString(__format);
 	};
     var __close = function() {
         if (__canvas == null)return;
@@ -356,7 +342,8 @@ var JskitDateSelector = function(rHd) {
 		var val = __getValue();
 		if(__caller!=null){
 			if (__caller.tagName.toLowerCase() == "input"){
-				if(__caller.getAttribute("type")==null || __caller.getAttribute("type").toLowerCase()=="text"){
+				if(__caller.getAttribute("type")==null || __caller.getAttribute("type").toLowerCase()=="text"
+					|| __caller.getAttribute("type").toLowerCase()=="hidden"){
 					__caller.value = val;
 				}else{
 					/*do nothing*/
@@ -365,6 +352,7 @@ var JskitDateSelector = function(rHd) {
 				/*do nothing*/
 			}else if(__caller.tagName!="undefined"){
 				__caller.innerHTML = val;
+				__caller.setAttribute("value",val);
 			}else{
 				/*do nothing*/
 			}
@@ -447,15 +435,15 @@ var JskitDateSelector = function(rHd) {
 			}
 		}
         if (typeof(format) == "string" && format.length > 0){__format = format;}
-        if (sender.value != "") {
-            __datetime = jskitUtil.date.parse(sender.value);
+        if (sender.getAttribute("value") != "") {
+            __datetime = jskitUtil.date.parse(sender.getAttribute("value"));
             if (__datetime!=null && !isNaN(__datetime) && /Date/.test(__datetime.constructor)) {
                 __jc.setYear(__datetime.getFullYear());
                 __jc.setMonth(__datetime.getMonth() + 1);
 			}else{
 				__datetime = new Date();
 			}
-        } else {
+        } else if(__datetime==null){
 			__datetime = new Date();
             if (typeof(year) == "number" && year >= 1) {
                 __jc.setYear(year);

@@ -11,7 +11,7 @@ function JskitBase(rHd){
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "0.9.20120125(B)";
+    this.version = "0.9.20120129(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -385,6 +385,43 @@ String.prototype.replaceAll = function (rPattern, rNewStr, rOptions) {
 };
 /*#END ====================================================================*/
 /*#BEGIN ( Jskit Date definition ) =====================================*/
+Date.prototype.toString = function(rFormat){
+	if(rFormat==null || rFormat==''){return "";}
+	var _str = rFormat;
+	_str = _str.replace(/yyyy/g,this.getFullYear());
+	_str = _str.replace(/yy/g,(this.getFullYear()+"").substr(2,2));
+	if(this.getMonth()+1 < 10){
+		_str = _str.replace(/MM/g,"0"+(this.getMonth()+1));
+	}else{
+		_str = _str.replace(/MM/g,(this.getMonth()+1));
+	}
+	if(this.getMinutes()){
+		_str = _str.replace(/mm/g,"0"+this.getMinutes());
+	}else{
+		_str = _str.replace(/mm/g,this.getMinutes());
+	}
+	if(this.getDate() < 10){
+		_str = _str.replace(/dd/g,"0"+this.getDate());
+	}else{
+		_str = _str.replace(/dd/g,this.getDate());
+	}
+	if(this.getHours()< 10){
+		_str = _str.replace(/hh/g,"0"+this.getHours());
+	}else{
+		_str = _str.replace(/hh/g,this.getHours());
+	}
+	if(this.getSeconds() < 10){
+		_str = _str.replace(/ss/g,"0"+this.getSeconds());
+	}else{
+		_str = _str.replace(/ss/g,this.getSeconds());
+	}
+	_str = _str.replace(/M/g,this.getMonth()+1);
+	_str = _str.replace(/m/g,this.getMinutes());
+	_str = _str.replace(/d/g,this.getDate());
+	_str = _str.replace(/h/g,this.getHours());
+	_str = _str.replace(/s/g,this.getSeconds());
+	return _str;
+};
 Date.prototype.toJskitString = function(){
     this.dateNumberFoart = function(rNum){
         return (rNum < 10) ? "0" + rNum : rNum + "";
@@ -400,7 +437,7 @@ Date.prototype.toJskitString = function(){
     this.dateNumberFoart(this.getMinutes()) +
     ":" +
     this.dateNumberFoart(this.getSeconds())
-}
+};
 /*#END ====================================================================*/
 
 /*#BEGIN ( Jskit base methods ) ===========================================*/

@@ -279,7 +279,7 @@ function JskitUtil(){
 	            var d = new Date();
 	            if(/Date/.test(rDt.constructor)){
 	                d = rDt;
-	            }else if(typeof(rDt)=="string"){
+	            }else if(typeof(rDt)=="string" && rDt!=""){
 					d = new Date(Date.parse(rDt.replace(/-/g,"/")));
 	            }else{
 					d = null;
