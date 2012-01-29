@@ -8,7 +8,7 @@ function JskitCalendar(){
     var __TERMCODE = new Array(0, 21208, 42467, 63836, 85337, 107014, 128867, 150921, 173149, 195551, 218072, 240693, 263343, 285989, 308563, 331033, 353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758);
     var __DAYTEXT_CN1 = new Array(decodeURI("%E6%97%A5"),decodeURI("%E4%B8%80"),decodeURI("%E4%BA%8C"),decodeURI("%E4%B8%89"),decodeURI("%E5%9B%9B"),decodeURI("%E4%BA%94"),decodeURI("%E5%85%AD"),decodeURI("%E4%B8%83"),decodeURI("%E5%85%AB"),decodeURI("%E4%B9%9D"),decodeURI("%E5%8D%81"));
     var __DAYTEXT_CN2 = new Array(decodeURI("%E5%88%9D"),decodeURI("%E5%8D%81"),decodeURI("%E5%BB%BF"),decodeURI("%E5%8D%85"));
-    var __MONTH_CN = new Array(decodeURI("%E4%B8%80"),decodeURI("%E4%BA%8C"),decodeURI("%E4%B8%89"),decodeURI("%E5%9B%9B"),decodeURI("%E4%BA%94"),decodeURI("%E5%85%AD"),decodeURI("%E4%B8%83"),decodeURI("%E5%85%AB"),decodeURI("%E4%B9%9D"),decodeURI("%E5%8D%81"),decodeURI("%E5%8D%81%E4%B8%80"),decodeURI("%E5%8D%81%E4%BA%8C"));
+    var __MONTH_CN = new Array(decodeURI("%E6%AD%A3"),decodeURI("%E4%BA%8C"),decodeURI("%E4%B8%89"),decodeURI("%E5%9B%9B"),decodeURI("%E4%BA%94"),decodeURI("%E5%85%AD"),decodeURI("%E4%B8%83"),decodeURI("%E5%85%AB"),decodeURI("%E4%B9%9D"),decodeURI("%E5%8D%81"),decodeURI("%E5%8D%81%E4%B8%80"),decodeURI("%E5%8D%81%E4%BA%8C"));
     var __MONTH_EN = new Array("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
 	var __LUNAR_FESTIVAL=new Array();
 	__LUNAR_FESTIVAL[10101]=decodeURI("%E6%98%A5%E8%8A%82");
@@ -152,6 +152,13 @@ function JskitCalendar(){
 	this.loadDate = function(v){
 		return new Date(__year,__month,__day);
 	};
+	this.setDate = function(rDate){
+		if(/Date/.test(rDate.constructor)){
+			__year = rDate.getYear();
+			__month = rDate.getMonth();
+			__day = rDate.getDate();
+		}
+	};
 	this.setMonth = function(v){
 		__month = v;
 	};
@@ -271,8 +278,9 @@ function JskitCalendar(){
         this.getDay = function(){
             return __day;
         };
+
         this.getMonthText = function(){
-            return __MONTH_CN[__month - 1];
+            return __MONTH_CN[__month - 1]+decodeURI("%E6%9C%88");
         };
         this.getDayText = function(){
             var s;
@@ -329,13 +337,16 @@ function JskitCalendar(){
                 _lf = "";
             return _lf;
         };
-        this.parse = function(rYear, rMonth, rDay){
-            rMonth = (rMonth < 0) ? 0 : (rMonth - 1);
-            __solarYear = rYear;
-            __solarMonth = rMonth;
-            __solarDay = rDay;
+		this.parseDate = function(rSolarDate){
+			this.parse(rSolarDate.getYear(),rSolarDate.getMonth()+1,rSolarDate.getDate());	
+		};
+        this.parse = function(rSolarYear, rSolarMonth, rSolarDay){
+            rSolarMonth = (rSolarMonth < 0) ? 0 : (rSolarMonth - 1);
+            __solarYear = rSolarYear;
+            __solarMonth = rSolarMonth;
+            __solarDay = rSolarDay;
             var i, leap = 0, temp = 0;
-            var offset = (Date.UTC(rYear, rMonth, rDay) - Date.UTC(1900, 0, 31)) / 86400000;
+            var offset = (Date.UTC(rSolarYear, rSolarMonth, rSolarDay) - Date.UTC(1900, 0, 31)) / 86400000;
             for (i = 1900; i < 2050 && offset > 0; i++) {
                 temp = __daysInYear(i);
                 offset -= temp;
