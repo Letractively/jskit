@@ -120,19 +120,23 @@ var JskitRichDropDownList = function (rHd) {
         var _input = __textField.value.toLowerCase();
         var _str = new Array();
         var _txt = null;
+		var _tval = null;
         var _val = null;
         var _sub = null;
         for (var i = 0; i < rData.length; i++) {
             _txt = rData[i][1];
             if (typeof (_txt) == "string" && _txt.indexOf(",") != -1) {
                 var _txtArr = _txt.split(',');
+				_tval = _txtArr[0];
                 _txt = _txtArr[0] + "(";
                 for (var j = 1; j < _txtArr.length; j++) {
                     if (j > 1) { _txt += ","; }
                     _txt += _txtArr[j];
                 }
                 _txt += ")";
-            }
+            }else{
+				_tval = _txt;
+			}
             _val = rData[i][0];
             if (rData[i].length > 2) {
                 _sub = rData[i][2];
@@ -140,7 +144,7 @@ var JskitRichDropDownList = function (rHd) {
             _str.push('<div class="JskitRichDropDownList_tree_group" >');
             if (_sub != null && _sub.length > 0) {
                 if (__folderSelectable && (!__inputHold || (_input == "" || __itemFilterByInput(_input, _txt)))) {
-                    _str.push('<div key="' + _val + '" idx="' + i + '" class="JskitRichDropDownList_item"  ');
+                    _str.push('<div key="' + _val + '" txt="'+_tval+'" idx="' + i + '" class="JskitRichDropDownList_item"  ');
                     _str.push(' onmouseout="' + __hd + '.onItemMouseOut(this,event);" ');
                     _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                     _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
@@ -153,7 +157,7 @@ var JskitRichDropDownList = function (rHd) {
                 _str.push('</div>');
             } else {
                 if (!__inputHold || (_input == "" || __itemFilterByInput(_input, _txt))) {
-                    _str.push('<div key="' + _val + '" idx="' + i + '" class="JskitRichDropDownList_item" ');
+                    _str.push('<div key="' + _val + '" txt="'+_tval+'" idx="' + i + '" class="JskitRichDropDownList_item" ');
                     _str.push(' onmouseout="' + __hd + '.onItemMouseOut(this,event);" ');
                     _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                     _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
@@ -184,6 +188,7 @@ var JskitRichDropDownList = function (rHd) {
         var _str = new Array();
         var _txt = null;
         var _val = null;
+		var _tval = null;
         var _sub = null;
         var _txtArray = null;
         var _curValue = "," + __valueField.value;
@@ -197,8 +202,10 @@ var JskitRichDropDownList = function (rHd) {
                 _txtArray = new Array();
                 if (_txt.indexOf(",") != -1) {
                     _txtArray = _txt.split(',');
+					_tval = _txtArray[0];
                 } else {
                     _txtArray.push(_txt);
+					_tval = _txt;
                 }
                 if (__muiltSelectFilterValue != null) {
                     if (_txtArray[__muiltSelectFilterValue[0]] != __muiltSelectFilterValue[1]) { continue; }
@@ -220,15 +227,18 @@ var JskitRichDropDownList = function (rHd) {
             } else {
                 if (typeof (_txt) == "string" && _txt.indexOf(",") != -1) {
                     var _txtArr = _txt.split(',');
+					_tval = _txtArr[0];
                     _txt = _txtArr[0] + "(";
                     for (var j = 1; j < _txtArr.length; j++) {
                         if (j > 1) { _txt += ","; }
                         _txt += _txtArr[j];
                     }
                     _txt += ")";
-                }
+                }else{
+					_tval = _txt;
+				}
                 if (!__inputHold || (_input == "" || __itemFilterByInput(_input, _txt))) {
-                    _str.push('<div key="' + _val + '" idx="' + i + '" class="JskitRichDropDownList_item" ');
+                    _str.push('<div key="' + _val + '" txt="'+_tval+'" idx="' + i + '" class="JskitRichDropDownList_item" ');
                     _str.push(' onmouseout="' + __hd + '.onItemMouseOut(this,event);" ');
                     _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                     _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
@@ -296,7 +306,7 @@ var JskitRichDropDownList = function (rHd) {
             }
             if (__emptySelectText != null) {
                 _str.push('<div class="JskitRichDropDownList_tree_group" >');
-                _str.push('<div key="" class="JskitRichDropDownList_item" ');
+                _str.push('<div key="" txt="'+__emptySelectText+'" class="JskitRichDropDownList_item" ');
                 _str.push(' onmouseout="' + __hd + '.onItemMouseOut(this,event);" ');
                 _str.push(' onmouseover="' + __hd + '.onItemMouseOver(this,event);" ');
                 _str.push(' onclick="' + __hd + '.onSelect(this,event);" ');
@@ -366,7 +376,8 @@ var JskitRichDropDownList = function (rHd) {
     this.onSelect = function (sender, e) {
         if (!__init) { alert("init failed"); return; }
         var _key = sender.getAttribute("key");
-        var _val = (_key != "") ? sender.innerHTML : "";
+        //var _val = (_key != "") ? sender.innerHTML : "";
+		var _val = sender.getAttribute("txt");
         __finalSelected(_val, _key);
         __close();
     };
