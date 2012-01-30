@@ -103,6 +103,16 @@ var JskitBulter = function(){
             _actor = __actorMap[key] = null;
         };
     };
+	this.redirect = function(rUrl){
+		var _base = $("base")[0];
+		var _url = null;
+		if(_base!=null){
+			_url = _base.getAttribute("href")+rUrl;
+		}else{
+			_url = rUrl;
+		}
+		window.location.href = _url;
+	};
     //#End action
     this.OnLoad = function(){
         this.msg.show();
