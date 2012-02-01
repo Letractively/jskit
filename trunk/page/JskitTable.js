@@ -127,8 +127,7 @@ function JskitTable(rHd){
         }
 	};
 	var __convertValue = function(v){
-		if(typeof(v)=="undefined" || v==null)v="";
-		return v;
+		return (typeof(v)!="string")?"":v;
 	};
 	var __buildActionGroup = function(){
 		var _s = new Array();
