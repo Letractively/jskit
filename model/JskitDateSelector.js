@@ -31,15 +31,9 @@ var JskitDateSelector = function(rHd) {
 	var __CssToday= "";
 	
 	var __datetime = null;
+	var __autoCallback = true;
 	var __selectedHandler = null;
-	var __drawCalendar = function(){
-		if(__mode=="m"){
-			__drawMonthCalendar();
-		}else if(__mode=="d" || __mode=="dt"){
-			__drawDateCalendar();
-		}
-	};
-	var __getMonthCellText = function(rowIdx,colIdx){
+		var __getMonthCellText = function(rowIdx,colIdx){
 		var m = rowIdx*4+colIdx;
 		if(m<10){
 			return "0"+m+unescape("%u6708");
@@ -47,7 +41,7 @@ var JskitDateSelector = function(rHd) {
 			return m+unescape("%u6708");
 		}
 	};
-	var __drawMonthCalendar = function(){
+	var __getMonthCalendarCode = function(){
         var _str = new Array();
         _str.push('<table ' + __canvasCssClass + '>');
         _str.push('	<tr>');
@@ -74,45 +68,11 @@ var JskitDateSelector = function(rHd) {
         _str.push('		</td>');
         _str.push('	</tr>');
 		_str.push('</table>');
-        __canvas.innerHTML = _str.join('');
-		__refreshCalendar();
+		return _str.join('');
 	};
+
 	//date select content
-	var __refreshCalendar = function(){
-        __jt.clear();
-		if(__mode=="m"){
-			for(var i=0;i<3;i++){
-				__jt.insert(__getMonthCellText(i,1), __getMonthCellText(i,2),__getMonthCellText(i,3),__getMonthCellText(i,4));
-			}
-			$("#"+__canvasId+"_body").innerHTML = __jt.getTableHtml(false,__jc.getMonth());
-		}else{
-			__jt.setColumnCssClass(__dateName[0], __CssWeekend);
-			__jt.setColumnCssClass(__dateName[6], __CssWeekend);
-			__dayListInCalendar = __jc.getCalendarList();
-			var _currRowIdx = -1;
-			var _currColIdx = -1;
-			var _today = (__datetime!=null)?__datetime.getDate():__jc.getDay();
-			for (var i = 0; i < __dayListInCalendar.length; i++) {
-				var _w = __dayListInCalendar[i];
-				if(_currRowIdx<0 && _currColIdx<0){
-					for(var j=0;j<7;j++){
-						if(_w[j]== _today){
-							_currRowIdx = i;
-							_currColIdx = j;
-							break;
-						}
-					}
-				}
-				__jt.insert(__getCell(_w[0]), __getCell(_w[1]), __getCell(_w[2]), __getCell(_w[3]), __getCell(_w[4]), __getCell(_w[5]), __getCell(_w[6]));
-			}
-			_today = null;
-			if(_currRowIdx>=0 && _currColIdx>=0 && __CssToday!=null){
-				__jt.setCellCssClass(_currRowIdx,_currColIdx,__CssToday);
-			}
-			$("#"+__canvasId+"_body").innerHTML = __jt.getTable();
-		}
-	};
-    var __drawDateCalendar = function() {
+    var __getDateCalendarCode = function() {
         var _str = new Array();
         _str.push('<table ' + __canvasCssClass + '>');
         _str.push('	<tr>');
@@ -205,9 +165,91 @@ var JskitDateSelector = function(rHd) {
 			_str.push('	</tr>');
 		}
         _str.push('</table>');
-        __canvas.innerHTML = _str.join('');
+		return _str.join('');
+	};
+	var __cellIdFix = jskitUtil.guid();
+	var __jtCellData = function(rVal){
+		if(rVal=='' || rVal==null){
+			return '';
+		}else{
+			return '<div id="'+__jcCellId(rVal)+'">'+rVal+'</div><div id="'+__jcCellId(rVal)+'ext">'+__defaultMark+'</div>';
+		}
+	};
+	var __jcCellId =  function(rDay){
+		return __cellIdFix+"d"+rDay;
+	};
+	
+	this.markIn = function(rDay,rContent){
+		var _cell = $("#"+__jcCellId(rDay)+"ext");
+		if(_cell!=null){
+			_cell.innerHTML = rContent;
+		}
+	};
+	var __defaultMark = "";
+	this.setDefaultMark = function(rContent){
+		__defaultMark = rContent;
+	};
+
+	var __getCalendarBody = function(){
+		if(__mode=="m"){
+			for(var i=0;i<3;i++){
+				__jt.insert(__getMonthCellText(i,1), __getMonthCellText(i,2),__getMonthCellText(i,3),__getMonthCellText(i,4));
+			}
+			return __jt.getTableHtml(false,__jc.getMonth());
+		}else{
+			__jt.setColumnCssClass(__dateName[0], __CssWeekend);
+			__jt.setColumnCssClass(__dateName[6], __CssWeekend);
+			__dayListInCalendar = __jc.getCalendarList();
+			var _currRowIdx = -1;
+			var _currColIdx = -1;
+			var _today = (__datetime!=null)?__datetime.getDate():__jc.getDay();
+			for (var i = 0; i < __dayListInCalendar.length; i++) {
+				var _w = __dayListInCalendar[i];
+				if(_currRowIdx<0 && _currColIdx<0){
+					for(var j=0;j<7;j++){
+						if(_w[j]== _today){
+							_currRowIdx = i;
+							_currColIdx = j;
+							break;
+						}
+					}
+				}
+				__jt.insert(__jtCellData(__getCell(_w[0]))
+					, __jtCellData(__getCell(_w[1]))
+					, __jtCellData(__getCell(_w[2]))
+					, __jtCellData(__getCell(_w[3]))
+					, __jtCellData(__getCell(_w[4]))
+					, __jtCellData(__getCell(_w[5]))
+					, __jtCellData(__getCell(_w[6]))
+					);
+			}
+			_today = null;
+			if(_currRowIdx>=0 && _currColIdx>=0 && __CssToday!=null){
+				__jt.setCellCssClass(_currRowIdx,_currColIdx,__CssToday);
+			}
+			return __jt.getTable();
+		}
+	};
+	var __refreshCalendar = function(){
+        __jt.clear();
+		$("#"+__canvasId+"_body").innerHTML = __getCalendarBody();
+	};
+	var __getCalendarCode = function(){
+		if(__mode=="m"){
+			return __getMonthCalendarCode();
+		}else if(__mode=="d" || __mode=="dt"){
+			return __getDateCalendarCode();
+		}
+		return "";
+	};
+	var __drawCalendar = function(){
+		__canvas.innerHTML = __getCalendarCode();
 		__refreshCalendar();
-    };
+	};
+	this.getCalendarBodyHTML = function(){
+        __jt.clear();
+		return __getCalendarBody();
+	};
     var __getCell = function(day) {
         return day;
     };
@@ -242,8 +284,8 @@ var JskitDateSelector = function(rHd) {
 		return __datetime.toString(__format);
 	};
     var __close = function() {
-        if (__canvas == null)return;
 		__selectedCell = null;
+        if (__canvas == null){return;}
         __canvas.style.display = "none";
     };
     this.__goNext = function() {
@@ -285,6 +327,9 @@ var JskitDateSelector = function(rHd) {
 		}else{
 			__mode = null;
 		}
+	};
+	this.getMode = function(){
+		return __mode;
 	};
 
     this.setTableCssClass = function(v) {
@@ -334,13 +379,18 @@ var JskitDateSelector = function(rHd) {
 			__jt.setColumns("","","","");
 		}
     };
+	this.setDate = function(v){
+		__jc.setDate(v);
+		__datetime = v;
+        //alert("jskitDateSelector:"+__datetime.toString("yyyy-MM-dd"));
+	};
     this.getJskitCalerdar = function() {
         return __jc;
     };
 
     var __onSelected = function(){
 		var val = __getValue();
-		if(__caller!=null){
+		if(__autoCallback && __caller!=null){
 			if (__caller.tagName.toLowerCase() == "input"){
 				if(__caller.getAttribute("type")==null || __caller.getAttribute("type").toLowerCase()=="text"
 					|| __caller.getAttribute("type").toLowerCase()=="hidden"){
@@ -418,6 +468,9 @@ var JskitDateSelector = function(rHd) {
 	this.setSelectedHandler = function(v){
 		__selectedHandler = v;
 	};
+	this.setAutoCallback = function(v){
+		__autoCallback = (v==="yes" || v===1 || v===true);
+	};
     this.appendCanvas = function() {
         __appendCanvas();
     };
@@ -435,7 +488,7 @@ var JskitDateSelector = function(rHd) {
 			}
 		}
         if (typeof(format) == "string" && format.length > 0){__format = format;}
-        if (sender.getAttribute("value") != "") {
+        if (__autoCallback && __caller.getAttribute("value") != "") {
             __datetime = jskitUtil.date.parse(sender.getAttribute("value"));
             if (__datetime!=null && !isNaN(__datetime) && /Date/.test(__datetime.constructor)) {
                 __jc.setYear(__datetime.getFullYear());

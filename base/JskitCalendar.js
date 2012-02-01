@@ -155,8 +155,10 @@ function JskitCalendar(){
 	this.setDate = function(rDate){
 		if(/Date/.test(rDate.constructor)){
 			__year = rDate.getYear();
-			__month = rDate.getMonth();
+			__month = rDate.getMonth()+1;
 			__day = rDate.getDate();
+		}else{
+			alert("JskitCalendar:setDate:Error:Invalid Params of rDate");
 		}
 	};
 	this.setMonth = function(v){
@@ -338,7 +340,9 @@ function JskitCalendar(){
             return _lf;
         };
 		this.parseDate = function(rSolarDate){
-			this.parse(rSolarDate.getYear(),rSolarDate.getMonth()+1,rSolarDate.getDate());	
+			if(rSolarDate!=null){
+				this.parse(rSolarDate.getYear(),rSolarDate.getMonth()+1,rSolarDate.getDate());	
+			}
 		};
         this.parse = function(rSolarYear, rSolarMonth, rSolarDay){
             rSolarMonth = (rSolarMonth < 0) ? 0 : (rSolarMonth - 1);

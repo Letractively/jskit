@@ -221,7 +221,46 @@
                             <td>当日期时间选择完成后触发的事件，相当于执行$rFuncName($SelectedDate);
                             </td>
                         </tr>
-						
+                        <tr>
+                            <td>setDate(rDate)
+                            </td>
+                            <td>rDate 日期时间对象
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置当前日期时间
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setAutoCallback(rVal)
+                            </td>
+                            <td>rVal: yes|no,1|0,true|false
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置是否自动为触发日历的控件的value属性赋值。如果为true，每次开启日历控件时，通过该对象的value值设置初始日期时间。缺省为true
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setDefaultMark(rContent)
+                            </td>
+                            <td>rContent: 支持html格式的文本
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置填充到日历控件单元格中的缺省内容(不会覆盖日期的显示)，缺省为""
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>markIn(rDay,rContent)
+                            </td>
+                            <td>rDay: 当月中的日子<br/>rContent: 支持html格式的文本
+                            </td>
+                            <td>
+                            </td>
+                            <td>将内容填充到日历控件中指定日子的单元格中(不会覆盖日期的显示)
+                            </td>
+                        </tr>
 					</tbody>
                 </table>
             </td>

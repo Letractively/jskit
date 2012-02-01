@@ -280,7 +280,13 @@ function JskitUtil(){
 	            if(/Date/.test(rDt.constructor)){
 	                d = rDt;
 	            }else if(typeof(rDt)=="string" && rDt!=""){
-					d = new Date(Date.parse(rDt.replace(/-/g,"/")));
+					var _pr = Date.parse(rDt.replace(/-/g,"/"));
+					if(isNaN(_pr)){
+						d = null;
+					}else{
+						d = new Date(_pr);
+					}
+					_pr = null;
 	            }else{
 					d = null;
 	            }
