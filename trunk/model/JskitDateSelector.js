@@ -410,7 +410,7 @@ var JskitDateSelector = function(rHd) {
 		if(__selectedHandler!=null){
 			try{eval(__selectedHandler+"('"+val+"')");}
 			catch(e){
-				alert(e.message);
+				alert("JskitDateSelector:Invoke selectedHandler Exception:"+e.message);
 			}
 		}
         __close();
