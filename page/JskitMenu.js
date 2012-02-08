@@ -847,10 +847,12 @@ function JskitMenu(rHd) {
 		}
     };
     this.setRootDirection = function(v) {
+		if(__root==null){return;}
         v = jskitUtil.select(v, 1, 2);
         __root.setAttribute(__ATTR_DIRECTION, v);
     };
     this.setDynamic = function(v) {
+		if(__root==null){return;}
         __dynamic = jskitUtil.select(v, false, true);
         __root.setAttribute("dynamic", __dynamic.toString());
     };
@@ -874,13 +876,14 @@ function JskitMenu(rHd) {
 	};
 
     this.move = function(rParent) {
+		if(__root==null){return;}
         if (__selectedNode == null)
             return;
         rParent.appendChild(__selectedNode);
     };
     this.remove = function() {
-        if (__selectedNode == null)
-            return;
+		if(__root==null){return;}
+        if (__selectedNode == null){return;}
         __selectedNode.parentNode.removeChild(__selectedNode);
         __selectedNode = null;
     };
@@ -888,26 +891,33 @@ function JskitMenu(rHd) {
         return __root;
     };
     this.getNodeById = function(id) {
+		if(__root==null){return;}
         return __root.selectSingleNode("//"+__TAG+"[@id='" + id + "']");
     };
     this.getMenuHtmlCode = function() {
+		if(__root==null){return;}
         return __getMenuHtmlCode();
     };
     this.nodeList = function() {
+		if(__root==null){return;}
         return __root.selectNodes("//"+__TAG+"[@type='" + __TYPE_NODE + "']");
     };
     this.isNode = function(rNode) {
+		if(__root==null){return;}
         return __isNode(rNode);
     };
     this.add = function(rParent, rCaption, rUrl, rTarget, rCss, rDirection, rLocation,rIcon) {
+		if(__root==null){return;}
         var _node = __Node(rCaption, rUrl, rTarget, rCss, rDirection, rLocation,rIcon);
         return this.push(rParent, _node);
     };
     this.addInternal = function(rParent,rCssClass){
+		if(__root==null){return;}
         var _node = __InternalNode(rCssClass);
         return this.push(rParent, _node);
     };
     this.update = function(rId, rParent, rCaption, rUrl, rTarget, rCss, rDirection, rLocation) {
+		if(__root==null){return;}
         var _node = this.getNodeById(rId);
         if (_node != null) {
             _node.childNodes[0].nodeValue = rCaption;
@@ -923,6 +933,7 @@ function JskitMenu(rHd) {
         _node = null;
     };
     this.push = function(rParent, rNode) {
+		if(__root==null){return;}
         if (rParent != null) {
             rParent.appendChild(rNode);
         }
@@ -932,6 +943,7 @@ function JskitMenu(rHd) {
         return rNode;
     };
     this.copyData = function(rData) {
+		if(__root==null){return;}
         while (__root.hasChildNodes()) {
             __root.removeChild(__root.childNodes[0]);
         }
@@ -945,6 +957,7 @@ function JskitMenu(rHd) {
         _node = null;
     };
     this.clone = function(rHd) {
+		if(__root==null){return;}
         eval("var " + rHd + " = new JskitMenu(\"" + rHd + "\");");
         eval(rHd + ".setLeftArrowHtml(__arrowHtml[3]);");
         eval(rHd + ".setDownArrowHtml(__arrowHtml[2]);");
@@ -958,26 +971,36 @@ function JskitMenu(rHd) {
     };
 
     this.expand = function(rSrcItem) {
+		if(__root==null){return;}
         if (typeof(rSrcItem) == "object")
             return __expand(rSrcItem);
         else
             return __expand();
     };
     this.expandTree = function(rStartNode) {
+		if(__root==null){return;}
         if (typeof(rStartNode) == "object")
             return __expandTree(rStartNode);
         else
             return __expandTree();
     };
     this.load = function(rXmlUrl) {
-        __data = jskitXml.load(rXmlUrl);
-        __root = __data.documentElement;
-        __dynamic = (__root.getAttribute("dynamic") == "true");
+		try{
+			__data = jskitXml.load(rXmlUrl);
+			__root = __data.documentElement;
+			__dynamic = (__root.getAttribute("dynamic") == "true");
+		}catch(e){
+			alert("JskitMenu:load:Exception:"+e.message);
+		}
     };
     this.loadXml = function(rXmlContent) {
-        __data = jskitXml.loadXml(rXmlContent);
-        __root = __data.documentElement;
-        __dynamic = (__root.getAttribute("dynamic") == "true");
+		try{
+			__data = jskitXml.loadXml(rXmlContent);
+			__root = __data.documentElement;
+			__dynamic = (__root.getAttribute("dynamic") == "true");
+		}catch(e){
+			alert("JskitMenu:load:Exception:"+e.message);
+		}
     };
 	
 	var __convertJson2Xml = function(rItem){
@@ -1004,16 +1027,20 @@ function JskitMenu(rHd) {
 		return _str.join('');
 	};
 	this.loadJson = function(rJson,rDynamic){
-		if(rJson.length>0){
-			var _xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><root id=\"root\">"+ __convertJson2Xml(rJson)+"</root>";
-			__data = jskitXml.loadXml(_xml);
-			__root = __data.documentElement;
-			_xml = null;
-		}else{
-			__data = null;
-			__root = null;
+		try{
+			if(rJson.length>0){
+				var _xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><root id=\"root\">"+ __convertJson2Xml(rJson)+"</root>";
+				__data = jskitXml.loadXml(_xml);
+				__root = __data.documentElement;
+				_xml = null;
+			}else{
+				__data = null;
+				__root = null;
+			}
+			__dynamic = (typeof(rDynamic)== "boolean" && rDynamic);
+		}catch(e){
+			alert("JskitMenu:load:Exception:"+e.message);
 		}
-        __dynamic = (typeof(rDynamic)== "boolean" && rDynamic);
 	};
     this.onDocumentLoad = function(){
         __documentLoaded = true;
