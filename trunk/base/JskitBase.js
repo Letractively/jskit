@@ -11,7 +11,7 @@ function JskitBase(rHd){
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "0.9.20120129(B)";
+    this.version = "0.9.201200202(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -395,7 +395,7 @@ Date.prototype.toString = function(rFormat){
 	}else{
 		_str = _str.replace(/MM/g,(this.getMonth()+1));
 	}
-	if(this.getMinutes()){
+	if(this.getMinutes()<10){
 		_str = _str.replace(/mm/g,"0"+this.getMinutes());
 	}else{
 		_str = _str.replace(/mm/g,this.getMinutes());

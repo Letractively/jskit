@@ -142,7 +142,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        getYear()/setYear(year)
+                                        getYear()
                                     </td>
                                     <td>
                                         
@@ -151,12 +151,12 @@
                                         integer
                                     </td>
                                     <td>
-                                        取得/设置阳历年
+                                        取得阳历年
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        getMonth()/setMonth(month)
+                                        setYear(year)
                                     </td>
                                     <td>
                                         
@@ -165,12 +165,12 @@
                                         integer
                                     </td>
                                     <td>
-                                        取得/设置阳历月
+                                        设置阳历年
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        getDay()/setDay(day)
+                                        getMonth()
                                     </td>
                                     <td>
                                         
@@ -179,7 +179,49 @@
                                         integer
                                     </td>
                                     <td>
-                                        取得/设置阳历日
+                                        取得阳历月
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setMonth(month)
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        设置阳历月
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getDay()
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        取得阳历日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setDay(day)
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        integer
+                                    </td>
+                                    <td>
+                                        设置阳历日
                                     </td>
                                 </tr>
                                 <tr>
@@ -194,6 +236,51 @@
                                     </td>
                                     <td>
                                         取得阳历日在一个日历页中的排列，第一个维度表示周，第二个维度表示日，如arr[2][0],表示第三周的星期日
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getDaysOfMonth(int rYear,int rMonth)
+                                    </td>
+                                    <td>
+                                        rYear:年
+										<br/>rMonth:月
+                                    </td>
+                                    <td>
+                                        int
+                                    </td>
+                                    <td>
+                                        取得某年某月的总天数
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getFirstTimeOfMonth(int rYear,int rMonth)
+                                    </td>
+                                    <td>
+                                        rYear:年
+										<br/>rMonth:月
+                                    </td>
+                                    <td>
+                                        int
+                                    </td>
+                                    <td>
+                                        取得某年某月的起始时间，如2012-3-1 0:0:0
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        getLastTimeOfMonth(int rYear,int rMonth)
+                                    </td>
+                                    <td>
+                                        rYear:年
+										<br/>rMonth:月
+                                    </td>
+                                    <td>
+                                        int
+                                    </td>
+                                    <td>
+                                        取得某年某月的终止时间，如2012-3-30 23:59:59
                                     </td>
                                 </tr>
 							</tbody>
