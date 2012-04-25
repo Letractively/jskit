@@ -3,10 +3,10 @@ var JskitSmartAd_VRoll = function(rHd){
 	var __hd = (typeof(rHd)=="string")?rHd:"jskitSmartAd_VRoll";
 
 	var __data = null;
-	var __Speed = 10; //速度(毫秒)
-	var __Space = 10; //每次移动(px)
-	var __CellWidth = 235; //翻页宽度
-	var __Fill = 0; //整体移位
+	var __Speed = 10; 
+	var __Space = 10; 
+	var __CellWidth = 235;
+	var __Fill = 0; 
 	var __MoveLock = false;
 	var __MoveTimeObj;
 	var __Comp = 0;
@@ -18,28 +18,28 @@ var JskitSmartAd_VRoll = function(rHd){
 	var __BuildImgList = function(){
 		var _str = new Array();
 		for(var i=0;i<__data.length;i++){
-			_str.push('<div class="JSA_VRoll_Cell">');
-			_str.push('<a href="'+__data[i].url+'" target="'+__data[i].target+'"><img class="JSA_VRoll_IMG" src="'+__data[i].imgSrc+'" /></a>');
+			_str.push('<div class="'+__CellCss+'" style="width:'+__CellWidth+'px">');
+			_str.push('<a href="'+__data[i].url+'" target="'+__data[i].target+'"><img class="'+__ImgCss+'" src="'+__data[i].imgSrc+'" /></a>');
 			_str.push('<a href="'+__data[i].url+'" target="'+__data[i].target+'">'+__data[i].text+'</a>');
 			_str.push('</div>');
 		}
-		//检查格子的数量是不是够
+		//check cell count is enough
 		__ItemContainer.innerHTML = _str.join('');
 		__ItemContainer2.innerHTML = _str.join('');
 		__ItemContainer.parentNode.style.width = __ItemContainer.offsetWidth*2;
 	};
-	var __AutoPlay = function(){ //自动滚动
+	var __AutoPlay = function(){ //auto scroll
 		__BuildImgList();
-		clearInterval(__AutoPlayTimer);
-		__AutoPlayTimer = setInterval(__hd+'.StartDown();'+__hd+'.StopDown();',__InterVal); //间隔时间
+		window.clearInterval(__AutoPlayTimer);
+		__AutoPlayTimer = window.setInterval(__hd+'.StartDown();'+__hd+'.StopDown();',__InterVal); 
 	};
-	var __StartUp = function(){ //上翻开始
+	var __StartUp = function(){ //scroll up begining
 		if(__MoveLock) return;
-		clearInterval(__AutoPlayTimer);
+		window.clearInterval(__AutoPlayTimer);
 		__MoveLock = true;
-		__MoveTimeObj = setInterval(__hd+'.DoUp();',__Speed);
+		__MoveTimeObj = window.setInterval(__hd+'.DoUp();',__Speed);
 	};
-	var __StopUp = function(){ //上翻停止
+	var __StopUp = function(){ //scroll up stop
 		clearInterval(__MoveTimeObj);
 		if(__Convas.scrollLeft % __CellWidth - __Fill != 0){
 			__Comp = __Fill - (__Convas.scrollLeft % __CellWidth);
@@ -49,22 +49,22 @@ var JskitSmartAd_VRoll = function(rHd){
 		}
 		__AutoPlay();
 	};
-	var __DoUp = function(){ //上翻动作
+	var __DoUp = function(){ //scroll up
 		if(__Convas.scrollLeft <= 0){
 			__Convas.scrollLeft = __Convas.scrollLeft + __ItemContainer.offsetWidth;
 		}
 		__Convas.scrollLeft -= __Space ;
 	};
-	var __StartDown = function(){ //下翻
-		clearInterval(__MoveTimeObj);
+	var __StartDown = function(){ //scroll down beginning
+		window.clearInterval(__MoveTimeObj);
 		if(__MoveLock) return;
-		clearInterval(__AutoPlayTimer);
+		window.clearInterval(__AutoPlayTimer);
 		__MoveLock = true;
 		__DoDown();
-		__MoveTimeObj = setInterval(__hd+'.DoDown()',__Speed);
+		__MoveTimeObj = window.setInterval(__hd+'.DoDown()',__Speed);
 	};
-	var __StopDown = function(){ //下翻停止
-		window.status = __Convas.scrollLeft+":"+__ItemContainer.scrollWidth;
+	var __StopDown = function(){ //scroll down stop
+		//window.status = __Convas.scrollLeft+":"+__ItemContainer.scrollWidth;
 		clearInterval(__MoveTimeObj);
 		if(__Convas.scrollLeft % __CellWidth - __Fill != 0 ){
 			__Comp = __CellWidth - __Convas.scrollLeft % __CellWidth + __Fill;
@@ -74,7 +74,7 @@ var JskitSmartAd_VRoll = function(rHd){
 		}
 		__AutoPlay();
 	};
-	var __DoDown = function(){ //下翻动作
+	var __DoDown = function(){ //scroll down
 		if(__Convas.scrollLeft >= __ItemContainer.scrollWidth){
 			__Convas.scrollLeft =__Convas.scrollLeft - __ItemContainer.scrollWidth;
 		}
@@ -83,7 +83,7 @@ var JskitSmartAd_VRoll = function(rHd){
 	var __CompScr = function(){
 		var num;
 		if(__Comp == 0){__MoveLock = false;return;}
-		if(__Comp < 0){ //上翻
+		if(__Comp < 0){ //up
 			if(__Comp < -__Space){
 				__Comp += __Space;
 				num = __Space;
@@ -92,8 +92,8 @@ var JskitSmartAd_VRoll = function(rHd){
 			   __Comp = 0;
 			}
 			__Convas.scrollLeft -= num;
-			setTimeout(__hd+'.CompSrc()',__Speed);
-		}else{ //下翻
+			window.setTimeout(__hd+'.CompSrc()',__Speed);
+		}else{ //down
 			if(__Comp > __Space){
 			   __Comp -= __Space;
 			   num = __Space;
@@ -102,7 +102,7 @@ var JskitSmartAd_VRoll = function(rHd){
 			   __Comp = 0;
 			}
 			__Convas.scrollLeft += num;
-			setTimeout(__hd+'.CompSrc()',__Speed);
+			window.setTimeout(__hd+'.CompSrc()',__Speed);
 		}
 	};
 	this.CompSrc = function(){
@@ -126,32 +126,50 @@ var JskitSmartAd_VRoll = function(rHd){
 	this.StopUp = function(){
 		__StopUp();
 	};
+	var __palyer = null;
+	var __CellCss = "";
+	var __ImgCss = "";
 	var __Convas = null;
-	var __ConvasID = "JskitSmartAd_VRoll_Convas";
+	var __ConvasID = null;
 	var __ItemContainer = null;
-	var __ItemContainerID = "JskitSmartAd_VRoll_ItemContainer";
+	var __ItemContainerID = null;
 	var __ItemContainer2 = null;
-	var __ItemContainer2ID = "JskitSmartAd_VRoll_ItemContainer2";
+	var __ItemContainer2ID = null;
 	var __buildConvas = function(){
-		var _str = '<div class="JSA_VRoll_RollBox">';
-		_str += '<div class="JSA_VRoll_Convas" id="'+__ConvasID+'">';
-		_str += '<div class="JSA_VRoll_ScrCont">';
-		_str += '<div id="'+__ItemContainerID+'" class="JSA_VRoll_List"></div>';
-		_str += '<div id="'+__ItemContainer2ID+'" class="JSA_VRoll_List"></div>';
+		__ConvasID = __hd + "_VRoll_Convas";
+		__ItemContainerID = __hd + "_VRoll_ItemContainer";
+		__ItemContainer2ID = __hd + "_VRoll_ItemContainer2";
+		var _str = '<div id="'+__ConvasID+'">';
+		_str += '<div style="width:10000000px">';
+		_str += '<div id="'+__ItemContainerID+'" style="float:left"></div>';
+		_str += '<div id="'+__ItemContainer2ID+'" style="float:left"></div>';
 		_str += '</div>';
 		_str += '</div>';
-		_str += '</div>';
-		document.write(_str);
-	};
-	this.play = function(v){
-		__data = v;
-		__buildConvas();
+		__player.style.width = __CellWidth*4 + "px";
+		__player.style.overflow = "hidden";
+		__player.style.margin = "0 auto";
+		__player.innerHTML = _str;
 		__ItemContainer = $("#"+__ItemContainerID);
 		__ItemContainer2 = $("#"+__ItemContainer2ID);
 		__Convas = $('#'+__ConvasID);
+		//width:360px;overflow:hidden;margin:0 auto;padding-top:20px;
+		__Convas.style.width = __CellWidth*4 + "px";
+		__Convas.style.overflow = "hidden";
+		__Convas.style.margin = "0 auto";
 		__Convas.scrollLeft = __Fill;
 		__Convas.onmouseover = function(){clearInterval(__AutoPlayTimer);}
 		__Convas.onmouseout = function(){__AutoPlay();}
+	};
+	this.play = function(v){
+		__data = v.data;
+		__Speed = parseFloat(v.spead); 
+		__Space = parseFloat(v.space); 
+		__InterVal = parseFloat(v.interval)*1000;
+		__CellWidth = parseFloat(v.cellWidth);
+		__CellCss = v.cellCss;
+		__ImgCss = v.imgCss;
+		__player = $("#"+v.player);
+		__buildConvas();
 		__AutoPlay();
 	};
 };
