@@ -137,6 +137,8 @@ np = tree.newNode(n0, true, "Demo", "");
     tree.newNode(np, true, "顺序执行任务", "demo/task.html");
     tree.newNode(np, true, "页面效果", "demo/effects.html");
     tree.newNode(np, true, "显示一个相册", "demo/demo_JskitAlbum.html");
+    tree.newNode(np, true, "轮显广告", "demo/demo_JskitSlidAd.html");
+    tree.newNode(np, true, "滚动图片组", "demo/demo_JskitSmartAD_VRoll.html");
 
 np = tree.newNode(n0, true, "Tools", "");
     tree.newNode(np, true, "日志(调试)工具", "tools/jskitLog.html");

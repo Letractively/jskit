@@ -32,6 +32,7 @@ function JskitMenu(rHd) {
     var __activeIcon = null;
     var __documentLoaded = false;
 
+	var __menuBox = null;
     var __LOCATION = function() {
         this.UP = 1;
         this.RIGHT = 2;
@@ -599,7 +600,7 @@ function JskitMenu(rHd) {
         var _key = __selectedNode.getAttribute("id");
         var _url = __selectedNode.getAttribute("url");
         if (arguments.length == 0) {//first level
-            document.write(__getMenuHtmlCode());
+            __out(__getMenuHtmlCode());
             __correctIconBarPosition();
         } else {
             __selectedItem = rSrcItem;
@@ -715,7 +716,7 @@ function JskitMenu(rHd) {
     };
     var __expandTree = function() {
         __dynamic = false;
-        document.write(__getTreeHtmlCode());
+       __out(__getTreeHtmlCode());
     };
     this.treeOnClick = function(sender, e) {
         jskitEvents.cancelBubble(e);
@@ -836,6 +837,13 @@ function JskitMenu(rHd) {
         if(rObj==null)return;
         rObj.className = __iconCssClass;
     };
+	var __out = function(rContent){
+		if(__menuBox!=null){
+			__menuBox.innerHTML = rContent;
+		}else{
+			alert("JskitMenu:__out:Exception:Menu Box not found!");
+		}
+	};
     ///# END
     
     this.gotoUrl = function(sender,e) {
@@ -1003,6 +1011,7 @@ function JskitMenu(rHd) {
 		}
     };
 	
+	
 	var __convertJson2Xml = function(rItem){
 		var _str = new Array();
 		for(var i=0;i<rItem.length;i++){
@@ -1045,6 +1054,9 @@ function JskitMenu(rHd) {
     this.onDocumentLoad = function(){
         __documentLoaded = true;
     };
+	this.setMenuBox = function(v){
+		__menuBox = $("#"+v);
+	};
     //#End
 {
     __initRootNode();

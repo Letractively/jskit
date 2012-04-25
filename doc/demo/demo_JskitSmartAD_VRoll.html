@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>demo JskitSmartAD_VRoll</title>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../JskitLoad.js"></script>
+	
+    <script src="../JskitConfig_doc.js"></script>
+    <script src="../../model/ad/smart/JskitSmartAd_VRoll.js"></script>
+    <script src="../../model/ad/smart/JskitSmartAd_VRoll_Data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../model/ad/smart/JskitSmartAd_VRoll.css" >
+     <script>
+ 		var sadV = new JskitSmartAd_VRoll("sadV");
+		function onPageLoad(){
+			sadV.play({
+				data: JskitSmartAD_VRoll_Data,
+				spead:10,//msecond
+				space:10,//px
+				cellWidth:95,//px
+				interval:3,//second
+				cellCss:"JSA_VRoll_Cell",
+				imgCss:"JSA_VRoll_IMG",
+				player:"vscroll_player",//html object id
+			});
+		}
+    </script>
+  </head>
+  
+   <body onload="onPageLoad()">
+   		<table>
+   			<tr>
+   				<td class="package">滚动图片组</td>
+   			</tr>
+			<tr>
+				<td class="content">
+					/model/ad/smart/JskitSmartAd_VRoll.js
+				</td>
+			</tr>
+			<tr>
+				<td class="title">
+					Required:
+				</td>
+			</tr>
+			<tr>
+				<td class="content">
+					/base/*
+				</td>
+			</tr>
+			<tr>
+				<td class="title">
+					Demo:
+				</td>
+			</tr>
+			<tr>
+				<td class="content">
+					<div id="vscroll_player">
+						Loading...
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="title">
+					Using:
+				</td>
+			</tr>
+   			<tr>
+   				<td>
+					javascript code:
+					<textarea class="js"  name="JskitSyntax_code" >
+		//data
+		var JskitSmartAD_VRoll_Data = [
+			{
+				"imgSrc":"../../model/ad/images/1.png",
+				"text":"text1",
+				"url":"#1",
+				"alt":"alt1",
+				"target":"_blank"
+			}
+			,{
+				"imgSrc":"../../model/ad/images/2.png",
+				"text":"text2",
+				"url":"#2",
+				"alt":"alt2",
+				"target":"_blank"
+			}
+			,{
+				"imgSrc":"../../model/ad/images/3.png",
+				"text":"text3",
+				"url":"#3",
+				"alt":"alt3",
+				"target":"_blank"
+			}
+			,{
+				"imgSrc":"../../model/ad/images/3.png",
+				"text":"text4",
+				"url":"#4",
+				"alt":"alt4",
+				"target":"_blank"
+			}
+			,{
+				"imgSrc":"../../model/ad/images/3.png",
+				"text":"text5",
+				"url":"#5",
+				"alt":"alt5",
+				"target":"_blank"
+			}
+		];
+ 		var sadV = new JskitSmartAd_VRoll("sadV");
+		function onPageLoad(){
+			sadV.play({
+				data: JskitSmartAD_VRoll_Data,
+				spead:10,//msecond
+				space:10,//px
+				cellWidth:95,//px
+				interval:3,//second
+				cellCss:"JSA_VRoll_Cell",
+				imgCss:"JSA_VRoll_IMG",
+				player:"vscroll_player",//html object id
+			});
+		}
+		</textarea>
+		html code
+		<textarea class="html"  name="JskitSyntax_code" >
+ 			&lt;div id="vscroll_player"&gt;Loading...&lt;/div&gt;
+		</textarea>
+		css code
+		<textarea class="css"  name="JskitSyntax_code" >
+		.JSA_VRoll_Cell{
+			float:left;
+			text-align:center;
+			padding-right:0px;}
+		.JSA_VRoll_IMG{padding:4px;
+			background:#fff;
+			border:1px solid #ccc;
+			display:block;
+			margin:0 auto;
+			width:80px;
+			height:60px;
+		}
+		.JSA_VRoll_Cell a:link,.JSA_VRoll_Convas a:visited{color:#626466;text-decoration:none;}
+		.JSA_VRoll_Cell a:hover{color:#f00;text-decoration:underline;}
+		</textarea>
+
+   				</td>
+   			</tr>
+   		</table>
+</BODY>
+</HTML>
