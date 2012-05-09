@@ -980,10 +980,11 @@ function JskitMenu(rHd) {
 
     this.expand = function(rSrcItem) {
 		if(__root==null){return;}
-        if (typeof(rSrcItem) == "object")
+        if (typeof(rSrcItem) == "object"){
             return __expand(rSrcItem);
-        else
-            return __expand();
+		}else{
+		    return __expand();
+		}
     };
     this.expandTree = function(rStartNode) {
 		if(__root==null){return;}

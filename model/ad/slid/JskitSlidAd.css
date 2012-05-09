@@ -19,11 +19,11 @@
 .num_box{
 	z-index:100;
 	position:absolute;
-	top:364px;
+	top:270px;
 	left:0px;
-	width:955px;
+	width:400px;
 	height:30px;
-	background-image:url(images/num_bar.png);
+	background-image:url(../images/num_bar.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 }
@@ -31,7 +31,7 @@
 	cursor:pointer;
 	width:20px;
 	height:20px;
-	background-image:url(images/num_bg.png);
+	background-image:url(../images/num_bg.png);
 	background-position:center center;
 	background-repeat:no-repeat;
 	color:#ffffff;
@@ -49,7 +49,7 @@
 	width:20px;
 	height:20px;
 	float:right;
-	background-image:url(images/num_bg_a.png);
+	background-image:url(../images/num_bg_a.png);
 	background-position:center center;
 	background-repeat:no-repeat;
 	color:#ffffff;
