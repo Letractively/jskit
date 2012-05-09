@@ -1,0 +1,189 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Demo::GridView::</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../JskitLoad.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+ 	   <script src="../../server/JskitXmlHttp.js"></script>
+ 	   <script src="../../model/controls/JskitGridView.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../model/controls/JskitControls.css" />
+   <script type="text/javascript">
+       var jgv = new JskitGridView("jgv");
+       jgv.init({
+            canvas:"jgv_canvas",
+            page_size       : 20,
+            page_index      : 1,
+            columns         : [
+                        {title:"列1",feild:"c1",visiable:true,editable:true,template:"",width:120},
+                        {title:"列2",feild:"c2",visiable:true,editable:true,template:"",width:120},
+                        {title:"列3",feild:"c3",visiable:true,editable:true,template:"",width:120},
+                        {title:"列4",feild:"c4",visiable:true,editable:true,template:"",width:120},
+                        {title:"列5",feild:"c5",visiable:true,editable:true,template:"",width:120},
+                        {title:"列6",feild:"c6",visiable:true,editable:true,template:"",width:120}
+                    ],
+            css_table       : "gv_table",
+            css_head        : "gv_head",
+            css_body        : "gv_body",
+            css_pager: "gv_pager",
+            width           : 840,
+            pager_visiable  : true,
+            auto_update     : false,
+            editable        : false,
+            query_params    : "",
+            query_url       : "server/query.html",
+            pk              : "c1",
+            index_column_width      : 25,
+            index_column_visiable   : true,
+            check_column_width      : 20,
+            check_column_visiable   : true
+       });
+   </script>
+   <style type="text/css">
+    .gv_head
+    {
+        border-right:0px;
+        border-top:0px;
+        border-left:1px solid #000000;
+        border-bottom:1px solid #000000;
+        }
+    .gv_head div
+    {
+        background-color:#336699;
+        border-collapse:collapse;
+        color:#ffffff;
+        font-weight:bold;
+        border-left:0px;
+        border-bottom:0px;
+        border-right:1px solid #000000;
+        border-top:1px solid #000000;
+        padding:2px 3px 2px 3px;
+        }
+    .gv_body
+    {
+        height:100px;
+        background-color:#ffffff;
+        overflow-y:scroll;
+        overflow-x:auto;
+        border-left:1px solid #cccccc;
+        border-top:1px solid #cccccc;
+        }
+    .gv_body div
+    {
+        border-right:1px solid #cccccc;
+        border-bottom:1px solid #cccccc;
+        background-color:#ffffff;
+        color:#000000;
+        font-weight:normal;
+    }
+    .gv_pager
+    {
+        background-color:#aaaaaa;
+        }
+    .gv_pager div
+    {
+        float:right;
+        border-right:1px solid #cccccc;
+        border-bottom:1px solid #cccccc;
+        background-color:#aaaaaa;
+        color:#000000;
+        font-weight:normal;
+        }
+   </style>
+
+    </head>
+    <body>
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="Package">
+                        显示数据表格
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <a href="../tutorial/JskitXmlHttp.html">查看JskitXmlHttp.js参考</a>
+                        <br>查看JskitGridView.js参考
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30">
+                    </td>
+                </tr>
+				<tr>
+					<td class="title">
+						Example:
+					</td>
+				</tr>
+				<tr>
+					<td class="code">
+                        <span id="jgv_canvas"></span>
+							
+
+						js脚本
+<textarea  name="JskitSyntax_code" class="js">
+//第一个下拉列表
+var jrddl1 = new JskitRichDropDownList("jrddl1");
+//第二个下拉列表
+var jrddl2 = new JskitRichDropDownList("jrddl2");
+//在页面装载完之后运行
+function PageOnLoad(){
+	jrddl1.deploy("text_feild_1","value_feild_1","demo_richselect_data.asp?act=country");
+	jrddl2.deploy("text_feild_2","value_feild_2","demo_richselect_data.asp?act=city","parm","value_feild_1");
+	//如果设置了ParmFeildID参数（如上面的value_feild_1），那么在获取数据时，将在URL自动构造&parm={value_feild_1.value}
+	//webservice可通过parm参数进行对数据的过滤。实现通过ParmFeild的下拉列表的级联。
+}
+</textarea>
+						对应的HTML代码
+<textarea  name="JskitSyntax_code" class="html">
+	...
+		<body onload="PageOnLoad()">
+	...
+	<input type="text" id="text_feild_1" />
+	<input type="hidden" id="value_feild_1" />
+	<input type="text" id="text_feild_2" />
+	<input type="hidden" id="value_feild_2" />
+</textarea>
+获取数据的demo_richselect_data.asp内容如下
+<textarea  name="JskitSyntax_code" class="vb">
+<%@ codepage=65001%>
+<%
+If Request.QueryString("act")="country" then
+	response.write("[[""china"",""China""],[""japan"",""Japan""]]")
+Else 
+	If Request.QueryString("parm")="china" then
+		response.write("[[""1"",""Beijing""],[""2"",""Shanghai""],[""3"",""Chongqing""],[""4"",""Tianjin""],[""5"",""Dalian""]]")
+	Else 
+		response.write("[[""1"",""Tokyo""],[""2"",""SHINJUKU""],[""3"",""GINZA""]]")
+	End if
+End if
+%>
+</textarea>
+						数据的格式
+<textarea  name="JskitSyntax_code" class="js">
+//前一个值为key,后一个值为value
+//无分级的格式
+var data = [
+	["liaoning","辽宁"],
+	["jilin","吉林"]
+];
+//有分级的格式
+var data = [
+	["cn","中国",[
+		["liaoning","辽宁"],
+		["jilin","吉林"]
+	]
+];
+</textarea>
+						<br>
+					</td>
+				</tr>
+            </tbody>
+        </table>
+    </body>
+</html>
