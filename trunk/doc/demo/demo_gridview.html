@@ -19,52 +19,48 @@
             canvas:"jgv_canvas",
             page_size       : 20,
             page_index      : 1,
-            columns         : [
-                        {title:"列1",feild:"c1",visiable:true,editable:true,template:"",width:120},
-                        {title:"列2",feild:"c2",visiable:true,editable:true,template:"",width:120},
-                        {title:"列3",feild:"c3",visiable:true,editable:true,template:"",width:120},
-                        {title:"列4",feild:"c4",visiable:true,editable:true,template:"",width:120},
-                        {title:"列5",feild:"c5",visiable:true,editable:true,template:"",width:120},
-                        {title:"列6",feild:"c6",visiable:true,editable:true,template:"",width:120}
+            columns: [
+                        { type: "check", width: 20 },
+                        { type: "index", width: 20 },
+                        { type: "data", title: "列1", feild: "pk", visiable: false, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列2", feild: "c2", visiable: true, editable: true, template: "<a href=\"#id={pk}\">{c2}</a>", width: 120 },
+                        { type: "data", title: "列3", feild: "c3", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列4", feild: "c4", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列5", feild: "c5", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列6", feild: "c6", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "edit", template: "<a href=\"{a:delete}\">删除</a> | <a href=\"#editpage?id={pk}\">编辑</a>" }
                     ],
             css_table       : "gv_table",
             css_head        : "gv_head",
-            css_body        : "gv_body",
+            css_body: "gv_body",
+            css_foot        : "gv_foot",
             css_pager: "gv_pager",
-            width           : 840,
+            css_loading:"gv_loading",
+            width           : null,
             pager_visiable  : true,
             auto_update     : false,
             editable        : false,
             query_params    : "",
-            query_url       : "server/query.html",
-            pk              : "c1",
-            index_column_width      : 25,
-            index_column_visiable   : true,
-            check_column_width      : 20,
-            check_column_visiable   : true
+            query_url: "server/query.html",
+            delete_url : "server/delete_ok.html",
+            update_url: "server/update_ok.html",
+            pk: "pk"
        });
    </script>
    <style type="text/css">
-    .gv_head
-    {
-        border-right:0px;
-        border-top:0px;
-        border-left:1px solid #000000;
-        border-bottom:1px solid #000000;
-        }
-    .gv_head div
+    Thead.gv_head
     {
         background-color:#336699;
+        }
+    thead.gv_head td
+    {
         border-collapse:collapse;
         color:#ffffff;
         font-weight:bold;
-        border-left:0px;
-        border-bottom:0px;
-        border-right:1px solid #000000;
-        border-top:1px solid #000000;
-        padding:2px 3px 2px 3px;
+        border:1px solid #336699;
+        padding:2px;
         }
-    .gv_body
+    tbody.gv_body
     {
         height:100px;
         background-color:#ffffff;
@@ -73,26 +69,35 @@
         border-left:1px solid #cccccc;
         border-top:1px solid #cccccc;
         }
-    .gv_body div
+    tbody.gv_body td
     {
-        border-right:1px solid #cccccc;
-        border-bottom:1px solid #cccccc;
+        border:1px solid #cccccc;
+        padding:2px;
         background-color:#ffffff;
         color:#000000;
         font-weight:normal;
     }
-    .gv_pager
+    tfoot.gv_foot
     {
         background-color:#aaaaaa;
         }
-    .gv_pager div
+    tfoot.gv_foot td
     {
-        float:right;
-        border-right:1px solid #cccccc;
-        border-bottom:1px solid #cccccc;
-        background-color:#aaaaaa;
+        border:1px solid #cccccc;
+        }
+    tfoot.gv_foot div
+    {
+        float:left;
+        padding:2px;
         color:#000000;
         font-weight:normal;
+        }
+    .gv_loading
+    {
+        width:200px;
+        height:90px;
+        background-color:#99aacc;
+        color:#ffffff;
         }
    </style>
 
@@ -127,59 +132,80 @@
 
 						js脚本
 <textarea  name="JskitSyntax_code" class="js">
-//第一个下拉列表
-var jrddl1 = new JskitRichDropDownList("jrddl1");
-//第二个下拉列表
-var jrddl2 = new JskitRichDropDownList("jrddl2");
-//在页面装载完之后运行
-function PageOnLoad(){
-	jrddl1.deploy("text_feild_1","value_feild_1","demo_richselect_data.asp?act=country");
-	jrddl2.deploy("text_feild_2","value_feild_2","demo_richselect_data.asp?act=city","parm","value_feild_1");
-	//如果设置了ParmFeildID参数（如上面的value_feild_1），那么在获取数据时，将在URL自动构造&parm={value_feild_1.value}
-	//webservice可通过parm参数进行对数据的过滤。实现通过ParmFeild的下拉列表的级联。
-}
+       var jgv = new JskitGridView("jgv");
+       jgv.init({
+            canvas:"jgv_canvas",//显示数据表的容器ID
+            page_size       : 20,//每页显示记录数
+            page_index      : 1,//页码
+            columns: [//列的定义
+                        { type: "check", width: 20 },//check是关键字，表示checkbox列
+                        { type: "index", width: 20 },//index是关键字，表示序号列，从1开始
+                        //data是关键字，表示数据列，feild对应数据库中的字段
+                        { type: "data", title: "列1", feild: "pk", visiable: false, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列2", feild: "c2", visiable: true, editable: true, template: "<a href=\"#id={pk}\">{c2}</a>", width: 120 },
+                        { type: "data", title: "列3", feild: "c3", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列4", feild: "c4", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列5", feild: "c5", visiable: true, editable: true, template: "", width: 120 },
+                        { type: "data", title: "列6", feild: "c6", visiable: true, editable: true, template: "", width: 120 },
+                        //edit是关键字，表示编辑列
+                        //{a:delete}是内定的标签，表示链接上的删除动作，其他还有：
+                        //{e:delete}链接之外相应event的删除动作
+                        //{pk}表示在这个位置显示字段名为pk的值
+                        //以上标签只用在列的模板定义中
+                        { type: "edit", template: "<a href=\"{a:delete}\">删除</a> | <a href=\"#editpage?id={pk}\">编辑</a>" }
+                    ],
+            css_table       : "gv_table",
+            css_head        : "gv_head",
+            css_body: "gv_body",
+            css_foot        : "gv_foot",
+            css_pager: "gv_pager",
+            css_loading:"gv_loading",
+            width           : null,//表宽度
+            pager_visiable  : true,//是否显示翻页
+            auto_update     : false,//是否自动更新
+            editable        : false,//是否可编辑
+            query_params    : "",//查询的参数
+            query_url: "server/query.html",//查询数据的URL
+            delete_url : "server/delete_ok.html",//处理删除的URL
+            update_url: "server/update_ok.html",//处理更新的URL
+            pk: "pk"//设置主键对应的列名
+       });
 </textarea>
 						对应的HTML代码
 <textarea  name="JskitSyntax_code" class="html">
-	...
-		<body onload="PageOnLoad()">
-	...
-	<input type="text" id="text_feild_1" />
-	<input type="hidden" id="value_feild_1" />
-	<input type="text" id="text_feild_2" />
-	<input type="hidden" id="value_feild_2" />
+	<span id="Span1"></span>
 </textarea>
-获取数据的demo_richselect_data.asp内容如下
-<textarea  name="JskitSyntax_code" class="vb">
-<%@ codepage=65001%>
-<%
-If Request.QueryString("act")="country" then
-	response.write("[[""china"",""China""],[""japan"",""Japan""]]")
-Else 
-	If Request.QueryString("parm")="china" then
-		response.write("[[""1"",""Beijing""],[""2"",""Shanghai""],[""3"",""Chongqing""],[""4"",""Tianjin""],[""5"",""Dalian""]]")
-	Else 
-		response.write("[[""1"",""Tokyo""],[""2"",""SHINJUKU""],[""3"",""GINZA""]]")
-	End if
-End if
-%>
-</textarea>
-						数据的格式
+获取数据的格式内容如下
 <textarea  name="JskitSyntax_code" class="js">
-//前一个值为key,后一个值为value
-//无分级的格式
-var data = [
-	["liaoning","辽宁"],
-	["jilin","吉林"]
-];
-//有分级的格式
-var data = [
-	["cn","中国",[
-		["liaoning","辽宁"],
-		["jilin","吉林"]
-	]
-];
+{
+    total:30,//数据库中符合条件的所有记录总数，不是返回的数据总数
+    page:1,//当前页码
+    data:[
+        ["pk","c2","c3","c4","c5","c6"],//数据的第一行返回的是列的字段(数据库中的字段)名
+        ["pk_1","data_1_2","data_1_3","data_1_4","data_1_5","data_1_6"],
+        ["pk_2","data_2_2","data_2_3","data_2_4","data_2_5","data_2_6"],
+        ["pk_3","data_3_2","data_3_3","data_3_4","data_3_5","data_3_6"],
+        ["pk_4","data_4_2","data_4_3","data_4_4","data_4_5","data_4_6"],
+        ["pk_5","data_5_2","data_5_3","data_5_4","data_5_5","data_5_6"],
+        ["pk_6","data_6_2","data_6_3","data_6_4","data_6_5","data_6_6"],
+        ["pk_7","data_7_2","data_7_3","data_7_4","data_7_5","data_7_6"],
+        ["pk_8","data_8_2","data_8_3","data_8_4","data_8_5","data_8_6"],
+        ["pk_9","data_9_2","data_9_3","data_9_4","data_9_5","data_9_6"],
+        ["pk_10","data_10_2","data_10_3","data_10_4","data_10_5","data_10_6"],
+        ["pk_11","data_11_2","data_11_3","data_11_4","data_11_5","data_11_6"],
+        ["pk_12","data_12_2","data_12_3","data_12_4","data_12_5","data_12_6"],
+        ["pk_13","data_13_2","data_13_3","data_13_4","data_13_5","data_13_6"],
+        ["pk_14","data_14_2","data_14_3","data_14_4","data_14_5","data_14_6"],
+        ["pk_15","data_15_2","data_15_3","data_15_4","data_15_5","data_15_6"],
+        ["pk_16","data_16_2","data_16_3","data_16_4","data_16_5","data_16_6"],
+        ["pk_17","data_17_2","data_17_3","data_17_4","data_17_5","data_17_6"],
+        ["pk_18","data_18_2","data_18_3","data_18_4","data_18_5","data_18_6"],
+        ["pk_19","data_19_2","data_19_3","data_19_4","data_19_5","data_19_6"],
+        ["pk_20","data_20_2","data_20_3","data_20_4","data_20_5","data_20_6"]
+    ]
+}
 </textarea>
+
 						<br>
 					</td>
 				</tr>
