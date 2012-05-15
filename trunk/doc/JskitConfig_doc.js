@@ -113,7 +113,8 @@ var n3 = tree.newNode(n0, false, "Tutorial", "");
         var n3a4 = tree.newNode(n3a, true, "JskitDateSelector.js", "tutorial/JskitDateSelector.html");
 		var n3a5 = tree.newNode(n3a, true, "Controls/", "");
 			var n3a51 = tree.newNode(n3a5, true, "JskitRichDropDownList.js", "tutorial/JskitRichDropDownList.html");
-    var n37 = tree.newNode(n3, false, "server/", "");
+			var n3a51 = tree.newNode(n3a5, true, "JskitGridView.js", "tutorial/JskitGridView.html");
+	var n37 = tree.newNode(n3, false, "server/", "");
         var n371 = tree.newNode(n37, true, "JskitMd5.js", "tutorial/JskitTaskTimer.html");
         var n372 = tree.newNode(n37, true, "JskitTaskTimer.js", "tutorial/JskitTaskTimer.html");
         var n373 = tree.newNode(n37, true, "JskitXmlHttp.js", "tutorial/JskitXmlHttp.html");
@@ -171,7 +172,8 @@ np = tree.newNode(n0, false, "Editor", "");
 
 
 np = tree.newNode(n0, false, "Reference", "");
-    tree.newNode(np, true, "ANSI Characters", "reference/ANSICharacters.html");
+	tree.newNode(np, true, "This is JS!", "reference/thisisjs.html");
+	tree.newNode(np, true, "ANSI Characters", "reference/ANSICharacters.html");
 	tree.newNode(np, true, "browsers", "reference/browsers.html");
     tree.newNode(np, true, "ServerVariables", "reference/ServerVariables.html");
 	tree.newNode(np, true, "ContentType", "reference/contentType.html");
