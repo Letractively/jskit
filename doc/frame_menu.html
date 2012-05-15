@@ -1,14 +1,24 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
- <HEAD>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <TITLE> New Document </TITLE>
-	<link rel="stylesheet" type="text/css" href="main.css">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title> New Document </title>
+	<link rel="stylesheet" type="text/css" href="main.css" />
 	<script type="text/javascript" src="JskitLoad.js"></script>
     <script type="text/javascript" src="JskitConfig_doc.js"></script>
- </HEAD>
+ </head>
 
- <BODY class="body_frame">
-	<script >document.write(tree.out("html"));</script>
- </BODY>
-</HTML>
+ <body class="body_frame">
+	<script type="text/javascript" >
+	    try {
+	        jskitUtil.url.setFrame(top.window);
+	        var _url = jskitUtil.url.get("url");
+	        var _win = top.window.document.getElementById("frame_main");
+	        if (_win != null) {
+	            _win.src = _url;
+	        }
+	    } catch (e) { }
+	    document.write(tree.out("html"));
+    </script>
+ </body>
+</html>

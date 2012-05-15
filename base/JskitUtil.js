@@ -141,49 +141,53 @@ function JskitUtil(){
 	/*******************************
     * Url Function
     *******************************/
-	var __Url = function(){
-		this.__map = new Array();
-		this.__getParameters = function(){
-			if(this.__map.length>0)return;
-			var _p = window.location.search;
-			if(_p.indexOf("?")==0)_p=_p.substring(1,_p.length);
-			var _kv = _p.split("&");
-			for(var i=0;i<_kv.length;i++){
-				var _pos = _kv[i].indexOf("=");
-				var _key=_value="";
-				if(_pos==-1){
-					_key = _kv[i];
-					_value = "";
-				}else{
-					_key = _kv[i].substring(0,_pos);
-					_value = _kv[i].substring(_pos+1,_kv[i].length);
-				}
-				this.__map[_key] = _value;
-			}
-		},
-		this.getPath = function(rTarget){
-			this.__getParameters();
-			var _url = window.location.href.toLowerCase();
-			if(typeof(rTarget)=="string" && rTarget.length>0 && _url.indexOf(rTarget.toLowerCase())!=-1){
-				return _url.substring(0,_url.indexOf(rTarget.toLowerCase()))+rTarget;
-			}else{
-				_url = _url.replace(window.location.search,"");
-				return _url.substring(0,_url.lastIndexOf("/"));
-			}
+	var __Url = function () {
+	    this.__map = new Array();
+	    var __winFrame = null;
+	    this.setFrame = function (v) {
+	        __winFrame = v;
+	    };
+	    this.__getParameters = function () {
+	        if (this.__map.length > 0) { return; }
+	        var _p = (__winFrame != null) ? __winFrame.location.search : top.window.location.search;
+	        if (_p.indexOf("?") == 0) _p = _p.substring(1, _p.length);
+	        var _kv = _p.split("&");
+	        for (var i = 0; i < _kv.length; i++) {
+	            var _pos = _kv[i].indexOf("=");
+	            var _key = _value = "";
+	            if (_pos == -1) {
+	                _key = _kv[i];
+	                _value = "";
+	            } else {
+	                _key = _kv[i].substring(0, _pos);
+	                _value = _kv[i].substring(_pos + 1, _kv[i].length);
+	            }
+	            this.__map[_key] = _value;
+	        }
+	    },
+		this.getPath = function (rTarget) {
+		    this.__getParameters();
+		    var _url = window.location.href.toLowerCase();
+		    if (typeof (rTarget) == "string" && rTarget.length > 0 && _url.indexOf(rTarget.toLowerCase()) != -1) {
+		        return _url.substring(0, _url.indexOf(rTarget.toLowerCase())) + rTarget;
+		    } else {
+		        _url = _url.replace(window.location.search, "");
+		        return _url.substring(0, _url.lastIndexOf("/"));
+		    }
 		};
-		this.get = function(rKey){
-			this.__getParameters();
-			return this.__map[rKey];
-		}
-		this.host = function(rUrl){
-			if(rUrl.indexOf("://")==-1){
-				return "";
-			}else{
-				rUrl = rUrl.substr(rUrl.indexOf("://")+3);
-				rUrl = rUrl.substr(0,rUrl.indexOf("/"));
-				return rUrl;
-			}
-		}
+	    this.get = function (rKey) {
+	        this.__getParameters();
+	        return this.__map[rKey];
+	    }
+	    this.host = function (rUrl) {
+	        if (rUrl.indexOf("://") == -1) {
+	            return "";
+	        } else {
+	            rUrl = rUrl.substr(rUrl.indexOf("://") + 3);
+	            rUrl = rUrl.substr(0, rUrl.indexOf("/"));
+	            return rUrl;
+	        }
+	    }
 	};
     /*******************************
     * Browser Function
