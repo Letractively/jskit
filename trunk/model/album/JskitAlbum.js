@@ -83,7 +83,7 @@ var JskitAlbum = function(rHd) {
         _str = null;
     };
     var __resetSnapSelected = function(rPic) {
-        var _img = $("#snap_" + rPic.pk);
+        var _img = $$("#snap_" + rPic.pk);
         if (__selectedItem != null) {
             __selectedItem.style.border = __snapBorder;
         }
@@ -91,7 +91,7 @@ var JskitAlbum = function(rHd) {
         __selectedItem.style.border = __snapSelectedBorder;
     };
     var __initCanvas = function() {
-        if ($("body") == null) {
+        if ($$("body") == null) {
             alert("JskitAlbum : error : body not ready");
             return;
         }
@@ -100,7 +100,7 @@ var JskitAlbum = function(rHd) {
             if (__container != null) {
                 __container.appendChild(__canvas);
             } else {
-                $("body").appendChild(__canvas);
+                $$("body").appendChild(__canvas);
             }
         }
         __canvas.setAttribute("id", __canvasId);

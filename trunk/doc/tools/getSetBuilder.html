@@ -9,7 +9,7 @@
 
 <script>
 function buildSetGet(){
-	var eos = $("#txt_Parms").value.split('\r');
+	var eos = $$("#txt_Parms").value.split('\r');
 	var str = new Array();
 	var type = "String";
 	var desc = "";
@@ -30,7 +30,7 @@ function buildSetGet(){
 		str.push('<br/>}');
 		str.push('<br/><br/><br/>');
 	}
-	$("#SetGetCode").innerHTML = str.join('');
+	$$("#SetGetCode").innerHTML = str.join('');
 }
 </script>
 </HEAD>

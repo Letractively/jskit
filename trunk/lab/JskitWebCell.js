@@ -1,4 +1,4 @@
-function JskitWebCell(rHd){
+var JskitWebCell = function(rHd){
 	var __hd = (typeof(rHd)=="string")?rHd:"jskitWebCell";
 	
 	//#Begin Structures
@@ -169,7 +169,7 @@ function JskitWebCell(rHd){
 			__canvas = document.createElement("div");
 			__canvas.className = "panel";
 			__canvas.setAttribute("id",__canvasId);
-			$("body").appendChild(__canvas);
+			$$("body").appendChild(__canvas);
 			__canvas.style.position = "absolute";
 			__canvas.onselectstart = function(){return false;};
 		}
@@ -201,7 +201,7 @@ function JskitWebCell(rHd){
 		return __canvas;
 	};
 	this.getCell = function(rLat,rLon){
-		return $("#"+__getCellId(rLat,rLon));
+		return $$("#"+__getCellId(rLat,rLon));
 	};
 	this.getCellCount = function(){
 		return (__hCount*__vCount);
@@ -278,8 +278,8 @@ function JskitWebCell(rHd){
 		
 		if(rLat==__ol.lat && rLon==__ol.lon)return;
 		var pp = __getPosition(rLat,rLon);
-		var dstx = parseFloat($(__canvas).getX())+__op.x-pp.x;
-		var dsty = parseFloat($(__canvas).getY())-pp.y+__op.y;
+		var dstx = parseFloat($$(__canvas).getX())+__op.x-pp.x;
+		var dsty = parseFloat($$(__canvas).getY())-pp.y+__op.y;
 		
 		window.jskitAnimation = new JskitAnimation("jskitAnimation");
 		jskitAnimation.moveTo(__canvas,dstx,dsty,50,rFunc);
@@ -346,8 +346,8 @@ function JskitWebCell(rHd){
 	this.start = function(rLat,rLon){
 		this.setOlat(rLat);
 		this.setOlon(rLon);
-		$("body").scroll = "no";
+		$$("body").scroll = "no";
 		__start();
 	};
 	//#End
-}
+};

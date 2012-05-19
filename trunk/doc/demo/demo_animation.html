@@ -13,11 +13,11 @@
         <script>
             var ani = new JskitAnimation("ani");
             function testMoveTo(target){
-//                var x = parseFloat($(target).effectStyle("left"));
-//                var y = parseFloat($(target).effectStyle("top"));
-                var x = parseFloat($(target).getX());
-                var y = parseFloat($(target).getY());
-                ani.moveTo($("#a"), x, y, 30);
+//                var x = parseFloat($$(target).effectStyle("left"));
+//                var y = parseFloat($$(target).effectStyle("top"));
+                var x = parseFloat($$(target).getX());
+                var y = parseFloat($$(target).getY());
+                ani.moveTo($$("#a"), x, y, 30);
             }
 	        var path = new Array();
             function drawPath(){
@@ -31,16 +31,16 @@
 				document.write(str.join(''));
 			}
             function testMove(){
-                ani.move($("#b"), path, 2);
+                ani.move($$("#b"), path, 2);
             }
 			var transform = 0;
 			function testTransForm(){
 				if(transform==0){
-					ani.transform($("#c"),350,700,200,200,10);
+					ani.transform($$("#c"),350,700,200,200,10);
 					transform = 1;
 				}
 				else{
-					ani.transform($("#c"),220,690,13,13,10);
+					ani.transform($$("#c"),220,690,13,13,10);
 					transform = 0;
 				}
 			}

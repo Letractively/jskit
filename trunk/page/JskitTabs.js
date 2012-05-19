@@ -10,9 +10,9 @@
  *
  ******************************************************/
 var JskitTabsData = [
-	{tabsId:"tabs1",containerId:"tabs1",content:""}
-	{tabsId:"tabs2",containerId:"tabs2",content:""}
-	{tabsId:"tabs3",containerId:"tabs3",content:""}
+	{tabsId:"tabs1",containerId:"tabs1",content:""},
+	{tabsId:"tabs2",containerId:"tabs2",content:""},
+	{tabsId:"tabs3",containerId:"tabs3",content:""},
 	{tabsId:"tabs4",containerId:"tabs4",content:""}
 ];
 var JskitTabs = function(rHd){

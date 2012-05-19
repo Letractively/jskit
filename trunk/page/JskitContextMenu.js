@@ -19,8 +19,8 @@ var JskitContextMenu = function(rHd){
     var __provider = "";
 
     var __removeMenu = function(){
-        if($("#"+__panelID)!=null){
-            $("#"+__panelID).finalize(true);
+        if($$("#"+__panelID)!=null){
+            $$("#"+__panelID).finalize(true);
         }
         __panel = null;
     };
@@ -33,13 +33,13 @@ var JskitContextMenu = function(rHd){
         return _html;
     };
     var __fixPos = function(rMx,rMy){
-        var _obj = $("#"+__panelID);
-        var _oh = parseFloat($("#"+__panelID+"_content").offsetHeight);
-        var _ow = parseFloat($("#"+__panelID+"_content").offsetWidth);
+        var _obj = $$("#"+__panelID);
+        var _oh = parseFloat($$("#"+__panelID+"_content").offsetHeight);
+        var _ow = parseFloat($$("#"+__panelID+"_content").offsetWidth);
         var _left = parseFloat(rMx);
         var _top = parseFloat(rMy);
-        var _wh = $("body").clientHeight+$("body").scrollTop;
-        var _ww = $("body").clientWidth+$("body").scrollLeft;
+        var _wh = $$("body").clientHeight+$$("body").scrollTop;
+        var _ww = $$("body").clientWidth+$$("body").scrollLeft;
 
         if((_top+_oh)>_wh){
             _top = _wh-_oh;

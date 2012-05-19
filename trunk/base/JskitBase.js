@@ -24,7 +24,7 @@ function JskitBase(rHd){
         return src.substring(src.lastIndexOf("/") + 1, src.lastIndexOf("."));
     };
     var __removeJskitInsetContainer = function(){
-        var _root = $("#JskitInsetContainer");
+        var _root = $$("#JskitInsetContainer");
         if (_root != null) {
             _root.parentNode.removeChild(_root);
         }
@@ -50,7 +50,7 @@ if (!$jvm["event"]) {
 /*#END ====================================================================*/
 
 /*#BEGIN ( Get Object Method  ) ===========================================*/
-function $(){//HTMLElement
+function $$(){//HTMLElement
     var __obj = null;
     var __root = null;
     if (arguments.length == 1) {
@@ -76,17 +76,17 @@ function $(){//HTMLElement
             if (_xpath.toLowerCase() == "body") {//<body>
                 __obj = document.getElementsByTagName("body")[0];
             }
-            else if (_xpath.indexOf("#") == 0) {//$("#divID")
+            else if (_xpath.indexOf("#") == 0) {//$$("#divID")
                 __obj = __root.getElementById(_xpath.replace("#", ""));
             }
-            else if (_xpath.indexOf("@") == 0) {//$("@fieldName"),just effect on form items
+            else if (_xpath.indexOf("@") == 0) {//$$("@fieldName"),just effect on form items
                 __obj = __root.getElementsByName(_xpath.replace("@", ""));
             }
             else {
                 __obj = __root.getElementsByTagName(_xpath);
             }
         }
-        else {//eg.$("div[@aa='bb']"),$("div[@aa%'bb']")
+        else {//eg.$$("div[@aa='bb']"),$$("div[@aa%'bb']")
             var _re = new RegExp("^([\\w]+)\\s*\\[\\s*([^\\]]+)\\s*\\]$", "ig");
             var _g = _re.exec(_xpath);
             if (_g != null) {
@@ -127,13 +127,14 @@ function $(){//HTMLElement
                         if(_expList[j][1]==null || _expList[j][1]==""){
 							_express = _express && (typeof(_attr)!="undefined");
 						}else if(typeof(_attr)!="undefined"){
-							if (_expList[j][1] == "=") 
+							if (_expList[j][1] == "=") {
 								_express = _express && (_attr == _expList[j][2]);
-							else if (_expList[j][1] == "%") 
+							}else if (_expList[j][1] == "%"){ 
 								_express = _express && (_attr.indexOf(_expList[j][2]) != -1);
-							else 
+							}else{ 
 								_express = false;
 								break;
+                            }
 						}else{
 							_express = false;
 							break;
@@ -155,7 +156,7 @@ function $(){//HTMLElement
         // get element's runtime style,
         // use currentStyle in IE ,and use defaultView.getComputedStyle in Firefox
         __obj.select = function(rXPath){
-            return $(rXPath, this);
+            return $$(rXPath, this);
         };
         __obj.effectStyle = function(rStyle, rType){
             var _value;
@@ -180,10 +181,11 @@ function $(){//HTMLElement
             else {//unknown
                 _value = "null";
             }
-            if (typeof(rType) != "undefined" && rType == "number") 
+            if (typeof(rType) != "undefined" && rType == "number") {
                 return parseFloat(_value);
-            else 
+            }else{ 
                 return _value;
+            }
         };
         __obj.finalize = function(){
             if (this.parentNode != null) {
@@ -264,7 +266,7 @@ function $(){//HTMLElement
             return (this.isOffSpringIn(rForefatherId) || this.id==rForefatherId);
         };
         __obj.isForefatherOf = function(rOffSpringId){
-            var curOb = $("#"+rOffSpringId);
+            var curOb = $$("#"+rOffSpringId);
             if(curOb==null)return false;
             curOb = curOb.parentNode;
             while (curOb.tagName && curOb.tagName.toLowerCase()!="body"){
@@ -370,16 +372,14 @@ String.prototype.select = function(){
     }
     return "";
 };
-String.prototype.has = function(rPattern,rOptions){
+String.prototype.isMatch = function(rPattern,rOptions){
     var regx = new RegExp(rPattern,rOptions);
     return regx.test(this);
 };
-String.prototype.replaceAll = function (rPattern, rNewStr, rOptions) {
+String.prototype.replaceAll = function (rPattern, rNewStr,rOptions) {
     var _str = this;
     try {
-        var _act = "_str=_str.replace(/" + rPattern + "/" + rOptions + ",\"" + rNewStr.replace(/"/gi, "\\\"") + "\");"
-        eval(_act);
-        _act = null;
+        eval("_str.replace(/" + rPattern + "/" + rOptions + ",'" + rNewStr+ "');");
         return _str;
     } catch (e) { return this; }
 };
@@ -443,9 +443,9 @@ Date.prototype.toJskitString = function(){
 /*#BEGIN ( Jskit base methods ) ===========================================*/
 // bind consistent methods on global event in firefox
 JskitBase.prototype = {
-    base: function(src){
+    base: function (src) {
         //xxxxxx/base/JskitBase.js
-        if (typeof(JskitLoad) != "undefined") {
+        if (typeof (JskitLoad) != "undefined") {
             return jskitLoad.path();
         }
         else {
@@ -454,7 +454,7 @@ JskitBase.prototype = {
             var elements = document.getElementsByTagName("script");
             var len = elements.length;
             for (var i = 0; i < len; i = i + 1) {
-                if (typeof(elements[i].src) != "undefined" && elements[i].src.toLowerCase().indexOf(key.toLowerCase()) != -1) {
+                if (typeof (elements[i].src) != "undefined" && elements[i].src.toLowerCase().indexOf(key.toLowerCase()) != -1) {
                     var src = elements[i].src;
                     _path = src.substring(0, src.lastIndexOf('/') + 1);
                     break;
@@ -477,40 +477,40 @@ JskitBase.prototype = {
             return _path;
         }
     },
-    using: function(src){
+    using: function (src) {
         var _base = this.base(rKey);
         var _className = this.__getClassName(src);
-        if (typeof(_className) != "undefined")             
+        if (typeof (_className) != "undefined")
             return;
-        
+
         var _tags = "<script language=\"javascript\" type=\"text/javascript\" src=\"" + _base + src + "\"></script>";
         document.write(_tags);
         this.loadedFiles[this.loadedFiles.length] = _tags;
     },
-    bindGlobalEvent: function(e){
+    bindGlobalEvent: function (e) {
         //this method is useless
-		return;
-		if (!$jvm["event"]) {
-	        event = e;
+        return;
+        if (!$jvm["event"]) {
+            event = e;
             event.srcElement = e.target;
         }
         return true;
     },
-    append: function(rObj){
+    append: function (rObj) {
         var _root = null;
-        if ($("#JskitInsertContainer") != null) {
-            _root = $("#JskitInsertContainer");
+        if ($$("#JskitInsertContainer") != null) {
+            _root = $$("#JskitInsertContainer");
         }
-        else if ($("body") != null) {
+        else if ($$("body") != null) {
             var _root = document.createElement("JskitInsetContainer_root");
             _root.id = "JskitInsertContainer";
-            $("body").appendChild(_root);
+            $$("body").appendChild(_root);
         }
         else {
         }
         if (_root != null) _root.appendChild(rObj);
     }
-}// prototype end
+}; // prototype end
 /*#END ====================================================================*/
 /*
  * Global definition
@@ -525,14 +525,14 @@ if (typeof(HTMLElement) == "function") {
         var anyString = "";
         var childS = this.childNodes;
         for (var i = 0; i < childS.length; i++) {
-            if (childS[i].nodeType == 1) 
+            if (childS[i].nodeType == 1){ 
                 anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
-            else if (childS[i].nodeType == 3) anyString += childS[i].nodeValue;
+            }else if (childS[i].nodeType == 3) {anyString += childS[i].nodeValue;}
         }
         return anyString;
     });
     HTMLElement.prototype.__defineSetter__("innerText", function(sText){
         this.textContent = sText;
     });
-}
+};
 //#End

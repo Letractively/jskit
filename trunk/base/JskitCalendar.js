@@ -1,4 +1,4 @@
-function JskitCalendar(){
+var JskitCalendar = function(){
     var __LUNARDATA = new Array(0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, 0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977, 0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970, 0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950, 0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557, 0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5b0, 0x14573, 0x052b0, 0x0a9a8, 0x0e950, 0x06aa0, 0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0, 0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b6a0, 0x195a6, 0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570, 0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0, 0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5, 0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930, 0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530, 0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45, 0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0, 0x14b63);
     var __DAYS_OF_MONTH = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
     var __TIANGAN = new Array(decodeURI("%E7%94%B2"),decodeURI("%E4%B9%99"),decodeURI("%E4%B8%99"),decodeURI("%E4%B8%81"),decodeURI("%E6%88%8A"),decodeURI("%E5%B7%B1"),decodeURI("%E5%BA%9A"),decodeURI("%E8%BE%9B"),decodeURI("%E5%A3%AC"),decodeURI("%E7%99%B8"));
@@ -228,185 +228,186 @@ function JskitCalendar(){
     //#End
 
 	//#Begin Lunar object
-    var __LUNAR = function(){
-        //#Begin Private propertyies
-        var __lunarData = __LUNARDATA;
-        var __isLeapMonth = null;
-        var __year = null, __month = null, __day = null;
-        var __solarYear = null, __solarMonth = null, __solarDay = null;
-        //#End
+	var __LUNAR = function () {
+	    //#Begin Private propertyies
+	    var __lunarData = __LUNARDATA;
+	    var __isLeapMonth = null;
+	    var __year = null, __month = null, __day = null;
+	    var __solarYear = null, __solarMonth = null, __solarDay = null;
+	    //#End
 
-        //#Begin Private propertyies
-        this.date = null;
-        //#End
+	    //#Begin Private propertyies
+	    this.date = null;
+	    //#End
 
-        //#Begin Private methods
-        var __dayOfFirstTerm = function(){
-            var _offDate = new Date((31556925974.7 * (__solarYear - 1900) + __TERMCODE[__solarMonth * 2] * 60000) + Date.UTC(1900, 0, 6, 2, 5));
-            return (_offDate.getUTCDate());
-        };
-        var __daysInYear = function(y){
-            var i, sum = 348;
-            for (i = 0x8000; i > 0x8; i >>= 1)
-                sum += (__lunarData[y - 1900] & i) ? 1 : 0;
-            return (sum + __daysInLeapMonth(y));
-        };
-        var __daysInLeapMonth = function(y){
-            if (__leapMonthInYear(y))
-                return ((__lunarData[y - 1900] & 0x10000) ? 30 : 29);
-            else
-                return (0);
-        };
-        var __leapMonthInYear = function(y){
-            return (__lunarData[y - 1900] & 0xf);
-        };
-        var __daysInMonth = function(y, m){
-            return ((__lunarData[y - 1900] & (0x10000 >> m)) ? 30 : 29);
-        };
-        //#End
-        //#Begin Public methods
-        this.buildDate = function(){
-            this.date = new Array();
-            this.date["SYear"] = __solarYear;
-            this.date["SMonth"] = __solarMonth;
-            this.date["SDay"] = __solarDay;
-            this.date["Year"] = __year;
-            this.date["Month"] = __month;
-            this.date["MonthText"] = this.getMonthText();
-            this.date["Day"] = __day;
-            this.date["DayText"] = this.getDayText();
-            this.date["GanzhiYear"] = this.getGanZhiYear();
-            this.date["GanzhiMonth"] = this.getGanZhiMonth();
-            this.date["GanzhiDay"] = this.getGanZhiDay();
-            this.date["ShengXiao"] = this.getShengXiao();
-            this.date["SolarTerm"] = this.getSolarTerm();
-            this.date["Festival"] = this.getFestival();
-        };
-        this.getYear = function(){
-            return __year;
-        };
-        this.getMonth = function(){
-            return __month;
-        };
-        this.getDay = function(){
-            return __day;
-        };
+	    //#Begin Private methods
+	    var __dayOfFirstTerm = function () {
+	        var _offDate = new Date((31556925974.7 * (__solarYear - 1900) + __TERMCODE[__solarMonth * 2] * 60000) + Date.UTC(1900, 0, 6, 2, 5));
+	        return (_offDate.getUTCDate());
+	    };
+	    var __daysInYear = function (y) {
+	        var i, sum = 348;
+	        for (i = 0x8000; i > 0x8; i >>= 1)
+	            sum += (__lunarData[y - 1900] & i) ? 1 : 0;
+	        return (sum + __daysInLeapMonth(y));
+	    };
+	    var __daysInLeapMonth = function (y) {
+	        if (__leapMonthInYear(y)) {
+	            return ((__lunarData[y - 1900] & 0x10000) ? 30 : 29);
+	        } else {
+	            return (0);
+	        }
+	    };
+	    var __leapMonthInYear = function (y) {
+	        return (__lunarData[y - 1900] & 0xf);
+	    };
+	    var __daysInMonth = function (y, m) {
+	        return ((__lunarData[y - 1900] & (0x10000 >> m)) ? 30 : 29);
+	    };
+	    //#End
+	    //#Begin Public methods
+	    this.buildDate = function () {
+	        this.date = new Array();
+	        this.date["SYear"] = __solarYear;
+	        this.date["SMonth"] = __solarMonth;
+	        this.date["SDay"] = __solarDay;
+	        this.date["Year"] = __year;
+	        this.date["Month"] = __month;
+	        this.date["MonthText"] = this.getMonthText();
+	        this.date["Day"] = __day;
+	        this.date["DayText"] = this.getDayText();
+	        this.date["GanzhiYear"] = this.getGanZhiYear();
+	        this.date["GanzhiMonth"] = this.getGanZhiMonth();
+	        this.date["GanzhiDay"] = this.getGanZhiDay();
+	        this.date["ShengXiao"] = this.getShengXiao();
+	        this.date["SolarTerm"] = this.getSolarTerm();
+	        this.date["Festival"] = this.getFestival();
+	    };
+	    this.getYear = function () {
+	        return __year;
+	    };
+	    this.getMonth = function () {
+	        return __month;
+	    };
+	    this.getDay = function () {
+	        return __day;
+	    };
 
-        this.getMonthText = function(){
-            return __MONTH_CN[__month - 1]+decodeURI("%E6%9C%88");
-        };
-        this.getDayText = function(){
-            var s;
-            switch (__day) {
-                case 10:
-                    s = decodeURI('%E5%88%9D%E5%8D%81');
-                    break;
-                case 20:
-                    s = decodeURI('%E4%BA%8C%E5%8D%81');
-                    break;
-                case 30:
-                    s = decodeURI('%E4%B8%89%E5%8D%81');
-                    break;
-                default:
-                    s = __DAYTEXT_CN2[Math.floor(__day / 10)];
-                    s += __DAYTEXT_CN1[__day % 10];
-            }
-            return (s);
-        };
-        this.getShengXiao = function(){
-            return __SHENGXIAO[(__year - 4) % 12];
-        };
-        this.monthTextCN = function(){
-            return (__isLeapMonth ? decodeURI('%E9%97%B0') : '') + __month + decodeURI('%E6%9C%88') + (__daysInMonth(__year, __month) == 29 ? decodeURI('%E5%B0%8F') : decodeURI(',%E5%A4%A7'));
-        };
-        this.getGanZhiYear = function(){
-            var _of = (__solarMonth < 2) ? (__year - 1900 + 35) : (__year - 1900 + 36);
-            return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
-        };
-        this.getGanZhiMonth = function(){
-            var _firstDay = __dayOfFirstTerm();
-            var _of = (__solarYear - 1900) * 12 + __solarMonth + 12;
-            if (__solarDay >= _firstDay)
-                _of++;
-            return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
-        };
-        this.getGanZhiDay = function(){
-            var _dayCyclical = Date.UTC(__solarYear, __solarMonth, 1, 0, 0, 0, 0) / 86400000 + 25567 + 10;
-            var _of = _dayCyclical + __solarDay - 1;
-            return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
-        };
-        this.getSolarTerm = function(){
-            var _t1 = __dayOfFirstTerm(__solarYear, __solarMonth * 2);
-            var _t2 = __dayOfFirstTerm(__solarYear, __solarMonth * 2 + 1);
-            if (__solarDay == _t1)
-                return __SOLARTERM[__solarMonth * 2];
-            if (__solarDay == _t2)
-                return __SOLARTERM[__solarMonth * 2 + 1];
-            return "";
-        };
-        this.getFestival = function(){
-            var _lf = __LUNAR_FESTIVAL[(100 + __month) * 100 + __day];
-            if (_lf == null || _lf == "undefined")
-                _lf = "";
-            return _lf;
-        };
-		this.parseDate = function(rSolarDate){
-			if(rSolarDate!=null){
-				this.parse(rSolarDate.getYear(),rSolarDate.getMonth()+1,rSolarDate.getDate());	
-			}
-		};
-        this.parse = function(rSolarYear, rSolarMonth, rSolarDay){
-            rSolarMonth = (rSolarMonth < 0) ? 0 : (rSolarMonth - 1);
-            __solarYear = rSolarYear;
-            __solarMonth = rSolarMonth;
-            __solarDay = rSolarDay;
-            var i, leap = 0, temp = 0;
-            var offset = (Date.UTC(rSolarYear, rSolarMonth, rSolarDay) - Date.UTC(1900, 0, 31)) / 86400000;
-            for (i = 1900; i < 2050 && offset > 0; i++) {
-                temp = __daysInYear(i);
-                offset -= temp;
-                if (offset < 0) {
-                    offset += temp;
-                    break;
-                }
-            }
-            __year = i;
-            leap = __leapMonthInYear(i);
-            __isLeapMonth = false;
-            for (i = 1; i < 13 && offset > 0; i++) {
-                if (leap > 0 && i == (leap + 1) && !__isLeapMonth) {
-                    --i;
-                    __isLeapMonth = true;
-                    temp = __daysInLeapMonth(__year);
-                }
-                else {
-                    temp = __daysInMonth(__year, i);
-                }
+	    this.getMonthText = function () {
+	        return __MONTH_CN[__month - 1] + decodeURI("%E6%9C%88");
+	    };
+	    this.getDayText = function () {
+	        var s;
+	        switch (__day) {
+	            case 10:
+	                s = decodeURI('%E5%88%9D%E5%8D%81');
+	                break;
+	            case 20:
+	                s = decodeURI('%E4%BA%8C%E5%8D%81');
+	                break;
+	            case 30:
+	                s = decodeURI('%E4%B8%89%E5%8D%81');
+	                break;
+	            default:
+	                s = __DAYTEXT_CN2[Math.floor(__day / 10)];
+	                s += __DAYTEXT_CN1[__day % 10];
+	        }
+	        return (s);
+	    };
+	    this.getShengXiao = function () {
+	        return __SHENGXIAO[(__year - 4) % 12];
+	    };
+	    this.monthTextCN = function () {
+	        return (__isLeapMonth ? decodeURI('%E9%97%B0') : '') + __month + decodeURI('%E6%9C%88') + (__daysInMonth(__year, __month) == 29 ? decodeURI('%E5%B0%8F') : decodeURI(',%E5%A4%A7'));
+	    };
+	    this.getGanZhiYear = function () {
+	        var _of = (__solarMonth < 2) ? (__year - 1900 + 35) : (__year - 1900 + 36);
+	        return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
+	    };
+	    this.getGanZhiMonth = function () {
+	        var _firstDay = __dayOfFirstTerm();
+	        var _of = (__solarYear - 1900) * 12 + __solarMonth + 12;
+	        if (__solarDay >= _firstDay)
+	            _of++;
+	        return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
+	    };
+	    this.getGanZhiDay = function () {
+	        var _dayCyclical = Date.UTC(__solarYear, __solarMonth, 1, 0, 0, 0, 0) / 86400000 + 25567 + 10;
+	        var _of = _dayCyclical + __solarDay - 1;
+	        return (__TIANGAN[_of % 10] + __DIZHI[_of % 12]);
+	    };
+	    this.getSolarTerm = function () {
+	        var _t1 = __dayOfFirstTerm(__solarYear, __solarMonth * 2);
+	        var _t2 = __dayOfFirstTerm(__solarYear, __solarMonth * 2 + 1);
+	        if (__solarDay == _t1)
+	            return __SOLARTERM[__solarMonth * 2];
+	        if (__solarDay == _t2)
+	            return __SOLARTERM[__solarMonth * 2 + 1];
+	        return "";
+	    };
+	    this.getFestival = function () {
+	        var _lf = __LUNAR_FESTIVAL[(100 + __month) * 100 + __day];
+	        if (_lf == null || _lf == "undefined")
+	            _lf = "";
+	        return _lf;
+	    };
+	    this.parseDate = function (rSolarDate) {
+	        if (rSolarDate != null) {
+	            this.parse(rSolarDate.getYear(), rSolarDate.getMonth() + 1, rSolarDate.getDate());
+	        }
+	    };
+	    this.parse = function (rSolarYear, rSolarMonth, rSolarDay) {
+	        rSolarMonth = (rSolarMonth < 0) ? 0 : (rSolarMonth - 1);
+	        __solarYear = rSolarYear;
+	        __solarMonth = rSolarMonth;
+	        __solarDay = rSolarDay;
+	        var i, leap = 0, temp = 0;
+	        var offset = (Date.UTC(rSolarYear, rSolarMonth, rSolarDay) - Date.UTC(1900, 0, 31)) / 86400000;
+	        for (i = 1900; i < 2050 && offset > 0; i++) {
+	            temp = __daysInYear(i);
+	            offset -= temp;
+	            if (offset < 0) {
+	                offset += temp;
+	                break;
+	            }
+	        }
+	        __year = i;
+	        leap = __leapMonthInYear(i);
+	        __isLeapMonth = false;
+	        for (i = 1; i < 13 && offset > 0; i++) {
+	            if (leap > 0 && i == (leap + 1) && !__isLeapMonth) {
+	                --i;
+	                __isLeapMonth = true;
+	                temp = __daysInLeapMonth(__year);
+	            }
+	            else {
+	                temp = __daysInMonth(__year, i);
+	            }
 
-                if (__isLeapMonth && i == (leap + 1))
-                    __isLeapMonth = false;
+	            if (__isLeapMonth && i == (leap + 1))
+	                __isLeapMonth = false;
 
-                offset -= temp;
-            }
-            if (offset == 0 && leap > 0 && i == leap + 1)
-                if (__isLeapMonth) {
-                    __isLeapMonth = false;
-                }
-                else {
-                    __isLeapMonth = true;
-                    --i;
-                }
-            if (offset < 0) {
-                offset += temp;
-                --i;
-            }
-            __month = i;
-            __day = offset + 1;
-            this.buildDate();
-            return __year + "-" + __month + "-" + __day;
-        };
-        //#End
-    };//#End __LUNAR definetion
+	            offset -= temp;
+	        }
+	        if (offset == 0 && leap > 0 && i == leap + 1)
+	            if (__isLeapMonth) {
+	                __isLeapMonth = false;
+	            }
+	            else {
+	                __isLeapMonth = true;
+	                --i;
+	            }
+	        if (offset < 0) {
+	            offset += temp;
+	            --i;
+	        }
+	        __month = i;
+	        __day = offset + 1;
+	        this.buildDate();
+	        return __year + "-" + __month + "-" + __day;
+	    };
+	    //#End
+	};  //#End __LUNAR definetion
     var __SOLAR = function(){
         var __year = null, __month = null, __day = null, __dayOfWeek = null;
         this.date = null;

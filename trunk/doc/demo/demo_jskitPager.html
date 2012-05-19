@@ -26,11 +26,11 @@
             jp.setCssFpnlText("cssFpnlText");
             
             function GotoPage(){
-                $("#canvas").innerHTML = jp.outContent($("#txt_page").value);
-                $("#txt_pageSize").value = jp.getPageSize();
-                $("#txt_totalSize").value = jp.getTotalSize();
-                $("#txt_totalPages").value = jp.getTotalPages();
-                $("#txt_pageNo").value = jp.pageNo;
+                $$("#canvas").innerHTML = jp.outContent($$("#txt_page").value);
+                $$("#txt_pageSize").value = jp.getPageSize();
+                $$("#txt_totalSize").value = jp.getTotalSize();
+                $$("#txt_totalPages").value = jp.getTotalPages();
+                $$("#txt_pageNo").value = jp.pageNo;
             }
             
             function ChangePagerStyle(rObj){
@@ -38,7 +38,7 @@
             }
             
             function test(r){
-                $("#canvas").innerHTML = jp.outContent(r);
+                $$("#canvas").innerHTML = jp.outContent(r);
             }
         </script>
         <style>
@@ -215,7 +215,7 @@
                         <textarea name="JskitSyntax_code" class="js">
                             function DisplayPager(){
                             //outContent参数为初始页码
-                            $("#canvas").innerHTML = jp.outContent(1);
+                            $$("#canvas").innerHTML = jp.outContent(1);
                             }
                         </textarea>
                         第六步、设置显示样式

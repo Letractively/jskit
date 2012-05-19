@@ -20,19 +20,19 @@
             }
             _str.push("</tr>");
             _str.push("</table>");
-            $("#list").innerHTML = _str.join('');
+            $$("#list").innerHTML = _str.join('');
             _str = null;
         }
         function getStep() {
-            step = $("#step").value;
+            step = $$("#step").value;
             step = (isNaN(parseInt(step))) ? 200 : parseInt(step);
         }
         function freshInput() {
-            $("#min").value = min;
-            $("#max").value = max;
+            $$("#min").value = min;
+            $$("#max").value = max;
         }
         function getFromToByStep(type) {
-            min = $("#min").value;
+            min = $$("#min").value;
             min = (isNaN(parseInt(min))) ? 1 : parseInt(min);
             min += step * type;
             if (min < 1) {
@@ -57,15 +57,15 @@
             max = min + step - 1;
             freshInput();
             showCode();
-            jskitEvents.add($("#list"),"onmousemove","showDetails");
+            jskitEvents.add($$("#list"),"onmousemove","showDetails");
         }
         function closeDetails(){
-            $("#details").style.display = "none";
+            $$("#details").style.display = "none";
         }
 		function ParseChar(sender,e){
 			var c = sender.value;
 			if(c!==""){
-				$("#charCode").value = c.charCodeAt(0);
+				$$("#charCode").value = c.charCodeAt(0);
 			}
 		}
         function showDetails(e) {
@@ -81,7 +81,7 @@
                 //str = "&#" + obj.innerHTML + ";";
                 return;
             }
-            var detail = $("#details");
+            var detail = $$("#details");
             detail.innerHTML = str;
             detail.style.left = e.clientX+30;
             detail.style.top = e.clientY-30;

@@ -19,9 +19,9 @@
 <script>
 
 function TestXPath(){
-	var doc = jskitXml.loadXml($("#txt_Xml").value.trim());
-	var xpath = $("#txt_Xpath").value;
-	var showBox = $("#lab_Result");
+	var doc = jskitXml.loadXml($$("#txt_Xml").value.trim());
+	var xpath = $$("#txt_Xpath").value;
+	var showBox = $$("#lab_Result");
 	var str = "";
 	try{
 		var nl = doc.selectNodes(xpath);

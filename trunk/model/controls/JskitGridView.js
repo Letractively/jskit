@@ -247,7 +247,7 @@ var JskitGridView = function (rHd) {
     };
     var __dataBind = function () {
         if (__dataCanvas == null) {
-            __dataCanvas = $("#" + __hd + "_data_canvas");
+            __dataCanvas = $$("#" + __hd + "_data_canvas");
             if (__dataCanvas == null) {
                 alert("JskitGridView Error: \nData Body not found, maybe create object failed!");
                 return;
@@ -298,7 +298,7 @@ var JskitGridView = function (rHd) {
     };
     var __flushPager = function () {
         if (__pagerCanvas == null) {
-            __pagerCanvas = $("#" + __hd + "_pager_canvas");
+            __pagerCanvas = $$("#" + __hd + "_pager_canvas");
             if (__pagerCanvas == null) {
                 alert("JskitGridView Error: \nPager box not found, maybe create object failed!");
                 return;
@@ -382,7 +382,7 @@ var JskitGridView = function (rHd) {
 
     /*BEGIN Action methods */
     this.checkAll = function (sender, e) {
-        var _cl = $('@' + __hd + '_checkbox');
+        var _cl = $$('@' + __hd + '_checkbox');
         if (_cl != null) {
             for (var i = 0; i < _cl.length; i++) {
                 _cl[i].checked = sender.checked;
@@ -478,7 +478,7 @@ var JskitGridView = function (rHd) {
         __dataBind();
     };
     this.onPageLoad = function () {
-        __canvas = $("#" + __canvasId);
+        __canvas = $$("#" + __canvasId);
         if (__canvas == null) {
             alert("JskitGridView Error: Cavans not found!");
             return;

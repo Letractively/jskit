@@ -195,7 +195,7 @@ function JskitMenuMaker(rHd) {
         __appendToolbar();
         __appendCavas();
         __appendStatusBar();
-        $("body").appendChild(__panel);
+        $$("body").appendChild(__panel);
         _html = null;
     };
 
@@ -366,7 +366,7 @@ function JskitMenuMaker(rHd) {
         var _keys = new Array("edit", "move", "moveUp", "moveDown", "delete");
         var _obj;
         for (var i = 0; i < _keys.length; i++) {
-            eval("_obj = $(\"#btn_" + _keys[i] + "\");");
+            eval("_obj = $$(\"#btn_" + _keys[i] + "\");");
             _obj.disabled = true;
             _obj.className = "jmm_toolbar_btn_" + _keys[i] + "_off";
         }
@@ -375,7 +375,7 @@ function JskitMenuMaker(rHd) {
     var __reSelect = function(rNodeId) {
         jskitLog.debug(__hd + ".__reSelect:_selectId=" + rNodeId);
         try {
-            var _node = $("#" + rNodeId).childNodes[0];
+            var _node = $$("#" + rNodeId).childNodes[0];
             __select(_node);
         } catch(e) {
             jskitLog.debug(__hd + ".__reSelect:e=" + e.message);
@@ -397,7 +397,7 @@ function JskitMenuMaker(rHd) {
             var _keys = new Array("edit", "move", "moveUp", "moveDown", "delete");
             var _obj;
             for (var i = 0; i < _keys.length; i++) {
-                eval("_obj = $(\"#btn_" + _keys[i] + "\");");
+                eval("_obj = $$(\"#btn_" + _keys[i] + "\");");
                 _obj.disabled = false;
                 _obj.className = "jmm_toolbar_btn_" + _keys[i];
             }
@@ -409,20 +409,20 @@ function JskitMenuMaker(rHd) {
         __select(rObj);
     };
     this.doUpdate = function() {
-        var _id = $("#_form_id").value;
-        var _parentId = $("#_form_parent").value;
-        var _caption = $("#_form_caption").value;
+        var _id = $$("#_form_id").value;
+        var _parentId = $$("#_form_parent").value;
+        var _caption = $$("#_form_caption").value;
         _caption = __convertText(_caption);
         if (_caption == "") {
             alert("Please fill out caption field!");
             return false;
         }
-        var _url = $("#_form_url").value;
+        var _url = $$("#_form_url").value;
         _url = __convertText(_url);
-        var _target = $("#_form_target").value;
-        var _cssClass = $("#_form_cssClass").value;
-        var _direction = $("#_form_direction").value;
-        var _location = $("#_form_location").value;
+        var _target = $$("#_form_target").value;
+        var _cssClass = $$("#_form_cssClass").value;
+        var _direction = $$("#_form_direction").value;
+        var _location = $$("#_form_location").value;
         var _parent = __jm.getNodeById(_parentId);
         if (_parent == null) {
             _parent = __jm.getRoot();
@@ -437,9 +437,9 @@ function JskitMenuMaker(rHd) {
         return true;
     };
     this.doMove = function() {
-        var _id = $("#_form_id").value;
+        var _id = $$("#_form_id").value;
         var _node = __jm.getNodeById(_id);
-        var _parentId = $("#_form_parent").value;
+        var _parentId = $$("#_form_parent").value;
         var _parent = (_parentId == "") ? __jm.getRoot() : __jm.getNodeById(_parentId);
 
         if (_node != null) {
@@ -456,7 +456,7 @@ function JskitMenuMaker(rHd) {
         return true;
     };
     this.doSaveConfig = function() {
-        var _dynamic = $("#" + __CFG_DYNAMIC).value;
+        var _dynamic = $$("#" + __CFG_DYNAMIC).value;
         var _root = __jm.getRoot();
         if (_dynamic == "false")
             _root.setAttribute("dynamic", "false");
@@ -483,7 +483,7 @@ function JskitMenuMaker(rHd) {
         if (typeof(rCanvas) == "object")
             rCanvas.appendChild(__panel);
         else
-            $("body").appendChild(__panel);
+            $$("body").appendChild(__panel);
         __refreshList();
     };
 }

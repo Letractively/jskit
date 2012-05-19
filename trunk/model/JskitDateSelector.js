@@ -180,7 +180,7 @@ var JskitDateSelector = function(rHd) {
 	};
 	
 	this.markIn = function(rDay,rContent){
-		var _cell = $("#"+__jcCellId(rDay)+"ext");
+		var _cell = $$("#"+__jcCellId(rDay)+"ext");
 		if(_cell!=null){
 			_cell.innerHTML = rContent;
 		}
@@ -232,7 +232,7 @@ var JskitDateSelector = function(rHd) {
 	};
 	var __refreshCalendar = function(){
         __jt.clear();
-		$("#"+__canvasId+"_body").innerHTML = __getCalendarBody();
+		$$("#"+__canvasId+"_body").innerHTML = __getCalendarBody();
 	};
 	var __getCalendarCode = function(){
 		if(__mode=="m"){
@@ -254,10 +254,10 @@ var JskitDateSelector = function(rHd) {
         return day;
     };
     var __appendCanvas = function() {
-        __canvas = $("#" + __canvasId);
+        __canvas = $$("#" + __canvasId);
         if (__canvas == null) {
             __canvas = document.createElement("div");
-            $("body").appendChild(__canvas);
+            $$("body").appendChild(__canvas);
             __canvas.setAttribute("id", __canvasId);
             __canvas.style.display = "none";
             __canvas.style.clear = "left";
@@ -272,8 +272,8 @@ var JskitDateSelector = function(rHd) {
         __canvas.style.clear = "left";
         __canvas.style.position = "absolute";
         __drawCalendar();
-        __canvas.style.left = $(__caller).getX()+"px";
-        __canvas.style.top = ($(__caller).getY() + __caller.offsetHeight)+"px";
+        __canvas.style.left = $$(__caller).getX()+"px";
+        __canvas.style.top = ($$(__caller).getY() + __caller.offsetHeight)+"px";
         __canvas.style.display = "";
 		__canvas.style.zIndex = 1000;
     };
@@ -460,9 +460,9 @@ var JskitDateSelector = function(rHd) {
 		}
     };
 	this.seletctDateTime  = function(sender,e){
-		__datetime.setHours($("#"+__hd+"_t_h").value);
-		__datetime.setMinutes($("#"+__hd+"_t_m").value);
-		__datetime.setSeconds($("#"+__hd+"_t_s").value);
+		__datetime.setHours($$("#"+__hd+"_t_h").value);
+		__datetime.setMinutes($$("#"+__hd+"_t_m").value);
+		__datetime.setSeconds($$("#"+__hd+"_t_s").value);
 		__onSelected();
 	};
 	this.setSelectedHandler = function(v){
@@ -484,7 +484,7 @@ var JskitDateSelector = function(rHd) {
 			if(typeof(sender)=="object"){
 				__caller = sender;
 			}else if(typeof(sender)=="string"){
-				__caller = $("#"+sender);
+				__caller = $$("#"+sender);
 			}
 		}
         if (typeof(format) == "string" && format.length > 0){__format = format;}

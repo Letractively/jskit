@@ -57,7 +57,7 @@ var JskitSmartAd_VRoll = function(rHd){
 	};
 	var __StartDown = function(){ //scroll down beginning
 		window.clearInterval(__MoveTimeObj);
-		if(__MoveLock) return;
+		if(__MoveLock){ return;}
 		window.clearInterval(__AutoPlayTimer);
 		__MoveLock = true;
 		__DoDown();
@@ -149,16 +149,16 @@ var JskitSmartAd_VRoll = function(rHd){
 		__player.style.overflow = "hidden";
 		__player.style.margin = "0 auto";
 		__player.innerHTML = _str;
-		__ItemContainer = $("#"+__ItemContainerID);
-		__ItemContainer2 = $("#"+__ItemContainer2ID);
-		__Convas = $('#'+__ConvasID);
+		__ItemContainer = $$("#"+__ItemContainerID);
+		__ItemContainer2 = $$("#"+__ItemContainer2ID);
+		__Convas = $$('#'+__ConvasID);
 		//width:360px;overflow:hidden;margin:0 auto;padding-top:20px;
 		__Convas.style.width = __CellWidth*4 + "px";
 		__Convas.style.overflow = "hidden";
 		__Convas.style.margin = "0 auto";
 		__Convas.scrollLeft = __Fill;
-		__Convas.onmouseover = function(){clearInterval(__AutoPlayTimer);}
-		__Convas.onmouseout = function(){__AutoPlay();}
+		__Convas.onmouseover = function(){clearInterval(__AutoPlayTimer);};
+		__Convas.onmouseout = function(){__AutoPlay();};
 	};
 	this.play = function(v){
 		__data = v.data;
@@ -168,7 +168,7 @@ var JskitSmartAd_VRoll = function(rHd){
 		__CellWidth = parseFloat(v.cellWidth);
 		__CellCss = v.cellCss;
 		__ImgCss = v.imgCss;
-		__player = $("#"+v.player);
+		__player = $$("#"+v.player);
 		__buildConvas();
 		__AutoPlay();
 	};

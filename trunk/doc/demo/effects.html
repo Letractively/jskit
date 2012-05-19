@@ -15,17 +15,17 @@
         var flyer = new JskitEffects.Flyer("flyer");
         flyer.set("banner");
         function doReset(){
-            var _speed = $("#speed").value;
+            var _speed = $$("#speed").value;
             if(isNaN(parseInt(_speed))){
                 alert("错误格式的Speed");
                 return;
             }
-            var _xstep = $("#xstep").value;
+            var _xstep = $$("#xstep").value;
             if(isNaN(parseFloat(_xstep))){
                 alert("错误格式的xstep");
                 return;
             }
-            var _ystep = $("#ystep").value;
+            var _ystep = $$("#ystep").value;
             if(isNaN(parseFloat(_ystep))){
                 alert("错误格式的ystep");
                 return;

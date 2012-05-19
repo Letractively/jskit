@@ -117,8 +117,8 @@ function JskitAnimation(rHd){
 			}
 			//处理大小尺寸的变化
 			if(__mode==3 && !(__tw==__ow && __th==__oh)){
-				var w = parseFloat($(__obj).effectStyle("width"));
-				var h = parseFloat($(__obj).effectStyle("height"));
+				var w = parseFloat($$(__obj).effectStyle("width"));
+				var h = parseFloat($$(__obj).effectStyle("height"));
 				var wlen = __tw-__ow;
 				var hlen = __th-__oh;
 				var offw = w-__ow;
@@ -176,7 +176,7 @@ function JskitAnimation(rHd){
             alert("JskitAnimation:moveTo:rObj is invalid, action stopped!");
             return false;
         }
-		__obj = $(rObj);
+		__obj = $$(rObj);
 		__ox = __obj.getX();
 		__oy = __obj.getY();
 		__obj.style.position = "absolute";
@@ -196,7 +196,7 @@ function JskitAnimation(rHd){
 		__mode = 3;
 		__finish();
 		if(typeof(rObj)!="object" || rObj==null)return false;
-		__obj = $(rObj);
+		__obj = $$(rObj);
 		__ox = __obj.getX();
 		__oy = __obj.getY();
 		__obj.style.position = "absolute";
