@@ -33,7 +33,7 @@
             arrList.push(new Array("boolean",true));
             arrList.push(new Array("int",1));
             arrList.push(new Array("float",1.1));
-            arrList.push(new Array("html element",$("body")));
+            arrList.push(new Array("html element",$$("body")));
             arrList.push(new Array("window",window));
             arrList.push(new Array("document",document));
             arrList.push(new Array("event",e));
@@ -52,7 +52,7 @@
                 str += '</tr>';
             }
             str += '</table>';
-            $("#canvas").innerHTML = str;
+            $$("#canvas").innerHTML = str;
         }
     </script>
 </head>

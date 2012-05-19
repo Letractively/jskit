@@ -17,14 +17,14 @@
         jskitTimer.configuation.displayerId = "timer_displayer";
         jskitTimer.configuation.timeInterVal = 1;
         function changeDateTime() {
-            jskitTimer.changeDateTime($("#enddate").value);
+            jskitTimer.changeDateTime($$("#enddate").value);
         }
         function changeMode(rValue) {
             jskitTimer.configuation.mode = rValue;
             if (rValue == "forward") {
-                $("#displayer_title").innerText = "距离" + jskitTimer.configuation.dateTime + "还有:";
+                $$("#displayer_title").innerText = "距离" + jskitTimer.configuation.dateTime + "还有:";
             } else {
-                $("#displayer_title").innerText = "离" + jskitTimer.configuation.dateTime + "已经过去:";
+                $$("#displayer_title").innerText = "离" + jskitTimer.configuation.dateTime + "已经过去:";
             }
         }
     </script>

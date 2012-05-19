@@ -10,7 +10,7 @@
  *				page/JskitDynamic.js
  *
  ******************************************************/
-function JskitAnalyzer(rHd){
+var JskitAnalyzer = function(rHd){
 	var __hd = (typeof(rHd)=="string")?rHd:"jskitAnalyzer";
 	var __Form = function(){
 		this.input = null;
@@ -57,7 +57,7 @@ function JskitAnalyzer(rHd){
 		__canvas.style.padding = "5px";
 		//__canvas.style.position = "absolute";
 		
-		$("body").appendChild(__canvas);
+		$$("body").appendChild(__canvas);
 	};
 	this.getCanvasId = function(){
 		return __key+"_canvas";
@@ -77,7 +77,7 @@ function JskitAnalyzer(rHd){
 		}
 	};
 	this.getBodySize = function(){
-		__form.output.value = $("body").innerHTML.length;
+		__form.output.value = $$("body").innerHTML.length;
 	};
 	this.close = function(){
 		__canvas.style.display = "none";
@@ -88,10 +88,10 @@ function JskitAnalyzer(rHd){
 	this.deploy = function(){
 		__createPanel();
 		__form = new __Form();		
-		__form.input = $("#"+__key+"_input");
-		__form.output = $("#"+__key+"_output");
+		__form.input = $$("#"+__key+"_input");
+		__form.output = $$("#"+__key+"_output");
 	};
 	{
 		__key = jskitUtil.guid();
 	}
-}
+};

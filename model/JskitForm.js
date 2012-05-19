@@ -22,7 +22,7 @@ function JskitForm(rHd){
 	//#End
 	//#Begin Fields Object
 	var __CHECKBOX = function(rXPath){
-		var __obj = $(rXPath);
+		var __obj = $$(rXPath);
 		this.isNaN = function(){
 			return (__obj==null);
 		};
@@ -48,7 +48,7 @@ function JskitForm(rHd){
 		};
 	};//end checkbox object
 	var __RADIO = function(rXPath){
-		var __obj = $(rXPath);
+		var __obj = $$(rXPath);
 		this.isNaN = function(){
 			return (__obj==null);
 		};
@@ -67,7 +67,7 @@ function JskitForm(rHd){
 		};
 	};//end radio button object
 	var __SELECT = function(rXPath){
-		var __obj = $(rXPath);
+		var __obj = $$(rXPath);
 		this.isNaN = function(){
 			return (__obj==null);
 		};
@@ -163,7 +163,7 @@ function JskitForm(rHd){
 
 	//#Begin Private Methods
 	var __buildDataField = function(){
-		__dataField = $("#"+__form.getAttribute("key"));
+		__dataField = $$("#"+__form.getAttribute("key"));
 		if(__dataField==null){
 			__dataField = document.createElement("input");
 			__dataField.setAttribute("type","hidden");
@@ -193,7 +193,7 @@ function JskitForm(rHd){
 		_nl = null;
 	};
 	var __setTextValue = function(rXPath,rValue){
-		var _o = $(rXPath);
+		var _o = $$(rXPath);
 		if(_o!=null)_o.value = rValue;
 	};
 	var __setSelectValue = function(rXPath,rValue){
@@ -210,17 +210,17 @@ function JskitForm(rHd){
 	var __getFiledValue = function(rSrcType,rXPath){
 		switch(rSrcType){
 			case __TYPE.TEXT:
-				return $(rXPath).value;
+				return $$(rXPath).value;
 			case __TYPE.RADIO:
 				return __getRadioValue(rXPath);
 			case __TYPE.CHECKBOX:
 				return __getCheckboxValue(rXPath);
 			case __TYPE.SELECT:
-				return $(rXPath).value;
+				return $$(rXPath).value;
 			case __TYPE.HIDDEN:
-				return $(rXPath).value;
+				return $$(rXPath).value;
 			case __TYPE.PASSWORD:
-				return $(rXPath).value;
+				return $$(rXPath).value;
 			default:
 				return "";
 		}
@@ -306,7 +306,7 @@ function JskitForm(rHd){
 	};
 	this.buildForm = function(rForm,rXmlDoc){
 		var _fs = rXmlDoc.selectSingleNode("//fields");
-		var _hid = $("#"+_fs.getAttribute("id"));
+		var _hid = $$("#"+_fs.getAttribute("id"));
 		if(__parseType(_hid)!=__TYPE.HIDDEN ){
 			_hid = document.createElement("input");
 			_hid.setAttribute("type","hidden");
@@ -325,13 +325,13 @@ function JskitForm(rHd){
 	//#Begin Extend public methods
 	this.SELECT = function(xPath){
 		return new __SELECT(xPath);
-	}
+	};
 	this.CHECKBOX = function(xPath){
 		return new __CHECKBOX(xPath);
-	}
+	};
 	this.RADIO = function(xPath){
 		return new __RADIO(xPath);
-	}
+	};
 	//#End
 }
 

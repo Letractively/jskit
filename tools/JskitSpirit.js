@@ -37,7 +37,7 @@ JskitSpirit.prototype = {
 		str += "<table  class='JskitSpirit_list_table' width='100%' border='0' cellspacing='1' cellpadding='1'>"
 
 		if(this.element!=null){
-			this.element = $(this.element);
+			this.element = $$(this.element);
 			if(this.element==null){return "Target object is null";}
 			str += this.__getDetailsItem("tagName",     "<b>&lt;"+this.element.tagName+"&gt</b>"        );
 			str += this.__getDetailsItem("id",			this.element.id									);
@@ -57,7 +57,7 @@ JskitSpirit.prototype = {
 			str += this.__getDetailsItem("HTML code","<textarea readonly onfocus='this.select()' style='font-size:9px;font-family:verdana;height:80px;width:175px;background-color:#ffffe0;'>"+this.element.outerHTML+"</textarea>");
 		}
 		str += "</table>";
-		this.container = $("#"+this.viewerID+"_container");
+		this.container = $$("#"+this.viewerID+"_container");
 		this.container.innerHTML = str;
 		this.container.style.width = 280-2;
 		this.container.style.height = 360-63;
@@ -75,7 +75,7 @@ JskitSpirit.prototype = {
 			str += this.__getDetailsItem("name",this.element.name);
 		}
 		str += "</table>";
-		this.container = $("#"+this.viewerID+"_container");
+		this.container = $$("#"+this.viewerID+"_container");
 		this.container.innerHTML = str;
 	},
 	__getDetailsItem : function(rKey,rValue){
@@ -92,12 +92,12 @@ JskitSpirit.prototype = {
 	__openViewer : function(){
 		var _width = 280;
 		var _height = 360;
-		if($("#"+this.viewerID)===null){
+		if($$("#"+this.viewerID)===null){
 			this.viewer = document.createElement("div");
 			this.viewer.id = this.viewerID;
 			this.viewer.style.position = "absolute";
-			this.viewer.style.left = $("body").clientWidth-_width-10 + $("body").scrollLeft;
-			this.viewer.style.top = 10 + $("body").scrollTop;
+			this.viewer.style.left = $$("body").clientWidth-_width-10 + $$("body").scrollLeft;
+			this.viewer.style.top = 10 + $$("body").scrollTop;
 			this.viewer.style.zIndex = jskitBase.topIndex-10;
 			this.viewer.style.width = _width;
 			this.viewer.style.height = _height;
@@ -119,15 +119,15 @@ JskitSpirit.prototype = {
 			this.container.id = this.viewerID+"_container";
 			this.viewer.appendChild(this.container);
 		}else{
-			var _obj = $("#"+this.viewerID);
+			var _obj = $$("#"+this.viewerID);
 			_obj.style.display = "block";
-			_obj.style.left = $("body").clientWidth-_width-10 + $("body").scrollLeft;
-			_obj.style.top = 10 + $("body").scrollTop;
+			_obj.style.left = $$("body").clientWidth-_width-10 + $$("body").scrollLeft;
+			_obj.style.top = 10 + $$("body").scrollTop;
 		}
 	},
 
 	__buildDocInfo : function(rElement){
-		this.docInfo = $("#"+this.viewerID+"_docinfo");
+		this.docInfo = $$("#"+this.viewerID+"_docinfo");
 		this.mposx = jskitSpirit.mposx;
 		this.mposy = jskitSpirit.mposy;
 		this.beginX = jskitSpirit.beginX;
@@ -165,8 +165,8 @@ JskitSpirit.prototype = {
 	catchElement : function(rElement){
 		jskitLog.debug("register element","JskitSpirit");
 		this.element = rElement;
-		this.mposx = event.clientX+$("body").scrollLeft;
-		this.mposy = event.clientY+$("body").scrollTop;
+		this.mposx = event.clientX+$$("body").scrollLeft;
+		this.mposy = event.clientY+$$("body").scrollTop;
 		this.__openViewer();
 		this.__showElementDetails();
 	},
@@ -180,7 +180,7 @@ JskitSpirit.prototype = {
 		jskitSpirit.mposy = 0;
 		jskitSpirit.beginX = 0;
 		jskitSpirit.beginY = 0;
-		$("#"+this.viewerID).style.display = "none";
+		$$("#"+this.viewerID).style.display = "none";
 	},
 	isValidElement : function(rElement){
 		if(typeof(rElement.tagName)!="undefined"){
@@ -214,9 +214,9 @@ JskitSpirit.prototype = {
 	},
 
 	onMouseMove : function(){
-		if($("#"+jskitSpirit.viewerID)!=null){
-			jskitSpirit.mposx = event.clientX+$("body").scrollLeft;
-			jskitSpirit.mposy = event.clientY+$("body").scrollTop;
+		if($$("#"+jskitSpirit.viewerID)!=null){
+			jskitSpirit.mposx = event.clientX+$$("body").scrollLeft;
+			jskitSpirit.mposy = event.clientY+$$("body").scrollTop;
 			jskitSpirit.__buildDocInfo();
 
 			if(this.beginX==0 && this.beginY==0){return;}
@@ -231,13 +231,13 @@ JskitSpirit.prototype = {
 		}
 	},
 	beginCountSpan : function(){
-		if($("#"+jskitSpirit.viewerID)!=null && event.keyCode==17 && jskitSpirit.beginX==0 && jskitSpirit.beginY==0 ){
-			jskitSpirit.beginX = event.clientX+$("body").scrollLeft;
-			jskitSpirit.beginY = event.clientY+$("body").scrollTop;
+		if($$("#"+jskitSpirit.viewerID)!=null && event.keyCode==17 && jskitSpirit.beginX==0 && jskitSpirit.beginY==0 ){
+			jskitSpirit.beginX = event.clientX+$$("body").scrollLeft;
+			jskitSpirit.beginY = event.clientY+$$("body").scrollTop;
 		}
 	},
 	endCountSpan : function(){
-		if($("#"+jskitSpirit.viewerID)!=null && event.keyCode==17){
+		if($$("#"+jskitSpirit.viewerID)!=null && event.keyCode==17){
 			jskitSpirit.beginX = 0;
 			jskitSpirit.beginY = 0;
 			jskitSpirit.__buildDocInfo();

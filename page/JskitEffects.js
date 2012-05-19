@@ -34,23 +34,24 @@ var JskitEffects = new function() {
         var __init = function() {
             __inited = true;
             __validStatus = false;
-            if (__setting.length >= 1 && $("body") != null) {
+            if (__setting.length >= 1 && $$("body") != null) {
                 try {
                     //object/xpath,speed,left,top
-                    __object = (typeof(__setting[0]) == "string") ? $("#"+__setting[0]) : __setting[0];
+                    __object = (typeof(__setting[0]) == "string") ? $$("#"+__setting[0]) : __setting[0];
 
 					if(typeof(__object)!="object"){
 						alert("flyer is not a valid html object");
 						return;
 					}
-                    if (!isNaN(parseInt(__setting[1])))
+                    if (!isNaN(parseInt(__setting[1]))){
                         __speed = parseInt(__setting[1]);
+					}
 
-                    __width = $(__object).effectStyle("width", "number");
-                    __height = $(__object).effectStyle("height", "number");
+                    __width = $$(__object).effectStyle("width", "number");
+                    __height = $$(__object).effectStyle("height", "number");
 
-                    __x = $(__object).getX();
-                    __y = $(__object).getY();
+                    __x = $$(__object).getX();
+                    __y = $$(__object).getY();
                     if (!isNaN(parseFloat(__setting[2]))){
                         __xstep = parseFloat(__setting[2]);
 					}
@@ -84,11 +85,11 @@ var JskitEffects = new function() {
         };
         var __getPanelSize = function() {
             if(document.documentElement.clientWidth==0){//IE
-				__ox = $("body").scrollLeft;
-				__oy = $("body").scrollTop;
-				__panelWidth = $("body").clientWidth+__ox;
-				__panelHeight = $("body").clientHeight+__oy;
-			}else{
+				__ox = $$("body").scrollLeft;
+				__oy = $$("body").scrollTop;
+				__panelWidth = $$("body").clientWidth+__ox;
+				__panelHeight = $$("body").clientHeight+__oy;
+			}{
 				__ox = document.documentElement.scrollLeft
 				__oy = document.documentElement.scrollTop;
 				__panelWidth = document.documentElement.clientWidth+__ox;
@@ -145,10 +146,11 @@ var JskitEffects = new function() {
             }
         };
         var __start = function() {
-            if (!__inited)
+            if (!__inited){
                 __init();
+			}
             if (!__validStatus) {
-                alert("jskitEffects.flyer status invalid.\n\nPlease use set() to set objects and attributes first")
+                alert("jskitEffects.flyer status invalid.\n\nPlease use set() to set objects and attributes first");
                 return;
             }
             __timer = window.setInterval(__hd + ".move()", (1000 - __speed));
@@ -158,16 +160,19 @@ var JskitEffects = new function() {
 			else{}
         };
         this.setSpeed = function(v) {
-            if (!isNaN(parseInt(v)))
+            if (!isNaN(parseInt(v))){
                 __speed = parseInt(v);
+			}
         };
         this.setXStep = function(v) {
-            if (!isNaN(parseInt(v)))
+            if (!isNaN(parseInt(v))){
                 __xstep = parseInt(v);
+			}
         };
         this.setYStep = function(v) {
-            if (!isNaN(parseInt(v)))
+            if (!isNaN(parseInt(v))){
                 __ystep = parseInt(v);
+			}
         };
         this.start = function(){
             __start();
@@ -175,8 +180,9 @@ var JskitEffects = new function() {
         this.stop = function() {
             __pause();
             __validStatus = false;
-            if (__object != null)
+            if (__object != null){
                 __object.style.display = "none";
+			}
             __clear();
         };
         this.pause = function() {

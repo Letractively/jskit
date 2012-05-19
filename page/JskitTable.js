@@ -7,7 +7,7 @@
 * #copyright : Copyright(c)jskit.org,All right reserved
 *
 ****************************************************************************/
-function JskitTable(rHd){
+var JskitTable = function(rHd){
 	var __hd = (typeof(rHd)!="string")?"jskitTable":rHd;
 	var __columnsIndex = new Array();
 	var __columns = new Array();
@@ -74,18 +74,16 @@ function JskitTable(rHd){
 	};
 	var __getCIdxByKey = function(v){
 		var _i = __columnsIndex[v];
-		if(_i>=__columns.length)
-			return 0;
-		else 
-			return _i;
+		return (_i>=__columns.length)?0:_i;
 	};
-	var __getColumn = function(v){
-		if(typeof(v)=="number" && v<__columns.length)
-			return __columns[v];
-		else if(typeof(v)=="string")
-			return __columns[__columnsIndex[v]];
-		else
-			return null;
+	var __getColumn = function (v) {
+	    if (typeof (v) == "number" && v < __columns.length) {
+	        return __columns[v];
+	    } else if (typeof (v) == "string") {
+	        return __columns[__columnsIndex[v]];
+	    } else {
+	        return null;
+	    }
 	};
 	var __getRow = function(rRIdx){
 		var _count = __tbody.childNodes.length;
@@ -105,19 +103,21 @@ function JskitTable(rHd){
 	var __count = function(){
 		return __tbody.childNodes.length;
 	};
-	var __getValue = function(rRIdx,rCIdx){
-		var _cell = __getCell(rRIdx,rCIdx);
-		if(_cell!=null)
-			return _cell.innerHTML;
-		else
-			return "";
+	var __getValue = function (rRIdx, rCIdx) {
+	    var _cell = __getCell(rRIdx, rCIdx);
+	    if (_cell != null) {
+	        return _cell.innerHTML;
+	    } else {
+	        return "";
+	    }
 	};
-	var __getCellCssClass = function(rRIdx,rCIdx){
-		var _cell = __getCell(rRIdx,rCIdx);
-		if(_cell!=null)
-			return _cell.className;
-		else
-			return "";
+	var __getCellCssClass = function (rRIdx, rCIdx) {
+	    var _cell = __getCell(rRIdx, rCIdx);
+	    if (_cell != null) {
+	        return _cell.className;
+	    } else {
+	        return "";
+	    }
 	};
 	var __setValue = function(rRowIndex,rCellIndex,rValue){
 		var _cell = __getCell(rRowIndex,rCellIndex);
@@ -129,13 +129,14 @@ function JskitTable(rHd){
 	var __convertValue = function(v){
 		return (typeof(v)!="string")?"":v;
 	};
-	var __buildActionGroup = function(){
-		var _s = new Array();
-		for(var i=0;i<__action.length;i++){
-			if(__actionHd[__action[i]]!="")
-				_s.push(' '+__action[i]+'="'+__actionHd[__action[i]]+'(this)" ');
-		}
-		return _s.join('');
+	var __buildActionGroup = function () {
+	    var _s = new Array();
+	    for (var i = 0; i < __action.length; i++) {
+	        if (__actionHd[__action[i]] != "") {
+	            _s.push(' ' + __action[i] + '="' + __actionHd[__action[i]] + '(this)" ');
+	        }
+	    }
+	    return _s.join('');
 	};
     var __insertEmptyRow = function(){
         if(!__isReady){__initTable();}
@@ -277,8 +278,9 @@ function JskitTable(rHd){
 	this.getTableHtml = function(rShowHead,rIndex,rCount){
         var _s = new Array();
         _s.push('<table cellspacing="0" cellpadding="0" class="'+__cssClass.table+'">');
-        if(rShowHead)
+        if(rShowHead){
             _s.push(this.getHeadContent());
+		}
         _s.push(this.getBodyContent(rIndex,rCount));
         _s.push('</table>');
         return _s.join('');
@@ -288,7 +290,7 @@ function JskitTable(rHd){
 	};
 	this.clear = function(){
 		if(__tbody!=null){
-			$(__tbody).clearChildren();
+			$$(__tbody).clearChildren();
 			__cursor = 0;
 		}
 	};
@@ -309,4 +311,4 @@ function JskitTable(rHd){
 		document.write(_content);
 		_content = null;
 	};
-}
+};

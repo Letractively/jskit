@@ -9,7 +9,7 @@
  * #Necessary : base/*;
  *
  ******************************************************/
-function JskitTree(rHd) {
+var JskitTree = function(rHd) {
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitTree";
 
     //#Begin Private properties
@@ -87,7 +87,7 @@ function JskitTree(rHd) {
         return __root.getElementsByTagName("div");
     };
     this.nodeClick = function(rNodeId) {
-        var _node = $("#" + rNodeId);
+        var _node = $$("#" + rNodeId);
         var _level = _node.getAttribute("level");
         var _childNodes = _node.childNodes;
         var isLeaf = (_childNodes.length < 2);
@@ -157,8 +157,8 @@ function JskitTree(rHd) {
         if (typeof(__root) == "object") {
             if (rTarget == "html") {
                 return __root.innerHTML;
-            } else if (typeof(rTarget) == "string" && $("#" + rTarget) != null) {
-                $("#" + rTarget).innerHTML = __root.innerHTML;
+            } else if (typeof(rTarget) == "string" && $$("#" + rTarget) != null) {
+                $$("#" + rTarget).innerHTML = __root.innerHTML;
             } else if (typeof(rTarget) == "object") {
                 rTarget.innerHTML = __root.innerHTML;
             } else {
@@ -167,4 +167,4 @@ function JskitTree(rHd) {
         }
     };
     //#End
-}
+};

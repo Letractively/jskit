@@ -48,12 +48,12 @@
         };
 
         function doTransform() {
-            var src = $("#srcNames").value.split('\n');
+            var src = $$("#srcNames").value.split('\n');
             var dst = new Array();
             for (var i = 0; i < src.length; i++) {
                 dst.push(nameStandardization("class_name", src[i]));
             }
-            $("#dstNames").value = dst.join('\n');
+            $$("#dstNames").value = dst.join('\n');
         }
     </script>
     <style type="text/css">

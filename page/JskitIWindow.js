@@ -51,8 +51,8 @@ function JskitIWindow(rTitle, rContent, rParams){
 		__win.appendChild(__footer);
 		__setAttr();
 		
-		if ($("body") != null) {
-			$("body").appendChild(__win);
+		if ($$("body") != null) {
+			$$("body").appendChild(__win);
 			if (typeof(jskitDynamic) != "undefined") {
 				jskitDynamic.add("#" + __id);
 			}
@@ -62,14 +62,14 @@ function JskitIWindow(rTitle, rContent, rParams){
 		var _v = null;
 		if (typeof(__attr[rStyleName]) == "string" && __attr[rStyleName].length > 0) {
 			_v = __attr[rStyleName];
-		}
-		else 
+		}else{ 
 			if (typeof(__ATTR_DEF[rStyleName]) == "string" && __ATTR_DEF[rStyleName].length > 0) {
 				_v = __ATTR_DEF[rStyleName];
 			}
 			else {
 				_v = "";
 			}
+		}
 		if (rType == "number") {
 			_v = (isNaN(parseFloat(_v))) ? 0 : parseFloat(_v);
 		}
@@ -102,20 +102,19 @@ function JskitIWindow(rTitle, rContent, rParams){
 				__attr[rAttr] = (__attr[rAttr]<100)?100:__attr[rAttr];
 			}
 			eval("__win.style." + rAttr + " = __attr[rAttr]");
-		}
-		else 
+		}else{ 
 			if (typeof(__ATTR_DEF[rAttr]) != "undefined") {
 				eval("__win.style." + rAttr + " = __ATTR_DEF[rAttr]");
 				__attr[rAttr] = __ATTR_DEF[rAttr];
 			}
+		}
 	};
 	var __setAttr = function(){
 		//---- @ window style -------------	
 		//attr : class
 		if (typeof(__attr["class"]) == "string") {
 			__win.className = __attr["class"];
-		}
-		else 
+		}else {
 			if (typeof(__ATTR_DEF["class"]) == "string") {
 				__win.className = __ATTR_DEF["class"];
 			}
@@ -125,6 +124,7 @@ function JskitIWindow(rTitle, rContent, rParams){
 				__win.style.color = "#000000";
 				__win.style.padding = "0px";
 			}
+		}
 		//attr : width
 		__readRectStyle("width");
 		//attr : height
@@ -137,8 +137,8 @@ function JskitIWindow(rTitle, rContent, rParams){
 		__resizeTitle();
 		//attr : center
 		if (__attr["center"] == "true" || __attr["center"] == "yes") {
-			__win.style.left = ($("body").clientWidth - __win.offsetWidth) / 2;
-			__win.style.top = ($("body").clientHeight - __win.offsetWidth) / 2;
+			__win.style.left = ($$("body").clientWidth - __win.offsetWidth) / 2;
+			__win.style.top = ($$("body").clientHeight - __win.offsetWidth) / 2;
 		}
 		__win.style.position = "absolute";
 		__win.style.overflow = "hidden";
@@ -146,8 +146,7 @@ function JskitIWindow(rTitle, rContent, rParams){
 		//attr : titleClass
 		if (typeof(__attr["titleclass"]) == "string") {
 			__toolbar.className = __attr["titleclass"];
-		}
-		else 
+		} else {
 			if (typeof(__ATTR_DEF["titleclass"]) == "string") {
 				__toolbar.className = __ATTR_DEF["titleclass"];
 			}
@@ -157,40 +156,40 @@ function JskitIWindow(rTitle, rContent, rParams){
 				__toolbar.style.color = "#ffff00";
 				__toolbar.style.padding = "0px 2px 0px 2px";
 			}
+		}
 		__toolbar.style.height = __toolbarHeight;
 		__toolbar.style.width = parseFloat(__attr["width"]) - 6;
 		//---- @ body style -------------	
 		//attr : bodyClass
 		if (typeof(__attr["bodyclass"]) == "string") {
 			__body.className = __attr["bodyclass"];
-		}
-		else 
+		} else { 
 			if (typeof(__ATTR_DEF["bodyclass"]) == "string") {
 				__body.className = __ATTR_DEF["bodyclass"];
-			}
-			else {
+			} else {
 				__body.style.border = "1px solid #336699";
 				__body.style.backgroundColor = "#eeeeee";
 				__body.style.color = "#000000";
 				__body.style.padding = "2px 2px 2px 2px";
 			}
+		}
 		//attr : scrolling
 		if (__attr["scrolling"] == "false" || __attr["scrolling"] == "no") {
 			__body.style.overflow = "hidden";
-		}
-		else 
+		} else {
 			if (__ATTR_DEF["scrolling"] == "false" || __ATTR_DEF["scrolling"] == "no") {
 				__body.style.overflow = "hidden";
 			}
 			else {
 				__body.style.overflow = "scroll";
 			}
+		}
 		__body.style.height = __win.style.height.toInt() - 30;
 	};
 	var __close = function(){
 		try {
 			if (__win != null) {
-				$(__win).finalize();
+				$$(__win).finalize();
 				__win = null;
 			}
 			__title = null;
@@ -218,8 +217,8 @@ function JskitIWindow(rTitle, rContent, rParams){
 			__fullTemp[3] = __attr["height"];
 			__attr["left"] = 0;
 			__attr["top"] = 0;
-			__attr["width"] = $("body").clientWidth - 2;
-			__attr["height"] = $("body").clientHeight - 2;
+			__attr["width"] = $$("body").clientWidth - 2;
+			__attr["height"] = $$("body").clientHeight - 2;
 		}
 		else {
 			__attr["left"] = __fullTemp[0];
@@ -268,10 +267,11 @@ function JskitIWindow(rTitle, rContent, rParams){
 		__refresh();
 	};
 	this.open = function(){
-		if (__win == null) 
+		if (__win == null) {
 			__deploy();
-		else 
+		}else {
 			__win.style.display = "inline-block";
+		}
 	};
 	this.minimize = function(){
 		if (__win != null) 

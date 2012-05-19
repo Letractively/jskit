@@ -81,8 +81,8 @@
 					var _w = dayListInCalendar[i];
 		            jt.insert(convertDayCell(_w[0]),convertDayCell(_w[1]),convertDayCell(_w[2]),convertDayCell(_w[3]),convertDayCell(_w[4]),convertDayCell(_w[5]),convertDayCell(_w[6]));
 				}
-				$("#canvas").innerHTML = jt.getTable();
-				$("#info").innerHTML = jc.getYear()+"-"+jc.getMonth();
+				$$("#canvas").innerHTML = jt.getTable();
+				$$("#info").innerHTML = jc.getYear()+"-"+jc.getMonth();
 			}
 			function convertDayCell(day){
 				if(day=="")return "";
@@ -101,15 +101,15 @@
 				drawCalendar();
 			}
 			function showLunar(obj){
-				$("#lunar").innerHTML = "";	
+				$$("#lunar").innerHTML = "";	
 				var _row = obj.getAttribute("row").toInt(0);
 				var _col = obj.getAttribute("col").toInt(0);
 				var _day = dayListInCalendar[_row][_col];
 				if(!isNaN(_day)){
 					jc.lunar.parse(jc.getYear(),jc.getMonth(),_day);
-					$("#lunar").innerHTML = jc.lunar.date["GanzhiYear"]+"年" + jc.lunar.date["MonthText"]+"月" + jc.lunar.date["DayText"];  
+					$$("#lunar").innerHTML = jc.lunar.date["GanzhiYear"]+"年" + jc.lunar.date["MonthText"]+"月" + jc.lunar.date["DayText"];  
 				}else{
-					$("#lunar").innerHTML = "error";
+					$$("#lunar").innerHTML = "error";
 				}
 			}
             var clock = null;
@@ -117,7 +117,7 @@
                 clock.innerHTML = jc.clock.toString("yyyy:MM:dd hh:mm:ss");
             }
             function onPageLoad(){
-                clock = $("#clock");
+                clock = $$("#clock");
                 drawClock();
                 var clockTimer = window.setInterval("drawClock()",1000);
                 drawCalendar();
@@ -215,8 +215,8 @@ function drawCalendar(){
 		var _w = dayListInCalendar[i];
         jt.insert(_w[0],_w[1],_w[2],_w[3],_w[4],_w[5],_w[6]);
 	}
-	$("#canvas").innerHTML = jt.getTable();
-	$("#info").innerHTML = jc.getYear()+"-"+jc.getMonth();
+	$$("#canvas").innerHTML = jt.getTable();
+	$$("#info").innerHTML = jc.getYear()+"-"+jc.getMonth();
 }
 
 //显示下一个月
@@ -234,15 +234,15 @@ function goPrev(){
 //显示农历
 //注意：该方法，应用了单元格事件
 function showLunar(obj){
-	$("#lunar").innerHTML = "";	
+	$$("#lunar").innerHTML = "";	
 	var _row = obj.getAttribute("row").toInt(0);
 	var _col = obj.getAttribute("col").toInt(0);
 	var _day = dayListInCalendar[_row][_col];
 	if(!isNaN(_day)){
 		jc.lunar.parse(jc.getYear(),jc.getMonth(),_day);
-		$("#lunar").innerHTML = jc.lunar.date["GanzhiYear"]+"年" + jc.lunar.date["MonthText"]+"月" + jc.lunar.date["DayText"];  
+		$$("#lunar").innerHTML = jc.lunar.date["GanzhiYear"]+"年" + jc.lunar.date["MonthText"]+"月" + jc.lunar.date["DayText"];  
 	}else{
-		$("#lunar").innerHTML = "error";
+		$$("#lunar").innerHTML = "error";
 	}
 }
                         </textarea>

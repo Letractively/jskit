@@ -27,7 +27,7 @@ var JskitDInput = function(){
 	//#END
 
 	this.input = function(sender){
-		__inputObj = $(sender);
+		__inputObj = $$(sender);
 	};
 	this.inputCallback = function(doc){
 		//refresh list

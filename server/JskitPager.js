@@ -96,9 +96,9 @@ JskitPager.prototype = {
 		document.body.appendChild(this.__monitor);
 	},
 	__refreshMonitor : function(){
-		//$("#_aa_mo_total").innerHTML = this.__maxPageIndex;
-		$("#_aa_mo_pos").innerHTML = this.__pageIndex;
-		$("#_aa_mo_status").innerHTML = this.__status;
+		//$$("#_aa_mo_total").innerHTML = this.__maxPageIndex;
+		$$("#_aa_mo_pos").innerHTML = this.__pageIndex;
+		$$("#_aa_mo_status").innerHTML = this.__status;
 	},
 	__buildPageTurner : function(){
 		var _html = '<table>';
@@ -148,7 +148,7 @@ JskitPager.prototype = {
 		this.__refreshMonitor();
 	},
 	__checkRequestStatus : function(){
-		var _win = $("#JskitPager_container");
+		var _win = $$("#JskitPager_container");
 		var body = (document.all)?_win.document.body:_win.contentDocument.body;
 		if(body){
 			this.__clearTimer();

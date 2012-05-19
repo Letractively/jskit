@@ -8,9 +8,9 @@
     <script src="../JskitConfig_doc.js"></script>
 <script>
 	function doMd5(){
-		var _s = jskitUtil.md5($("#txt_input").value);
+		var _s = jskitUtil.md5($$("#txt_input").value);
 
-		$("#txt_output").innerHTML = "UpperCase: <input size='36' value='"+_s +"' />"
+		$$("#txt_output").innerHTML = "UpperCase: <input size='36' value='"+_s +"' />"
 			+"<br><br>"
 			+"LowerCase: <input size='36' value='" + _s.toLowerCase()+"'/>";
 	}

@@ -50,7 +50,7 @@ var JskitAreaSelector = function(rHd){
 		str += '<div id="'+__hd+'_container" class="JskitAreaSelector_container">'+__BuildPanelCode()+'</div>';
 		__panel = jskitUtil.doc.pop(__panel,__textObj,str,"position=down");
 		__panel.className = "JskitAreaSelector_panel";
-		__container = $("#"+__hd+"_container");
+		__container = $$("#"+__hd+"_container");
 	};
 
 	this.reset = function(){
@@ -166,8 +166,8 @@ var JskitAreaSelector = function(rHd){
 		__ClosePanel();
 	};
 	this.open = function(rTextFieldId,rValueFieldId,hasCountry){
-		__textObj = $("#"+rTextFieldId);
-		__valueObj = $("#"+rValueFieldId);
+		__textObj = $$("#"+rTextFieldId);
+		__valueObj = $$("#"+rValueFieldId);
 		if(typeof(hasCountry)=="boolean"){
 			__startLevel = (hasCountry)?1:2;
 		}else{

@@ -72,7 +72,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).effectStyle(rStyleName);
+										$$(Object).effectStyle(rStyleName);
 									</td>
 									<td>
 										得到当前的css样式值
@@ -86,7 +86,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).finalize();
+										$$(Object).finalize();
 									</td>
 									<td>
 										销毁对象
@@ -100,7 +100,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).clearChildren();
+										$$(Object).clearChildren();
 									</td>
 									<td>
 										清除所有子节点
@@ -114,7 +114,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).getX();
+										$$(Object).getX();
 									</td>
 									<td>
 										得到对象的绝对横坐标，无关该对象是流式定位还是绝对定位
@@ -128,7 +128,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).getY();
+										$$(Object).getY();
 									</td>
 									<td>
 										得到对象的绝对纵坐标，无关该对象是流式定位还是绝对定位
@@ -142,7 +142,7 @@
 								</tr>
 								<tr>
 									<td>
-										$(Object).getForefather(rTagName);
+										$$(Object).getForefather(rTagName);
 									</td>
 									<td>
 										得到对象的祖宗节点中最接近该对象且 tagName 为 rTagName 的祖宗对象
@@ -156,7 +156,7 @@
 								</tr>
                                 <tr>
                                     <td>
-                                        $(Object).isOffSpringIn(string rForefatherId);
+                                        $$(Object).isOffSpringIn(string rForefatherId);
                                     </td>
                                     <td>
                                         是否是id为 rForefatherId 的对象的子孙对象
@@ -170,7 +170,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        $(Object).isOffSpringOrSelf(string rForefatherId);
+                                        $$(Object).isOffSpringOrSelf(string rForefatherId);
                                     </td>
                                     <td>
                                         是否是id为 rForefatherId 的对象的子孙对象 或者是对象自己
@@ -184,7 +184,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        $(Object).isForefatherOf(string rOffSpringId);
+                                        $$(Object).isForefatherOf(string rOffSpringId);
                                     </td>
                                     <td>
                                         是否是id为 rOffSpringId 的对象的祖宗对象 
@@ -198,7 +198,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        $(Object).isForefatherOrSelf(string rOffSpringId);
+                                        $$(Object).isForefatherOrSelf(string rOffSpringId);
                                     </td>
                                     <td>
                                         是否是id为 rOffSpringId 的对象的祖宗对象  或者对象自己
@@ -212,7 +212,7 @@
                                 </tr>
 								<tr>
 									<td>
-										$(Object).select(xPath);
+										$$(Object).select(xPath);
 									</td>
 									<td>
 										在Object范围内搜索xpath
@@ -221,7 +221,7 @@
 										Element List
 									</td>
 									<td>
-										相当于$(xPath,Object);
+										相当于$$(xPath,Object);
 									</td>
 								</tr>
 							</tbody>
@@ -239,20 +239,20 @@
 						//如果对象未找到，Returnnull
 						//方式1：得到某个标签的对象集合
 						//如查找所有div对象集合。 
-						$("div"); 
-						//注意：$("body")只有一个，所以它没有下标，这是一个特例。
+						$$("div"); 
+						//注意：$$("body")只有一个，所以它没有下标，这是一个特例。
 
 						//方式2：得到具有idAttributes:，且Attributes:值为myid的对象
 						//如查找id为myid的对象。 
-						$("#myid"); 
+						$$("#myid"); 
 						
 						//方式3：得到具有nameAttributes:，且Attributes:值为myName的对象集合
 						//如查找name为myName的所有对象集合。 
-						$("@myName"); 
+						$$("@myName"); 
 						
 						//方式4：得到标签为div，且具有某Attributes:且Attributes:值为某值(=)或包涵某值(%)的对象集合
 						//如查找Attributes:AA等于aa，Attributes:BB等于bb，Attributes:CC包涵cc的div对象。 
-						$("div[@AA='aa',@BB='bb',@CC%'cc',....]");
+						$$("div[@AA='aa',@BB='bb',@CC%'cc',....]");
 						//
 						// 注意格式:
 						// 1,@和Attributes:名之间不能有空格

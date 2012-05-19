@@ -33,9 +33,9 @@
 			return false;
 		}
 		function mutilNote(){
-			var max = parseInt($("#txt_lottery_count").value);
+			var max = parseInt($$("#txt_lottery_count").value);
 			if(isNaN(max))max=10;
-			var list = $("#lottery_result_list");
+			var list = $$("#lottery_result_list");
 			list.value = "";
 			var count = 0;
 			while(count<max){

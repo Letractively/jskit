@@ -79,7 +79,7 @@ var JskitDocument = function(rHd){
         str = str.replace(/>/gi, "&gt;");
         document.write(str);
         return;
-        var _body = $("body");
+        var _body = $$("body");
         var _text = _body.innerHTML;
         var _list = _body.childNodes;
         var _nodes = new Array();
@@ -87,7 +87,7 @@ var JskitDocument = function(rHd){
             _nodes.push(_list[i]);
         }
         eval("_body.appendChild(" + this.hd + ".__pageLayout());");
-        var _container = $("#page_container");
+        var _container = $$("#page_container");
         if (_nodes != null && _nodes.length > 0) {
             for (var i = 0; i < _nodes.length; i = i + 1) {
                 if (!_nodes[i].tagName && typeof (_nodes[i]) == "object") {

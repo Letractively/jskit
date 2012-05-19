@@ -10,12 +10,12 @@
     <script>
         var jt = new JskitTask("jt");
         function myTask(v) {
-            $("#txt1").value += v;
+            $$("#txt1").value += v;
             jt.done();
         }
         ;
         function doClear() {
-            $("#txt1").value = "";
+            $$("#txt1").value = "";
         }
         jt.addFuncTask("Task 1", "myTask(1)");
         jt.addFuncTask("Task 2", "myTask(2)");
@@ -25,7 +25,7 @@
         //jt.showPanel();
         jt.setTimeout(1);
         function onPlageLoad() {
-            jt.showPanel($('#panel'));
+            jt.showPanel($$('#panel'));
         }
     </script>
     <style>
@@ -41,7 +41,7 @@
 
             //设置要执行的任务，该示例中，每次执行任务，txt1输入框追加内容
             function myTask(v){
-                $("#txt1").value += v;
+                $$("#txt1").value += v;
                 jt.done();
             };
 

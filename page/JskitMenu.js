@@ -10,7 +10,7 @@
  * #Necessary : base/*;
  *
  ******************************************************/
-function JskitMenu(rHd) {
+var JskitMenu = function(rHd) {
     var __hd = (typeof(rHd) == "string") ? rHd : "jskitMenu";
 
     var __TAG = "div";
@@ -67,20 +67,22 @@ function JskitMenu(rHd) {
     var __iconCssClassActive = "";
 
     this.setUpArrowHtml = function(v) {
-        if (typeof(v) == "string")
+        if (typeof(v) == "string"){
             __arrowHtml[1] = v;
+		}
     };
     this.setRightArrowHtml = function(v) {
-        if (typeof(v) == "string")
+        if (typeof(v) == "string"){
             __arrowHtml[2] = v;
+		}
     };
     this.setDownArrowHtml = function(v) {
-        if (typeof(v) == "string")
+        if (typeof(v) == "string"){
             __arrowHtml[3] = v;
+		}
     };
     this.setLeftArrowHtml = function(v) {
-        if (typeof(v) == "string")
-            __arrowHtml[4] = v;
+        if (typeof(v) == "string"){__arrowHtml[4] = v;}
     };
 
     //#Begin Private methods
@@ -93,7 +95,7 @@ function JskitMenu(rHd) {
         _d.setAttribute("css", rCss);
         _d.setAttribute(__ATTR_DIRECTION, jskitUtil.select(rDirection, 1, 2));
         _d.setAttribute(__ATTR_LOCATION, jskitUtil.select(rLocation, 1, 2, 3, 4));
-        _d.setAttribute("icon",rIcon)
+        _d.setAttribute("icon",rIcon);
         rCaption = rCaption.replace(/</gi, "&lt;");
         rCaption = rCaption.replace(/>/gi, "&gt;");
         var _caption = __data.createCDATASection(rCaption);
@@ -228,8 +230,7 @@ function JskitMenu(rHd) {
                 }
                 /*
                  //check current Url
-                 if(window.location.href.indexOf(_url)!=-1)
-                 _css += "_selected";
+                 if(window.location.href.indexOf(_url)!=-1){ _css += "_selected";}
                  */
 				 var tag = (_url != null && _url.trim() != "")?"div":"div";
 				 var item = '<'+tag+' class="' + _css + '" '
@@ -264,11 +265,11 @@ function JskitMenu(rHd) {
         }
 
         var _dynamicBox = null;
-        if ($("#" + _id) != null) {
-            _dynamicBox = $("#" + _id);
+        if ($$("#" + _id) != null) {
+            _dynamicBox = $$("#" + _id);
         } else {
             _dynamicBox = document.createElement(__TAG);
-            $("body").appendChild(_dynamicBox);
+            $$("body").appendChild(_dynamicBox);
             _dynamicBox.setAttribute("id", _id);
 			_dynamicBox.style.position = "absolute";
         }
@@ -281,20 +282,20 @@ function JskitMenu(rHd) {
         var _y = null;
         switch (rLocation) {
             case 1://up
-                _x = $(__selectedItem).getX();
-                _y = $(__selectedItem).getY() - _dynamicBox.offsetHeight+3;
+                _x = $$(__selectedItem).getX();
+                _y = $$(__selectedItem).getY() - _dynamicBox.offsetHeight+3;
                 break;
             case 2://right
-                _x = $(__selectedItem).getX() + __selectedItem.offsetWidth-2;
-                _y = $(__selectedItem).getY();
+                _x = $$(__selectedItem).getX() + __selectedItem.offsetWidth-2;
+                _y = $$(__selectedItem).getY();
                 break;
             case 3://down
-                _x = $(__selectedItem).getX();
-                _y = $(__selectedItem).getY() + __selectedItem.offsetHeight-3;
+                _x = $$(__selectedItem).getX();
+                _y = $$(__selectedItem).getY() + __selectedItem.offsetHeight-3;
                 break;
             case 4://left
-                _x = $(__selectedItem).getX() - _dynamicBox.offsetWidth+2;
-                _y = $(__selectedItem).getY();
+                _x = $$(__selectedItem).getX() - _dynamicBox.offsetWidth+2;
+                _y = $$(__selectedItem).getY();
                 break;
         }
 
@@ -317,8 +318,9 @@ function JskitMenu(rHd) {
     };
     var __isInDynamicList = function(rKey) {
         for (var i = 0; i < __dynamicList.length; i++) {
-            if (__dynamicList[i] == rKey)
+            if (__dynamicList[i] == rKey){
                 return true;
+			}
         }
         return false;
     };
@@ -358,7 +360,7 @@ function JskitMenu(rHd) {
         var _box = null, _key = null,_list = __dynamicList.join(',');
         for (var i = 0; i < __dynamicList.length; i++) {
             _key = __dynamicList[i];
-            _box = $("#" + _key);
+            _box = $$("#" + _key);
             if (_box != null && !__isInSamePath(_key, rId)) {
                 _box.finalize();
                 _list = _list.replace(_key, "");
@@ -389,7 +391,7 @@ function JskitMenu(rHd) {
         var _tmpItem = null;
         var _tmpNode = _node;
         while (_tmpNode != null && _tmpNode.tagName.toLowerCase() != "root") {
-            _tmpItem = $("#" + _tmpNode.getAttribute("id"));
+            _tmpItem = $$("#" + _tmpNode.getAttribute("id"));
 			if(_tmpItem!=null){
 	            _tmpItem.className = _tmpNode.getAttribute("css") + "_over";
 		        _tmpNode = _tmpNode.parentNode;
@@ -407,8 +409,9 @@ function JskitMenu(rHd) {
             var _node = null;
             for (var i = 0; i < _nl_items.length; i++) {
                 _node = __getMenuNodeByItem(_nl_items[i]);
-                if (_node != null)
+                if (_node != null){
                     _nl_items[i].className = _node.getAttribute("css");
+				}
             }
             _node = _nl_items = null;
             //clear the styles of children
@@ -419,7 +422,7 @@ function JskitMenu(rHd) {
             var _tmpItem = null;
             var _tmpNode = __selectedNode;
             while (_tmpNode != null && _tmpNode.tagName.toLowerCase() != "root") {
-                _tmpItem = $("#" + _tmpNode.getAttribute("id"));
+                _tmpItem = $$("#" + _tmpNode.getAttribute("id"));
 				if(_tmpItem==null){break;}
 				_tmpItem.className = _tmpNode.getAttribute("css");
 				_tmpNode = _tmpNode.parentNode;
@@ -504,8 +507,9 @@ function JskitMenu(rHd) {
                 __selectedNode = _node;
                 __selectedItem = _item;
                 __expand(_item);
-            } else
+            } else{
                 return false;
+			}
         } else {//mouse not on menu
             //jskitLog.debug(__hd+".onMouseMove:mouse not on menu");
             __lastMouseX = __lastMouseY = null;
@@ -518,7 +522,7 @@ function JskitMenu(rHd) {
     };
 	this.closeDynamicBox = function(){
 		__closeDynamicBox();
-	}
+	};
     //----------------------------------------------------
     //just valid in static menu
     this.onMouseOver = function(rSrcItem) {
@@ -558,17 +562,17 @@ function JskitMenu(rHd) {
     };
     var __gotoUrl = function(rNode) {
 		var _id = rNode.getAttribute("id");
-		var div = $("#"+_id);
+		var div = $$("#"+_id);
 		div.childNodes[0].click();
     };
     var __correctIconBarPosition = function(){
-        var _bar = $("#"+__hd+"_iconbar");
+        var _bar = $$("#"+__hd+"_iconbar");
         if(_bar==null)return;
         var _direction = parseInt(__root.getAttribute(__ATTR_DIRECTION));
         var _nodes = __root.childNodes;
         if(_nodes.length>1 && _nodes[0]!=null){
             var _id = _nodes[1].getAttribute("id");
-            var _div = $("#"+_id);
+            var _div = $$("#"+_id);
             if(_div==null)return;
             _bar.style.position = "absolute";
             if(_direction==1){//h
@@ -670,10 +674,11 @@ function JskitMenu(rHd) {
         var count = 0;
         var _item = item.parentNode;
         while (count < 10 && _item.getAttribute("id") != __root.getAttribute("id")) {
-            if (!__attrs[_item.getAttribute("id")].isLast)
+            if (!__attrs[_item.getAttribute("id")].isLast){
                 _str = "&#9474;" + _str;
-            else
+            }else{
                 _str = "&nbsp;" + _str;
+			}
             _item = _item.parentNode;
             count++;
         }
@@ -729,8 +734,9 @@ function JskitMenu(rHd) {
             _item.setAttribute("open", !_open);
             for (var i = 0; i < _item.childNodes.length; i++) {
                 _child = _item.childNodes[i];
-                if (typeof(_child.style) == "object" && _child.getAttribute("type") == __TYPE_NODE)
+                if (typeof(_child.style) == "object" && _child.getAttribute("type") == __TYPE_NODE){
                     _child.style.display = _display;
+				}
             }
         }
     };
@@ -885,8 +891,9 @@ function JskitMenu(rHd) {
 
     this.move = function(rParent) {
 		if(__root==null){return;}
-        if (__selectedNode == null)
+        if (__selectedNode == null){
             return;
+		}
         rParent.appendChild(__selectedNode);
     };
     this.remove = function() {
@@ -959,7 +966,7 @@ function JskitMenu(rHd) {
         var _nl = __getNodeList();
         var _node;
         for (var i = 0; i < _nl.length; i++) {
-            _node = _nl[i]
+            _node = _nl[i];
             _node.setAttribute("id", jskitUtil.guid());
         }
         _node = null;
@@ -986,12 +993,13 @@ function JskitMenu(rHd) {
 		    return __expand();
 		}
     };
-    this.expandTree = function(rStartNode) {
-		if(__root==null){return;}
-        if (typeof(rStartNode) == "object")
+    this.expandTree = function (rStartNode) {
+        if (__root == null) { return; }
+        if (typeof (rStartNode) == "object") {
             return __expandTree(rStartNode);
-        else
+        } else {
             return __expandTree();
+        }
     };
     this.load = function(rXmlUrl) {
 		try{
@@ -1056,14 +1064,14 @@ function JskitMenu(rHd) {
         __documentLoaded = true;
     };
 	this.setMenuBox = function(v){
-		__menuBox = $("#"+v);
+		__menuBox = $$("#"+v);
 	};
     //#End
-{
-    __initRootNode();
-    this.Location = new __LOCATION();
-    this.Direction = new __DIRECTION();
-    jskitEvents.ready("onmousemove", __hd + ".onMouseMove");
-    jskitEvents.ready("onload",__hd+".onDocumentLoad");
-}
-}
+	{
+		__initRootNode();
+		this.Location = new __LOCATION();
+		this.Direction = new __DIRECTION();
+		jskitEvents.ready("onmousemove", __hd + ".onMouseMove");
+		jskitEvents.ready("onload",__hd+".onDocumentLoad");
+	}
+};

@@ -19,11 +19,11 @@ cell[columns[2]] = "Firefox不支持element.all";
 cell[columns[3]] = "通用的方法:<br>document.getElementById(rId)"
 	+ "<br />document.getElementsByName(rName)//只对表单项有效"
 	+ "<br />document.getElementsByTagName(rTagName)";
-cell[columns[4]] = "//得到tagName=xxx的对象集合<br />$(\"xxx\");"
-	+ "<br />//得到id=xxx的对象<br />$(\"#xxx\");"
-	+ "<br />//得到name=xxx的对象集合<br />$(\"@xxx\");"
-	+ "<br />//得到标签为xxx,其yyy属性值等于zzz的对象集合<br />$(\"xxx[@yyy='zzz']\");"
-	+ "<br />//得到标签为xxx,其yyy属性值包涵zzz的对象集合<br />$(\"xxx[@yyy%'zzz']\");";
+cell[columns[4]] = "//得到tagName=xxx的对象集合<br />$$(\"xxx\");"
+	+ "<br />//得到id=xxx的对象<br />$$(\"#xxx\");"
+	+ "<br />//得到name=xxx的对象集合<br />$$(\"@xxx\");"
+	+ "<br />//得到标签为xxx,其yyy属性值等于zzz的对象集合<br />$$(\"xxx[@yyy='zzz']\");"
+	+ "<br />//得到标签为xxx,其yyy属性值包涵zzz的对象集合<br />$$(\"xxx[@yyy%'zzz']\");";
 cells.push(cell);
 //-------------------------------------------------------------------------------------------------/
 var cell = new Array();
@@ -32,9 +32,9 @@ cell[columns[1]] = "element.currentStyle";
 cell[columns[2]] = "document.defaultView.getComputedStyle(_obj,null).getPropertyValue(rStyle)";
 cell[columns[3]] = "无";
 cell[columns[4]] = "//使用'$'来扩展对象的方法:"
-	+ "<br />$(\"#myid\").effectStyle(\"background-color\");"
+	+ "<br />$$(\"#myid\").effectStyle(\"background-color\");"
 	+ "<br />或者:"
-	+ "<br />var _div = $(\"#myid\");<br />$(_div).effectStyle(\"background-color\");";
+	+ "<br />var _div = $$(\"#myid\");<br />$$(_div).effectStyle(\"background-color\");";
 cells.push(cell);
 //-------------------------------------------------------------------------------------------------/
 var cell = new Array();
@@ -82,8 +82,8 @@ cell[columns[0]] = "pixelLeft,pixelTop属性";
 cell[columns[1]] = "Element.style.pixelLeft,Element.style.pixelTop";
 cell[columns[2]] = "没有这样的属性";
 cell[columns[3]] = "无";
-cell[columns[4]] = "parseFloat($(Element).effectStyle(\"left\"))"
-				+ "<br>parseFloat($(Element).effectStyle(\"left\"))";
+cell[columns[4]] = "parseFloat($$(Element).effectStyle(\"left\"))"
+				+ "<br>parseFloat($$(Element).effectStyle(\"left\"))";
 cells.push(cell);
 //-------------------------------------------------------------------------------------------------/
 
@@ -98,7 +98,7 @@ function showIEFFcontent(){
 		_str += '<tr><td class="item_title">W3C:</td><td class="result">'+cells[i]["w3c"]+'</td></tr>';
 	}
 	_str += '</table>';
-	$("#JskitIEvsFFDoc_displayer").innerHTML = _str;
+	$$("#JskitIEvsFFDoc_displayer").innerHTML = _str;
 }
 function showIndex(){
 	var _str = '<table>';
@@ -106,7 +106,7 @@ function showIndex(){
 		_str += '<tr><td class="index">'+(i+1)+'. <a href="#'+i+'">'+cells[i]["Title"]+'</a></td></tr>';
 	}
 	_str += '</table>';
-	$("#JskitIEvsFFIndex_displayer").innerHTML = _str;
+	$$("#JskitIEvsFFIndex_displayer").innerHTML = _str;
 }
 jskitEvents.ready("onload","showIEFFcontent");
 </script>

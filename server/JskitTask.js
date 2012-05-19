@@ -58,7 +58,7 @@ function JskitTask(rHd) {
 
             __logOuter = document.createElement("div");
             __panel.appendChild(__logOuter);
-            $("body").appendChild(__panel);
+            $$("body").appendChild(__panel);
         }
         __printLog();
     };
@@ -80,14 +80,14 @@ function JskitTask(rHd) {
             __logOuter.innerHTML += rMsg + "<br>";
     };
     var __buildActor = function() {
-        __actor = $("#" + __actorId);
+        __actor = $$("#" + __actorId);
         if (__actor == null) {
             __actor = document.createElement("iframe");
             __actor.setAttribute("src", "");
             __actor.setAttribute("id", __actorId);
             __actor.style.width = "0px";
             __actor.style.height = "0px";
-            $("body").appendChild(__actor);
+            $$("body").appendChild(__actor);
         }
     };
     //添加一个任务

@@ -40,21 +40,24 @@ function JskitValidation(rHd){
         this.pattern = null;
         this.msg = null;
 		this.value = function(){
-			if(this.obj && this.obj.value)
+			if(this.obj && this.obj.value){
 				return this.obj.value;
-			else
+			}else{
 				return "";
+			}
 		};
 		this.count = function(){
 			if(this.obj==null)return 0;
-			if(this.obj.length)
+			if(this.obj.length){
 				return this.obj.length;
-			else
+			}else{
 				return 1;
+			}
 		};
 		this.setValue = function(v){
-			if(this.obj)
+			if(this.obj){
 				this.obj.value = v;
+			}
 		};
     };
     var __PATTERN = new function(){
@@ -76,27 +79,27 @@ function JskitValidation(rHd){
     var __display = "alert";
     this.setDisplay = function(v){
         __display = v;
-    }
+    };
     //output viewer object
     var __displayer = null;
     this.setDisplayer = function(v){
         __displayer = v;
-    }
+    };
     //errinfo css class
     var __errorCssClass = "";
     this.setErrorCssClass = function(v){
         __errorCssClass = v;
-    }
+    };
     //errinfo style string
     var __errorStyleString = "";
     this.setErrorStyleString = function(v){
         __errorStyleString = v;
-    }
+    };
     //when error catched,page forward
     var __errorForward = "";
     this.setErrorForward = function(v){
         __errorForward = v;
-    }
+    };
 	var __realTime = false;
 	this.setRealTime = function(v){
 		__realTime = (v==true);
@@ -133,14 +136,14 @@ function JskitValidation(rHd){
     var __getMsgHtml = function(){
         if (__display == "up") {
             return __vo.msg + "<br />";
-        }
-        else 
+        }else{ 
             if (__display == "down") {
                 return "<br />" + __vo.msg;
             }
             else {
                 return __vo.msg;
             }
+		}
     };
     var __appendMsgObject = function(){
         var _obj = __getMsgObj(__vo.id);
@@ -150,8 +153,7 @@ function JskitValidation(rHd){
 		var _parent = _item.parentNode;
         if (__display == "before" || __display == "up") {
             _parent.insertBefore(_obj, _item);
-        }
-        else 
+        }else {
             if (__display == "after" || __display == "down") {
                 if (!__vo.count() && _item.nextSibling != null) {
                     _parent.insertBefore(_obj, _item.nextSibling);
@@ -160,11 +162,11 @@ function JskitValidation(rHd){
                     _parent.appendChild(_obj);
                 }
             }
-            
+		}   
         _obj = _item = null;
     };
     var __getMsgObj = function(vId){
-        var _obj = $("#v_err_" + vId);
+        var _obj = $$("#v_err_" + vId);
         if (_obj === null) {
             _obj = document.createElement("span");
             _obj.id = "v_err_" + vId;
@@ -179,10 +181,11 @@ function JskitValidation(rHd){
 	var __setFocusAfterCheck = function(){
 		if(__realTime)return;
 		try{
-			if(__vo.count()>1)
+			if(__vo.count()>1){
 				__vo.obj[0].focus();
-			else if(__vo.count()==1)
+			}else if(__vo.count()==1){
 				__vo.obj.focus();
+			}
 		}catch(e){}
 	};
     var __displayMessage = function(){
@@ -215,8 +218,7 @@ function JskitValidation(rHd){
     var __cleanMessage = function(){
         if (__display == "object" && __displayer !== null) {
             __displayer.innerHTML = "";
-        }
-        else {
+        } else {
             var _err = __getMsgObj(__vo.id);
             _err.innerHTML = "";
             _err.style.display = "none";
@@ -227,8 +229,7 @@ function JskitValidation(rHd){
         var _func = __vo.pattern;
         if (_func.match(/\\([\w-]+\\)"/) == null) {
             _func = _func.replace("(", "(__vo.obj");
-        }
-        else {
+        } else {
             _func = _func.replace("(", "(__vo.obj,");
         }
         eval("__vo.msg = " + _func + ";");
@@ -304,7 +305,7 @@ function JskitValidation(rHd){
 	var __MaxLengthErrorMessage = unescape("?%u8F93%u5165%u7684%u5185%u5BB9%u8D85%u8FC7%u4E86%u6700%u5927%u7684%u957F%u5EA6%u8981%u6C42%uFF0C%u8BF7%u8F93%u5165%u5C0F%u4E8E?%u4E2A%u5B57%u7B26%u7684%u5185%u5BB9\n%uFF08%u6BCF%u4E2A%u6C49%u5B57%u76F8%u5F53%u4E8E%u4E24%u4E2A%u5B57%u7B26%uFF09");
 	var __validateMaxLength = function(){
 		//check all input element whitin MaxLength attribute
-		var _nl = $("input[@maxlength]");
+		var _nl = $$("input[@maxlength]");
 		if(_nl!=null && _nl.length){
 			var len = null;
 			var max = null;
@@ -359,7 +360,7 @@ function JskitValidation(rHd){
     };
     var __getObj = function(rXPath,rValidator){
 		if(rXPath==""){return null;}
-        var _o = $(rXPath);
+        var _o = $$(rXPath);
         if(_o!=null){
             if(typeof(_o.length)=="number" && _o.length>0 && rValidator!=__VALIDATOR.CHECK){
                 return _o[0];
@@ -506,9 +507,9 @@ function JskitValidation(rHd){
 		if(typeof(data)!="object"){return true;}
 		this.load(data);
 		this.deploy();
-		var frm = $("#"+formId);
+		var frm = $$("#"+formId);
 		if(frm==null){
-		    frm = $("form")[0];
+		    frm = $$("form")[0];
 		}
 		if(frm!=null){
 		    jskitEvents.add(frm,"onsubmit",__hd+".onFormSubmit(this,event)");
@@ -520,11 +521,11 @@ function JskitValidation(rHd){
     this.deploy = function(){
         if (__settingType == "array") {
             __addTaskFromArray();
-        }
-        else 
+        } else {
             if (__settingType == "xml") {
                 __addTaskFromXml();
             }
+		}
         if(__errorLogs.length>0 && __showError){
             alert("JskitValidation errors on deploy:\n"+__errorLogs.join('\n'));
         }

@@ -12,9 +12,9 @@
 			jskitDynamic.add("#demo_dynamic_div");
 			jskitDynamic.setOnMoveDone("onMoveDone()")
 			//jskitLog.open();
-			$("#movabletags").innerHTML = convertString(jskitDynamic.getMovableTags());
-			$("#unmovabletags").innerHTML = convertString(jskitDynamic.getUnmovableTags());
-			$("#blocktags").innerHTML = convertString(jskitDynamic.getBlockTags());
+			$$("#movabletags").innerHTML = convertString(jskitDynamic.getMovableTags());
+			$$("#unmovabletags").innerHTML = convertString(jskitDynamic.getUnmovableTags());
+			$$("#blocktags").innerHTML = convertString(jskitDynamic.getBlockTags());
 		}
 		jskitEvents.ready("onload","demo_pangeOnload");
 		function doPause(obj){
@@ -33,13 +33,13 @@
 			return "&lt;"+s+"&gt;";
 		}
 		function onMoveDone(){
-			$("#offsetx").value = jskitDynamic.getOffsetX();
-			$("#offsety").value = jskitDynamic.getOffsetY();
+			$$("#offsetx").value = jskitDynamic.getOffsetX();
+			$$("#offsety").value = jskitDynamic.getOffsetY();
 		}
 		function doSwitchRealTime(obj){
 			var rt = jskitDynamic.getRealTime();
 			jskitDynamic.setRealTime(!rt);
-			$("#realtime").value = !rt;
+			$$("#realtime").value = !rt;
 		}
     </script>
 	<style>
@@ -113,8 +113,8 @@
 							</td>
 							<td>
 								function onMoveDone(){
-								<br>&nbsp;&nbsp;&nbsp;&nbsp;$("#offsetx").value = jskitDynamic.getOffsetX();
-								<br>&nbsp;&nbsp;&nbsp;&nbsp;$("#offsety").value = jskitDynamic.getOffsetY();
+								<br>&nbsp;&nbsp;&nbsp;&nbsp;$$("#offsetx").value = jskitDynamic.getOffsetX();
+								<br>&nbsp;&nbsp;&nbsp;&nbsp;$$("#offsety").value = jskitDynamic.getOffsetY();
 								<br>}
 								<br>jskitDynamic.setOnMoveDone("onMoveDone");
 							</td>

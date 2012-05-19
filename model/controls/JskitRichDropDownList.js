@@ -384,7 +384,7 @@ var JskitRichDropDownList = function (rHd) {
     this.onCheckAll = function (sender, e) {
         if (!__init) { alert("init failed"); return; }
         if (__cbxList == null) {
-            __cbxList = $("@cbx_" + __hd);
+            __cbxList = $$("@cbx_" + __hd);
         }
         var _txt = "";
         var _val = "";
@@ -402,12 +402,12 @@ var JskitRichDropDownList = function (rHd) {
         }
         __finalSelected(_txt, _val);
         _txt = _val = null;
-    }
+    };
     this.onCheck = function (sender, e) {
         if (!__init) { alert("init failed"); return; }
         sender.parentNode.parentNode.className = (sender.checked) ? "JskitRichDropDownList_m_row2" : "JskitRichDropDownList_m_row";
         if (__cbxList == null) {
-            __cbxList = $("@cbx_" + __hd);
+            __cbxList = $$("@cbx_" + __hd);
         }
         var _txt = "";
         var _val = "";
@@ -432,7 +432,7 @@ var JskitRichDropDownList = function (rHd) {
     this.onCheckClear = function (sender, e) {
         __finalSelected("", "");
         __close();
-    }
+    };
     this.onItemMouseOver = function (sender, e) {
         sender.className = "JskitRichDropDownList_item_active";
     };
@@ -533,7 +533,7 @@ var JskitRichDropDownList = function (rHd) {
         __dropBtn.setAttribute("id", __dropBtnID);
         __dropBtn.setAttribute("type", "button");
         __dropBtn.className = "JskitRichDropDownList_btn";
-        $("body").appendChild(__dropBtn);
+        $$("body").appendChild(__dropBtn);
         __dropBtn.setAttribute("value", unescape("%u25BC"));
 
         jskitUtil.dom.insertAfter(__dropBtn, __textField);
@@ -555,10 +555,10 @@ var JskitRichDropDownList = function (rHd) {
         __body.className = "JskitRichDropDownList_body";
         __body.innerHTML = unescape("%u6570%u636E%u88C5%u8F7D%u4E2D") + "...";
         __panel.appendChild(__body);
-        $("body").appendChild(__panel);
+        $$("body").appendChild(__panel);
     };
     var __deploy = function (rTextFeildID, rValueFeildID, rUrl, rParmName, rParmFeildID, rData) {
-        __textField = $("#" + rTextFeildID);
+        __textField = $$("#" + rTextFeildID);
         if (__textField == null) {
             alert("TextFeild(" + rTextFeildID + ") init error");
             return;
@@ -568,7 +568,7 @@ var JskitRichDropDownList = function (rHd) {
             jskitEvents.add(__textField, "onkeyup", __hd + ".onKeyUp");
             //jskitEvents.add(__textField, "onblur", __hd + ".onTextBlur");
         }
-        __valueField = $("#" + rValueFeildID);
+        __valueField = $$("#" + rValueFeildID);
         if (__valueField == null) {
             alert("ValueFeild(" + rValueFeildID + ") init error");
             return;
@@ -577,7 +577,7 @@ var JskitRichDropDownList = function (rHd) {
             __parmName = rParmName;
         }
         if (typeof (rParmFeildID) == "string") {
-            __parmFeild = $("#" + rParmFeildID);
+            __parmFeild = $$("#" + rParmFeildID);
             if (__parmFeild != null) {
                 jskitEvents.add(__parmFeild, "onpropertychange", __hd + ".onParmFeildChange");
             }

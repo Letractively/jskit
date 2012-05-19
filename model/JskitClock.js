@@ -29,8 +29,8 @@ var JskitClock = function(rHd){
         __panel.style.position = "absolute";
         __panel.style.display = "block";
         __panel.className = __panelCssClass;
-        if($("body")!=null){
-            $("body").appendChild(__panel);
+        if($$("body")!=null){
+            $$("body").appendChild(__panel);
         }
     };
     var __fresh = function(){

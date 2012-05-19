@@ -8,15 +8,15 @@
     <script src="../JskitConfig_doc.js"></script>
 <script>
 	function doRegex(){
-		var _str = $("#regex_src").value;
-		var _pattern = $("#regex_pattern").value;
+		var _str = $$("#regex_src").value;
+		var _pattern = $$("#regex_pattern").value;
 		var _result = '<table class="result_table" width="100%" cellspacing="0">';
 		try{
 			var parm = "";
-			if($("#cbx_Global").checked){
+			if($$("#cbx_Global").checked){
 				parm += "g";
 			}
-			if($("#cbx_CaseSensitivity").checked==false){
+			if($$("#cbx_CaseSensitivity").checked==false){
 				parm += "i";
 			}
 			var re = new RegExp(_pattern,parm);
@@ -33,13 +33,13 @@
 				}
 			}
 			_result += "</table>";
-			$("#regex_result").innerHTML = _result;
+			$$("#regex_result").innerHTML = _result;
 		}catch(e){
-			$("#regex_result").innerHTML = e.message;
+			$$("#regex_result").innerHTML = e.message;
 		}
 	}
 	function doClear(){
-		$("#regex_result").innerHTML = "";
+		$$("#regex_result").innerHTML = "";
 	}
 	function strFilter(str){
 		str = str.replace(/</gi,"&lt;");

@@ -35,7 +35,7 @@ var JskitDialog = function(rHd){
         if(__panel==null){
             __panel = document.createElement("div");
             __panel.setAttribute("id",__panelId);
-            $("body").appendChild(__panel);
+            $$("body").appendChild(__panel);
         }
         __panel.style.display = "none";
         __panel.style.position = "absolute";

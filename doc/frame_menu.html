@@ -13,9 +13,11 @@
 	    try {
 	        jskitUtil.url.setFrame(top.window);
 	        var _url = jskitUtil.url.get("url");
-	        var _win = top.window.document.getElementById("frame_main");
-	        if (_win != null) {
-	            _win.src = _url;
+	        if (typeof (_url) == "string") {
+	            var _win = top.window.document.getElementById("frame_main");
+	            if (_win != null) {
+	                _win.src = _url;
+	            }
 	        }
 	    } catch (e) { }
 	    document.write(tree.out("html"));
