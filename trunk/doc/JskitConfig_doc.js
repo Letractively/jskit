@@ -157,6 +157,7 @@ np = tree.newNode(n0, true, "Tools", "");
     tree.newNode(np, true, "颜色板", "tools/ColorPanel.html");
     tree.newNode(np, true, "Get-Set生成器", "tools/getSetBuilder.html");
     tree.newNode(np, true, "XPath测试", "tools/xpath_test.html");
+    tree.newNode(np, true, "日期计算", "tools/date_counter.html");
 np = tree.newNode(n0, false, "Lab", "");
     tree.newNode(np, true, "Web Cell", "lab/webcell.html");
 	tree.newNode(np, true, "数组排序", "lab/array_sort.html");
