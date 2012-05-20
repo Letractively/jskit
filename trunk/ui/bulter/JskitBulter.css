@@ -1,0 +1,32 @@
+.bulter_panel
+{
+	left:200px;
+	top:200px;
+	width:400px;
+	height:auto;
+	background-color:#ffffff;
+	border:solid 5px #cccccc;
+}
+.bulter_body
+{
+	border:1px solid #555555;
+	background-color:#f0f0f0;
+	height:100%;
+	}
+.bulter_title
+{
+	text-align:left;
+	background-color:#555555;
+	color:#ffffff;
+	padding:3px 3px 3px 3px;
+	}
+.bulter_content
+{
+	text-align:center;
+	color:#ff0000;
+	padding:10px 10px 10px 10px;
+	}
+.bulter_bar
+{
+	text-align:center;
+	}
