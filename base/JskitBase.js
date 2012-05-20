@@ -509,7 +509,7 @@ JskitBase.prototype = {
         else {
         }
         if (_root != null) _root.appendChild(rObj);
-    }
+    },
 }; // prototype end
 /*#END ====================================================================*/
 /*
@@ -517,6 +517,37 @@ JskitBase.prototype = {
  */
 var JSKIT_ERRORS = new Array();
 var jskitBase = new JskitBase("jskitBase");
+var $t = new function(){
+	this.isUndefined = function(v){
+		return (typeof(v)==="undefined");
+	};
+	this.isArray = function(v){
+		return (!this.isUndefined(v) && /Array/.test(a.constructor));
+	};
+	this.isDate = function(v){
+		return (!this.isUndefined(v) && /Date/.test(v.constructor));
+	};
+	this.isFunction = function(v){
+		return (typeof(v)=="function");
+	};
+	this.isObject = function(v){
+		return (typeof(v)=="object");
+	};
+	this.isString = function(v){
+		return (typeof(v)=="string");
+	};
+	this.isBoolean = function(v){
+		return (typeof(v)=="boolean");
+	};
+	this.isNumber = function(v){
+		return (typeof(v)=="number");
+	};
+	this.isHTMLElement = function(v){
+		return (this.isObject(v) 
+			&& typeof(v.tagName)==="string" 
+			&& ((v+"").indexOf("HTML")!==-1));
+	};
+};
 
 //#Begin Extend Firefox methods as IE
 //#[innerText]

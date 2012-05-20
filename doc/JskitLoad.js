@@ -93,7 +93,7 @@ jskitLoad.loadScript("../base/JskitData.js");
 jskitLoad.loadScript("../base/JskitDataSet.js");
 jskitLoad.loadScript("../base/JskitLog.js");
 jskitLoad.loadScript("../base/JskitDynamic.js")
-jskitLoad.loadCss("../base/style.css");
+jskitLoad.loadCss("../base/JskitBaseStyle.css");
 //#END =====================================================================
 
 //#BEGIN  ==================================================================
