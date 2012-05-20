@@ -1,0 +1,14 @@
+.JSA_VRoll_Cell{
+	float:left;
+	text-align:center;
+	padding-right:0px;}
+.JSA_VRoll_IMG{padding:4px;
+	background:#fff;
+	border:1px solid #ccc;
+	display:block;
+	margin:0 auto;
+	width:80px;
+	height:60px;
+}
+.JSA_VRoll_Cell a:link,.JSA_VRoll_Convas a:visited{color:#626466;text-decoration:none;}
+.JSA_VRoll_Cell a:hover{color:#f00;text-decoration:underline;}
