@@ -9,8 +9,8 @@
 * #Require	 : /base/JskitBase.js
 * 			 : /base/JskitUtil.js
 ******************************************************/
-var JskitLog = function (rHd) {
-    var __hd = (typeof (rHd) == "string") ? rHd : "jskitLog";
+var jskitLog = new function () {
+    var __hd = "jskitLog";
     var __Log = function () {
         this.datetime = "";
         this.type = "";
@@ -294,4 +294,3 @@ var JskitLog = function (rHd) {
     };
     //#End
 };
-var jskitLog = new JskitLog("jskitLog");

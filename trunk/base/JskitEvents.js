@@ -7,16 +7,14 @@
 * #copyright : Copyright(c)jskit.org,All right reserved
 *
 ******************************************************/
-var JskitEventInMozilla = function () {
+//extands Mozilla
+if(window.addEventListener){
     Event.prototype.__defineGetter__("srcElement", function () {
         return this.target;
     });
 };
-if(window.addEventListener){
-	JskitEventInMozilla();
-};
-var JskitEvents = function (rHd) {
-    var __hd = (typeof (rHd) != "string") ? "jskitEvents" : rHd;
+var jskitEvents = new function () {
+    var __hd = "jskitEvents";
     var __eventsCount = 0;
     var __hdmap = new Array();
     var __event = function (rObject, rEventName) {
@@ -144,5 +142,4 @@ var JskitEvents = function (rHd) {
             return false;
         }
     };
-};   //prototype end
-var jskitEvents = new JskitEvents("jskitEvents");
+};

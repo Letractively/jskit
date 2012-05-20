@@ -73,8 +73,8 @@ var JXmlInMozilla = function () {
 if (typeof(XMLDocument)!="undefined") {
 	JXmlInMozilla();
 };
-var JskitXml = function (rHd) {
-    var __hd = (typeof (rHd) != "string") ? "jskitXml" : rHd;
+var jskitXml = new function() {
+    var __hd = "jskitXml";
     this.load = function (rSrc) {
         var _dom = null;
         if (document.implementation && document.implementation.createDocument) {
@@ -158,4 +158,3 @@ var JskitXml = function (rHd) {
     };
     //END!
 };
-var jskitXml = new JskitXml("jskitXml");

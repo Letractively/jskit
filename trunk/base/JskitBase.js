@@ -7,11 +7,11 @@
  * #copyright : Copyright(c)jskit.org,All right reserved
  *
  ****************************************************************************/
-function JskitBase(rHd){
-    var __hd = (typeof(rHd) == "string") ? rHd : "jskitBase";
+var jskitBase = new function(){
+    var __hd = "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "0.9.20120515(B)";
+    this.version = "1.0.1.20120520(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -33,8 +33,75 @@ function JskitBase(rHd){
         var _code = rCode.replace(/<JskitInsetContainer_root id=JskitInsetContainer>(.|\r|\n)*<\/JskitInsetContainer_root>/gmi, "");
         return _code;
     };
+    this.base = function (src) {
+        //xxxxxx/base/JskitBase.js
+        if (typeof (JskitLoad) != "undefined") {
+            return jskitLoad.path();
+        }
+        else {
+            var key = "base/JskitBase.js";
+            var _path = "";
+            var elements = document.getElementsByTagName("script");
+            var len = elements.length;
+            for (var i = 0; i < len; i = i + 1) {
+                if (typeof (elements[i].src) != "undefined" && elements[i].src.toLowerCase().indexOf(key.toLowerCase()) != -1) {
+                    var src = elements[i].src;
+                    _path = src.substring(0, src.lastIndexOf('/') + 1);
+                    break;
+                }
+            }
+            var _fullPath = document.location.href;
+            if (_fullPath.indexOf('?') !== -1) {
+                _fullPath = _fullPath.substring(0, _fullPath.indexOf('?'));
+            }
+            _fullPath = _fullPath.substring(0, _fullPath.lastIndexOf('/'));
+            if (_path.indexOf('://') == -1 && _path.charAt(0) != '/') {
+                var _tail = _path;
+                while (_tail.indexOf("../") != -1) {
+                    _fullPath = _fullPath.substring(0, _fullPath.lastIndexOf('/'));
+                    _tail = _tail.replace("../", "");
+                }
+                _tail = _tail.replace("./", "");
+                _path = _fullPath + "/" + _tail;
+            }
+            return _path;
+        }
+    };
+    this.using = function (src) {
+        var _base = this.base(rKey);
+        var _className = this.__getClassName(src);
+        if (typeof (_className) != "undefined")
+            return;
+
+        var _tags = "<script language=\"javascript\" type=\"text/javascript\" src=\"" + _base + src + "\"></script>";
+        document.write(_tags);
+        this.loadedFiles[this.loadedFiles.length] = _tags;
+    };
+    this.bindGlobalEvent = function (e) {
+        //this method is useless
+        return;
+        if (!$jvm["event"]) {
+            event = e;
+            event.srcElement = e.target;
+        }
+        return true;
+    };
+    this.append = function (rObj) {
+        var _root = null;
+        if ($$("#JskitInsertContainer") != null) {
+            _root = $$("#JskitInsertContainer");
+        }
+        else if ($$("body") != null) {
+            var _root = document.createElement("JskitInsetContainer_root");
+            _root.id = "JskitInsertContainer";
+            $$("body").appendChild(_root);
+        }
+        else {
+        }
+        if (_root != null) _root.appendChild(rObj);
+    };
     //#End
-}
+};
 
 /*#BEGIN ( for different Jsvms ) ==========================================*/
 var $jvm = new Array();
@@ -50,7 +117,7 @@ if (!$jvm["event"]) {
 /*#END ====================================================================*/
 
 /*#BEGIN ( Get Object Method  ) ===========================================*/
-function $$(){//HTMLElement
+var $$ = function(){
     var __obj = null;
     var __root = null;
     if (arguments.length == 1) {
@@ -281,7 +348,11 @@ function $$(){//HTMLElement
     }
     // #end -----------------------------------------------------------------
     return __obj;
-}
+};
+/*
+ * Global definition
+ */
+var $ERRORS = new Array();
 var $out = function(rContent){
 	document.write(rContent);
 };
@@ -292,6 +363,38 @@ var $eval = function(rScript){
 	if(window.execScript){window.execScript(rScript);}
 	else{window.eval(rScript);}
 };
+var $t = new function(){
+	this.isUndefined = function(v){
+		return (typeof(v)==="undefined");
+	};
+	this.isArray = function(v){
+		return (!this.isUndefined(v) && /Array/.test(a.constructor));
+	};
+	this.isDate = function(v){
+		return (!this.isUndefined(v) && /Date/.test(v.constructor));
+	};
+	this.isFunction = function(v){
+		return (typeof(v)=="function");
+	};
+	this.isObject = function(v){
+		return (typeof(v)=="object");
+	};
+	this.isString = function(v){
+		return (typeof(v)=="string");
+	};
+	this.isBoolean = function(v){
+		return (typeof(v)=="boolean");
+	};
+	this.isNumber = function(v){
+		return (typeof(v)=="number");
+	};
+	this.isHTMLElement = function(v){
+		return (this.isObject(v) 
+			&& typeof(v.tagName)==="string" 
+			&& ((v+"").indexOf("HTML")!==-1));
+	};
+};
+
 /*#END ====================================================================*/
 /*#BEGIN ( expand System Object methods ) =================================*/
 //Object.prototype.clone = function(){
@@ -440,114 +543,6 @@ Date.prototype.toJskitString = function(){
 };
 /*#END ====================================================================*/
 
-/*#BEGIN ( Jskit base methods ) ===========================================*/
-// bind consistent methods on global event in firefox
-JskitBase.prototype = {
-    base: function (src) {
-        //xxxxxx/base/JskitBase.js
-        if (typeof (JskitLoad) != "undefined") {
-            return jskitLoad.path();
-        }
-        else {
-            var key = "base/JskitBase.js";
-            var _path = "";
-            var elements = document.getElementsByTagName("script");
-            var len = elements.length;
-            for (var i = 0; i < len; i = i + 1) {
-                if (typeof (elements[i].src) != "undefined" && elements[i].src.toLowerCase().indexOf(key.toLowerCase()) != -1) {
-                    var src = elements[i].src;
-                    _path = src.substring(0, src.lastIndexOf('/') + 1);
-                    break;
-                }
-            }
-            var _fullPath = document.location.href;
-            if (_fullPath.indexOf('?') !== -1) {
-                _fullPath = _fullPath.substring(0, _fullPath.indexOf('?'));
-            }
-            _fullPath = _fullPath.substring(0, _fullPath.lastIndexOf('/'));
-            if (_path.indexOf('://') == -1 && _path.charAt(0) != '/') {
-                var _tail = _path;
-                while (_tail.indexOf("../") != -1) {
-                    _fullPath = _fullPath.substring(0, _fullPath.lastIndexOf('/'));
-                    _tail = _tail.replace("../", "");
-                }
-                _tail = _tail.replace("./", "");
-                _path = _fullPath + "/" + _tail;
-            }
-            return _path;
-        }
-    },
-    using: function (src) {
-        var _base = this.base(rKey);
-        var _className = this.__getClassName(src);
-        if (typeof (_className) != "undefined")
-            return;
-
-        var _tags = "<script language=\"javascript\" type=\"text/javascript\" src=\"" + _base + src + "\"></script>";
-        document.write(_tags);
-        this.loadedFiles[this.loadedFiles.length] = _tags;
-    },
-    bindGlobalEvent: function (e) {
-        //this method is useless
-        return;
-        if (!$jvm["event"]) {
-            event = e;
-            event.srcElement = e.target;
-        }
-        return true;
-    },
-    append: function (rObj) {
-        var _root = null;
-        if ($$("#JskitInsertContainer") != null) {
-            _root = $$("#JskitInsertContainer");
-        }
-        else if ($$("body") != null) {
-            var _root = document.createElement("JskitInsetContainer_root");
-            _root.id = "JskitInsertContainer";
-            $$("body").appendChild(_root);
-        }
-        else {
-        }
-        if (_root != null) _root.appendChild(rObj);
-    },
-}; // prototype end
-/*#END ====================================================================*/
-/*
- * Global definition
- */
-var JSKIT_ERRORS = new Array();
-var jskitBase = new JskitBase("jskitBase");
-var $t = new function(){
-	this.isUndefined = function(v){
-		return (typeof(v)==="undefined");
-	};
-	this.isArray = function(v){
-		return (!this.isUndefined(v) && /Array/.test(a.constructor));
-	};
-	this.isDate = function(v){
-		return (!this.isUndefined(v) && /Date/.test(v.constructor));
-	};
-	this.isFunction = function(v){
-		return (typeof(v)=="function");
-	};
-	this.isObject = function(v){
-		return (typeof(v)=="object");
-	};
-	this.isString = function(v){
-		return (typeof(v)=="string");
-	};
-	this.isBoolean = function(v){
-		return (typeof(v)=="boolean");
-	};
-	this.isNumber = function(v){
-		return (typeof(v)=="number");
-	};
-	this.isHTMLElement = function(v){
-		return (this.isObject(v) 
-			&& typeof(v.tagName)==="string" 
-			&& ((v+"").indexOf("HTML")!==-1));
-	};
-};
 
 //#Begin Extend Firefox methods as IE
 //#[innerText]
