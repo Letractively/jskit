@@ -10,8 +10,8 @@
 * 			 : /base/JskitUtil.js
 * 			 : /base/jskitEvents.js
 ******************************************************/
-var JskitDynamic = function (rHd) {
-    var __hd = (typeof (rHd) == "string") ? rHd : "jskitDynamic";
+var jskitDynamic = new function () {
+    var __hd = "jskitDynamic";
     //#Begin Structor
     var __ActiveStyle = function () {
         this.border = "";
@@ -526,4 +526,3 @@ var JskitDynamic = function (rHd) {
         __deployReady = true;
     };
 };
-var jskitDynamic = new JskitDynamic();

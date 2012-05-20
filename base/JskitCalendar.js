@@ -508,4 +508,3 @@ var JskitCalendar = function(){
 		_d = null;
     }
 };
-var jskitCalendar = new JskitCalendar("jskitCalendar");
