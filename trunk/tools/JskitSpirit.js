@@ -34,7 +34,7 @@ JskitSpirit.prototype = {
 	),
 	__showElementDetails : function(){
 		var str = "";
-		str += "<table  class='JskitSpirit_list_table' width='100%' border='0' cellspacing='1' cellpadding='1'>"
+		str += "<table  class='JskitSpirit_list_table' width='100%' border='0' cellspacing='1' cellpadding='1'>";
 
 		if(this.element!=null){
 			this.element = $$(this.element);
@@ -67,7 +67,7 @@ JskitSpirit.prototype = {
 	},
 	__showEmptyDetails : function(){
 		var str = "";
-		str += "<table  class='JskitSpirit_list_table' width='100%' border='0' cellspacing='1' cellpadding='1'>"
+		str += "<table  class='JskitSpirit_list_table' width='100%' border='0' cellspacing='1' cellpadding='1'>";
 
 		if(this.element!=null){
 			str += this.__getDetailsItem("tagName","<b>&lt;"+this.element.tagName+"&gt</b>");
@@ -80,7 +80,7 @@ JskitSpirit.prototype = {
 	},
 	__getDetailsItem : function(rKey,rValue){
 		var str = "<tr><td class='JskitSpirit_list_title' >"+rKey+":</td><td  class='JskitSpirit_list_content'>";
-		if(typeof(rValue)!="string")rValue="";
+		if(typeof(rValue)!="string"){rValue="";}
 		if(rKey.toLowerCase().indexOf("color")!=-1){
 			str += "<span style='width:14px;font-size:8px;border:inset 2px #ffffff;background-color:"+rValue+"'>&nbsp;</span>&nbsp;"+rValue;
 		}else{
@@ -243,4 +243,4 @@ JskitSpirit.prototype = {
 			jskitSpirit.__buildDocInfo();
 		}
 	}
-}
+};
