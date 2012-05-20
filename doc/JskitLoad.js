@@ -84,33 +84,22 @@ var jskitLoad = new JskitLoad();
 //jskitLoad.loadTimer = window.setInterval("jskitLoad.__checkStatus()",100);
 //#BEGIN  ==================================================================
 // !!! the jskit Base
-jskitLoad.loadScript("../base/JskitBase.js");
-jskitLoad.loadScript("../base/JskitUtil.js");
-jskitLoad.loadScript("../base/JskitXml.js");
-jskitLoad.loadScript("../base/JskitEvents.js");
-jskitLoad.loadScript("../base/JskitCalendar.js");
-jskitLoad.loadScript("../base/JskitData.js");
-jskitLoad.loadScript("../base/JskitDataSet.js");
-jskitLoad.loadScript("../base/JskitLog.js");
-jskitLoad.loadScript("../base/JskitDynamic.js")
-jskitLoad.loadCss("../base/JskitBaseStyle.css");
-//#END =====================================================================
-
-//#BEGIN  ==================================================================
-// for script debug & web design
-jskitLoad.loadScript("../page/JskitContextMenu.js");
-//jskitLoad.loadScript("page/JskitValidation.js");
-
-//#Begin Jskit documents //////////////////////////////////////////////
-jskitLoad.loadScript("../page/JskitTree.js");
-jskitLoad.loadScript("../page/JskitToolbar.js");
-jskitLoad.loadScript("../tools/JskitSpirit.js");
+jskitLoad.loadScript("../release/jskit.core.1.0.1.js");
+jskitLoad.loadScript("../release/jskit.ui.1.0.1.js");
+jskitLoad.loadScript("../release/jskit.tools.1.0.1.js");
+jskitLoad.loadCss("../release/style/JskitBaseStyle.css");
 jskitLoad.loadScript("../plugin/syntax/JskitSyntax.js");
+//#END =====================================================================
 jskitLoad.loadScript("../doc/JskitDocument.js");
-jskitLoad.loadScript("../page/JskitTree.js");
-jskitLoad.loadScript("../page/JskitToolbar.js");
 jskitLoad.loadScript("../tools/JskitSpirit.js");
-jskitLoad.loadScript("../page/JskitTable.js");
+jskitLoad.loadCss("../release/style/jskitBaseStyle.css");
+jskitLoad.loadCss("../release/style/JskitBulter.css");
+jskitLoad.loadCss("../release/style/JskitMenu.css");
+jskitLoad.loadCss("../release/style/JskitDateSelector.css");
+jskitLoad.loadCss("../release/style/JskitAreaSelector.css");
+jskitLoad.loadCss("../release/style/JskitSlidAd.css");
+jskitLoad.loadCss("../release/style/JskitSmartAD_VRoll.css");
+jskitLoad.loadCss("../release/style/JskitControls.css");
 //#End Jskit documents ////////////////////////////////////////////////
 
 //#END =====================================================================
