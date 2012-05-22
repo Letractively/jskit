@@ -9,12 +9,12 @@
 * #copyright : Copyright(c)jskit.org,All right reserved 
 *
 ******************************************************/
-jskitLoad.loadCss("Styles/SyntaxHighlighter.css"	,"/JskitSyntax.js");
-jskitLoad.loadScript("Scripts/shCore.js"			,"/JskitSyntax.js");
-jskitLoad.loadScript("Scripts/shBrushJScript.js"	,"/JskitSyntax.js");
-jskitLoad.loadScript("Scripts/shBrushXml.js"		,"/JskitSyntax.js");
-jskitLoad.loadScript("Scripts/shBrushCss.js"		,"/JskitSyntax.js");
-jskitLoad.loadScript("Scripts/shBrushVb.js"		,"/JskitSyntax.js");
+$import.css("Styles/SyntaxHighlighter.css"	,"/JskitSyntax.js");
+$import.js("Scripts/shCore.js"			,"/JskitSyntax.js");
+$import.js("Scripts/shBrushJScript.js"	,"/JskitSyntax.js");
+$import.js("Scripts/shBrushXml.js"		,"/JskitSyntax.js");
+$import.js("Scripts/shBrushCss.js"		,"/JskitSyntax.js");
+$import.js("Scripts/shBrushVb.js"		,"/JskitSyntax.js");
 
 var JskitSyntax = function(){
 	var __codeName = "JskitSyntax_code";
