@@ -75,6 +75,10 @@ function JskitValidation(rHd){
     //#End
     
     //#Begin Public attributes
+    var __alertFunc = null;
+    this.setAlertFunction = function(v){
+    	__alertFunc = v;
+    };
     //error message output type:alert|alert_once|before|after|up|down|object
     var __display = "alert";
     this.setDisplay = function(v){
@@ -207,10 +211,14 @@ function JskitValidation(rHd){
                 window.navigate(__errorForward);
             }else {//alert
 				if (__alertTimes == 0) {
-					alert(__vo.msg);
+					if($t.isFunction(__alertFunc)){
+						__alertFunc(__vo.obj,__vo.msg);
+					}else{
+						alert(__vo.msg);
+					}
 					__alertTimes++;
+					__setFocusAfterCheck();
 				}
-				__setFocusAfterCheck();
 			}
 		}
         _err = null;
@@ -374,14 +382,7 @@ function JskitValidation(rHd){
     var __pushTask = function(rValidator, rObjXPath, rMsg, rPattern, rObj2XPath, rExpression){
 		if(typeof(rObjXPath)!="string" || rObjXPath.trim()=="")return;
         var _vo = new __ValidationObject();
-        if (typeof(JskitUtil) != "undefined") {
-            _vo.id = jskitUtil.guid();
-            _ju = null;
-        }
-        else {
-            _vo = null;
-            return;
-        }
+        _vo.id = jskitUtil.guid();
         _vo.validator = rValidator;
         _vo.objXPath = rObjXPath;
         _vo.obj = __getObj(rObjXPath,rValidator);

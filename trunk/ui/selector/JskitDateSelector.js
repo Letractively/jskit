@@ -5,7 +5,7 @@
  * #email     : jiang.edwon@gmail.com
  * #homepage  : http://www.mending.cn
  * #copyright : Copyright(c)jskit.org,All right reserved
- * #Requied   : base/*
+ * #Requied   : core/*
  *            : page/JskitTable.js
  *
  ******************************************************/

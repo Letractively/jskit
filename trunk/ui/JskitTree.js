@@ -6,7 +6,7 @@
  * #homepage  : http://www.mending.cn
  * #copyright : Copyright(c)jskit.org,All right reserved
  *
- * #Necessary : base/*;
+ * #Necessary : core/*;
  *
  ******************************************************/
 var JskitTree = function(rHd) {
@@ -152,17 +152,22 @@ var JskitTree = function(rHd) {
         }
         return _node;
     };
-    this.out = function(rTarget) {
+    this.getContent = function () {
         __findNodeByUrl();
-        if (typeof(__root) == "object") {
-            if (rTarget == "html") {
-                return __root.innerHTML;
-            } else if (typeof(rTarget) == "string" && $$("#" + rTarget) != null) {
-                $$("#" + rTarget).innerHTML = __root.innerHTML;
-            } else if (typeof(rTarget) == "object") {
-                rTarget.innerHTML = __root.innerHTML;
-            } else {
-                document.write(__root.innerHTML);
+        if (typeof (__root) == "object") {
+            return __root.innerHTML;
+        }
+        return "";
+    };
+    this.out = function (rTarget) {
+        __findNodeByUrl();
+        if (arguments.length === 0) {
+            document.write(this.getContent());
+        } else {
+            if ($t.isString(rTarget) && $$("#" + rTarget) !== null) {
+                $$("#" + rTarget).innerHTML = this.getContent();
+            } else if ($t.isHTMLElement(rTarget)) {
+                rTarget.innerHTML = this.getContent();
             }
         }
     };
