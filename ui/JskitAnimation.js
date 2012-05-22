@@ -7,7 +7,7 @@
 * #homepage  : http://www.mending.cn
 * #copyright : Copyright(c)jskit.org,All right reserved
 *
-* #Necessary : base/*;
+* #Necessary : core/*;
 *
 ******************************************************/
 function JskitAnimation(rHd){

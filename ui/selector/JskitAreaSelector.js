@@ -6,7 +6,7 @@
  * #QQ		  : 499199
  * #homepage  : http://www.mending.cn
  * #copyright : Copyright(c)jskit.org,All right reserved
- * #Requied   : base/*
+ * #Requied   : core/*
  * #Created   : 2010-8-31
  *
  ******************************************************/
