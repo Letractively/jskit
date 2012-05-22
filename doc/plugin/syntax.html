@@ -1,10 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
     <title>plugin syntax</title>
  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="../main.css" >
-    <script src="../JskitLoad.js"></script>
+    <script src="../../release/jskit.core.js"></script>
 	
     <script src="../JskitConfig_doc.js"></script>
 	
@@ -17,13 +17,13 @@
 	，使用示例：
 	//在&lt;head&gt;中装载syntax
 	<textarea name="JskitSyntax_code" class="html">
-		&lt;script src="JskitLoad.js"&gt;&lt;/script&gt;
+		&lt;script src="../release/jskit.core.js"&gt;&lt;/script&gt;
 		&lt;script src="../JskitConfig.js"&gt;&lt;/script&gt;
 	</textarea>		
 		//设置目标textarea的name属性值,syntax将根据它来查找对应的textarea标签
 		//缺省为：JskitSyntax_code
 	<textarea name="JskitSyntax_code" class="html">
-		jskitLoad.loadScript("plugin/syntax/JskitSyntax.js");
+		$import.js("plugin/syntax/JskitSyntax.js");
 		jskitSyntax.configuation.codeName = "JskitSyntax_code";
 	</textarea>		
 	在&lt;body&gt;中显示脚本,textarea的name属性值要和上面的codeName参数一致,class属性表示要解析的文档类型，如：html，js...

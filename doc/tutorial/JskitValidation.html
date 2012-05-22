@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
     <title>JskitValidation</title>
@@ -6,7 +6,7 @@
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="../main.css">
-    <script src="../JskitLoad.js">
+    <script src="../../release/jskit.core.js">
     </script>
     <script src="../JskitConfig_doc.js">
     </script>
@@ -237,7 +237,25 @@
                     校验某值是否符合正则表达式
                 </td>
             </tr>
-            </tbody>
+            <tr>
+                <td>
+                    setAlertFunction(Function func)
+                </td>
+                <td>
+                    func: 处理提示的自定义方法
+                </td>
+                <td>
+                    boolean
+                </td>
+                <td>
+					该方法只在display方式为alert时才有效。
+					<br />自定义的方法必须有两个参数：
+					<br />HTMLObject obj: 触发校验的表单对象
+					<br />String msg: 错误信息
+					<br />如果没有设置自定义方法，则使用js的alert方法
+                </td>
+            </tr>
+			</tbody>
         </table>
     </td>
 </tr>

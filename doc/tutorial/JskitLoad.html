@@ -1,12 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<title>JskitLoad.html</title>
+		<title>JskitImport.html</title>
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="this is my page">
 	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="../main.css">
-    	<script src="../JskitLoad.js"></script>
+    	<script src="../../release/jskit.core.js"></script>
 
 	    <script src="../JskitConfig_doc.js"></script>
 	</head>
@@ -15,7 +15,7 @@
 			<tbody>
 				<tr>
 					<td class="package">
-						JskitLoad.js
+						JskitImport.js
 					</td>
 				</tr>
 				<tr>
@@ -35,7 +35,7 @@
 				</tr>
 				<tr>
 					<td class="content">
-						JskitLoad将自动装载所需要的jskit文件，其中已经定义必须的基础文件"base/*"是缺省装载的，如有特定需求要装载更多的js文件，请修改JskitLoad.js文件，将需要添加的Js文件写在脚本最后边。
+						用来引入所需要的js和css文件
 					</td>
 				</tr>
 				<tr>
@@ -45,7 +45,7 @@
 				</tr>
 				<tr>
 					<td class="content">
-						var jskitLoad = new JskitLoad();
+						static $import
 					</td>
 				</tr>
 				<tr>
@@ -55,7 +55,7 @@
 				</tr>
 				<tr>
 					<td class="content">
-						base/*
+						nothing
 					</td>
 				</tr>
 				<tr>
@@ -86,7 +86,7 @@
 										path([rKey])
 									</td>
 									<td>
-										rKey : 判断位置的参考文件名，缺省为"/JskitLoad.js"，即为得到Jskit.org的根路径
+										rKey : 判断位置的参考正则表达式，缺省为"/jskit\.core([0-9|a-z|A-Z|\.]*)\.js"，即为得到Jskit.org的根路径
 									</td>
 									<td>
 										String
@@ -97,7 +97,7 @@
 								</tr>
 								<tr>
 									<td>
-										loadScript(rFileUrl[,rKey])
+										js(rFileUrl[,rKey])
 									</td>
 									<td>
 										rFileUrl : js文件的路径
@@ -111,7 +111,7 @@
 								</tr>
 								<tr>
 									<td>
-										loadCss(rFileUrl[,rKey])
+										css(rFileUrl[,rKey])
 									</td>
 									<td>
 										rFileUrl:css文件的路径
@@ -134,8 +134,8 @@
 				</tr>
 				<tr>
 					<td class="content">
-						jskitLoad.loadScript("ui/JskitValidation.js");
-						<br />jskitLoad.loadScript("JskitXMenu.css","/JskitXMenu.js");
+						$import.js("ui/JskitValidation.js");
+						<br />$import.css("JskitXMenu.css","/JskitXMenu.js");
 					</td>
 				</tr>
 			</tbody>
