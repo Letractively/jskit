@@ -7,30 +7,33 @@
 * #copyright : Copyright(c)jskit.org,All right reserved
 *
 ******************************************************/
-function JskitLoad(){
-	this.loadedFiles = new Array();
-	this.defaultKey  = "/JskitLoad.js";
-	this.totalFils   = 0;
-	this.loadTimer   = null;
+var $import = new function(){
+	var __loadedFiles = new Array();
+	var __defaultKey  = "/JskitLoad.js";
+	this.setKey = function(v){
+		__defaultKey = v;
+	};
+	var __totalFils   = 0;
+	var __loadTimer   = null;
 	var __checkStatus = function(){
-		var _info = "["+jskitLoad.loadedFiles.length+"/"+jskitLoad.totalFils+"]";
-		if(jskitLoad.loadedFiles.length>=jskitLoad.totalFils){
+		var _info = "["+__loadedFiles.length+"/"+__totalFils+"]";
+		if(__loadedFiles.length>=__totalFils){
 			_info += "Finished!";
-			window.clearInterval(jskitLoad.loadTimer);
+			window.clearInterval(__loadTimer);
 		}else{
-			_info += jskitLoad.loadedFiles[jskitLoad.loadedFiles.length-1]+"ok";
+			_info += __loadedFiles[__loadedFiles.length-1]+"ok";
 		}
 		window.status = _info;
 	};
 	this.check = function(){
 		var _str = "";
-		for(var i=0;i<this.loadedFiles.length;i++){
-			_str += "\n"+this.loadedFiles[i];
+		for(var i=0;i<__loadedFiles.length;i++){
+			_str += "\n"+__loadedFiles[i];
 		}
 		alert(_str);
 	};
 	this.path = function(rKey) {
-		if(typeof(rKey)!="string"){rKey = this.defaultKey;}
+		if(typeof(rKey)!="string"){rKey = __defaultKey;}
 		var _path = "";
 		var elements = document.getElementsByTagName("script");
 		var len = elements.length;
@@ -59,39 +62,38 @@ function JskitLoad(){
 		}
 		return _path;
 	};
-	this.loadScript = function(rUrl,rKey) {
-		for (var i=0; i<this.loadedFiles.length;i=i+1) {
-			if (this.loadedFiles[i] == rUrl){return;}
+	this.js = function(rUrl,rKey) {
+		for (var i=0; i<__loadedFiles.length;i=i+1) {
+			if (__loadedFiles[i] == rUrl){return;}
 		}
 		var _base = this.path(rKey);
 		var _tags = "<script language=\"javascript\" type=\"text/javascript\" src=\""+ _base+rUrl + "\"></script>";
 		document.write(_tags);
-		this.loadedFiles[this.loadedFiles.length] = _tags;
+		__loadedFiles[__loadedFiles.length] = _tags;
 	};
-	this.loadCss = function(rUrl,rKey) {
-		for (var i=0; i<this.loadedFiles.length; i=i+1) {
-			if (this.loadedFiles[i] == rUrl){return;}
+	this.css = function(rUrl,rKey) {
+		for (var i=0; i<__loadedFiles.length; i=i+1) {
+			if (__loadedFiles[i] == rUrl){return;}
 		}
 		var _base = this.path(rKey);
 		var _tags = "<link href=\"" + _base+rUrl + "\" rel=\"stylesheet\" type=\"text/css\" />";
 		document.write(_tags);
-		this.loadedFiles[this.loadedFiles.length] = _tags;
+		__loadedFiles[__loadedFiles.length] = _tags;
 	};
 	
-}//prototpye end
-var jskitLoad = new JskitLoad();
+};//prototpye end
 //jskitLoad.totalFils = 10;
 //jskitLoad.loadTimer = window.setInterval("jskitLoad.__checkStatus()",100);
 //#BEGIN  ==================================================================
 // !!! the jskit Base
-jskitLoad.loadScript("base/JskitBase.js");
-jskitLoad.loadScript("base/JskitUtil.js");
-jskitLoad.loadScript("base/JskitXml.js");
-jskitLoad.loadScript("base/JskitEvents.js");
-jskitLoad.loadScript("base/JskitCalendar.js");
-jskitLoad.loadScript("base/JskitData.js");
-jskitLoad.loadScript("base/JskitDataSet.js");
-jskitLoad.loadScript("base/JskitLog.js");
-jskitLoad.loadScript("base/JskitDynamic.js")
-jskitLoad.loadCss("base/JskitBaseStyle.css");
+$import.js("core/JskitBase.js");
+$import.js("core/JskitUtil.js");
+$import.js("core/JskitXml.js");
+$import.js("core/JskitEvents.js");
+$import.js("core/JskitCalendar.js");
+$import.js("core/JskitData.js");
+$import.js("core/JskitDataSet.js");
+$import.js("core/JskitLog.js");
+$import.js("core/JskitDynamic.js")
+$import.css("core/JskitBaseStyle.css");
 //#END =====================================================================
