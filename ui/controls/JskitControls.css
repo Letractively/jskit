@@ -1,0 +1,156 @@
+﻿/* BEGIN: JskitRichDropDownList */
+.JskitRichDropDownList_panel
+{
+	border:1px solid #000000;
+	background-color:#ffffff;
+	padding:0px;
+	z-index:100;
+	}
+.JskitRichDropDownList_header
+{
+	border:0px;
+	background-color:#333333;
+	border-bottom:1px solid #000000;
+	overflow:hidden;
+	height:20px;
+	padding:0px;
+	}
+.JskitRichDropDownList_body
+{
+	border:0px;
+	background-color:#ffffff;
+	overflow:auto;
+	padding:2px 2px 2px 2px;
+	height:200px;
+	z-index:100;
+	}
+.JskitRichDropDownList_panel_loading
+{
+	border:1px solid #000000;
+	background-color:#ffffff;
+	overflow:auto;
+	padding:2px 2px 2px 2px;
+	height:200px;
+	background-image:url(/cellula_client/default/images/loading.gif);
+	background-position:left center;
+	background-repeat:no-repeat;
+	font-weight:normal;
+	}
+.JskitRichDropDownList_panel div
+{
+	cursor:pointer;
+	font-weight:normal;
+	}
+.JskitRichDropDownList_btn
+{
+	font-size:9px;
+	font-family:Arial;
+	width:18px;
+	height:21px;
+	overflow:hidden;
+	border:solid 1px #cccccc;
+	padding:0px 0px 0px 0px;
+	margin-left:-1px;
+	margin-top:0px;
+	margin-bottom:1px;
+	background-image:url(/cellula_client/default/images/bg_menu_g_t.png);
+	background-position:left top;
+	background-repeat:repeat-x;
+	vertical-align:top;
+	}
+.JskitRichDropDownList_item
+{
+	padding:2px 2px 2px 2px;
+	cursor:pointer;
+	background-color:#ffffff;
+	color:#3366aa;
+	font-weight:normal;
+	}
+.JskitRichDropDownList_item_active
+{
+	padding:2px 2px 2px 2px;
+	cursor:pointer;
+	background-color:#0000aa;
+	color:#ffffff;
+	}
+.JskitRichDropDownList_tree_group
+{
+	}
+.JskitRichDropDownList_tree_sub
+{
+	padding-left:15px;
+	}
+.JskitRichDropDownList_tree_txt
+{
+	padding:0px 4px 0px 4px;
+	border-bottom:1px solid #ffffff;
+	cursor:pointer;
+	background-color:#ffffff;
+	color:#666666;
+	font-weight:normal;
+	}
+.JskitRichDropDownList_m_tab
+{
+    border-collapse:collapse;
+    }
+.JskitRichDropDownList_m_tab td,th
+{
+    border-collapse:collapse;
+    padding:2px 2px 2px 2px;
+    }
+.JskitRichDropDownList_m_row
+{
+    background-color:#ffffff;
+    }
+
+.JskitRichDropDownList_m_row td
+{
+    border:1px solid #eeeeee;
+    color:#000000;
+    }
+.JskitRichDropDownList_m_row2
+{
+    background-color:#99aacc;
+    }
+.JskitRichDropDownList_m_row2 td
+{
+    border:1px solid #ffffff;
+    color:#ffffff;
+    }
+.JskitRichDropDownList_m_header
+{
+    background-color:#336699;
+    text-align:left;
+    }
+.JskitRichDropDownList_m_header th
+{
+    font-weight:normal;
+    }
+.JskitRichDropDownList_m_h0
+{
+    font-size:10px;
+    width:18px;
+    }
+.JskitRichDropDownList_m_action
+{
+    text-align:right;
+    padding:3px 4px 3px 3px;
+    color:#aaaaaa;
+    }
+.JskitRichDropDownList_m_action A
+{
+    color:#ffffff;
+    text-decoration:none;
+    }
+.JskitRichDropDownList_m_action A:hover
+{
+    color:#ffff00;
+    text-decoration:underline;
+    }
+.JskitRichDropDownList_m_header th
+{
+    border:1px solid #ffffff;
+    color:#ffcc00;
+    text-align:left;
+    }
+/* END: JskitRichDropDownList */
