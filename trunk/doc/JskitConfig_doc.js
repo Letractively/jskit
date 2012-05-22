@@ -7,6 +7,21 @@
  * #copyright : Copyright(c)jskit.org,All right reserved
  *
  ******************************************************/
+$import.js("../release/jskit.ui.js");
+$import.js("../release/jskit.tools.js");
+$import.css("../release/style/JskitBaseStyle.css");
+$import.js("../plugin/syntax/JskitSyntax.js");
+//#END =====================================================================
+$import.js("../doc/JskitDocument.js");
+$import.css("../release/style/jskitBaseStyle.css");
+$import.css("../release/style/JskitBulter.css");
+$import.css("../release/style/JskitMenu.css");
+$import.css("../release/style/JskitDateSelector.css");
+$import.css("../release/style/JskitAreaSelector.css");
+$import.css("../release/style/JskitSlidAd.css");
+$import.css("../release/style/JskitSmartAD_VRoll.css");
+$import.css("../release/style/JskitControls.css");
+
 /*#BEGIN( Global definition )*/
 if(typeof(jskitLog)=="object"){
 	jskitEvents.ready("onresize", "jskitLog.pageOnResize");
@@ -55,19 +70,19 @@ if (typeof(JskitSpirit) != "undefined") {
 /*
  * scriptEditor
  */
-//jskitLoad.loadScript("plugin/scripts/JskitScriptEditor.js");
+//$import.js("plugin/scripts/JskitScriptEditor.js");
 
 /*
  * xmenu: site column editor
  */
-//jskitLoad.loadScript("plugin/xmenu/JskitXMenu.js");
+//$import.js("plugin/xmenu/JskitXMenu.js");
 
 /*
  * syntax:
  * we use SyntaxHighlighter as jskitSyntax plugin, get move infomations about SyntaxHighlighter:
  * http://www.dreamprojections.com/SyntaxHighlighter/
  */
-//jskitLoad.loadScript("plugin/syntax/JskitSyntax.js");
+//$import.js("plugin/syntax/JskitSyntax.js");
 //jskitSyntax.configuation.codeName = "JskitSyntax_code";//default is "JskitSyntax_code"
 
 /*#END*/
@@ -130,6 +145,7 @@ np = tree.newNode(n0, false, "Reference", "");
 
 np = tree.newNode(n0, false, "Tutorial", "");
     n2 = tree.newNode(np, false, "core/", "");
+	    tree.newNode(np, true, "JskitImport.js", "tutorial/JskitLoad.html");
         tree.newNode(n2, true, "JskitBase.js", "tutorial/JskitBase.html");
         tree.newNode(n2, true, "JskitCalendar.js", "tutorial/JskitCalendar.html");
         tree.newNode(n2, true, "JskitDataSet.js", "tutorial/JskitDataSet.html");
@@ -166,7 +182,6 @@ np = tree.newNode(n0, false, "Tutorial", "");
     n2 = tree.newNode(np, false, "tools/", "");
         tree.newNode(n2, true, "JskitSpirit.js", "tutorial/JskitSpirit.html");
     tree.newNode(np, false, "File Index", "tutorial/fileIndex.html");
-    tree.newNode(np, true, "JskitLoad.js", "tutorial/JskitLoad.html");
     tree.newNode(np, true, "JskitConfig.js", "tutorial/JskitConfig.html");
 
 np = tree.newNode(n0, false, "Lab", "");
