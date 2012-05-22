@@ -263,7 +263,7 @@ JskitLottery.prototype.__onload = function(){
 //------------------------------------------------
 
 var jskitLottery = new JskitLottery();
-jskitLoad.loadCss("JskitLottery.css","/JskitLottery.js");
+$import.css("JskitLottery.css","/JskitLottery.js");
 jskitEvents.ready("onload","jskitLottery.__onload");
 
  
