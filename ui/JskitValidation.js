@@ -515,7 +515,7 @@ function JskitValidation(rHd){
 		if(frm!=null){
 		    jskitEvents.add(frm,"onsubmit",__hd+".onFormSubmit(this,event)");
 		}else{
-		    alert("JskitValidation:onLoad:Form Element not found!");
+		    //alert("JskitValidation:onLoad:Form Element not found!");
 		    return true;
 		}
 	};

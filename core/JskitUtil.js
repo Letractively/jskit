@@ -460,20 +460,11 @@ var jskitUtil = new function () {
                 return NaN;
             }
         };
-        this.centreDiv = function (rWidth, rHeight, rClassName) {
-            rWidth = (typeof (rWidth) == "number") ? rWidth : 100;
-            rHeight = (typeof (rHeight) == "number") ? rHeight : 100;
-            var div = document.createElement("div");
-            if ($$("body") != null) {
-                $$("body").appendChild(div);
-                div.style.position = "absolute";
-                div.style.width = rWidth;
-                div.style.height = rHeight;
-                if (typeof (rClassName) == "string")
-                    div.className = rClassName;
-                div.style.left = ((document.documentElement.clientWidth - rWidth) / 2 + document.documentElement.scrollLeft) + "px";
-                div.style.top = ((document.documentElement.clientHeight - rHeight) / 2 + document.documentElement.scrollTop) + "px";
-            }
+        this.centre = function (div) {
+            if (!$t.isHTMLElement(div)) {return null;}
+			div.style.position = "absolute";
+			div.style.left = ((document.documentElement.clientWidth - div.offsetWidth) / 2 + document.documentElement.scrollLeft) - $$("body").scrollLeft + "px";
+			div.style.top = ((document.documentElement.clientHeight - div.offsetHeight) / 2 + document.documentElement.scrollTop) - $$("body").scrollTop + "px";
             return div;
         };
         this.newDiv = function (rWidth, rHeight, rLeft, rTop) {

@@ -22,6 +22,11 @@ $import.css("../release/style/JskitSlidAd.css");
 $import.css("../release/style/JskitSmartAD_VRoll.css");
 $import.css("../release/style/JskitControls.css");
 
+var tree = null;
+var jskitToolbar = null;
+var jskitSyntax = null;
+var jskitSpirit = null;
+var myConfig = function(){
 /*#BEGIN( Global definition )*/
 if(typeof(jskitLog)=="object"){
 	jskitEvents.ready("onresize", "jskitLog.pageOnResize");
@@ -33,32 +38,22 @@ if(typeof(jskitLog)=="object"){
 jskitLog.setLevel(4); //default is "false"
 /*#END*/
 
-/*#BEGIN( JskitDynamic@"base/JskitDynamic.js" )*/
-//set which tagName of the object can be moved
-/*#END*/
-
-/*#BEGIN( jskitSpirit@"page/jskitSpirit.js" ) */
-/*#END*/
-
-/*#BEGIN( JskitValidation@"page/JskitValidation.js" )*/
-/*#END*/
-
 /*#BEGIN( JskitToolbar )*/
 if (typeof(JskitToolbar) != "undefined") {
-    var jskitToolbar = new JskitToolbar();
+    jskitToolbar = new JskitToolbar();
 }
 /*#END*/
 
 /*#BEGIN( JskitSyntax )*/
 if (typeof(JskitSyntax) != "undefined") {
-    var jskitSyntax = new JskitSyntax();
+    jskitSyntax = new JskitSyntax();
     jskitEvents.ready("onload", "jskitSyntax.display");
 }
 /*#END*/
 
 /*#BEGIN( others )*/
 if (typeof(JskitSpirit) != "undefined") {
-    var jskitSpirit = new JskitSpirit();
+    jskitSpirit = new JskitSpirit();
     jskitEvents.ready("onMouseMove", "jskitSpirit.onMouseMove");
     jskitEvents.ready("onKeyDown", "jskitSpirit.beginCountSpan");
     jskitEvents.ready("onKeyUp", "jskitSpirit.endCountSpan");
@@ -88,7 +83,7 @@ if (typeof(JskitSpirit) != "undefined") {
 /*#END*/
 /////////////////////////////////////////////////////////////////////////
 //#Begin show menu tree ///////////////////////////////////////////////////
-var tree = new JskitTree("tree");
+tree = new JskitTree("tree");
 tree.setPath(jskitUtil.url.getPath("doc/"));
 tree.setTarget("frame_main");
 var n0 = tree.newNode();
@@ -145,7 +140,7 @@ np = tree.newNode(n0, false, "Reference", "");
 
 np = tree.newNode(n0, false, "Tutorial", "");
     n2 = tree.newNode(np, false, "core/", "");
-	    tree.newNode(np, true, "JskitImport.js", "tutorial/JskitLoad.html");
+	    tree.newNode(n2, true, "JskitImport.js", "tutorial/JskitLoad.html");
         tree.newNode(n2, true, "JskitBase.js", "tutorial/JskitBase.html");
         tree.newNode(n2, true, "JskitCalendar.js", "tutorial/JskitCalendar.html");
         tree.newNode(n2, true, "JskitDataSet.js", "tutorial/JskitDataSet.html");
@@ -191,13 +186,9 @@ np = tree.newNode(n0, false, "Lab", "");
 np = tree.newNode(n0, false, "PlugIn", "");
 	tree.newNode(np, true, "Lunar Calendar", "plugin/lunarCalendar.html");
 	tree.newNode(np, true, "Syntax", "plugin/syntax.html");
-/*
-np = tree.newNode(n0, false, "Editor", "");
-	tree.newNode(np, true, "构造多级菜单", "editor/JskitMenuMaker.html");
-*/
-
-
-
-
+tree.out($$("#jskit_doc_tree"));
 np = null;
+
 //#End show menu tree ///////////////////////////////////////////////////
+};
+jskitEvents.ready("onload","myConfig");
