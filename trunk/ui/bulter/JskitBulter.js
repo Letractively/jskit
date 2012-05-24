@@ -1,8 +1,10 @@
 var JskitBulter = function(){
     //#Begin message
     var __MsgFunction = function(){
+		//	mode:TIP(1),DEBUG(2),INFO(3),WARN(4),ERROR(5),EXCEPTION(4),CONFIRM(6);
         var __msgPanel = null;
         var __msgPanelId = jskitUtil.guid();
+		var __displayMode = 0;//0:float,1:fixed
         var __MSG = function(){
             this.Title = "";
             this.Content = "";
@@ -14,38 +16,45 @@ var JskitBulter = function(){
         var __msg = null;
         var __initPanel = function(){
             if(__msgPanel==null){
-                __msgPanel = document.createElement("div");
+				__msgPanel = document.createElement("div");
                 __msgPanel.setAttribute("id",__msgPanelId);
 				__msgPanel.className = "bulter_panel";
-                __msgPanel.style.position = "absolute";
                 $$("body").appendChild(__msgPanel);
             }
         };
-		var __centrePanel = function(){
-			__msgPanel.style.left = ($$("body").clientWidth-__msgPanel.offsetWidth)/2;
-			__msgPanel.style.top = "200px";
-		};
-        this.show = function(rData){
-            if(typeof(rData)!="object"){
-				if(typeof(BULTER_MSG)!="object"){return true;}
-				else{__msg = BULTER_MSG;}
-			}else{
-				__msg = rData;
-			}
-            //push a center div
-            __initPanel();
-            __msgPanel.style.display = "block";
+		var __display = function(){
             //build div content
-            var _str = '<div class="bulter_body">';
-            _str += '<div class="bulter_title">'+__msg.Title+'</div>';
-            _str += '<div class="bulter_content">';
-            _str += __msg.Content;
-            _str += '</div>';
-            _str += '<div class="bulter_bar"><button onclick="jskitBulter.msg.close()">'+unescape("%u786E%u5B9A")+'</button></div>';
-            _str += '<div style="height:10px;"></div>';
-			_str += '</div>';
-            __msgPanel.innerHTML = _str;
-			__centrePanel();
+			if(__displayMode===1){
+				__msgPanel.innerHTML = __msg.Content;
+			}else{
+				var _str = '<div class="bulter_body">';
+				_str += '<div class="bulter_title">'+__msg.Title+'</div>';
+				_str += '<div class="bulter_content">';
+				_str += __msg.Content;
+				_str += '</div>';
+				_str += '<div class="bulter_bar"><button onclick="jskitBulter.msg.close()">'+unescape("%u786E%u5B9A")+'</button></div>';
+				_str += '<div style="height:10px;"></div>';
+				_str += '</div>';
+				__msgPanel.innerHTML = _str;
+				jskitUtil.doc.centre(__msgPanel);
+			}
+			__msgPanel.style.display = "block";
+		};
+        this.show = function(rData,rPanel){
+			if(!$t.isObject(rData)){
+				return false;
+			}
+			__msg = rData;
+            //push a center div
+            if($t.isHTMLElement(rPanel)){
+				__msgPanel = rPanel;
+				__msgPanelId = __msgPanel.id;
+				__displayMode = 1;
+			}else{
+				__initPanel();
+				__displayMode = 0;
+			}
+            __display();
         };
         this.close = function(){
             if(__msgPanel!=null){
