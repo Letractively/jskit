@@ -505,7 +505,7 @@ function JskitValidation(rHd){
         return __errorLogs;
     };
 	this.onLoad = function(data,formId){
-		if(typeof(data)!="object"){return true;}
+		if(typeof(data)!="object" || data.length<1){return true;}
 		this.load(data);
 		this.deploy();
 		var frm = $$("#"+formId);
