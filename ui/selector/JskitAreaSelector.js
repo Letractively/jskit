@@ -43,7 +43,7 @@ var JskitAreaSelector = function (rHd) {
     var __ShowPopPanel = function () {
         var str = '<div id="' + __hd + '_header" class="JskitAreaSelector_header">';
         str += '<div style="float:left">' + unescape("%u9009%u62E9%u533A%u57DF") + '</div>';
-        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.closePanel()">[' + unescape("%u5173%u95ED") + ']</div>';
+        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.close()">[' + unescape("%u5173%u95ED") + ']</div>';
         str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.clear()">[' + unescape("%u7F6E%u7A7A") + ']</div>';
         str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.reset()">[' + unescape("%u91CD%u7F6E") + ']</div>';
         str += '</div>';
@@ -191,7 +191,7 @@ var JskitAreaSelector = function (rHd) {
         }
         __ShowPopPanel();
     };
-    this.closePanel = function () {
+    this.close = function () {
         __ClosePanel();
     };
     //END pop mode
