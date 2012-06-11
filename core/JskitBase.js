@@ -377,7 +377,7 @@ var $t = new function () {
         return (typeof (v) == "function");
     };
     this.isObject = function (v) {
-        return (typeof (v) == "object");
+        return (typeof (v) == "object" && v!=null);
     };
     this.isString = function (v) {
         return (typeof (v) == "string");
@@ -395,7 +395,7 @@ var $t = new function () {
     };
     this.isRegex = function (v) {
         return (this.isObject(v)
-            && /RegExp/.test(a.constructor));
+            && /RegExp/.test(v.constructor));
     };
 };
 

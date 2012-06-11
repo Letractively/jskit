@@ -103,6 +103,7 @@ np = tree.newNode(n0, true, "Demo", "");
     	tree.newNode(n2, true, "表单验证", "demo/demo_JskitValidation.html");
 	    tree.newNode(n2, true, "翻页器", "demo/demo_JskitPager.html");
         tree.newNode(n2, true, "日期输入控件", "demo/date_selector.html");
+        tree.newNode(n2, true, "地区选择空间", "demo/area_selector.html");
         tree.newNode(n2, true, "高级下拉列表", "demo/demo_richselect.html");
         tree.newNode(n2, true, "菜单和树", "demo/demo_menu.html");
         tree.newNode(n2, true, "数据表视图", "demo/demo_gridview.html");
