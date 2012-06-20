@@ -12,57 +12,26 @@
 ******************************************************/
 var JskitAreaSelector = function (rHd) {
     var __hd = (typeof (rHd) == "string") ? rHd : "jskitAreaSelector";
-    var __mode = "select"; //pop
+    var __mode = 1; //pop
     var __textObj = null;
     var __valueObj = null;
     var __data = null;
     var __startLevel = 1;
     var __endLevel = 3;
+    var __useKeyAsValue = true;
+    var __path = [];
 
-    //BEGIN pop mode
+    //#BEGIN  ================ pop mode ===============================
     var __panel = null;
     var __container = null;
     var __header = null;
-
-    
-    var __path = [];
-    var __loadData = function(){
-    	if(__path.length==0){
-    		return __data;
-    	}else{
-    		var _data = __data;
-    		for(var i=0;i<__path.length;i++){
-    			_data = _data[__path[i]][2];
-    		}
-    		return _data;
-    	}
-    };
-    var __parseText = function(path){
-		var _data = __data;
-		var _str = [];
-		for(var i=0;i<path.length;i++){
-			if(i>=__startLevel-1){
-				_str.push(_data[path[i]][1]);
-			}
-			_data = _data[path[i]][2];
-		}
-		_data = null;
-		return _str.join(__separated);
-    };
-    var __parseKey = function(path){
-		var _data = __data;
-		for(var i=0;i<path.length-1;i++){
-			_data = _data[path[i]][2];
-		}
-		return _data[path[path.length-1]][0];
-    };
     var __bind = function(){
         var _str = [];
         var _data = __loadData();
         _str.push('<table cellspacing="0" cellpadding="0" class="JskitAreaSelector_table"><tbody><tr>');
         var _action = "";
         for (var i = 0; i < _data.length; i++) {
-        	_action = (_data[i][2].length<1 || (__path.length-1)==__endLevel)?"onSelect":"onNext";
+        	_action = (_data[i][2].length<1 || (__path.length-1)==__endLevel)?"__onSelected":"__onNext";
             _str.push('<td onclick="' + __hd + '.'+_action+'(' + i + ')" onmouseover="'+__hd+'.active(this)" onmouseout="'+__hd+'.unactive(this)">' + (_data[i][1]) + '</td>');
             if ((i + 1) % 5 == 0) {
                 _str.push('</tr><tr>');
@@ -89,19 +58,6 @@ var JskitAreaSelector = function (rHd) {
             }
         }	
     };
-    
-    this.onNext = function(idx){
-    	__path.push(idx);
-    	__bind();
-    };
-    this.onSelect = function(idx){
-    	__path.push(idx);
-        var _txt = __parseText(__path);
-    	var _key = __parseKey(__path);
-        __callback(_key,_txt);
-        __closePanel();
-    };
-
     var __showPopPanel = function () {
     	if(__panel==null){
 	        var str = '<div id="' + __hd + '_header" class="JskitAreaSelector_header">';
@@ -116,20 +72,6 @@ var JskitAreaSelector = function (rHd) {
     	}else{
     		__panel.style.display = "block";
     	}
-    };
-
-    var __initPath = function(){
-        __path = (__startLevel===1)?[]:[0];
-    };
-    
-    this.reset = function () {
-    	__initPath();
-        __bind();
-    };
-    this.clear = function () {
-    	__callback("","");
-    	__initPath();
-    	__closePanel();
     };
     var __closePanel = function () {
         if (__panel != null) {
@@ -147,10 +89,32 @@ var JskitAreaSelector = function (rHd) {
         }
         return path;
     };
-    this.getNameByKey = function (rData,rKey,rPath) {
-        if (typeof (rKey) != "string" || rKey == "") return "";
-        var path = __find(__data,rKey,[]);
-        return __parseText(path);
+
+    this.active = function (sender, e) {
+        sender.className = "_active";
+    };
+    this.unactive = function (sender, e) {
+        sender.className = "";
+    };
+
+    this.clear = function () {
+    	__callback("","");
+    	__initPath();
+    	__closePanel();
+    };
+    this.__onNext = function(idx){
+    	__path.push(idx);
+    	__bind();
+    };
+    this.__onSelected = function(idx){
+    	__path.push(idx);
+        var _txt = __parseText(__path);
+    	var _key = __parseKey(__path);
+        __callback(_key,_txt);
+        if(typeof(this.onSelected)==="function"){
+            this.onSelected(_key,_txt.split(__separate));
+        }
+        __closePanel();
     };
     this.setTextField = function (v) {
         __textObj = (typeof (v) == "object") ? v : null;
@@ -158,48 +122,166 @@ var JskitAreaSelector = function (rHd) {
     this.setValueField = function (v) {
         __valueObj = (typeof (v) == "object") ? v : null;
     };
-    this.setData = function (v) {
-        __data = v;
-    };
-    this.hasCountry = function (v) {
-        if(v===true){
-        	__startLevel = 1;
-        }else{
-        	__startLevel = 2;
-        }
-    };
-    this.setEndLevel = function (v) {
-        __endLevel = parseInt(v);
-    };
-    this.active = function (sender, e) {
-        sender.className = "_active";
-    };
-    this.unactive = function (sender, e) {
-        sender.className = "";
-    };
-    this.toCountry = function (countryIdx) {
-        return __data[countryIdx].Name;
-    };
-    this.toProvince = function (countryIdx, provinceIdx) {
-        return __data[countryIdx].Sub[provinceIdx].Name;
-    };
-    this.toCity = function (countryIdx, provinceIdx, cityIdx) {
-        return __data[countryIdx].Sub[provinceIdx].Sub[cityIdx].Name;
-    };
-
-    this.open = function (rTextFieldId, rValueFieldId, rHasCountry,rSeparated) {
+    this.open = function (json){
+    	__mode = 1;
+    	this.setUseKeyAsValue(json.useKeyAsValue);
     	this.clear();
-        __textObj = $$("#" + rTextFieldId);
-        __valueObj = $$("#" + rValueFieldId);
-        __separated = (typeof(rSeparated)==="string")?rSeparated:",";
-        this.hasCountry(rHasCountry);
+    	this.setData(json.data);
+        __textObj = $$("#" + json.textFieldId);
+        __valueObj = $$("#" + json.valueFieldId);
+        __separate = (typeof(json.separate)==="string")?json.separate:",";
+        this.setStartLevel(json.startLevel);
+        this.setEndLevel(json.endLevel);
     	__initPath();
         __showPopPanel();
+        __bind();
+    };
+    this.reset = function () {
+    	__initPath();
         __bind();
     };
     this.close = function () {
         __closePanel();
     };
-    //END pop mode
+    //#END  ================ pop mode ===============================
+
+    //#BEGIN  ================ DropdownList mode ===============================
+    this.onSelected = null;
+    
+    var __ddlIds = [];
+    var __ddls = [];
+    var __initDdls = function(){
+    	__ddls = [];
+    	for(var i=0;i<__ddlIds.length;i++){
+    		__ddls.push($$("#"+__ddlIds[i]));
+    	}
+    	for(var i=0;i<__ddls.length;i++){
+    		__ddls[i].innerHTML = "";
+    		__ddls[i].setAttribute("idx",i);
+    		if(i==__ddls.length-1){
+    			jskitEvents.add(__ddls[i],"onchange",__hd+".__onSelected");
+    		}else{
+    			jskitEvents.add(__ddls[i],"onchange",__hd+".__onNextSelect");
+    		}
+    	}
+    	__renderDddl(__ddls[0],__loadData());
+    };
+    var __renderDddl = function(ddl,data){
+    	var _str = [];
+		_str.push('<option value="">-- 请选择 --</option>');
+    	for(var i=0;i<data.length;i++){
+    		if(__useKeyAsValue===true){
+        		_str.push('<option value="'+data[i][0]+'" idx="'+i+'">'+data[i][1]+'</option>');
+    		}else{
+        		_str.push('<option value="'+data[i][1]+'" idx="'+i+'">'+data[i][1]+'</option>');
+    		}
+    	}
+    	ddl.innerHTML = _str.join('');
+    	_str = null;
+    	data = null;
+    };
+    var __resetPathBySelectChange = function(ddlIdx){
+    	__path = __path.slice(0, __startLevel+ddlIdx-1);
+    	var opr = __ddls[ddlIdx].options[__ddls[ddlIdx].selectedIndex];
+    	var idx = opr.getAttribute("idx");
+    	__path.push(parseInt(idx));
+    };
+    this.__onNextSelect = function(e){
+    	var ddlIdx = parseInt(e.srcElement.getAttribute("idx"));
+    	__resetPathBySelectChange(ddlIdx);
+    	for(var i=ddlIdx+1;i<__ddls.length;i++){
+    		__ddls[i].innerHTML = "";
+    	}
+    	if(__ddls[ddlIdx+1]!=null){
+        	__renderDddl(__ddls[ddlIdx+1],__loadData());
+    	}
+    };
+    this.select = function(json){
+    	__mode = 2;
+    	this.setUseKeyAsValue(json.useKeyAsValue);
+    	this.clear();
+    	this.setData(json.data);
+    	__ddlIds = json.selectFieldIdList;
+        __separate = (typeof(json.separate)==="string")?json.separate:",";
+        this.setStartLevel(json.startLevel);
+        this.setEndLevel(json.endLevel);
+    	__initPath();
+    	__initDdls();
+    };
+
+    //#END  ================ DropdownList mode ===============================
+    var __initPath = function(){
+        __path = (__startLevel===1)?[]:[0];
+    };
+    var __loadData = function(){
+    	if(__path.length==0){
+    		return __data;
+    	}else{
+    		var _data = __data;
+    		for(var i=0;i<__path.length;i++){
+    			_data = _data[__path[i]][2];
+    		}
+    		return _data;
+    	}
+    };
+    var __parseText = function(path){
+		var _data = __data;
+		var _str = [];
+		for(var i=0;i<path.length;i++){
+			if(i>=__startLevel-1){
+				_str.push(_data[path[i]][1]);
+			}
+			_data = _data[path[i]][2];
+		}
+		_data = null;
+		return _str.join(__separate);
+    };
+    var __parseKey = function(path){
+		var _data = __data;
+		for(var i=0;i<path.length-1;i++){
+			_data = _data[path[i]][2];
+		}
+		return _data[path[path.length-1]][0];
+    };
+
+    this.__onSelected = function(idx){
+    	var _txt = "";
+    	var _key = "";
+    	if(__mode==1){//pop
+        	__path.push(idx);
+            _txt = __parseText(__path);
+        	_key = __parseKey(__path);
+            __callback(_key,_txt);
+    	}else{//select
+        	var ddlIdx = parseInt(idx.srcElement.getAttribute("idx"));
+        	__resetPathBySelectChange(ddlIdx);
+            _txt = __parseText(__path);
+        	_key = __parseKey(__path);
+    	}
+        if(typeof(this.onSelected)==="function"){
+            this.onSelected(_key,_txt.split(__separate));
+        }
+        if(__mode==2){
+        	__closePanel();
+        }
+    };
+    this.getNameByKey = function (rKey) {
+        if (typeof (rKey) != "string" || rKey == "") return "";
+        var path = __find(__data,rKey,[]);
+        return __parseText(path);
+    };
+    this.setData = function (v) {
+        __data = v;
+    };
+    this.setStartLevel = function (v) {
+        __startLevel = (v===1)?1:2;
+    };
+    this.setEndLevel = function (v) {
+        __endLevel = (v===4)?4:3;
+    };
+    this.setUseKeyAsValue = function(v){
+    	__useKeyAsValue = (v===true);
+    };
+    
 
 };
