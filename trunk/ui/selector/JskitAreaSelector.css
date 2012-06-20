@@ -6,9 +6,8 @@
     width:500px;
     overflow:hidden;
     }
-    .JskitAreaSelector_header
+.JskitAreaSelector_header
 {
-    background-color:#cccccc;
     border-top:1px solid #000000;
     border-left:1px solid #000000;
     border-right:1px solid #000000;
@@ -17,8 +16,7 @@
     color:#000000;
 	font-size:13px;
     overflow:hidden;
-	background:url(/sk_website_client/Images/sidebarbg.gif) repeat-x;   
-	background-position:bottom;
+	background:#cccccc;
     }
 .JskitAreaSelector_btn{
 	float:right;
@@ -43,7 +41,7 @@
     border-collapse:collapse;
     border:0px;
     }
-    .JskitAreaSelector_item
+    .JskitAreaSelector_table td
 {
     border-collapse:collapse;
     background-color:#ffffff;
@@ -55,7 +53,7 @@
 	font-size:13px;
 	cursor:pointer;
     }
-    .JskitAreaSelector_item_c
+    .JskitAreaSelector_table td ._active
 {
     border-collapse:collapse;
     background-color:#114477;

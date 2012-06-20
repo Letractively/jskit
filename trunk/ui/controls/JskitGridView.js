@@ -52,6 +52,11 @@ var JskitGridView = function (rHd) {
         __columns = v;
     };
 
+    var __footerVisiable = true;
+    this.setFooterVisiable = function (v) {
+    	__footerVisiable = (v !== false && v !== 0 && v !== "no");
+    };
+    
     var __autoUpdate = false;
     this.setAutoUpdate = function (v) {
         __autoUpdate = (v !== false && v !== 0 && v !== "no");
@@ -151,25 +156,25 @@ var JskitGridView = function (rHd) {
         }
     };
     var __buildHeadContent = function () {
-        var _str = new Array();
+       var _str = new Array();
         var _c = null;
         _str.push('<tr>');
         for (var i = 0; i < __columns.length; i++) {
             _c = __columns[i];
             if (_c.visiable !== false) {
                 if (!isNaN(parseFloat(_c.width)) && _c.width > 0) {
-                    _str.push('<th width="' + _c.width + 'px" title="' + __attrFilter(_c.title) + '">');
+                    _str.push('<th title="' + __attrFilter(_c.title) + '"  style="width:' + _c.width + 'px">');
+                    _str.push('<div style="width:' + _c.width + 'px" >');
                 } else {
                     _str.push('<th title="' + __attrFilter(_c.title) + '">');
+                    _str.push('<div >');
                 }
-                if (_c.type === __ENUM.COL_TYPE.DATA) {
-                    _str.push(_c.title);
-                } else if (_c.type === __ENUM.COL_TYPE.CHECK) {
+                if (_c.type === __ENUM.COL_TYPE.CHECK) {
                     _str.push('<input type="checkbox" id="' + __topCbId + '" onclick="' + __hd + '.checkAll()" />');
                 } else {
-                    _str.push("&nbsp;");
+                    _str.push(_c.title);
                 }
-                _str.push('</th>');
+                _str.push('</div></th>');
             }
         }
         _str.push('</tr>');
@@ -190,9 +195,9 @@ var JskitGridView = function (rHd) {
             }
             for (var i = 1; i <= _pageCount; i++) {
                 if (__pageIndex != i) {
-                    _str.push('<a href="javascript:' + __hd + '.onPageChange(' + i + ')"><div>' + i + '</div></a>');
+                    _str.push('<a href="javascript:' + __hd + '.onPageChange(' + i + ')"><div>' + i + '/'+_pageCount+'</div></a>');
                 } else {
-                    _str.push('<div>' + i + '</div>');
+                    _str.push('<div>' + i + '/'+_pageCount+'</div>');
                 }
             }
             if (__pageIndex == _pageCount) {
@@ -214,7 +219,7 @@ var JskitGridView = function (rHd) {
             if (__columns[i].visiable !== false) { _cols++; }
         }
         var _str = new Array();
-        _str.push('<tr><td colspan="' + _cols + '"  id="' + __pagerCanvasId + '"></td></tr>');
+        _str.push('<tr><td colspan="' + _cols + '" ></td></tr>');
         return _str.join('');
     };
 
@@ -236,17 +241,25 @@ var JskitGridView = function (rHd) {
         /* TABLE STYLE */
         var _str = new Array();
         if (!isNaN(parseFloat(__width)) && __width > 0) {
-            _str.push('<div style="padding:0px;margin:0px;border:0px;clear:both;float:none;width:' + __width + 'px;overflow:hidden;">');
+            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow-x:auto;">');
         } else {
-            _str.push('<div style="padding:0px;margin:0px;border:0px;clear:both;float:none;">');
+            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;">');
         }
         _str.push('<table cellspacing="' + __lineWidth + '" cellpadding="0" border="0" class="' + __tableCss + '">');
         _str.push('<thead class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</thead>');
         _str.push('<tbody class="' + __attrFilter(__bodyCss) + '" id="' + __dataCanvasId + '"></tbody>');
-        _str.push('<tfoot class="' + __attrFilter(__footCss) + '">' + __buildFootContent() + '</tfoot>');
+        if(__footerVisiable===true){
+        	_str.push('<tfoot class="' + __attrFilter(__footCss) + '">' + __buildFootContent() + '</tfoot>');
+        }
         _str.push('</table>');
         _str.push('</div>');
-
+        if(__pagerVisiable===true){
+	        if (!isNaN(parseFloat(__width)) && __width > 0) {
+	            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow:hidden;"><div class="'+__attrFilter(__pagerCss)+'"  id="' + __pagerCanvasId + '"></div></div>');
+	        } else {
+	            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;"><div class="'+__attrFilter(__pagerCss)+'"  id="' + __pagerCanvasId + '"></div></div>');
+	        }
+        }
         /* DIV STYLE
         _str.push('<div style="float:none;clear:both;width:' + __width + 'px;overflow:hidden;"  class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</div>');
         var _c = null;
@@ -330,12 +343,10 @@ var JskitGridView = function (rHd) {
         return template;
     };
     var __dataBind = function () {
-        if (__dataCanvas == null) {
-            __dataCanvas = $$("#" + __dataCanvasId);
-            if (__dataCanvas == null) {
-                alert("JskitGridView Error: \nData Body not found, maybe create object failed!");
-                return;
-            }
+    	__dataCanvas = $$("#" + __dataCanvasId);
+    	if (__dataCanvas == null) {
+            alert("JskitGridView Error: \nData Body not found, maybe create object failed!");
+            return;
         }
         var _str = new Array();
         var _dataColIndex = null;
@@ -385,12 +396,10 @@ var JskitGridView = function (rHd) {
         }
     };
     var __flushPager = function () {
+        __pagerCanvas = $$("#" + __pagerCanvasId);
         if (__pagerCanvas == null) {
-            __pagerCanvas = $$("#" + __pagerCanvasId);
-            if (__pagerCanvas == null) {
-                alert("JskitGridView Error: \nPager box not found, maybe create object failed!");
-                return;
-            }
+            alert("JskitGridView Error: \nPager box not found, maybe create object failed!");
+            return;
         }
         __pagerCanvas.innerHTML = __buildPagerContent();
     };
@@ -590,6 +599,7 @@ var JskitGridView = function (rHd) {
         __canvasId = (typeof (json.canvasId) === "string") ? json.canvasId : null;
         __oriData = __data = json.data;
         __columns = json.columns;
+        this.setFooterVisiable(json.footVisiable);
         this.setTableCss(json.cssTable);
         this.setLoadingCss(json.cssLoading);
         this.setFootCss(json.cssFoot);

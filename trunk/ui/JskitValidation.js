@@ -69,7 +69,7 @@ function JskitValidation(rHd){
         this.SPACELINE = "\\n\\s*\\r";
         this.HTML = "<(\\S*?)[^>]*>.*?</\\1>|<.*? />";
         this.TRIM = "^\\s*|\\s*$";
-        this.MONEY = "^[1-9][0-9]{0,}\\.[0-9]{2}$";
+        this.MONEY = "^[1-9][0-9]{0,}(\\.)?([0-9]{0,2})$";
     };
     var __errorLogs = new Array();
     //#End
@@ -290,6 +290,28 @@ function JskitValidation(rHd){
         __cleanMessage();
         return 0;
     };
+	var __v_regex_money = function(){
+        if(__vo.value().trim()=="")return 0;
+        __vo.pattern = __PATTERN.MONEY;
+        var _reg = new RegExp(__vo.pattern);
+        _reg.global = true;
+        _reg.ignoreCase = true;
+        var ret = _reg.test(__vo.value());
+        if (ret !== true) {
+            __displayMessage();
+            return 1;
+        }else{
+        	var val = __vo.value();
+			if(val.indexOf(".")==-1){
+				__vo.setValue(val+".00");
+			}else if(val.indexOf(".")==val.length-1){
+				__vo.setValue(val+"00");
+			}
+			val = null;
+        }
+        __cleanMessage();
+        return 0;
+	};
     var __v_compare = function(rExpression){
         if (typeof(rExpression) == "string") 
             __vo.expression = rExpression;
@@ -359,7 +381,7 @@ function JskitValidation(rHd){
             case __VALIDATOR.CHECK:
                 return __v_check();
             case __VALIDATOR.MONEY:
-                return __v_regex(__PATTERN.MONEY);
+                return __v_regex_money();
             case __VALIDATOR.DATETIME:
                 return __v_datetime();
             default:
@@ -441,33 +463,7 @@ function JskitValidation(rHd){
         _nl = _xpath = _validator = _campare = _pattern = _message = _expression = null;
     };
 
-    //#End(Private Methods)
-    
-    //#Begin public Methods
-    this.cleanMessageAll = function(){
-        if (__display == "object" && __displayer !== null) {
-            __displayer.innerHTML = "";
-        }
-        else {
-            for (var i = 0; i < __tasks.length; i = i + 1) {
-                var _err = __getMsgObj(__tasks[i].id);
-                _err.innerHTML = "";
-                _err.style.display = "none";
-            }
-        }
-    };
-    this.check = function(){
-        __vo = null;
-        var id = event.srcElement.getAttribute("validator");
-        for (var i = 0; i < __tasks.length; i = i + 1) {
-            if (__tasks[i].id == id) {
-                __vo = __tasks[i];
-                return __doValidate();
-            }
-        }
-        return true;
-    };
-    this.checkAll = function(){
+    var __checkAll = function(){
         var bk = 0;
         __alertTimes = 0;
 		try{
@@ -488,8 +484,41 @@ function JskitValidation(rHd){
 			return false;
 		}
     };
+    //#End(Private Methods)
+    
+    //#Begin public Methods
+    this.cleanMessageAll = function(){
+        if (__display == "object" && __displayer !== null) {
+            __displayer.innerHTML = "";
+        }
+        else {
+            for (var i = 0; i < __tasks.length; i = i + 1) {
+                var _err = __getMsgObj(__tasks[i].id);
+                _err.innerHTML = "";
+                _err.style.display = "none";
+            }
+        }
+    };
+    this.check = function(idArray){
+        __vo = null;
+        __alertTimes = 0;
+        for (var i = __tasks.length-1; i >=0; i = i - 1) {
+            for(var j=0;j<idArray.length;j++){
+            	if (__tasks[i].obj.getAttribute("id") === idArray[j]) {
+                    __vo = __tasks[i];
+                    if(parseInt(__doValidate())!=0){return false;}
+                }
+            }
+        }
+        return true;
+    };
+    this.checkAll = function(){
+        return __checkAll();
+    };
+   
 	this.onFormSubmit = function(sender,e){
-		return this.checkAll();
+		var bk = this.checkAll();
+		return bk;
 	};
     this.loadXml = function(rXmlPath){
         var _xmDoc = jskitXml.load(rXmlPath);
@@ -513,7 +542,12 @@ function JskitValidation(rHd){
 		    frm = $$("form")[0];
 		}
 		if(frm!=null){
-		    jskitEvents.add(frm,"onsubmit",__hd+".onFormSubmit(this,event)");
+			var __oldSubmit = frm.submit;
+			frm.submit = function(){
+				var _bk = __checkAll();
+				if(_bk){__oldSubmit();}
+				else{return false;}
+			};
 		}else{
 		    //alert("JskitValidation:onLoad:Form Element not found!");
 		    return true;
@@ -564,6 +598,9 @@ function JskitValidation(rHd){
     };
     this.IsFloat = function(rValue){
         return __regexTest(rValue, __PATTERN.FLOAT);
+    };
+    this.IsMoney = function(rValue){
+        return __regexTest(rValue, __PATTERN.MONEY);
     };
 	//abandoned!------------------------------------
     //#End

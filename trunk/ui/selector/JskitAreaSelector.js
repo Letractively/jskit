@@ -17,137 +17,140 @@ var JskitAreaSelector = function (rHd) {
     var __valueObj = null;
     var __data = null;
     var __startLevel = 1;
+    var __endLevel = 3;
 
     //BEGIN pop mode
     var __panel = null;
     var __container = null;
     var __header = null;
-    var __BuildPanelCode = function () {
-        var _str = '';
-        var _data = __data;
-        if (__startLevel == 2) {
-            _str += __ShowProvince(0)
-        } else {
-            var _str = '<table cellspacing="0" cellpadding="0"><tr>';
-            for (var i = 0; i < __data.length; i++) {
-                _str += '<td class="JskitAreaSelector_item" onclick="' + __hd + '.showProvince(' + i + ')">' + (__data[i].Name) + '</td>';
-                if ((i + 1) % 5 == 0) {
-                    _str += '</tr><tr>';
-                }
-            }
-            _str += '</table>';
-        }
-        return _str;
-    };
 
-    var __ShowPopPanel = function () {
-        var str = '<div id="' + __hd + '_header" class="JskitAreaSelector_header">';
-        str += '<div style="float:left">' + unescape("%u9009%u62E9%u533A%u57DF") + '</div>';
-        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.close()">[' + unescape("%u5173%u95ED") + ']</div>';
-        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.clear()">[' + unescape("%u7F6E%u7A7A") + ']</div>';
-        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.reset()">[' + unescape("%u91CD%u7F6E") + ']</div>';
-        str += '</div>';
-        str += '<div id="' + __hd + '_container" class="JskitAreaSelector_container">' + __BuildPanelCode() + '</div>';
-        __panel = jskitUtil.doc.pop(__panel, __textObj, str, "position=down");
-        __panel.className = "JskitAreaSelector_panel";
-        __container = $$("#" + __hd + "_container");
+    
+    var __path = [];
+    var __loadData = function(){
+    	if(__path.length==0){
+    		return __data;
+    	}else{
+    		var _data = __data;
+    		for(var i=0;i<__path.length;i++){
+    			_data = _data[__path[i]][2];
+    		}
+    		return _data;
+    	}
     };
-
-    this.reset = function () {
-        __ShowPopPanel();
+    var __parseText = function(path){
+		var _data = __data;
+		var _str = [];
+		for(var i=0;i<path.length;i++){
+			if(i>=__startLevel-1){
+				_str.push(_data[path[i]][1]);
+			}
+			_data = _data[path[i]][2];
+		}
+		_data = null;
+		return _str.join(__separated);
     };
-    this.clear = function () {
-        this.selectAreaCallback("", "");
+    var __parseKey = function(path){
+		var _data = __data;
+		for(var i=0;i<path.length-1;i++){
+			_data = _data[path[i]][2];
+		}
+		return _data[path[path.length-1]][0];
     };
-    var __ClosePanel = function () {
-        if (__panel != null) {
-            __panel.style.display = "none";
-        }
-    };
-    var __ShowProvince = function (countryIdx) {
-        var _data = (countryIdx >= 0) ? __data[countryIdx].Sub : new Array();
-        var _str = new Array();
-        _str.push('<table cellspacing="0" cellpadding="0"><tr>');
-        for (var i = 1; i < _data.length; i++) {
-            _str.push('<td class="JskitAreaSelector_item" onclick="' + __hd + '.showCity(' + countryIdx + ',' + i + ')" onmouseover="' + __hd + '.active(this,event)" onmouseout="' + __hd + '.unactive(this,event)" >' + (_data[i].Name) + '</td>');
-            if (i % 5 == 0) {
-                _str.push('</tr><tr>');
-            }
-        }
-        if (_data.length % 5 != 0) { _str.push('</tr>') }
-        _str.push('</table>');
-        return _str.join('');
-        _data = _str = null;
-    };
-    var __selectAreaCallback = function (countryIdx, provinceIdx, cityIdx) {
-        var _txt = "";
-        var _key = "";
-        if (countryIdx !== "" && provinceIdx !== "" && cityIdx !== "") {
-            if (__startLevel == 1) {
-                _txt = __data[countryIdx].Name + "," + __data[countryIdx].Sub[provinceIdx].Name + "," + __data[countryIdx].Sub[provinceIdx].Sub[cityIdx].Name;
-            } else {
-                _txt = __data[countryIdx].Sub[provinceIdx].Name + "," + __data[countryIdx].Sub[provinceIdx].Sub[cityIdx].Name;
-            }
-            _key = __data[countryIdx].Sub[provinceIdx].Sub[cityIdx].Key;
-        } else {
-            return;
-        }
-        if (__textObj != null) {
-            if (typeof (__textObj.value) == "string") {
-                __textObj.value = _txt;
-            } else {
-                __textObj.innerHTML = _txt;
-            }
-        }
-        if (__valueObj != null) {
-            if (typeof (__valueObj.value) == "string") {
-                __valueObj.value = _key;
-            } else {
-                __valueObj.innerHTML = _key;
-            }
-        }
-        __ClosePanel();
-    };
-    this.showProvince = function (countryIdx) {
-        __container.innerHTML = __ShowProvince(countryIdx);
-    };
-    this.showCity = function (countryIdx, provinceIdx) {
-        var _data = __data[countryIdx].Sub[provinceIdx].Sub;
-        var _str = new Array();
-        _str.push('<table cellspacing="0" cellpadding="0"><tr>');
+    var __bind = function(){
+        var _str = [];
+        var _data = __loadData();
+        _str.push('<table cellspacing="0" cellpadding="0" class="JskitAreaSelector_table"><tbody><tr>');
+        var _action = "";
         for (var i = 0; i < _data.length; i++) {
-            _str.push('<td class="JskitAreaSelector_item" onclick="' + __hd + '.onSelected(' + countryIdx + ',' + provinceIdx + ',' + i + ')" onmouseover="' + __hd + '.active(this,event)" onmouseout="' + __hd + '.unactive(this,event)" >' + (_data[i].Name) + '</td>');
+        	_action = (_data[i][2].length<1 || (__path.length-1)==__endLevel)?"onSelect":"onNext";
+            _str.push('<td onclick="' + __hd + '.'+_action+'(' + i + ')" onmouseover="'+__hd+'.active(this)" onmouseout="'+__hd+'.unactive(this)">' + (_data[i][1]) + '</td>');
             if ((i + 1) % 5 == 0) {
                 _str.push('</tr><tr>');
             }
         }
-        if (_data.length % 5 != 0) { _str.push('</tr>') }
-        _str.push('</table>');
-        __container.innerHTML = _str.join('');
-        _str = _data = null;
+        _str.push('</tbody></table>');
+        $$("#" + __hd + "_container").innerHTML = _str.join('');
+        _str = null;
     };
-    this.getNameByKey = function (rKey) {
-        if (typeof (rKey) != "string" || rKey == "") return "";
-        var pl = null;
-        var cl = null;
-        for (var i = 0; i < __data.length; i++) {
-            pl = __data[i].Sub;
-            for (var j = 0; j < pl.length; j++) {
-                cl = pl[j].Sub;
-                for (var k = 0; k < cl.length; k++) {
-                    if (cl[k].Key == rKey) {
-                        if (__startLevel == 1) {
-                            return __data[i].Name + "," + pl[j].Name + "," + cl[k].Name;
-                        } else {
-                            return pl[j].Name + "," + cl[k].Name;
-                        }
-                    }
-                }
-                cl = null;
+    
+    var __callback = function(key,txt){
+        if (__textObj != null) {
+            if (typeof (__textObj.value) == "string") {
+                __textObj.value = txt;
+            } else {
+                __textObj.innerHTML = txt;
             }
-            pl = null;
         }
-        return "";
+        if (__valueObj != null) {
+            if (typeof (__valueObj.value) == "string") {
+                __valueObj.value = key;
+            } else {
+                __valueObj.innerHTML = key;
+            }
+        }	
+    };
+    
+    this.onNext = function(idx){
+    	__path.push(idx);
+    	__bind();
+    };
+    this.onSelect = function(idx){
+    	__path.push(idx);
+        var _txt = __parseText(__path);
+    	var _key = __parseKey(__path);
+        __callback(_key,_txt);
+        __closePanel();
+    };
+
+    var __showPopPanel = function () {
+    	if(__panel==null){
+	        var str = '<div id="' + __hd + '_header" class="JskitAreaSelector_header">';
+	        str += '<div style="float:left">' + unescape("%u9009%u62E9%u533A%u57DF") + '</div>';
+	        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.close()">[' + unescape("%u5173%u95ED") + ']</div>';
+	        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.clear()">[' + unescape("%u7F6E%u7A7A") + ']</div>';
+	        str += '<div class="JskitAreaSelector_btn" onclick="' + __hd + '.reset()">[' + unescape("%u91CD%u7F6E") + ']</div>';
+	        str += '</div>';
+	        str += '<div id="' + __hd + '_container" class="JskitAreaSelector_container"></div>';
+	        __panel = jskitUtil.doc.pop(__panel, __textObj, str, "position=down");
+	        __panel.className = "JskitAreaSelector_panel";
+    	}else{
+    		__panel.style.display = "block";
+    	}
+    };
+
+    var __initPath = function(){
+        __path = (__startLevel===1)?[]:[0];
+    };
+    
+    this.reset = function () {
+    	__initPath();
+        __bind();
+    };
+    this.clear = function () {
+    	__callback("","");
+    	__initPath();
+    	__closePanel();
+    };
+    var __closePanel = function () {
+        if (__panel != null) {
+            __panel.style.display = "none";
+        }
+    };
+    var __find = function(data,key,path){
+        for(var i=0;i<data.length;i++){
+        	if(key==data[i][0]){
+        		return path.push(data[i][0]);
+        	}
+        	if(data[i][2].length>0){
+        		path = __find(data[i][2],data[i][0],path.push(data[i][0]));
+        	}
+        }
+        return path;
+    };
+    this.getNameByKey = function (rData,rKey,rPath) {
+        if (typeof (rKey) != "string" || rKey == "") return "";
+        var path = __find(__data,rKey,[]);
+        return __parseText(path);
     };
     this.setTextField = function (v) {
         __textObj = (typeof (v) == "object") ? v : null;
@@ -158,16 +161,21 @@ var JskitAreaSelector = function (rHd) {
     this.setData = function (v) {
         __data = v;
     };
-    this.setStartLevel = function (v) {
-        if (v == 1 || v == 2) {
-            __startLevel = parseInt(v);
+    this.hasCountry = function (v) {
+        if(v===true){
+        	__startLevel = 1;
+        }else{
+        	__startLevel = 2;
         }
     };
+    this.setEndLevel = function (v) {
+        __endLevel = parseInt(v);
+    };
     this.active = function (sender, e) {
-        sender.className = "JskitAreaSelector_item_c";
+        sender.className = "_active";
     };
     this.unactive = function (sender, e) {
-        sender.className = "JskitAreaSelector_item";
+        sender.className = "";
     };
     this.toCountry = function (countryIdx) {
         return __data[countryIdx].Name;
@@ -178,21 +186,19 @@ var JskitAreaSelector = function (rHd) {
     this.toCity = function (countryIdx, provinceIdx, cityIdx) {
         return __data[countryIdx].Sub[provinceIdx].Sub[cityIdx].Name;
     };
-    this.onSelected = function (countryIdx, provinceIdx, cityIdx) {
-        __selectAreaCallback(countryIdx, provinceIdx, cityIdx);
-    };
-    this.open = function (rTextFieldId, rValueFieldId, hasCountry) {
+
+    this.open = function (rTextFieldId, rValueFieldId, rHasCountry,rSeparated) {
+    	this.clear();
         __textObj = $$("#" + rTextFieldId);
         __valueObj = $$("#" + rValueFieldId);
-        if (typeof (hasCountry) == "boolean") {
-            __startLevel = (hasCountry) ? 1 : 2;
-        } else {
-            __startLevel = 2;
-        }
-        __ShowPopPanel();
+        __separated = (typeof(rSeparated)==="string")?rSeparated:",";
+        this.hasCountry(rHasCountry);
+    	__initPath();
+        __showPopPanel();
+        __bind();
     };
     this.close = function () {
-        __ClosePanel();
+        __closePanel();
     };
     //END pop mode
 
