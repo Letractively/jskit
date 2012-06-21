@@ -8,14 +8,14 @@
  <body>
  <!--
 	数据来源自：中国国家统计局网站：最新县及县以上行政区划代码（截止2011年10月31日）http://www.stats.gov.cn/tjbz/xzqhdm/t20120105_402777427.htm
-	数据先转换为下面的gbData的格式。
+	数据先转换为下面的gbData的格式。直辖市的“市辖区”改成对应的
  -->
 
   <script text="text/javascript">
 /* data come from :http://www.stats.gov.cn/tjbz/xzqhdm/t20120105_402777427.htm*/
 var gbData = [];
-gbData.push(["110000","北京市"]);
-gbData.push(["110100","市辖区"]);
+gbData.push(["110000","北京"]);
+gbData.push(["110100","北京市"]);
 gbData.push(["110101","东城区"]);
 gbData.push(["110102","西城区"]);
 gbData.push(["110105","朝阳区"]);
@@ -30,11 +30,10 @@ gbData.push(["110114","昌平区"]);
 gbData.push(["110115","大兴区"]);
 gbData.push(["110116","怀柔区"]);
 gbData.push(["110117","平谷区"]);
-gbData.push(["110200","县"]);
-gbData.push(["110228","密云县"]);
-gbData.push(["110229","延庆县"]);
-gbData.push(["120000","天津市"]);
-gbData.push(["120100","市辖区"]);
+gbData.push(["110128","密云县"]);
+gbData.push(["110129","延庆县"]);
+gbData.push(["120000","天津"]);
+gbData.push(["120100","天津市"]);
 gbData.push(["120101","和平区"]);
 gbData.push(["120102","河东区"]);
 gbData.push(["120103","河西区"]);
@@ -48,10 +47,9 @@ gbData.push(["120113","北辰区"]);
 gbData.push(["120114","武清区"]);
 gbData.push(["120115","宝坻区"]);
 gbData.push(["120116","滨海新区"]);
-gbData.push(["120200","县"]);
-gbData.push(["120221","宁河县"]);
-gbData.push(["120223","静海县"]);
-gbData.push(["120225","蓟县"]);
+gbData.push(["120121","宁河县"]);
+gbData.push(["120123","静海县"]);
+gbData.push(["120125","蓟县"]);
 gbData.push(["130000","河北省"]);
 gbData.push(["130100","石家庄市"]);
 gbData.push(["130101","市辖区"]);
@@ -873,8 +871,8 @@ gbData.push(["232700","大兴安岭地区"]);
 gbData.push(["232721","呼玛县"]);
 gbData.push(["232722","塔河县"]);
 gbData.push(["232723","漠河县"]);
-gbData.push(["310000","上海市"]);
-gbData.push(["310100","市辖区"]);
+gbData.push(["310000","上海"]);
+gbData.push(["310100","上海市"]);
 gbData.push(["310101","黄浦区"]);
 gbData.push(["310104","徐汇区"]);
 gbData.push(["310105","长宁区"]);
@@ -891,8 +889,7 @@ gbData.push(["310116","金山区"]);
 gbData.push(["310117","松江区"]);
 gbData.push(["310118","青浦区"]);
 gbData.push(["310120","奉贤区"]);
-gbData.push(["310200","县"]);
-gbData.push(["310230","崇明县"]);
+gbData.push(["310130","崇明县"]);
 gbData.push(["320000","江苏省"]);
 gbData.push(["320100","南京市"]);
 gbData.push(["320101","市辖区"]);
@@ -2481,8 +2478,8 @@ gbData.push(["469030","琼中黎族苗族自治县"]);
 gbData.push(["469031","西沙群岛"]);
 gbData.push(["469032","南沙群岛"]);
 gbData.push(["469033","中沙群岛的岛礁及其海域"]);
-gbData.push(["500000","重庆市"]);
-gbData.push(["500100","市辖区"]);
+gbData.push(["500000","重庆"]);
+gbData.push(["500100","重庆市"]);
 gbData.push(["500101","万州区"]);
 gbData.push(["500102","涪陵区"]);
 gbData.push(["500103","渝中区"]);
@@ -2502,26 +2499,25 @@ gbData.push(["500116","江津区"]);
 gbData.push(["500117","合川区"]);
 gbData.push(["500118","永川区"]);
 gbData.push(["500119","南川区"]);
-gbData.push(["500200","县"]);
-gbData.push(["500223","潼南县"]);
-gbData.push(["500224","铜梁县"]);
-gbData.push(["500226","荣昌县"]);
-gbData.push(["500227","璧山县"]);
-gbData.push(["500228","梁平县"]);
-gbData.push(["500229","城口县"]);
-gbData.push(["500230","丰都县"]);
-gbData.push(["500231","垫江县"]);
-gbData.push(["500232","武隆县"]);
-gbData.push(["500233","忠县"]);
-gbData.push(["500234","开县"]);
-gbData.push(["500235","云阳县"]);
-gbData.push(["500236","奉节县"]);
-gbData.push(["500237","巫山县"]);
-gbData.push(["500238","巫溪县"]);
-gbData.push(["500240","石柱土家族自治县"]);
-gbData.push(["500241","秀山土家族苗族自治县"]);
-gbData.push(["500242","酉阳土家族苗族自治县"]);
-gbData.push(["500243","彭水苗族土家族自治县"]);
+gbData.push(["500123","潼南县"]);
+gbData.push(["500124","铜梁县"]);
+gbData.push(["500126","荣昌县"]);
+gbData.push(["500127","璧山县"]);
+gbData.push(["500128","梁平县"]);
+gbData.push(["500129","城口县"]);
+gbData.push(["500130","丰都县"]);
+gbData.push(["500131","垫江县"]);
+gbData.push(["500132","武隆县"]);
+gbData.push(["500133","忠县"]);
+gbData.push(["500134","开县"]);
+gbData.push(["500135","云阳县"]);
+gbData.push(["500136","奉节县"]);
+gbData.push(["500137","巫山县"]);
+gbData.push(["500138","巫溪县"]);
+gbData.push(["500140","石柱土家族自治县"]);
+gbData.push(["500141","秀山土家族苗族自治县"]);
+gbData.push(["500142","酉阳土家族苗族自治县"]);
+gbData.push(["500143","彭水苗族土家族自治县"]);
 gbData.push(["510000","四川省"]);
 gbData.push(["510100","成都市"]);
 gbData.push(["510101","市辖区"]);
@@ -3568,11 +3564,13 @@ var GbDataConvertor = function(){
 				gbData[i][1] = code[0]+"0000";
 			}else{
 				gbData[i].push(gbData[i][1]);
+				gbData[i][1] = code[0]+code[1]+"00";
+				/*
 				if(isZxs(zxs,code[0])){//特别处理直辖市
 					gbData[i][1] = code[0]+"0000";
 				}else{
-					gbData[i][1] = code[0]+code[1]+"00";
 				}
+				*/
 			}
 			aaa.push(gbData[i]);
 		}
