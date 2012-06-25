@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitConfig.html</title>
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="../main.css"/>
+    	<script src="../../release/jskit.core.js"></script>
+	    <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+	<font class="package">JskitConfig.js</font>
+	<p>一个典型的JskitConfig如下：</p>
+	<textarea name="JskitSyntax_code" class="js">
+/*#BEGIN( Global definition: 这里定义全局变量 )*/
+/*#END*/
+
+/*#BEGIN( JskitLog: jskit的log工具，该工具内置 )*/
+	jskitLog.configuation.open = false; //缺省为false
+	jskitLog.configuation.logStyle = "font-family:verdana;font-size:11px;";
+/*#END*/
+
+/*#BEGIN( JskitDynamic: 这里设定拖动对象 )*/
+	//因为JskitDynamic以对象id作为定位对象的标识，所以只有具有idAttributes:值的对象才允许被拖动
+	//设定哪些标签对象且只有这些标签对象是允许被拖动的，tags比inValidTags具有更高的优先级
+	jskitDynamic.configuation.tags = "div,span,table,a,font,p";
+	//设定哪些标签对象是不允许被拖动的
+	jskitDynamic.configuation.inValidTags = "body,head,html,script,style,form,meta,frame,link";
+/*#END*/
+
+/*#BEGIN( JskitValidation: 表单验证 )*/
+	jskitValidation.configuation.fieldkey 			= "name";
+	jskitValidation.configuation.display 			= "down";
+	jskitValidation.configuation.displayer 			= null;
+	jskitValidation.configuation.errorCssClass 		= "errorMessage";
+	jskitValidation.configuation.errorStyleString 	= "color:#ff0000;";
+	
+	jskitValidation.forms["login"] = new Array(
+		new Array("required","username","please enter username!"),
+		new Array("required","password","please enter password!")
+	);
+/*#END*/
+
+/*#BEGIN( JskitForm: 表单 )*/
+/*#END*/
+
+/*#BEGIN( jskitSpirit: 对象信息查看器 ) */
+/*#END*/
+
+/*#BEGIN( jskitContextMenu: 右键菜单 )*/
+	//是否启用右键菜单，缺省为false
+	jskitContextMenu.configuation.open = true;
+	//指定右键菜单的内容由谁(函数Methods:名,该Methods:只能有一个eventParameters,传递右键点击事件)来提供
+	jskitContextMenu.configuation.provider = "jskitToolbar.getContent";
+/*#END*/
+
+/*#BEGIN( 其他Configuation:项 )*/
+/*#END*/
+
+/////////////////////////// PLUGIN ///////////////////////////////////////
+/*#BEGIN (plugins, 设定使用哪些plugin，对其js文件进行装载)*/
+	//# scriptEditor: js脚本测试工具
+	//$import.js("plugin/scripts/JskitScriptEditor.js");
+
+	//# xmenu: 页面栏目菜单构造器
+	//$import.js("plugin/xmenu/JskitXMenu.js");
+	
+	//# syntax: 脚本语法高亮显示, 
+	//# 使用SyntaxHighlighter,关于其使用方式，请查阅网站:
+	//# http://www.dreamprojections.com/SyntaxHighlighter/
+	//# 加载JskitSyntax
+	//$import.js("plugin/syntax/JskitSyntax.js");
+	//# Configuation:JskitSyntax，codeName为包裹code的<textarea>的nameAttributes:值，缺省为JskitSyntax_code
+	//jskitSyntax.configuation.codeName = "JskitSyntax_code";
+
+/*#END*/
+/////////////////////////////////////////////////////////////////////////
+</textarea>
+</body>
+</html>

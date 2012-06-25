@@ -1,0 +1,104 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Animation</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../../release/jskit.core.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+        <script>
+            var ani = new JskitAnimation("ani");
+            function testMoveTo(target){
+//                var x = parseFloat($$(target).effectStyle("left"));
+//                var y = parseFloat($$(target).effectStyle("top"));
+                var x = parseFloat($$(target).getX());
+                var y = parseFloat($$(target).getY());
+                ani.moveTo($$("#a"), x, y, 30);
+            }
+	        var path = new Array();
+            function drawPath(){
+                var str = new Array();
+				for (var i = -10; i <= 10; i = i + 0.5) {
+                    var x = 500 + 25 * i;
+                    var y = 530 + 80 * Math.sin(Math.PI * i / 5);
+                    str.push('<div style="position:absolute;left:'+x+';top:'+y+';" class="pointBlock">"+i+"</div>');
+                    path[path.length] = new Array(x, y);
+                }
+				document.write(str.join(''));
+			}
+            function testMove(){
+                ani.move($$("#b"), path, 2);
+            }
+			var transform = 0;
+			function testTransForm(){
+				if(transform==0){
+					ani.transform($$("#c"),350,700,200,200,10);
+					transform = 1;
+				}
+				else{
+					ani.transform($$("#c"),220,690,13,13,10);
+					transform = 0;
+				}
+			}
+        </script>
+        <style>
+            .pointBlock {
+                width: 5px;
+                height: 5px;
+                position: absolute;
+                background-color: #00aa00;
+                font-size: 1px;
+            }
+			.test_title{
+				height:24px;border-bottom:1px solid #cccccc;background-color:#eeeeee;width:400px;
+				padding-top:4px;
+				padding-left:10px;
+				font-size:13px;
+				font-weight:bold;
+			}
+			.test1_target{
+				background-color:#ff00ff;width:15px;height:15px;font-size:1px;
+			}
+			.test_player{
+				z-index:200;position:absolute;background-color:#0000ff;width:13px;height:13px;color:#ffff00;font-size:10px;
+				text-align:center;
+				border:1px solid #000000;
+			}
+        </style>
+    </head>
+    <BODY style="margin:0px;">
+        <div style="height:800px">
+            <div style="height:40px">(<a href="../tutorial/JskitAnimation.html">查看JskitAnimation.js用法</a>)</div>
+            <div class="test_title" style="position:absolute;top:130px;left:210px;">1.测试 moveTo 方法：点击粉红色的区块</div>
+			<div id="a" style="top:170px;left:220px;" class="test_player">A</div>
+            <div style="z-index:100px;position:absolute;border:1px solid #000000;width:740px;height:200px;top:190px;left:220px;">
+            <div onclick="testMoveTo(this)" style="position:absolute;top:10px;;left:10px;" class="test1_target">
+            </div>
+            <div onclick="testMoveTo(this)" style="position:absolute;top:40px;left:10px;" class="test1_target">
+            </div>
+            <div onclick="testMoveTo(this)" style="position:absolute;top:150px;left:40px;" class="test1_target">
+            </div>
+            <div onclick="testMoveTo(this)" style="position:absolute;top:10px;left:310px;" class="test1_target">
+            </div>
+            <div onclick="testMoveTo(this)" style="position:absolute;top:100px;left:610px;" class="test1_target">
+            </div>
+            </div>
+			
+			<div class="test_title" style="position:absolute;top:400px;left:210px;">
+				2. 测试 move 方法: <a href="javascript:testMove()">点击这里开始</a>
+			</div>
+			<script>drawPath();</script>
+            <div id="b" style="top:450px;left:220px;" class="test_player">
+            B</div>
+        	
+			<div class="test_title" style="position:absolute;top:650px;left:210px;">
+				3. 测试 transform 方法: <a href="javascript:testTransForm()">点击这里开始</a>
+			</div>
+			<script>drawPath();</script>
+            <div id="c" style="top:690px;left:220px;" class="test_player">
+            C</div>
+		</div>
+    </BODY>
+</HTML>

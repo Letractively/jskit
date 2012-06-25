@@ -1,0 +1,65 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <TITLE> JskitTask Demo </TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <script>
+        var jt = new JskitTask("jt");
+        function myTask(v) {
+            $$("#txt1").value += v;
+            jt.done();
+        }
+        ;
+        function doClear() {
+            $$("#txt1").value = "";
+        }
+        jt.addFuncTask("Task 1", "myTask(1)");
+        jt.addFuncTask("Task 2", "myTask(2)");
+        jt.addFuncTask("Task 3", "myTask(3)");
+        jt.addFuncTask("Task 4", "myTask(4)");
+        jt.addFuncTask("Task 5", "myTask(5)");
+        //jt.showPanel();
+        jt.setTimeout(1);
+        function onPlageLoad() {
+            jt.showPanel($$('#panel'));
+        }
+    </script>
+    <style>
+    </style>
+</HEAD>
+
+<BODY onload="onPlageLoad()">
+<div>
+    <div>
+        <textarea name="JskitSyntax_code" class="js">
+            //初始化JskitTask对象
+            var jt = new JskitTask("jt");
+
+            //设置要执行的任务，该示例中，每次执行任务，txt1输入框追加内容
+            function myTask(v){
+                $$("#txt1").value += v;
+                jt.done();
+            };
+
+            //添加任务，因为任务为函数，所以使用addFuncTask
+            //如果任务是需要提交到后台的Url,则使用addUrlTask
+            jt.addFuncTask("Task 1","myTask(1)");
+            jt.addFuncTask("Task 2","myTask(2)");
+            jt.addFuncTask("Task 3","myTask(3)");
+            jt.addFuncTask("Task 4","myTask(4)");
+            jt.addFuncTask("Task 5","myTask(5)");
+
+            //设定超时时间，单位为秒，如果某个任务超过该时间，则执行下一个任务
+            jt.setTimeout(1);
+        </textarea>
+    </div>
+    <input type="text" id="txt1"/><input type="button" value="Clear" onclick="doClear()"/>
+    <div id="panel">
+    </div>
+</div>
+</BODY>
+</HTML>
+

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> Jskit Get-Set Builder</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+
+<script>
+function buildSetGet(){
+	var eos = $$("#txt_Parms").value.split('\r');
+	var str = new Array();
+	var type = "String";
+	var desc = "";
+	var pro = "";
+	for(var i=0;i<eos.length;i++){
+		var eo = eos[i].split(',');
+		pro = eo[0];
+		pro = pro.trim();
+		if(eo.length>1){type=eo[1]};
+		if(eo.length>2){desc=eo[2]};
+		str.push('private static '+type+' _'+pro+';');
+		str.push('<br/>/// &lt;summary&gt;');
+		str.push('<br/>/// '+desc);
+		str.push('<br/>/// &lt;/summary&gt;');
+		str.push('<br/>public static '+type+' '+pro+'{');
+		str.push('<br/>&nbsp;&nbsp;&nbsp;&nbsp;get{ return _'+pro+'; }');
+		str.push('<br/>&nbsp;&nbsp;&nbsp;&nbsp;set{ _'+pro+' = value; }');
+		str.push('<br/>}');
+		str.push('<br/><br/><br/>');
+	}
+	$$("#SetGetCode").innerHTML = str.join('');
+}
+</script>
+</HEAD>
+
+<BODY>
+<div>
+<table>
+	<tr>
+		<td class="Package">
+			Get-Set Builder
+		</td>
+	</tr>
+	<tr>
+		<td class="content">
+			For <b>C#</b>
+		</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<td valign="top"  class="content">
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td>请输入变量名：<button id="btn_build" class="btn_build" onclick="buildSetGet()" >Build</button></td>
+					<td>&nbsp;</td>
+					<td>输出：</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<textarea id="txt_Parms" style="width:400px;height:400px;">UserName,String,用户名 
+Password,String,密码
+Age,Int32,年龄</textarea>
+					</td>
+					<td>&nbsp;</td>
+					<td valign="top">
+						<div id="SetGetCode" style="padding:5px 5px 5px 5px;width:400px;height:400px;border:1px solid #cccccc;background-color:#ffffd0"></div>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			
+		</td>
+	</tr>
+</table>
+</div>
+</BODY>
+</HTML>

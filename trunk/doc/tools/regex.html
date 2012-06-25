@@ -1,0 +1,132 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE> Jskit Test </TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+<script>
+	function doRegex(){
+		var _str = $$("#regex_src").value;
+		var _pattern = $$("#regex_pattern").value;
+		var _result = '<table class="result_table" width="100%" cellspacing="0">';
+		try{
+			var parm = "";
+			if($$("#cbx_Global").checked){
+				parm += "g";
+			}
+			if($$("#cbx_CaseSensitivity").checked==false){
+				parm += "i";
+			}
+			var re = new RegExp(_pattern,parm);
+			var _bk = re.exec(_str);
+			if(_bk==null){//nothing found
+				_result += "<tr><td style='color:#ff0000'>"+unescape("%u6CA1%u6709%u5339%u914D%u7684%u5185%u5BB9")+"</td></tr>";
+			}else{//found
+				_result += "<tr><td colspan='2'  style='color:#336699'>"+unescape("%u627E%u5230%u4E86%u5339%u914D%u7684%u5185%u5BB9")+"</td></tr>";
+				for(var i=0;i<_bk.length;i++){
+					_result += '<tr>';
+					_result += '<td class="result_title">$'+i+'</td>';
+					_result += '<td class="result_content">'+strFilter(_bk[i])+'</td>';
+					_result += '</tr>';
+				}
+			}
+			_result += "</table>";
+			$$("#regex_result").innerHTML = _result;
+		}catch(e){
+			$$("#regex_result").innerHTML = e.message;
+		}
+	}
+	function doClear(){
+		$$("#regex_result").innerHTML = "";
+	}
+	function strFilter(str){
+		str = str.replace(/</gi,"&lt;");
+		str = str.replace(/>/gi,"&gt;");
+		return str;
+	}
+
+</script>
+<style>
+	.regex_table{
+		border:1px solid #aaaaaa;
+		border-collapse:collapse;
+	}
+	.regex_table TD{
+		border:1px solid #cccccc;
+		background-color:#eeeeee;
+	}
+	.result_table{
+		border-collapse:collapse;
+	}
+	.result_table TD{
+		background-color:#ffffff;
+		border-collapse:collapse;
+	}
+	TEXTAREA{
+		background-color:#ffffff;
+	}
+	.regex_title{
+		vertical-align:top;
+		text-align:right;
+		padding:2px 5px 2px 5px;
+	}
+	.result_title{
+		color:#ff0000;
+		width:30px;
+		padding:2px 2px 2px 2px;
+		background-color:#ffffff;
+	}
+	.result_content{
+		color:#00aa00;
+		padding:2px 2px 2px 2px;
+		background-color:#ffffff;
+	}
+</style>
+</HEAD>
+
+<BODY>
+	<div>
+		<table class="regex_table" border="1" cellpadding="4" cellspacing="0">
+			<tr>
+				<td colspan="2" align="center" height="30" style="background-color:#f7f7f7">
+					<a href="../reference/regex.html">查看正则表达式语法</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="regex_title">检索字符串:</td>
+				<td>
+					<textarea id="regex_src" cols="60" rows="5">this is a test!</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="regex_title">正则表达式:</td>
+				<td>
+					<textarea id="regex_pattern" cols="60" rows="5">(\w*)\s*(\w*)</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td class="regex_title">参数</td>
+				<td>
+					<input type="checkbox" id="cbx_Global" checked="checked" />全局
+					<input type="checkbox" id="cbx_CaseSensitivity" />大小写敏感
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center" style="background-color:#ffffff">
+					<input type="button" value="Match" style="padding-top:2px;width:200px" onclick="doRegex()" />
+					<input type="button" value="Clear" onclick="doClear()" />
+				</td>
+			</tr>
+			<tr>
+				<td class="regex_title">结果:</td>
+				<td>
+					<div id="regex_result" >&nbsp;</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</BODY>
+</HTML>
+

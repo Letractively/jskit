@@ -1,0 +1,283 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <TITLE> Jskit Date Selector </TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <script>
+    </script>
+    <style>
+    </style>
+</HEAD>
+
+<BODY>
+<div title="content">
+<table border="0" id="Table1">
+    <tbody>
+        <tr>
+            <td class="package">
+                JskitDateSelector.js
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Author:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                AnyRock
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Initializtion:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                var jskitDateSelector = new JskitDateSelector("jskitDateSelector");
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Required:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                core/*
+                <br />page/JskitTable.js
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Methods:
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <table border="1" cellspacing="0" class="content_list" id="Table2">
+                    <tbody>
+                        <tr bgcolor="#cccccc">
+                            <td>
+                                Name
+                            </td>
+                            <td>
+                                Parameters
+                            </td>
+                            <td>
+                                Return
+                            </td>
+                            <td>
+                                Comment
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                open(HtmlElement sender,Event e[,String format][,Ingeter year][,Ingeter month])
+                            </td>
+                            <td>
+                                sender: 输入日期的输入框
+                                <br/>event: 触发控件的事件
+                                <br/>format: 日期格式，缺省为yyyy-M-d
+                                <br/>year: 初始年，缺省为当前年
+                                <br/>month: 初始月，缺省为当前月
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                展开日期选择控件
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setCanvasCssClass(String className)
+                            </td>
+                            <td>
+                                className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                设置控件面板的样式名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setCalendarTitleCssClass(String className)
+                            </td>
+                            <td> className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                设置日历标题的样式名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setTableCssClass(String className)
+                            </td>
+                            <td>className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置日历表格的样式名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setTHeadCssClass(String className)
+                            </td>
+                            <td>className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置日历表首的样式名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setTBodyCssClass(String className)
+                            </td>
+                            <td>className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置日历表体的样式名
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setDateName(String d1,String d2,String d3,String d4,String d5,String d6,String d7)
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置周日至周六的名字
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setWeekendCssClass(String className)
+                            </td>
+                            <td>className: 样式表名
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置周末日期的样式
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setMode(String mode)
+                            </td>
+                            <td>mode: 模式（d:选择日期，缺省；dt:选择日期时间；m:选择月份）
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置选择的模式
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>openMode(sender,e,mode[,format][,year][,month])
+                            </td>
+                            <td>
+								sender: 输入日期的输入框
+                                <br/>event: 触发控件的事件
+								<br/>mode: 模式（d:选择日期，缺省；dt:选择日期时间；m:选择月份）
+                                <br/>format: 日期格式，缺省为yyyy-M-d
+                                <br/>year: 初始年，缺省为当前年
+                                <br/>month: 初始月，缺省为当前月
+                            </td>
+                            <td>
+                            </td>
+                            <td>带模式展开日期选择控件
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>getJskitCalerdar()
+                            </td>
+                            <td>
+                            </td>
+                            <td>JskitCalerdar
+                            </td>
+                            <td>返回该Selector中的JskitCalerdar对象
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>close()
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>关闭选择面板
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setSelectedHandler(rFuncName)
+                            </td>
+                            <td>rFuncName: 方法名
+                            </td>
+                            <td>
+                            </td>
+                            <td>当日期时间选择完成后触发的事件，相当于执行$rFuncName($SelectedDate);
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setDate(rDate)
+                            </td>
+                            <td>rDate 日期时间对象
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置当前日期时间
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setAutoCallback(rVal)
+                            </td>
+                            <td>rVal: yes|no,1|0,true|false
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置是否自动为触发日历的控件的value属性赋值。如果为true，每次开启日历控件时，通过该对象的value值设置初始日期时间。缺省为true
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>setDefaultMark(rContent)
+                            </td>
+                            <td>rContent: 支持html格式的文本
+                            </td>
+                            <td>
+                            </td>
+                            <td>设置填充到日历控件单元格中的缺省内容(不会覆盖日期的显示)，缺省为""
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>markIn(rDay,rContent)
+                            </td>
+                            <td>rDay: 当月中的日子<br/>rContent: 支持html格式的文本
+                            </td>
+                            <td>
+                            </td>
+                            <td>将内容填充到日历控件中指定日子的单元格中(不会覆盖日期的显示)
+                            </td>
+                        </tr>
+					</tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                Example:：
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+                <a href="../demo/date_selector.html">JskitDataSelector Demo</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</BODY>
+</HTML>
+

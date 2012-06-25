@@ -1,0 +1,58 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE> 颜色板 </TITLE>
+<link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+	<link href="../../editor/color/style.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="../../editor/color/JskitColor.js"></script>
+	<script type="text/javascript" src="../../ui/JskitTabs.js"></script>
+	<script>var tabs = new JskitTabs();</script>
+</HEAD>
+
+<BODY onload="">
+	<div>
+	<div class="tabs">
+		<ul>
+			<li id="picker_tab" class="current"><span><a href="javascript:tabs.displayTab('picker_tab','picker_panel');" onmousedown="return false;">Picker</a></span></li>
+			<li id="rgb_tab"><span><a href="javascript:;" onclick="generateWebColors();tabs.displayTab('rgb_tab','rgb_panel');" onmousedown="return false;">Palette</a></span></li>
+		</ul>
+	</div>
+
+	<div class="panel_wrapper">
+		<div id="picker_panel" class="panel current">
+			<fieldset>
+				<legend>Picker</legend>
+				<div id="picker">
+					<img id="colors" src="../../editor/color/colorpicker.jpg" onclick="computeColor(event)" onmousedown="isMouseDown=true;return false;" onmouseup="isMouseDown = false;" onmousemove="if (isMouseDown && isMouseOver) computeColor(event); return false;" onmouseover="isMouseOver=true;" onmouseout="isMouseOver=false;" />
+
+					<div id="light">
+						<!-- Will be filled with divs -->
+					</div>
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="rgb_panel" class="panel">
+			<fieldset>
+				<legend>Palette</legend>
+				<div id="webcolors">
+					<!-- Gets filled with web safe colors-->
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="mceActionPanel">
+		<div id="preview">&nbsp;</div>
+
+		<div id="previewblock">
+			<label for="color">Color:</label> <input id="color" type="text" size="8" maxlength="8" class="text" />
+		</div>
+	</div>
+	</div>
+</BODY>
+</HTML>
+

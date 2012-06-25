@@ -1,0 +1,91 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE> 字符创或URI的编码 </TITLE>
+<link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+<script>
+	function doAction(rAction){
+		eval("$$(\"#txt_"+rAction+"_result\").value = "+rAction+"($$(\"#txt_"+rAction+"\").value);");	
+	}
+</script>
+<style>
+	.interval{
+		height:20px;
+	}
+	.list_title{
+		width:100px;
+		text-align:right;
+		font-weight:bold;
+		color:#ffffff;
+		font-size:14px;
+		padding-right:10px;
+		background-color:#cccccc;
+	}
+	.escape_table{
+		border:1px solid #888888;
+		border-collapse:collapse;
+	}
+	.escape_table TD{
+		border:1px solid #cccccc;
+		background-color:#aaaaaa;
+	}
+	textarea{
+		background-color:#ffffd0;
+	}
+	.txt_input{
+		background-color:#ffffff;
+	}
+
+</style>
+</HEAD>
+
+<BODY onload="">
+	<div>
+		<table class="escape_table" cellpadding="4">
+			<tr>
+				<td><textarea rows="5" cols="35" id="txt_escape"></textarea></td>
+				<td align="center">
+					<input type="button" value="escape" onclick="doAction(this.value)" /></td>
+				<td>
+					<textarea rows="5" cols="35"  readonly id="txt_escape_result"></textarea>
+				</td>
+			</tr>
+			<tr><td class="interval" colspan="3"></td></tr>
+			<tr>
+				<td><textarea rows="5" cols="35" id="txt_unescape"></textarea></td>
+				<td align="center"><input type="button" value="unescape" onclick="doAction(this.value)" /></td>
+				<td>
+					<textarea rows="5" cols="35"  readonly id="txt_unescape_result" ></textarea>
+				</td>
+			</tr>
+		</table>
+		<table class="escape_table" cellpadding="4">
+			<tr>
+				<td class="list_title">encodeURI:</td>
+				<td><textarea cols="80" type="text" id="txt_encodeURI" size="50"></textarea></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="encodeURI" size="50" onclick="doAction(this.value)" /></td>
+				<td>
+					<textarea  cols="80" rows="6" type="text" readonly id="txt_encodeURI_result" size="50"></textarea>
+				</td>
+			</tr>
+			<tr><td class="interval" colspan="3"></td></tr>
+			<tr>
+				<td class="list_title">decodeURI:</td>
+				<td><textarea cols="80" type="text" id="txt_decodeURI" size="50"></textarea></td>
+			</tr>
+			<tr>
+                <td><input type="button" value="decodeURI" size="50" onclick="doAction(this.value)" /></td>
+				<td>
+					<textarea cols="80" rows="6" type="text" readonly id="txt_decodeURI_result" size="50"></textarea>
+				</td>
+			</tr>
+		</table>	
+	</div>
+</BODY>
+</HTML>
+

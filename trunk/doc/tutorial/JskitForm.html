@@ -1,0 +1,454 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitForm.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../../release/jskit.core.js"></script>
+	
+ 	   <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitForm.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jskitForm = new JskitForm();
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						base/JskitBase.js
+						<br>base/JskitUtil.js
+						<br>base/JskitXml.js
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						扩展的对象：
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<ul>
+							<li><font size="4"><a href="#select">JskitForm.SELECT</a></font></li>
+							<li><font size="4"><a href="#checkbox">JskitForm.CHECKBOX</a></font></li>
+							<li><font size="4"><a href="#radio">JskitForm.RADIO</a></font></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td class="package2">
+						<a id="select"></a>
+						<font size="4">JskitForm.SELECT</font>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						初始化
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jf = new JskitForm("jf");
+						<br>var _select = new jf.SELECT("#selectId");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										isNaN()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										boolean
+									</td>
+									<td>
+										当前对象是否为null
+									</td>
+								</tr>
+								<tr>
+									<td>
+										selectByValue(value)
+									</td>
+									<td>
+										value: option value
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										根据value设置对应的option被选中，如果有重复，第一个有效
+									</td>
+								</tr>
+								<tr>
+									<td>
+										selectByIndex(rIndex)
+									</td>
+									<td>
+										rIndex:option的索引
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										根据option的索引,设定其选中
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getValue()
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										获取当前对象的value
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getValueByIndex(rIndex)
+									</td>
+									<td>
+										rIndex:option的索引
+									</td>
+									<td>
+										String
+									</td>
+									<td>
+										根据option的索引,得到其value
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setValueByIndex(rValue,rIndex)
+									</td>
+									<td>
+										rValue: option的value
+										<br />rIndex: option的索引
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										根据option的索引,设置其value
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getValueByText(rText)
+									</td>
+									<td>
+										rText: option的text
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										根据option的text,得到其value,如果text有重复,取第一个
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setValueByText(rValue,rText)
+									</td>
+									<td>
+										rValue: option的value
+										<br />rText: option的text
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										根据option的text,得到其value,如果text有重复,取第一个
+									</td>
+								</tr>
+								<tr>
+									<td>
+										add(rValue,rText[,rIndex])
+									</td>
+									<td>
+										rValue: option的value
+										<br>rText: option的text
+										<br>rIndex: option的index
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										添加一个option对象,如果rIndex未设置,则添加在options的末尾
+									</td>
+								</tr>
+								<tr>
+									<td>
+										push(rOption[,rIndex])
+									</td>
+									<td>
+										rOption: option对象
+										<br>rIndex: option的index
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										添加一个option对象,如果rIndex未设置,则添加在options的末尾
+									</td>
+								</tr>
+								<tr>
+									<td>
+										remove(rArg)
+									</td>
+									<td>
+										rArg: <br>如果rArg是一个字符串,则视为option的value
+										<br>如果rArg是一个整数,则视为option的index
+									</td>
+									<td>
+										
+									</td>
+									<td>
+										根据option的value或index,移除该option对象
+									</td>
+								</tr>
+								<tr>
+									<td>
+										removeAll()
+									</td>
+									<td>
+									</td>
+									<td>
+									</td>
+									<td>
+										移除所有option对象
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="package2">
+						<a id="checkbox"></a>
+						<font size="4">JskitForm.CHECKBOX</font>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						初始化
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jf = new JskitForm("jf");
+						<br>var _cb = new jf.CHECKBOX("#cbId");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										isNaN()
+									</td>
+									<td>
+									</td>
+									<td>
+										boolean	
+									</td>
+									<td>
+										判断当前对象是否为null
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getValue()
+									</td>
+									<td>
+									</td>
+									<td>
+										string	
+									</td>
+									<td>
+										获取当前对象的value,形如"v1,v2,v3..."
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setValue(v)
+									</td>
+									<td>
+										v: value值
+									</td>
+									<td>
+											
+									</td>
+									<td>
+										给据value设置当前对象的选中状态
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="package2">
+						<a id="radio"></a>
+						<font size="4">JskitForm.RADIO</font>
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						初始化
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						var jf = new JskitForm("jf");
+						<br>var _rad = new jf.RADIO("#radId");
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										isNaN()
+									</td>
+									<td>
+									</td>
+									<td>
+										boolean	
+									</td>
+									<td>
+										判断当前对象是否为null
+									</td>
+								</tr>
+								<tr>
+									<td>
+										getValue()
+									</td>
+									<td>
+									</td>
+									<td>
+										string	
+									</td>
+									<td>
+										获取当前对象的value
+									</td>
+								</tr>
+								<tr>
+									<td>
+										setValue(v)
+									</td>
+									<td>
+										v: value值
+									</td>
+									<td>
+											
+									</td>
+									<td>
+										给据value设置当前对象的选中状态
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>
