@@ -21,6 +21,9 @@ var JskitAreaSelector = function (rHd) {
     var __useKeyAsValue = true;
     var __path = [];
     var __values = [];
+	this.setValues = function(v){
+		__values = (typeof(v)=="object")?v:[];
+	};
     this.onSelected = null;
 
     //#BEGIN  ================ pop mode ===============================
@@ -127,6 +130,7 @@ var JskitAreaSelector = function (rHd) {
         this.setStartLevel(json.startLevel);
         this.setEndLevel(json.endLevel);
     	this.onSelected = json.onSelected;
+		this.setValues(json.values);
     	__initPath();
         __showPopPanel();
         __bind();
@@ -141,7 +145,10 @@ var JskitAreaSelector = function (rHd) {
     //#END  ================ pop mode ===============================
 
     //#BEGIN  ================ DropdownList mode ===============================
-    
+	var __ddlEmpty = null;
+	this.setDdlEmpty = function(v){
+		__ddlEmpty = ((typeof(v)=="object") &&(typeof(v.key)!="undefined") && (typeof(v.value)!="undefined"))?v:null;
+	};
     var __ddlIds = [];
     var __ddls = [];
     var __initDdls = function(){
@@ -154,14 +161,23 @@ var JskitAreaSelector = function (rHd) {
     		__ddls[i].setAttribute("idx",i);
     		jskitEvents.add(__ddls[i],"onchange",__hd+".__onNextSelect");
     	}
-    	__renderDddl(__ddls[0]);
+    	__renderDddl(0);
     	__ddlsFresh(1);
     };
-    var __renderDddl = function(ddl){
+    var __renderDddl = function(ddlIdx){
+		var _ddl = __ddls[ddlIdx];
     	var _str = [];
     	var _val = null;
     	var _data = __loadData();
+		if(_data==null){
+			_ddl.innerHTML = "";
+			_ddl = null;
+			return;
+		}
     	var _currentVal = __loadValue();
+		if(ddlIdx===0 && __ddlEmpty!=null){
+			_str.push('<option value="'+__ddlEmpty.key+'">'+__ddlEmpty.value+'</option>');
+		}
     	for(var i=0;i<_data.length;i++){
     		_val = (__useKeyAsValue===true)?_data[i][0]:_data[i][1];
     		if(_currentVal==_val){
@@ -170,13 +186,13 @@ var JskitAreaSelector = function (rHd) {
         		_str.push('<option value="'+_val+'" idx="'+i+'">'+_data[i][1]+'</option>');
     		}
     	}
-    	ddl.innerHTML = _str.join('');
-    	_str = _data = _currentVal = _val = null;
+    	_ddl.innerHTML = _str.join('');
+    	_ddl = _str = _data = _currentVal = _val = null;
     };
     var __ddlsFresh = function(ddlIdx){
     	for(var d=ddlIdx;d<__ddls.length;d++){
     		__resetPathBySelectChange(d-1);
-            __renderDddl(__ddls[d]);
+            __renderDddl(d);
     	}
     	__resetPathBySelectChange(__ddls.length-1);
    };
@@ -185,9 +201,11 @@ var JskitAreaSelector = function (rHd) {
     var __resetPathBySelectChange = function(ddlIdx){
     	__path = __path.slice(0, __startLevel+ddlIdx-1);
     	var opr = __ddls[ddlIdx].options[__ddls[ddlIdx].selectedIndex];
-    	if(typeof(opr)=="object"){
-	    	__path.push(parseInt(opr.getAttribute("idx")));
-    	}
+		var idx = (typeof(opr)=="object")?opr.getAttribute("idx"):null;
+		if(idx!=null && !isNaN(parseInt(idx))){
+			idx = parseInt(idx);
+		}
+	    __path.push(idx);
     };
     this.__onNextSelect = function(e){
     	var ddlIdx = parseInt(e.srcElement.getAttribute("idx"));
@@ -207,12 +225,13 @@ var JskitAreaSelector = function (rHd) {
         __separate = (typeof(json.separate)==="string")?json.separate:",";
         this.setStartLevel(json.startLevel);
         this.setEndLevel(__startLevel+__ddlIds.length-1);
-        __values = json.values;
+		this.setValues(json.values);
+		this.setDdlEmpty(json.empty);
     	__initPath();
     	__initDdls();
     	this.onSelected = json.onSelected;
 		this.__onSelected();
-    };
+	};
 
     //#END  ================ DropdownList mode ===============================
     var __initPath = function(){
@@ -224,6 +243,7 @@ var JskitAreaSelector = function (rHd) {
     	}else{
     		var _data = __data;
     		for(var i=0;i<__path.length;i++){
+				if(__path[i]==null){return null;}
     			_data = _data[__path[i]][2];
     		}
     		return _data;
@@ -236,6 +256,7 @@ var JskitAreaSelector = function (rHd) {
 		var _data = __data;
 		var _str = [];
 		for(var i=0;i<path.length;i++){
+			if(path[i]==null){return "";}
 			if(i>=__startLevel-1){
 				_str.push(_data[path[i]][1]);
 			}
@@ -247,6 +268,7 @@ var JskitAreaSelector = function (rHd) {
     var __parseKey = function(path){
 		var _data = __data;
 		for(var i=0;i<path.length-1;i++){
+			if(path[i]==null){return [];}
 			_data = _data[path[i]][2];
 		}
 		return _data[path[path.length-1]][0];
