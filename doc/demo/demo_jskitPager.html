@@ -1,0 +1,275 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Demo::JskitPager</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../../release/jskit.core.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+        <script>
+            var jp = new JskitPager("jp");
+            jp.setCssNormal("cssNormal");
+            jp.setCssSelected("cssSelected");
+            jp.setCssDisabled("cssDisabled");
+            jp.setPageNo(1);
+            jp.setPageSize(10);
+            jp.setAction("JavaScript:test($1)");
+            jp.setTotalSize(345);
+            jp.setStyle("number");
+            jp.setFpnlText(new Array("|<", "<<", ">>", ">|"));
+            jp.setCssFpnlText("cssFpnlText");
+            
+            function GotoPage(){
+                $$("#canvas").innerHTML = jp.outContent($$("#txt_page").value);
+                $$("#txt_pageSize").value = jp.getPageSize();
+                $$("#txt_totalSize").value = jp.getTotalSize();
+                $$("#txt_totalPages").value = jp.getTotalPages();
+                $$("#txt_pageNo").value = jp.pageNo;
+            }
+            
+            function ChangePagerStyle(rObj){
+                jp.setStyle(rObj.value);
+            }
+            
+            function test(r){
+                $$("#canvas").innerHTML = jp.outContent(r);
+            }
+        </script>
+        <style>
+            .cssNormal {
+                width: 20px;
+                height: 20px;
+                padding: 2px 2px 2px 2px;
+                margin: 2px 2px 2px 2px;
+                text-align: center;
+                font-family: verdana;
+                font-size: 12px;
+                border: 1px solid #000000;
+                background-color: #555555;
+                color: #ffffff;
+            }
+            
+            .cssSelected {
+                width: 20px;
+                height: 20px;
+                padding: 2px 2px 2px 2px;
+                margin: 2px 2px 2px 2px;
+                text-align: center;
+                font-family: verdana;
+                font-size: 12px;
+                border: 1px solid #000000;
+                background-color: #ffffff;
+                color: #ff5500;
+            }
+            
+            .cssDisabled {
+                width: 20px;
+                height: 20px;
+                padding: 2px 2px 2px 2px;
+                margin: 2px 2px 2px 2px;
+                text-align: center;
+                font-family: verdana;
+                font-size: 12px;
+                border: 1px solid #000000;
+                background-color: #555555;
+                color: #aaaaaa;
+            }
+            
+            .cssFpnlText {
+                width: 20px;
+                height: 20px;
+                padding: 2px 2px 2px 2px;
+                margin: 2px 2px 2px 2px;
+                text-align: center;
+                font-family: verdana;
+                font-size: 12px;
+                border: 0px solid transparent;
+                background-color: transparent;
+                color: #000000;
+            }
+        </style>
+    </head>
+    <body onload="GotoPage()">
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="Package">
+                        JskitPager Demo
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <a href="../tutorial/JskitPager.html">查看JskitPager.js参考</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <div>
+                                <table style="border:1px solid #cccccc">
+                                    <tr>
+                                        <td>
+                                            pageNo:
+                                        </td>
+                                        <td>
+                                            <input type="text" size="2" disabled="true" id="txt_pageNo" />
+                                        </td>
+                                        <td>
+                                            pageSize:
+                                        </td>
+                                        <td>
+                                            <input type="text" size="2" disabled="true" id="txt_pageSize" />
+                                        </td>
+                                        <td>
+                                            totalSize:
+                                        </td>
+                                        <td>
+                                            <input type="text" size="2" disabled="true" id="txt_totalSize" />
+                                        </td>
+                                        <td>
+                                            totalPages:
+                                        </td>
+                                        <td>
+                                            <input type="text" size="2" disabled="true" id="txt_totalPages" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            style:
+                                        </td>
+                                        <td>
+                                            <select onchange="ChangePagerStyle(this)">
+                                                <option value="number" selected="selected">number</option>
+                                                <option value="fpnl">fpnl</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            输入页码:
+                                        </td>
+                                        <td colspan="7">
+                                            <input type="text" id="txt_page" size="4" value="3" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br>
+                            <input type="button" style="width:100px;" value="Show Pages" onclick="GotoPage()"/>
+                            <br>
+                            <br>
+                            <div id="canvas">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="10">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        第一步、引入必须的javascript文件
+                        <textarea name="JskitSyntax_code" class="html">
+                            &lt;head>
+                            ...
+                            &lt;!--// import javascript files -->
+                            &lt;script src="$JSKIT_PATH$/base/JskitBase.js">&lt;/script>
+                            &lt;script src="$JSKIT_PATH$/base/JskitUtil.js">&lt;/script>
+                            &lt;script src="$JSKIT_PATH$/ui/JskitPager.js"> &lt;/script>
+                            ...
+                            &lt;/head>
+                        </textarea>
+                        第二步、部署JskitPager
+                        <textarea name="JskitSyntax_code" class="js">
+                            var jp = new JskitPager("jp");
+                            jp.setCssNormal("cssNormal");
+                            jp.setCssSelected("cssSelected");
+                            jp.setCssDisabled("cssDisabled");
+                            jp.setPageNo(1);
+                            jp.setPageSize(10);
+                            jp.setAction("JavaScript:test($1)");
+                            jp.setTotalSize(345);
+                            jp.setStyle("number");
+                            jp.setFpnlText(new Array("|&lt;", "&lt;&lt;", ">>", ">|"));
+                            jp.setCssFpnlText("cssFpnlText");
+                        </textarea>
+                        第三步、设置输出翻页器的位置
+                        <textarea name="JskitSyntax_code" class="html">
+                            <!--//id 可以随意设定 -->
+                            <div id="canvas">
+                            </div>
+                        </textarea>
+                        第四步、添加一个按钮，点击按钮，输出翻页器内容
+                        <textarea name="JskitSyntax_code" class="html">
+                            <input type="button" value="Show Pages" onclick="DisplayPager()"/>
+                        </textarea>第五步、按钮的点击动作,在上面指定的div中显示翻页。如果想在页面装载后显示翻页器，只要在body的onload事件中，处理jp.outContent(1)的返回内容，插入到显示翻页的位置即可。
+                        <textarea name="JskitSyntax_code" class="js">
+                            function DisplayPager(){
+                            //outContent参数为初始页码
+                            $$("#canvas").innerHTML = jp.outContent(1);
+                            }
+                        </textarea>
+                        第六步、设置显示样式
+                        <textarea name="JskitSyntax_code" class="css">
+                            .cssNormal {
+                            width: 20px;
+                            height: 20px;
+                            padding: 2px 2px 2px 2px;
+                            margin: 2px 2px 2px 2px;
+                            text-align: center;
+                            font-family: verdana;
+                            font-size: 12px;
+                            border: 1px solid #000000;
+                            background-color: #555555;
+                            color: #ffffff;
+                            }
+                            .cssSelected {
+                            width: 20px;
+                            height: 20px;
+                            padding: 2px 2px 2px 2px;
+                            margin: 2px 2px 2px 2px;
+                            text-align: center;
+                            font-family: verdana;
+                            font-size: 12px;
+                            border: 1px solid #000000;
+                            background-color: #ffffff;
+                            color: #ff5500;
+                            }
+                            .cssDisabled {
+                            width: 20px;
+                            height: 20px;
+                            padding: 2px 2px 2px 2px;
+                            margin: 2px 2px 2px 2px;
+                            text-align: center;
+                            font-family: verdana;
+                            font-size: 12px;
+                            border: 1px solid #000000;
+                            background-color: #555555;
+                            color: #aaaaaa;
+                            }
+                            .cssFpnlText{
+                            width: 20px;
+                            height: 20px;
+                            padding: 2px 2px 2px 2px;
+                            margin: 2px 2px 2px 2px;
+                            text-align: center;
+                            font-family: verdana;
+                            font-size: 12px;
+                            border: 0px solid transparent; 
+                            background-color: transparent; 
+                            color: #000000;  
+                            } 
+                        </textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

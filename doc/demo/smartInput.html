@@ -1,0 +1,43 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE> Jskit Test </TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+
+
+<script src="../../plugin/66988.net/JskitSmartInput.js"></script>
+<style>
+	.smart_input_item{
+		text-align:center;
+		background-color:transparent;
+		font-size:30px;
+		padding:5 5 5 5;
+		border:0px;
+	}
+</style>
+<script>
+
+	jskitSmartInput.configuation.numLength = 7;
+	jskitSmartInput.configuation.tail = 2;
+	jskitSmartInput.configuation.inputId = "smart_input";
+	jskitSmartInput.configuation.displayerId = "smart_input_displayer";
+	jskitSmartInput.configuation.itemClass = "smart_input_item";
+	jskitSmartInput.configuation.itemStyle = "";
+	jskitSmartInput.configuation.imagePath = "images/";
+</script>
+<script src="test.js"></script>
+</HEAD>
+
+<BODY onload="">
+<div style="padding-left:300px;padding-top:100px">
+	<div id="smart_input_displayer"></div>
+	<input id="smart_input" />
+</div>
+<script>
+</script>
+</BODY>
+</HTML>
+

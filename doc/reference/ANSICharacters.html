@@ -1,0 +1,156 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+    <TITLE> ANSI Characters </TITLE>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../main.css"/>
+    <script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <script>
+        var min,max,step,start;
+        function showCode() {
+            var _str = new Array();
+            var _cols = 20;
+            _str.push("<table id=\"codetable\">");
+            _str.push("<tr>");
+            for (var i = min; i <= max; i++) {
+                _str.push("<td class='c2'>" + i + "</td><td class='c1'>" + "&#" + i + ";</td>");
+                if ((i - min + 1) % _cols == 0)
+                    _str.push("</tr><tr>");
+            }
+            _str.push("</tr>");
+            _str.push("</table>");
+            $$("#list").innerHTML = _str.join('');
+            _str = null;
+        }
+        function getStep() {
+            step = $$("#step").value;
+            step = (isNaN(parseInt(step))) ? 200 : parseInt(step);
+        }
+        function freshInput() {
+            $$("#min").value = min;
+            $$("#max").value = max;
+        }
+        function getFromToByStep(type) {
+            min = $$("#min").value;
+            min = (isNaN(parseInt(min))) ? 1 : parseInt(min);
+            min += step * type;
+            if (min < 1) {
+                min = 1;
+            }
+            max = min + step - 1;
+            freshInput();
+        }
+        function prev() {
+            getStep();
+            getFromToByStep(-1);
+            showCode();
+        }
+        function next() {
+            getStep();
+            getFromToByStep(1);
+            showCode();
+        }
+        function pageOnLoad() {
+            min = 1;
+            getStep();
+            max = min + step - 1;
+            freshInput();
+            showCode();
+            jskitEvents.add($$("#list"),"onmousemove","showDetails");
+        }
+        function closeDetails(){
+            $$("#details").style.display = "none";
+        }
+		function ParseChar(sender,e){
+			var c = sender.value;
+			if(c!==""){
+				$$("#charCode").value = c.charCodeAt(0);
+			}
+		}
+        function showDetails(e) {
+            var str = "";
+            var obj = e.srcElement;
+            if(obj.tagName.toLowerCase()!="td"){
+                closeDetails();
+                return;
+            }
+            if (obj.className == "c1") {//字符
+                str = obj.innerHTML;
+            } else {//编码
+                //str = "&#" + obj.innerHTML + ";";
+                return;
+            }
+            var detail = $$("#details");
+            detail.innerHTML = str;
+            detail.style.left = e.clientX+30;
+            detail.style.top = e.clientY-30;
+            detail.style.display = "block";
+        }
+    </script>
+    <style>
+        .c1 {
+            font-size: 12px;
+            height: 30px;
+            color: #000000;
+            font-family: arial;
+            padding-right: 5px;
+            cursor:pointer;
+        }
+
+        .c2 {
+            font-size: 9px;
+            font-family: arial;
+            color: #00cc00;
+        }
+        .c2:hover {
+            font-size: 9px;
+            font-family: arial;
+            color: #00aa00;
+            background-color:#eeeeee;
+
+        }
+
+        INPUT {
+            font-size: 11px;
+            border: 1px inset #ffffff;
+            background-color: #ffffa0;
+        }
+
+        BUTTON {
+            font-size: 11px;
+            border: 1px outset #ffffff;
+        }
+        .details{
+            font-size:40px;
+            width:60px;
+            text-align:center;
+            border:4px solid #cccccc;
+            background-color:#ffffff;
+            color:#000000;
+            padding:5px 5px 5px 5px;
+            display:none;
+            position:absolute;
+        }
+    </style>
+</HEAD>
+
+<BODY onload="pageOnLoad()">
+<div title="content">
+    <div style="height:30px;padding-top:5px;padding-left:10px;font-size:11px;border:1px solid #aaaaaa;background-color:#eeeeee">
+        Step:<input id="step" size="5" value="300"/>
+        From:<input id="min" size="5" value="1"/>
+        To:<input id="max" size="5" style="background-color:#eeeeee" value="500" disabled="true" readonly="readonly"/>
+        <button onclick="prev()">&#9668;&#9668;Prev</button>
+        <button onclick="next()">Next&#9658;&#9658;</button>
+		&nbsp;
+		Char2Code:<input id="char" size="5" value="" onpropertychange="ParseChar(this,event);" />
+		<input id="charCode" size="5" value=""   style="background-color:#eeeeee"  disabled="true" readonly="readonly"/>
+    </div>
+    <div id="list" style="line-height:18px;background-color:#ffffff;border:1px solid #aaaaaa;">
+    </div>
+    <span id="details" class="details"></span>
+</div>
+</BODY>
+</HTML>
+

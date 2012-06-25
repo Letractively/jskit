@@ -1,0 +1,344 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>JskitValidation</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    <script src="../../release/jskit.core.js">
+    </script>
+    <script src="../JskitConfig_doc.js">
+    </script>
+</head>
+<body>
+<table border="0" id="Table1">
+<tbody>
+<tr>
+    <td class="package">
+        JskitValidation.js
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        <font color="#ff9900">
+            Author:
+        </font>
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        AnyRock
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        Initializtion:
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        var xxx = new JskitValidation("xxx");
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        Required:
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        base/JskitBase.js
+        <br/>
+        base/JskitUtil.js
+        <br/>
+        base/JskitXml.js
+        <br/>
+        base/JskitEvents.js
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        Attributes:
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        无
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        Methods:
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        <table border="1" cellspacing="0" class="content_list" id="Table3">
+            <tbody>
+            <tr bgcolor="#cccccc">
+            <tr bgcolor="#cccccc">
+                <td>
+                    Name
+                </td>
+                <td>
+                    Parameters
+                </td>
+                <td>
+                    Return
+                </td>
+                <td>
+                    Comment
+                </td>
+            </tr>
+            </tr>
+            <tr>
+                <td>
+                    setDisplay
+                </td>
+                <td>
+                    String
+                </td>
+                <td>
+                </td>
+                <td>
+                    alert:alert方式
+                    <br/>
+                    before:在验证对象之前显示错误信息
+                    <br/>
+                    after:在验证对象之后显示错误信息
+                    <br/>
+                    up:在验证对象的上方显示错误信息
+                    <br/>
+                    down:在验证对象的下方显示错误信息
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    setDisplayer
+                </td>
+                <td>
+                    Object
+                </td>
+                <td>
+                </td>
+                <td>
+                    在指定的对象内显示验证信息，如果设置该对象，setDisplay，setErrorCssClass，setErrorStyleStringMethods:设定的值将无效
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    setErrorCssClass
+                </td>
+                <td>
+                    string
+                </td>
+                <td>
+                </td>
+                <td>
+                    错误信息的css定义
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    setErrorStyleString
+                </td>
+                <td>
+                    string
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    错误信息的css样式
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    load
+                </td>
+                <td>
+                    Array[][]
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    装载指定页面中要验证的表单项
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    loadXml
+                </td>
+                <td>
+                    xmlFilePath
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    通过XML文件装载要验证的表单项
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    deploy
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    执行经过dataAttributes:部署的验证，适宜在页面装在完成后自动执行
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    check
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    由表单对象事件触发该Methods:，对该表单进行验证；
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    checkAll
+                </td>
+                <td>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    对已经设定的所有表单对象进行验证，适宜由form的onsubmit事件触发
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    isMatch(String rValue,String rPattern, boolean rG, boolean rI)
+                </td>
+                <td>
+                    rValue : 要校验的值
+                    <br>rPattern : 正则表达式
+                    <br>rG : global
+                    <br>rI : case sencitive
+                </td>
+                <td>
+                    boolean
+                </td>
+                <td>
+                    校验某值是否符合正则表达式
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    setAlertFunction(Function func)
+                </td>
+                <td>
+                    func: 处理提示的自定义方法
+                </td>
+                <td>
+                    boolean
+                </td>
+                <td>
+					该方法只在display方式为alert时才有效。
+					<br />自定义的方法必须有两个参数：
+					<br />HTMLObject obj: 触发校验的表单对象
+					<br />String msg: 错误信息
+					<br />如果没有设置自定义方法，则使用js的alert方法
+                </td>
+            </tr>
+			</tbody>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        使用Comment
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        一、使用load()Methods:，从数组中装载表单项
+        <textarea name="JskitSyntax_code" class="js">
+            //通过定义一个二维数组的方式，设置表单项的验证
+            JskitValidation.load(new Array(
+            new Array(validator,filedXPath,errMessage,pattern,camparedFiledXPath,compareExpression),
+            new Array(validator,filedXPath,errMessage,pattern,camparedFiledXPath,compareExpression),
+            ....
+            ));
+            //validator值必须为以下几个值之一，目前JskitValidation支持如下validator:
+            //【query】 : 通过自定义的Methods:验证，该Methods:适宜验证需要后台交互的表单项，如检查用户名是否存在。注意：
+            // 1)your_method替换为你的Methods:名
+            // 2)该Methods:只有一个Parameters：被验证对象
+            // 3)Return值为错误信息，如果为空串或null，表示验证无错误，否则，显示错误信息。
+            new Array("query","#filedId","","checkUsername()","",""),
+
+            //【required】 : 是否填写了数据
+            new Array("required", "#filedId","请输入密码","","",""),
+
+            //【compare】 : 是否两个输入的内容相等
+            new Array("compare", "#filedId", "两次输入的密码不一致","","#filedId2","=="),
+
+            //【equal】 : 是否两个输入的内容相等
+            new Array("equal", "#filedId", "两次输入的密码不一致","","#filedId2",""),
+
+            //【regex】 : 是否符合制定的格式,pattern替换为你的正则表达式
+            new Array("regex","#filedId","错误格式的xxx","^[1-9]\\d{7}$","","")
+
+            //【integer】 : 是否为整数
+            new Array("integer","#filedId","错误格式的xxxx","","",""),
+
+            //【float】 : 是否为浮点数
+            new Array("integer","#filedId","错误格式的xxxx","","",""),
+
+            //【email】 : 是否为有效的email
+            new Array("email","#filedId","错误格式的Email","","",""),
+
+            //【check】 : 特殊为checkbox 和radio button准备，检查是否选择了表单项
+            new Array("check","@group","请选择xxx","","",""),
+
+            //【money】 : 是否是金额格式，固定两位小数的数值
+            new Array("money","$filedId","错误格式的xxx","","",""),
+        </textarea>
+        二、如果使用loadXmlMethods:，从xml文件装载Configuation:项，xml的格式如下：
+        （黄色字部分为可改动的数据）
+<pre style="background-color:#336699;width:300px;"><font color="#ffffff">&lt;field&gt;
+    &lt;xpath&gt;<font color="#ffff00">#txtUsername</font>&lt;/xpath&gt;
+    &lt;validator&gt;<font color="#ffff00">requied</font>&lt;/validator&gt;
+    &lt;pattern&gt;&lt;/pattern&gt;
+    &lt;compare&gt;&lt;/compare&gt;
+    &lt;message&gt;<font color="#ffff00">请输入用户名</font>&lt;/message&gt;
+    &lt;expression&gt;&lt;/expression&gt;
+    &lt;/field&gt;
+    &lt;field&gt;
+    &lt;xpath&gt;<font color="#ffff00">#txtPassword2</font>&lt;/xpath&gt;
+    &lt;validator&gt;<font color="#ffff00">compare</font>&lt;/validator&gt;
+    &lt;pattern&gt;&lt;/pattern&gt;
+    &lt;compare&gt;<font color="#ffff00">#txtPassword1</font>&lt;/compare&gt;
+    &lt;message&gt;<font color="#ffff00">两次输入的密码不匹配</font>&lt;/message&gt;
+    &lt;expression&gt;<font color="#ffff00">==</font>&lt;/expression&gt;
+    &lt;/field&gt;</font></pre>
+    </td>
+</tr>
+<tr>
+    <td class="title">
+        Example:
+    </td>
+</tr>
+<tr>
+    <td class="content">
+        <a href="../demo/demo_JskitValidation.html">JskitValidation.js Demo</a>
+    </td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

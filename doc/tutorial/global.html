@@ -1,0 +1,218 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>Global</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+    <script>
+		var global1 = new JskitTable();   
+		global1.setTableCssClass("tableCssClass");   
+		global1.setTHeadCssClass("theadCssClass");   
+		global1.setTBodyCssClass("tbodyCssClass");   
+		  
+		global1.setColumns("Name","Type","Value","Comment");   
+		  
+		global1.insert("jskitLoad","JskitLoad()","Object","文件加载器");   
+		global1.insert("jskitBase","JskitBase()","Object","JskitBase类");   
+		global1.insert("$jvm","Map","Array","登记浏览器特性");   
+		global1.insert("$$()","JskitObject()","Object","封装HTML Object");   
+		global1.insert("$t","","Function","用来判断数据类型的方法类");
+		global1.insert("$import", "", "Function", "用来加载js和css文件");
+		global1.insert("jskitUtil", "JskitUtil()", "Object", "常用Methods:");   
+		global1.insert("jskitEvents","JskitEvents()","Object","事件处理");   
+		global1.insert("jskitXml","JskitXml()","Object","Xml装载器");   
+		global1.insert("jskitDynamic","JskitDynamic()","Object","拖动/移动");   
+		global1.insert("jskitLog","JskitLog()","Object","调试工具");   
+		
+		//-------------------------------------------------------------------------------------------------/
+	</script>
+	<style>   
+	    TABLE.tableCssClass{   
+	        border:#aaaaaa solid 1px;   
+	        border-collapse:collapse; 
+	    }   
+	    TABLE.tableCssClass TD{   
+	        border:#cccccc solid 1px;   
+	        font-family:verdana;
+	    }   
+	    THEAD.theadCssClass TD{   
+	        font-size:13px;   
+	        font-weight:bold;   
+	        color:#ffffff;
+			background-color:#336699;   
+	        text-align:center;   
+	        border-collapse:collapse;   
+	        padding:5px 5px 5px 5px;   
+	    }   
+	    TBODY.tbodyCssClass TD{   
+	        font-size:12px;   
+	        padding:5px 5px 5px 5px;   
+	    }   
+	    .btnDeleteCssClass {   
+	        font-size:11px;   
+	        height:18px;   
+	        border:1px outset #f6f6f6;   
+	    }   
+	</style>  
+	</head>
+	<body>
+	<font class="package">Global definition</font>
+	<div id="JskitGlobalIndex_displayer">
+		<script>global1.out();</script>
+	</div>
+    <table border="0" id="Table1">
+        <tr>
+            <td class="package">
+                $t
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                检查对象类型的类
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+            <table border="1" cellspacing="0" class="content_list" id="Table2">
+                <tr bgcolor="#cccccc">
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Parameters
+                    </td>
+                    <td>
+                        Return
+                    </td>
+                    <td>
+                        Comment
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        $t.isUndefined(v)
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是undefined类型
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        $t.isString(v)
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是string类型
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        $t.isNumber(v)
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是数字类型
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        $t.isFunction(v)
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是方法类型
+                        <br />var a = Func();a是Function类型
+                        <br />var a = new Func(),a是Object类型。
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       $t.isObject(v)
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是对象
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        $t.isHTMLElement(v)
+                    </td>
+                    <td>
+                       
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        是否是HTML对象
+                    </td>
+                </tr>
+                <tr>
+                     <td>
+                         $t.isDate(v)
+                     </td>
+                     <td>
+                         
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                        是否是日期时间类型
+                     </td>
+                 </tr>
+                <tr>
+                     <td>
+                         $t.isRegex(v)
+                     </td>
+                     <td>
+                         
+                     </td>
+                     <td>
+                     </td>
+                     <td>
+                        是否是正则表达式对象类型
+                     </td>
+                 </tr>
+			</table>
+		<tr>
+            <td class="package">
+                $import
+            </td>
+        </tr>
+        <tr>
+            <td class="title">
+                用来引入js和css文件
+            </td>
+        </tr>
+        <tr>
+            <td class="content">
+				<a href="JskitLoad.html">查看JskitImport.js参考</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

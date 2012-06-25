@@ -1,0 +1,169 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>JskitEvents.html</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../../release/jskit.core.js">
+        </script>
+        <script src="../JskitConfig_doc.js">
+        </script>
+    </head>
+    <body>
+        <table border="0" id="Table1" width="100%">
+            <tbody>
+                <tr>
+                    <td class="package">
+                        JskitDataSet.js
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        DataSet 数据对象
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Author:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        AnyRock
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Initializtion:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        var jskitDataSet = new JskitDataSet("jskitDataSet");
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        Required:
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        core/*
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">
+                        <font color="#ff6600">
+                            Methods:
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <table border="1" cellspacing="0" class="content_list" id="Table2">
+                            <tbody>
+                                <tr bgcolor="#cccccc">
+                                    <td>
+                                        Name
+                                    </td>
+                                    <td>
+                                        Parameters
+                                    </td>
+                                    <td>
+                                        Return
+                                    </td>
+                                    <td>
+                                        Comment
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        addColumn(rKey,rDefaultValue,rEmpty,rDistinct)
+                                    </td>
+                                    <td>
+                                        rKey: 字段Name(区分大小写)
+                                        <br>
+                                        rEmpty:是否允许空,缺省为true
+                                        <br>
+                                        rDistinct: 是否不允许重复，缺省为false(如果允许空，该Parameters被置为false)
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        增加一个列,如：
+                                        <br>
+                                        addColumn("name",false,true);//字段名name,不允许为空，不允许重复
+                                        <br>
+                                        addColumn("sex",false);//字段名sex，不允许为空，可以重复
+                                        <br>
+                                        addColumn("birthday");//字段名birthday，允许为空，可以重复
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        setColumn([column1][,column2][,column3]....)
+                                    </td>
+                                    <td>
+                                        [column1]...字段名
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        增加三个列,如：
+                                        <br>
+                                        addColumn("name","sex,"birthday);//字段名name,不允许为空，不允许重复
+                                        每个列的empty和distinctAttributes:均为缺省
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        insert([data1][,data2][,data3]....)
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        按列顺序，填入对应的数据,如：
+                                        <br>
+                                        insert("Edwon","Male","1900");//name,sex,birthday
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        row(rIndex)
+                                    </td>
+                                    <td>
+                                        rIndex: 行索引
+                                    </td>
+                                    <td>
+                                        Row()
+                                    </td>
+                                    <td>
+                                        得到一行
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        count()
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    	integer
+                                    </td>
+                                    <td>
+                                        Return行数
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

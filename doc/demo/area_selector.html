@@ -1,0 +1,147 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Demo::Date Selector::</title>
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+        <meta http-equiv="description" content="this is my page">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="../../release/jskit.core.js"></script>
+        <script src="../JskitConfig_doc.js"></script>
+        <script src="../../release/data/JskitAreaSelectorData.zh.cn.2011.js"></script>
+        <script>
+	var jasPop = new JskitAreaSelector("jasPop");
+	function doAreaSelect(){
+		jasPop.open({
+			data:JskitAreaSelectorData,//必须，区域数据
+			textFieldId : "txtArea",
+			valueFieldId : "hidArea",
+			startLevel:2,//可选，开始的级别，缺省为2;1:国家,2:省
+			endLevel:4,//可选，结束的级别，缺省为4;3:市,4:区县.同开始级别，如果结束在3级，则只选择到市，不再选择区县
+			separate:",",//可选，显示文本内容的分隔符，缺省为逗号
+			useKeyAsValue:false, //true:使用区域的代码,false:使用区域的名字		
+			onSelected : function(key,txtArray){
+				var _prov = txtArray[0];
+				var _city = txtArray[1];
+				alert("省:"+_prov+"\n市:"+_city);
+			}
+		});
+	}
+	var jasSelector = new JskitAreaSelector("jasSelector");
+	function PageOnLoad(){
+		jasSelector.select({
+			data:JskitAreaSelectorData,//必须，区域数据
+			selectFieldIdList:["ddlProvince","ddlCity","ddlDistrict"],
+			values:["","",""],//设置缺省值，在编辑时在这里为控件赋值
+			empty : {key:"",value:"--请选择--"},//如果不设置，则第一个下拉列表自动选中第一项
+			startLevel:2,//可选，开始的级别，缺省为2;1:国家,2:省
+			separate:",",//可选，显示文本内容的分隔符，缺省为逗号
+			useKeyAsValue:false, //true:使用区域的代码,false:使用区域的名字
+			onSelected : function(key,txtArray){
+				//设置在选择完成之后调用的方法，该方法被传递两个参数：
+				//key: 区域的Key
+				//txtArray: 选择区域的各级名称，根据startLevel来决定。
+				var _prov = txtArray[0];
+				var _city = txtArray[1];
+				var _dist = txtArray[2];
+				alert("省:"+_prov+"\n市:"+_city+"\n区县:"+_dist);
+			}
+		});
+	}
+        </script>
+    </head>
+    <body onload="PageOnLoad()">
+        <table border="0" id="Table1">
+            <tbody>
+                <tr>
+                    <td class="content">
+                        行政区域数据来自中国国家统计局官方（2011年）数据，下载地址：
+						<br>http://www.stats.gov.cn/tjbz/xzqhdm/t20100623_402652267.htm
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Package">
+                        选择国家地区
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Package">
+                        pop方式
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        区域名称：<input type="text" id="txtArea" />
+						<input type="button" value="Select" onclick="doAreaSelect()" />
+						<br>区域代码：<input type="text" id="hidArea" />
+					</td>
+                </tr>
+				<tr>
+					<td class="content">
+					<pre>
+var jasPop = new JskitAreaSelector("jasPop");
+function doAreaSelect(){
+	jasPop.open({
+		data:JskitAreaSelectorData,//必须，区域数据
+		textFieldId : "txtArea",
+		valueFieldId : "hidArea",
+		startLevel:2,//可选，开始的级别，缺省为2;1:国家,2:省
+		endLevel:4,//可选，结束的级别，缺省为4;3:市,4:区县.同开始级别，如果结束在3级，则只选择到市，不再选择区县
+		separate:",",//可选，显示文本内容的分隔符，缺省为逗号
+		useKeyAsValue:false, //true:使用区域的代码,false:使用区域的名字		
+		onSelected : function(key,txtArray){
+			var _prov = txtArray[0];
+			var _city = txtArray[1];
+			alert("省:"+_prov+"\n市:"+_city);
+		}
+	});
+}					</pre>
+					</td>
+				</tr>
+                <tr>
+                    <td height="30">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Package">
+                        级联方式
+                    </td>
+                </tr>
+                <tr>
+                    <td class="content">
+                        <select id="ddlProvince"></select>
+						<select id="ddlCity"></select>
+						<select id="ddlDistrict"></select>
+					</td>
+                </tr>
+				<tr>
+					<td class="content">
+					<pre>
+var jasSelector = new JskitAreaSelector("jasSelector");
+function PageOnLoad(){
+	jasSelector.select({
+		data:JskitAreaSelectorData,//必须，区域数据
+		selectFieldIdList:["ddlProvince","ddlCity","ddlDistrict"],
+		values:["","",""],//设置缺省值，在编辑时在这里为控件赋值
+		empty : {key:"",value:"--请选择--"},//如果不设置，则第一个下拉列表自动选中第一项
+		startLevel:2,//可选，开始的级别，缺省为2;1:国家,2:省
+		separate:",",//可选，显示文本内容的分隔符，缺省为逗号
+		useKeyAsValue:false, //true:使用区域的代码,false:使用区域的名字
+		onSelected : function(key,txtArray){
+			//设置在选择完成之后调用的方法，该方法被传递两个参数：
+			//key: 区域的Key
+			//txtArray: 选择区域的各级名称，根据startLevel来决定。
+			var _prov = txtArray[0];
+			var _city = txtArray[1];
+			var _dist = txtArray[2];
+			alert("省:"+_prov+"\n市:"+_city+"\n区县:"+_dist);
+		}
+	});
+}
+	</pre>
+					</td>
+				</tr>
+            </tbody>
+        </table>
+    </body>
+</html>

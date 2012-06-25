@@ -1,0 +1,85 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML  xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE> Jskit Test </TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+<script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+
+
+<script src="../../plugin/66988.net/JskitLottery.js"></script>
+<script>
+	jskitLottery.configuation.max = 33;
+	jskitLottery.configuation.full = 6;
+	jskitLottery.configuation.extMax = 16;
+	jskitLottery.configuation.switchId = "btn_lottery";
+	jskitLottery.configuation.returnId = "lottery_result";
+</script>
+<script src="test.js"></script>
+	<script>
+		var noteList = new Array();
+		function isSelectedNote(rNote){
+			for(var i=0;i<noteList.length;i++){
+				var same = true;
+				for(var j=0;j<rNote.length;j++){
+					if(rNote[j]!=noteList[i][j]){
+						same = false;
+						j=rNote.length;
+					}
+				}
+				if(same)return true;
+			}
+			return false;
+		}
+		function mutilNote(){
+			var max = parseInt($$("#txt_lottery_count").value);
+			if(isNaN(max))max=10;
+			var list = $$("#lottery_result_list");
+			list.value = "";
+			var count = 0;
+			while(count<max){
+				var numbers = jskitLottery.radomNumbers();
+				if(!isSelectedNote(numbers)){
+					noteList.push(numbers);
+					count++;
+					var str = "";
+					var first = true;
+					for(var i=1;i<numbers.length-1;i++){
+						if(numbers[i]==true){
+							if(first){
+								str += i;
+								first=false;
+							}else{
+								str += ","+i;
+							}
+						}
+					}
+					str += ":"+numbers[numbers.length-1];
+					list.value += str+"\n";
+				}
+			}
+		}
+		
+	</script>
+</HEAD>
+
+<BODY onload="">
+
+<div style="padding-left:20px;padding-top:20px">
+	<b>单注选择&nbsp;&nbsp;</b><br>
+	<input id="lottery_result" />
+	<input type="button" id="btn_lottery" value="选号" />
+</div>
+<div style="padding-left:20px;padding-top:20px">
+	<b>多注随机&nbsp;&nbsp;</b>
+	数量：<input type="text" id="txt_lottery_count" value="40" /><br>
+	<textarea id="lottery_result_list" rows="15" cols="30">
+	</textarea>
+	<input type="button" id="btn_lottery" value="选号" onclick="mutilNote()" />
+</div>
+<script>
+</script>
+</BODY>
+</HTML>
+

@@ -1,0 +1,155 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>JskitXmlHttp.html</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" type="text/css" href="../main.css">
+  	   <script src="../../release/jskit.core.js"></script>
+ 	   <script src="../JskitConfig_doc.js"></script>
+	</head>
+	<body>
+		<table border="0" id="Table1">
+			<tbody>
+				<tr>
+					<td class="package">
+						JskitXmlHttp.js
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						构造Ajax对象
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Author:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						AnyRock
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Initializtion:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Required:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						无
+					</td>
+				</tr>
+				<tr>
+					<td class="title">
+						Methods:
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<table border="1" cellspacing="0" class="content_list" id="Table2">
+							<tbody>
+								<tr bgcolor="#cccccc">
+									<td>
+										Name
+									</td>
+									<td>
+										Parameters
+									</td>
+									<td>
+										Return
+									</td>
+									<td>
+										Comment
+									</td>
+								</tr>
+								<tr>
+									<td>
+										JskitXmlHttp()
+									</td>
+									<td>
+									</td>
+									<td>
+										xmlhttp对象
+									</td>
+									<td>
+										见<a href="#e1">Example:1</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										JskitXmlHttpAction(String url,String function[,String resultType])
+									</td>
+									<td>
+										<table border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+											<tr>
+												<td>url:</td>
+												<td>提交的地址</td>
+											</tr>
+											<tr>
+												<td>function:</td>
+												<td>处理结果的Methods:(只有Methods:名,该Methods:只有一个Parameters,接收Return的数据)</td>
+											</tr>
+											<tr>
+												<td>resultType:</td>
+												<td>"text"|"dom",表示Return数据的类型,text为文本,dom表示xml dom.未设置时为text.</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										xmlhttp对象
+									</td>
+									<td>
+										见<a href="#e2">Example:2</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="code">
+						<a id="e1"></a>Example:1:
+						<textarea  name="JskitSyntax_code" class="js">
+							var ajax = new JskitXmlHttp();
+							ajax.open("get","test.asp",true);
+							ajax.send(null);
+							ajax.onreadystatechange = function(){
+								if(ajax.readyState==4){//The request is complete
+									var content = ajax.responseText;//Get text content
+									var xmlDoc=ajax.responseXML.documentElement;//Get xml dom
+								}else if(ajax.readyState==3){//The request is in process
+								}else if(ajax.readyState==2){//The request has been sent
+								}else if(ajax.readyState==1){//The request has been set up
+								}else if(ajax.readyState==0){//The request is not initialized
+								}
+							}
+						</textarea>
+						<br>
+						<a id="e2"></a>Example:2:
+						<textarea  name="JskitSyntax_code" class="js">
+							&lt;script&gt;
+								function showBlog(rData){//处理结果
+									//parse data
+								}
+								var ajax = new JskitXmlHttpAction("http://www.mending.cn/ibook/rss.aspx","showBlog","dom");
+							&lt;/script&gt;
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>  
+	</body>
+</html>

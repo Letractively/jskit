@@ -1,0 +1,54 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>Browsers</title>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+	 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../main.css" >
+    <script src="../../release/jskit.core.js"></script>
+    <script src="../JskitConfig_doc.js"></script>
+<script>
+	var jt = new JskitTable();   
+	jt.setTableCssClass("tableCssClass");   
+	jt.setTHeadCssClass("theadCssClass");   
+	jt.setTBodyCssClass("tbodyCssClass");  
+	
+	jt.setColumns("Browser","Version","CSS","DOM","ECMAScript","HTML","Javascript","SVG","WML","XHTML");
+
+	jt.insert("Opera","9.1","2.1","2","3","4.01","","1.1","2.0","1.1");
+	jt.insert("Firefox","2.0","2.1","","3","4.01","1.7","1.1","","1.1");
+	jt.insert("IE","6.0+","2.1","","3","4.01","","no","","");
+</script>
+<style>
+.tableCssClass{
+    BORDER-COLLAPSE:COLLAPSE;
+	width:100%;
+	border:1px solid #888888;
+}
+.theadCssClass td{
+	background-color:#336699;
+	border:1px solid #aaaaaa;
+	padding:2px 2px 2px 2px;
+	font-weight:bold;
+	color:#ffffff;
+}
+.tbodyCssClass TD{
+	color:#000000;
+	border:1px solid #aaaaaa;
+	padding:2px 2px 2px 2px;
+	vertical-align:top;
+}
+</style>
+	</head>
+	<body>
+	<div>
+	<font class="package">Browsers（整理中...)</font>
+	<script>
+		jt.out();
+	</script>
+	</div>
+
+
+</body>
+</html>
