@@ -11,7 +11,7 @@ var jskitBase = new function(){
     var __hd = "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "1.0.1.20120522(B)";
+    this.version = "1.0.1.20120628(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -368,7 +368,7 @@ var $t = new function () {
         return (typeof (v) === "undefined");
     };
     this.isArray = function (v) {
-        return (!this.isUndefined(v) && /Array/.test(a.constructor));
+        return (!this.isUndefined(v) && /Array/.test(v.constructor));
     };
     this.isDate = function (v) {
         return (!this.isUndefined(v) && /Date/.test(v.constructor));

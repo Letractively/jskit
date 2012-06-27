@@ -348,6 +348,9 @@ var JskitGridView = function (rHd) {
             alert("JskitGridView Error: \nData Body not found, maybe create object failed!");
             return;
         }
+    	if(!$t.isArray(__data)){
+    		return;
+    	}
         var _str = new Array();
         var _dataColIndex = null;
         var _pkValue = "";
