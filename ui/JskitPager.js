@@ -10,14 +10,12 @@
  *
  ******************************************************/
 var JskitPager =function(rHd){
-    __hd = rHd;
-    if (typeof(rHd) != "string" && typeof(JSKIT_ERROR) == "array") {
-        JSKIT_ERRORS.push("JskitPager:hd lost");
-    }
+    var __hd = (typeof(rHd) == "string")?rHd:"jskitPager";
+
     //public properties
     var __pageNo = 1;
     this.setPageNo = function(v){
-        __pageNo = v;
+        __pageNo = (isNaN(parseInt(v)) || parseInt(v)<1)?1:parseInt(v);
     };
     this.getPageNo = function(){
         return __pageNo;
@@ -25,7 +23,7 @@ var JskitPager =function(rHd){
 
     var __totalSize = 0;
     this.setTotalSize = function(v){
-        __totalSize = v;
+    	__totalSize = (isNaN(parseInt(v)) || parseInt(v)<1)?1:parseInt(v);
     };
     this.getTotalSize = function(){
         return __totalSize;
@@ -33,7 +31,7 @@ var JskitPager =function(rHd){
 
     var __pageSize = 1;
     this.setPageSize = function(v){
-        __pageSize = v;
+    	__pageSize = (isNaN(parseInt(v)) || parseInt(v)<1)?1:parseInt(v);
     };
     this.getPageSize = function(){
         return __pageSize;
@@ -46,32 +44,15 @@ var JskitPager =function(rHd){
 
     var __action = "#";
     this.setAction = function(v){
-        __action = v;
+        __action = ($t.isFunction(v))?v:void(0);
     };
 
-    var __cssNormal = "";
-    this.setCssNormal = function(v){
-        __cssNormal = v;
-    };
-
-    var __cssSelected = "";
-    this.setCssSelected = function(v){
-        __cssSelected = v;
-    };
-
-    var __cssDisabled = "";
-    this.setCssDisabled = function(v){
-        __cssDisabled = v;
-    };
     var __fpnlText = new Array("First", "Prev", "Next", "Last");
     this.setFpnlText = function(v){
         __fpnlText = v;
     };
-    var __cssFpnlText = new Array("First", "Prev", "Next", "Last");
-    this.setCssFpnlText = function(v){
-        __cssFpnlText = v;
-    };
     
+    var __url = "";
     //#Begin Private properties
     var __inputId = jskitUtil.guid();
     var __totalPages = 1;
@@ -80,18 +61,12 @@ var JskitPager =function(rHd){
     
     //#Begin Private methods
     var __gotoPage = function(rPage){
-        if (typeof(__action) != "string") {
-            alert("JskitPager: bad page action value,it must be a string!");
-            return;
+        if($t.isFunction(__action)){
+        	__action(rPage);
         }
-        var _h = __action.substr(0, __action.indexOf(":"));
-        _h = _h.toLowerCase();
-        if (_h == "javascript") {
-            eval(__action.replace(/\$1/gi, rPage));
-        }
-        else {
-            window.location.href = __action.replace(/\$1/gi, rPage);
-        }
+    	__url = __url.replace(/\{pageNo\}/gi, rPage-1);
+    	__url = __url.replace(/\{pageSize\}/gi, __pageSize);
+        window.location.href = __url;
     };
     var __pageInput = function(){
         return '<input type="text" id="' + __inputId + '" onkeypress="' + __hd + '.__gotoPage(this.value);" />';
@@ -101,16 +76,16 @@ var JskitPager =function(rHd){
             rText = rPage;
 		}
         if (rSelected===true) {
-            return '<a href="javascript:' + __hd + '.gotoPage(' + rPage + ')" class="' + __cssSelected + '">' + rText + '</a>';
+            return '<a href="javascript:' + __hd + '.gotoPage(' + rPage + ')" class="cur"><div>' + rText + '</div></a>';
         } else {
-            return '<a href="javascript:' + __hd + '.gotoPage(' + rPage + ')" class="' + __cssNormal + '">' + rText + '</a>';
+            return '<a href="javascript:' + __hd + '.gotoPage(' + rPage + ')" class="nor"><div>' + rText + '</div></a>';
         }
     };
     var __pageDisabled = function(rText){
-        return '<a href="javascript:" class="' + __cssDisabled + '">' + rText + '</a>';
+        return '<a href="javascript:" class="dis"><div>' + rText + '</div></a>';
     };
 	var __pageFpnlText = function(rText){
-        return '<span class="' + __cssFpnlText + '">' + rText + '</span>';
+        return '<span>' + rText + '</span>';
 	};
     var __fpnlContent = function(rPage){
         __init();
@@ -180,8 +155,27 @@ var JskitPager =function(rHd){
                 _str += __pageAction(__totalPages, null, false);
             }
         }
+       return _str;
+    };
+    var __baseContent = function(){
+    	return '共'+__totalSize+'条/每页'+__pageSize+'条';
+    };
+    var __buildContent = function(rPage){
+        var _str = '<div class="JskitPager"><table cellspacing="0" cellpadding="0">';
+        _str += '<tr>';
+        _str += '<td class="base">'+__baseContent()+'</td>';
+        _str += '<td>';    
+        if (__style == "number") {
+            _str += __numberContent(rPage);
+        } else {
+        	_str += __fpnlContent(rPage);
+        }
+        _str += '</td>';
+        _str += '</tr>';
+        _str += '</table></div>';
         return _str;
     };
+    
     var __init = function () {
         if (typeof (__pageNo) != "number") {
             __errors.push("bad value type of pageNo");
@@ -193,9 +187,6 @@ var JskitPager =function(rHd){
             __errors.push("bad value type of pageSize");
         }
         __totalPages = Math.ceil(__totalSize / __pageSize);
-        if (__fpnlText.length != 4) {
-            __errors.push("fpnlText must be a 4-length Array Object");
-        }
     };
     //#End
     
@@ -217,11 +208,23 @@ var JskitPager =function(rHd){
             }
             return _err;
         }
-        if (__style == "number") {
-            return __numberContent(rPage);
-        } else {
-            return __fpnlContent(rPage);
-        }
+        return __buildContent(rPage);
+    };
+    this.bind = function(dstObjId){
+    	var _obj = $$("#"+dstObjId);
+    	if(_obj!=null){
+    		_obj.innerHTML = this.outContent(__pageNo);
+    	}
+    	_obj = null;
     };
     //#End
+    this.init = function(json){
+    	__url = json.url;
+        this.setPageNo(json.pageNo);
+        this.setPageSize(json.pageSize);
+        this.setAction(json.action);
+        this.setTotalSize(json.total);
+        this.setStyle(json.style);
+        this.setFpnlText(json.fpnlText);
+    };
 };

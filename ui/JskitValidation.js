@@ -542,12 +542,13 @@ function JskitValidation(rHd){
 		    frm = $$("form")[0];
 		}
 		if(frm!=null){
-			var __oldSubmit = frm.submit;
-			frm.submit = function(){
-				var _bk = __checkAll();
-				if(_bk){__oldSubmit();}
-				else{return false;}
-			};
+			jskitEvents.add(frm,"onsubmit",__hd+".checkAll");
+//			var __oldSubmit = frm.submit;
+//			frm.submit = function(){
+//				var _bk = __checkAll();
+//				if(_bk){__oldSubmit();}
+//				else{return false;}
+//			};
 		}else{
 		    //alert("JskitValidation:onLoad:Form Element not found!");
 		    return true;
