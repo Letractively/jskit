@@ -11,93 +11,155 @@
  ******************************************************/
 var JskitDialog = function(rHd){
     var __hd = (typeof(rHd)=="string")?rHd:"jskitDialog";
-    var __TYPE = new function(){
-        this.ALERT = 0;
-        this.CONFIRM = 1;
+    var __mode = 0;//0:模态,1:非模态
+    var __position = null; //[0,0]顶点坐标和宽高
+    var __title = null;
+    var __content = null;
+    var __bodyWidth = null;
+    var __bodyHeight = null;
+    var __btnOkText = "OK";
+    var __btnCancelText = "Cancel";
+    var __onCallback = null;
+    var __panelId = jskitUtil.guid();
+    var __shadowId = jskitUtil.guid();
+    var __srcObjectId = null;
+    var __moveable = true;
+    //BEGIN: properties
+    this.setMode = function(v){
+    	__mode = (v===1)?1:0;
     };
-    //style----------
-    var __buttonCssClass = "";
-    var __panelCssClass = "";
-    //text-----------
-    var __txtOK = "OK";
-    var __txtCancel = "Cancel";
-    //---------------
-    var __moveAble = false;
-    
-    var __type = null;//dialog type
-    var __content = null;//dialog content
-    var __x = null;//dialog left position
-    var __y = null;//dialog top position
-    var __panel = null; //dialog
-    var __panelId = jskitUtil.guid();//dialog id
-    var __zIndex = 99999;
-    var __buildPanel = function(){
-        if(__panel==null){
-            __panel = document.createElement("div");
-            __panel.setAttribute("id",__panelId);
-            $$("body").appendChild(__panel);
-        }
-        __panel.style.display = "none";
-        __panel.style.position = "absolute";
-        __panel.style.zIndex = __zIndex;
+    this.setContent = function(v){
+    	if(typeof(v)!="undefined"){
+    		__content = v;
+    	}
     };
-    var __setPanelStyle = function(){
-        __panel.style.className = __panelCssClass;
-        if(__x!=null){
-            __panel.style.left = __x;
-        }
-        if(__y!=null){
-            __panel.style.top = __y;
-        }
+    this.setSrcObjectId = function(v){
+    	__srcObjectId = ($t.isString(v))?v:null;
     };
-    var __fillPanel = function(){
-        __panel.innerHTML = "";
-        if(__type==null){
-            __panel.innerHTML = __content;
-        }else if(__type==__TYPE.ALERT){
-            __panel.innerHTML = __content+'<div><button class="'+__buttonCssClass+'" onclick="'+__hd+'.onOK(this,event)">'+__txtOK+'</button></div>';
-        }
+    this.setBodyWidth = function(v){
+    	__bodyWidth = (isNaN(parseFloat(v)))?null:parseFloat(v);
     };
-    var __open = function(rContent,rX,rY){
-        __content = (typeof(rContent)=="string")?rContent:"";
-        __x = (typeof(rX)=="number")?rX:null;
-        __y = (typeof(rY)=="number")?rY:null;
-        __buildPanel();
-        __setPanelStyle();
-        __fillPanel();
-        __panel.style.display = "block";
-        
+    this.setBodyHeight = function(v){
+    	__bodyHeight = (isNaN(parseFloat(v)))?null:parseFloat(v);
+    };
+    this.setOkText = function(v){
+    	__btnOkText = (typeof(v)=="undefined")?"OK":v;
+    };
+    this.setCancelText = function(v){
+    	__btnCancelText = (typeof(v)=="undefined")?"Cancel":v;
+    };
+    this.setMoveable = function(v){
+    	__moveable = (v===true);
+    };
+    //END: properties
+
+    //BEGIN: private methods
+    var __parseTitle = function(){
+    	var _src = $$("#"+__srcObjectId);
+    	if($t.isString(__title)){
+    		return __title;
+    	}else{
+        	return ( (_src!=null) && $t.isString(_src.getAttribute("title")) )?_src.getAttribute("title"):"";
+    	}
+    };
+    var __buildDialog = function(){
+    	var _panel = $$("#"+__panelId);
+    	if(_panel==null){
+    		_panel = document.createElement("div");
+        	$$("body").appendChild(_panel);
+    		_panel.setAttribute("id",__panelId);
+    		_panel.style.zIndex = 100000;
+    		_panel.className = "JskitDialog";
+        	var _str = '<div id="'+__panelId+'_h" class="head">'+__parseTitle()+'<div class="btnClose" onclick="'+__hd+'.close()">X</div></div>';
+        	_str += '<div id="'+__panelId+'_b" class="body" style="width:'+__bodyWidth+'px;height:'+__bodyHeight+'px;overflow:auto;">';
+        	_str += '</div>';
+        	_str += '<div class="btnbar">';
+    		_str += '<a href="javascript:'+__hd+'.cancel()"><div>'+__btnCancelText+'</div></a>';
+    		_str += '<a href="javascript:'+__hd+'.ok()"><div>'+__btnOkText+'</div></a>';
+        	_str += '</div>';
+        	_panel.innerHTML = _str;
+        	if(__srcObjectId!=null){
+            	$$("#"+__panelId+"_b").appendChild($$("#"+__srcObjectId));
+        	}else{
+            	$$("#"+__panelId+"_b").innerHTML = __content;
+        	}
+        	if(__position==null){
+        		jskitUtil.doc.centre(_panel);
+        	}else{
+        		_panel.style.position = "absolute";
+        		_panel.style.left = __position[0]+"px";
+        		_panel.style.top = __position[1]+"px";
+        	}
+        	if(__moveable){
+        		jskitDynamic.add("#"+__panelId);
+        		jskitDynamic.play();
+        	}
+    	}
+    	_panel.style.display = "block";
+    };
+    var __buildShadow = function(){
+    	var _shadow = $$("#"+__shadowId);
+    	if(_shadow==null){
+    		_shadow = document.createElement("div");
+    		_shadow.setAttribute("id",__shadowId);
+    		_shadow.style.zIndex = 99999;
+    		_shadow.className = "JskitDialogShadow";
+    	}
+    	_shadow.style.position = "absolute";
+    	_shadow.style.width = "100%";
+    	_shadow.style.height = "100%";
+    	_shadow.style.top = "0px";
+    	_shadow.style.left = "0px";
+    	_shadow.style.display = "block";
+    	$$("body").appendChild(_shadow);
+    };
+    var __show = function(){
+    	__buildDialog();
+    	if(__mode===0){
+    		__buildShadow();
+    	}
     };
     var __close = function(){
-        if(__panel!=null){
-            __panel.style.display = "none";
-        }
+    	if($$("#"+__panelId)!=null){$$("#"+__panelId).style.display = "none";}
+    	if($$("#"+__shadowId)!=null){$$("#"+__shadowId).style.display = "none";}
     };
-    //events
-    var __onOK = function(sender,e){
-        __close();
-        return true;
+    //END: private methods
+    
+    //BEGIN: action
+    this.close = function(){
+    	__close();
     };
-    var __onCancel = function(sender,e){
-        __close();
-        return false;
+    this.ok = function(){
+    	if($t.isFunction(__onCallback)){
+    		__onCallback(true);
+    	}
+    	__close();
     };
-    //public
-    this.setZIndex = function(v){
-        if(typeof(v)=="number"){__zIndex = v;}  
+    this.cancel = function(){
+    	if($t.isFunction(__onCallback)){
+    		__onCallback(false);
+    	}
+    	__close();
     };
-    this.open = function(rContent,rX,rY){
-        __type = null;
-        __open(rContent,rX,rY);
+    //BEGIN: action
+    
+    this.show = function(json){
+    	this.init(json);
+    	__show();
     };
-    this.alert = function(rContent,rX,rY){
-        __type = __TYPE.ALERT;
-        __open(rContent,rX,rY);
+    this.open = function(){
+    	__show();
     };
-    this.onOK = function(sender,e){
-        __onOK(sender,e);
-    };
-    this.onCancel = function(sender,e){
-        __onCancel(sender,e);
+    this.init = function(json){
+    	__title = json.title;
+    	this.setOkText(json.ok);
+    	this.setCancelText(json.cancel);
+    	this.setBodyWidth(json.width);
+    	this.setBodyHeight(json.height);
+    	this.setMode(json.mode);//设置是否为模态
+    	this.setSrcObjectId(json.src);//设置对话框显示内容的原始对象
+    	this.setContent(json.content);
+    	this.setMoveable(json.moveable);
+    	__onCallback = json.callback;
     };
 };
