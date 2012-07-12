@@ -161,57 +161,83 @@ var JskitAreaSelector = function (rHd) {
     		__ddls[i].setAttribute("idx",i);
     		jskitEvents.add(__ddls[i],"onchange",__hd+".__onNextSelect");
     	}
-    	__renderDddl(0);
-    	__ddlsFresh(1);
+    	__renderDdl(0);
+    	if(__ddlEmpty==null){
+    		__ddlsFresh(1);
+    	}
     };
-    var __renderDddl = function(ddlIdx){
+    var __appendOption = function(ddl,k,v,idx){
+    	var _opr = document.createElement("option");
+    	_opr.value = k;
+    	_opr.text = v;
+		_opr.setAttribute("idx",idx);
+    	try{ddl.add(_opr,null);}
+    	catch(ex){ddl.add(_opr);}
+    };
+    var __cleanDdl = function(ddl){
+    	if(ddl==null){return;}
+    	while(ddl.options.length>0){
+    		ddl.remove(0);
+    	}
+    };
+    var __renderDdl = function(ddlIdx){
 		var _ddl = __ddls[ddlIdx];
-    	var _str = [];
-    	var _val = null;
+		__cleanDdl(_ddl);
     	var _data = __loadData();
 		if(_data==null){
-			_ddl.innerHTML = "";
+			for(var i=0;i<_ddl.options.length;i++){
+				_ddl.remove(_ddl.options.length-1);	
+			}
 			_ddl = null;
 			return;
 		}
+		var _val = null;
     	var _currentVal = __loadValue();
+    	var _opr = null;
 		if(ddlIdx===0 && __ddlEmpty!=null){
-			_str.push('<option value="'+__ddlEmpty.key+'">'+__ddlEmpty.value+'</option>');
+			__appendOption(_ddl,__ddlEmpty.key,__ddlEmpty.value,null);
 		}
+		var _activeIdx = -1;
     	for(var i=0;i<_data.length;i++){
     		_val = (__useKeyAsValue===true)?_data[i][0]:_data[i][1];
-    		if(_currentVal==_val){
-        		_str.push('<option value="'+_val+'" idx="'+i+'" selected="selected">'+_data[i][1]+'</option>');
-    		}else{
-        		_str.push('<option value="'+_val+'" idx="'+i+'">'+_data[i][1]+'</option>');
-    		}
+			__appendOption(_ddl,_val,_data[i][1],i);
+			if(_currentVal===_val){_activeIdx=i};
     	}
-    	_ddl.innerHTML = _str.join('');
-    	_ddl = _str = _data = _currentVal = _val = null;
+    	if(_activeIdx>-1){
+    		_ddl.selectedIndex = _activeIdx;
+    	}
+    	_ddl = _opr = _data = _activeIdx = _currentVal = _val = null;
     };
     var __ddlsFresh = function(ddlIdx){
     	for(var d=ddlIdx;d<__ddls.length;d++){
     		__resetPathBySelectChange(d-1);
-            __renderDddl(d);
+            __renderDdl(d);
     	}
     	__resetPathBySelectChange(__ddls.length-1);
-   };
+    };
     
     
     var __resetPathBySelectChange = function(ddlIdx){
     	__path = __path.slice(0, __startLevel+ddlIdx-1);
-    	var opr = __ddls[ddlIdx].options[__ddls[ddlIdx].selectedIndex];
-		var idx = (typeof(opr)=="object")?opr.getAttribute("idx"):null;
-		if(idx!=null && !isNaN(parseInt(idx))){
-			idx = parseInt(idx);
-		}
-	    __path.push(idx);
+    	var _ddl = __ddls[ddlIdx];
+    	var _pidx = _ddl.selectedIndex;
+    	if(_pidx<0){
+    		__path.push(null);
+    	}else{
+        	var _opr = _ddl.options[_pidx];
+    		var idx = (typeof(_opr)=="object" )?parseInt(_opr.getAttribute("idx")):null;
+    		if(idx!=null && !isNaN(idx)){
+        	    __path.push(idx);
+    		}else{
+    			__path.push(null);
+    		}
+    	}
     };
     this.__onNextSelect = function(e){
     	var ddlIdx = parseInt(e.srcElement.getAttribute("idx"));
     	__resetPathBySelectChange(ddlIdx);
     	for(var i=ddlIdx+1;i<__ddls.length;i++){
-    		__ddls[i].innerHTML = "";
+    		__cleanDdl(__ddls[i]);
     	}
 		__ddlsFresh(ddlIdx+1);
 		this.__onSelected();
