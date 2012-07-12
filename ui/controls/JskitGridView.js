@@ -29,13 +29,26 @@ var JskitGridView = function (rHd) {
     };
     var __pageIndex = 1;
     this.setPageIndex = function (v) {
-        __pageIndex = (!isNaN(parseInt(v)) && v > 0) ? v : 1;
+    	__pageIndex = (isNaN(parseInt(v)) || parseInt(v)<__pagerStartIndex)?__pagerStartIndex:parseInt(v);
+        __pageIndex = (__pagerStartIndex==0)?__pageIndex+1:__pageIndex;
     };
     var __pagerVisiable = true;
     this.setPagerVisiable = function (v) {
         __pagerVisiable = (v !== false && v !== 0 && v !== "no");
     };
-
+    
+    var __pagerStartIndex = 0;
+    this.setPagerStartIndex = function(v){
+    	__pagerStartIndex = (v===0)?0:1;
+    };
+    
+    var __pagerUrl = null;
+    this.setPagerUrl = function(v){
+    	__pagerUrl = v;
+    };
+    
+    
+    
     var __data = null;
     var __oriData = null;
     this.setData = function (v) {
@@ -91,6 +104,10 @@ var JskitGridView = function (rHd) {
     var __dataCanvasId = jskitUtil.guid();
     var __pagerCanvas = null;
     var __pagerCanvasId = jskitUtil.guid();
+    var __pagerHandler = null;
+    this.setPagerHandler = function(v){
+    	__pagerHandler = (typeof(v)=="object")?v:null;
+    };
     var __rowIdPrefix = jskitUtil.guid();
     var __cbIdPrefix = jskitUtil.guid();
     var __topCbId = jskitUtil.guid();
@@ -115,7 +132,7 @@ var JskitGridView = function (rHd) {
     this.setBodyCss = function (v) {
         __bodyCss = __initStrValue(v, "");
     };
-
+    
     var __pagerCss = "";
     this.setPagerCss = function (v) {
         __pagerCss = __initStrValue(v, "");
@@ -134,7 +151,7 @@ var JskitGridView = function (rHd) {
     /*BEGIN Const def */
     var __ENUM = {
         COL_TYPE: { DATA: "data", CHECK: "check", INDEX: "index", EDIT: "edit" },
-        ACTION: { D: "d", U: "u", R: "r" }
+        ACTION: { D: "d", U: "u", R: "r",P:"p" }
     };
 
     var __TXT = {
@@ -191,21 +208,15 @@ var JskitGridView = function (rHd) {
                 _str.push('<div>' + __TXT.PAGE.P + '</div>');
             } else {
                 _str.push('<a href="javascript:' + __hd + '.onPageChange(1)"><div>' + __TXT.PAGE.F + '</div></a>');
-                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + (i - 1) + ')"><div>' + __TXT.PAGE.P + '</div></a>');
+                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + (__pageIndex - 1) + ')"><div>' + __TXT.PAGE.P + '</div></a>');
             }
-            for (var i = 1; i <= _pageCount; i++) {
-                if (__pageIndex != i) {
-                    _str.push('<a href="javascript:' + __hd + '.onPageChange(' + i + ')"><div>' + i + '/'+_pageCount+'</div></a>');
-                } else {
-                    _str.push('<div>' + i + '/'+_pageCount+'</div>');
-                }
-            }
+            _str.push('<div>' + __pageIndex + '/'+_pageCount+'</div>');
             if (__pageIndex == _pageCount) {
                 _str.push('<div>' + __TXT.PAGE.N + '</div>');
                 _str.push('<div>' + __TXT.PAGE.L + '</div>');
             } else {
-                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + _pageCount + ')"><div>' + __TXT.PAGE.N + '</div></a>');
-                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + (i + 1) + ')"><div>' + __TXT.PAGE.L + '</div></a>');
+                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + (__pageIndex + 1) + ')"><div>' + __TXT.PAGE.N + '</div></a>');
+                _str.push('<a href="javascript:' + __hd + '.onPageChange(' + _pageCount + ')"><div>' + __TXT.PAGE.L + '</div></a>');
             }
             _str.push('</div>');
             return _str.join('');
@@ -247,7 +258,7 @@ var JskitGridView = function (rHd) {
         }
         _str.push('<table cellspacing="' + __lineWidth + '" cellpadding="0" border="0" class="' + __tableCss + '">');
         _str.push('<thead class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</thead>');
-        _str.push('<tbody class="' + __attrFilter(__bodyCss) + '" id="' + __dataCanvasId + '"></tbody>');
+        _str.push('<tbody class="' + __attrFilter(__bodyCss) + '" id="' + __dataCanvasId + '">'+__buildDataBody()+'</tbody>');
         if(__footerVisiable===true){
         	_str.push('<tfoot class="' + __attrFilter(__footCss) + '">' + __buildFootContent() + '</tfoot>');
         }
@@ -342,12 +353,7 @@ var JskitGridView = function (rHd) {
         }
         return template;
     };
-    var __dataBind = function () {
-    	__dataCanvas = $$("#" + __dataCanvasId);
-    	if (__dataCanvas == null) {
-            alert("JskitGridView Error: \nData Body not found, maybe create object failed!");
-            return;
-        }
+    var __buildDataBody = function () {
     	if(!$t.isArray(__data)){
     		return;
     	}
@@ -392,13 +398,14 @@ var JskitGridView = function (rHd) {
             }
         }
         _str.push('</tr>');
-        __dataCanvas.innerHTML = _str.join('');
-        _str = null;
-        if (__pagerVisiable === true) {
-            __flushPager();
-        }
+        return _str.join('');
     };
     var __flushPager = function () {
+    	/*
+    	if(__pagerHandler!=null){
+            __pagerHandler.bind(__pagerCanvasId);
+    	}
+    	*/
         __pagerCanvas = $$("#" + __pagerCanvasId);
         if (__pagerCanvas == null) {
             alert("JskitGridView Error: \nPager box not found, maybe create object failed!");
@@ -450,6 +457,15 @@ var JskitGridView = function (rHd) {
             __loadingBox.style.display = "none";
         }
     };
+    var __fixPageIndex = function(idx){
+    	return (__pagerStartIndex===0)?(idx-1):idx;
+    };
+    var __draw = function(){
+    	__canvas.innerHTML = __buildTable();
+        if (__pagerVisiable === true) {
+            __flushPager();
+        }
+    };
     var __action = function (type, rowIndex) {
         var _url = null;
         if (type == __ENUM.ACTION.R) {
@@ -458,7 +474,7 @@ var JskitGridView = function (rHd) {
                 __showLoading();
                 __ajax = JskitXmlHttpAction(_url, __hd + ".__loadCallback", "text");
             } else {
-                __dataBind();
+                __draw();
             }
         } else if ((type == __ENUM.ACTION.D) || (type == __ENUM.ACTION.U)) {
             _url = __getActionUrl(type, rowIndex);
@@ -466,8 +482,13 @@ var JskitGridView = function (rHd) {
                 __showLoading("Processing...");
                 __ajax = JskitXmlHttpAction(_url, __hd + ".__actionCallback", "text");
             } else {
-                __dataBind();
+                __draw();
             }
+        } else if(type==__ENUM.ACTION.P){
+        	var _url = __pagerUrl;
+        	_url = _url.replace(/\{page\}/gi,__fixPageIndex(__pageIndex));
+        	_url = _url.replace(/\{pageSize\}/gi,__pageSize);
+        	window.location.href = _url;
         }
     };
     /*END Private methods */
@@ -494,7 +515,7 @@ var JskitGridView = function (rHd) {
     };
     this.onPageChange = function (newPageIndex) {
         __pageIndex = newPageIndex;
-        __action(__ENUM.ACTION.R);
+        __action(__ENUM.ACTION.P);
         return false;
     };
     this.onRowDelete = function () {
@@ -565,7 +586,7 @@ var JskitGridView = function (rHd) {
                 return;
             }
         }
-        __dataBind();
+        __draw();
     };
     this.getRowElementByPk = function (rPkValue) {
         return $$("#" + __getRowId(rPkValue));
@@ -594,7 +615,6 @@ var JskitGridView = function (rHd) {
             alert("JskitGridView Error: Cavans not found!");
             return;
         }
-        __canvas.innerHTML = __buildTable();
         this.load();
     };
     this.init = function () {
@@ -608,13 +628,27 @@ var JskitGridView = function (rHd) {
         this.setFootCss(json.cssFoot);
         this.setHeadCss(json.cssHead);
         this.setBodyCss(json.cssBody);
-        this.setPagerVisiable(json.pagerVisiable);
-        this.setPageSize(json.pageSize);
-        this.setPageIndex(json.pageIndex);
-        this.setPagerCss(json.cssPager);
+        this.setTotalSize(json.total);
+        //pager
+        if($t.isObject(json.pager)){
+            this.setPagerVisiable(json.pager.visiable);
+            this.setPageSize(json.pager.size);
+            this.setPageIndex(json.pager.number);
+            this.setPagerCss(json.pager.css);
+            this.setPagerStartIndex(json.pager.start);
+            this.setPagerUrl(json.pager.url);
+            this.setPagerHandler(json.pager.handler);
+        }else{
+            this.setPagerVisiable(false);
+            this.setPageSize(0);
+            this.setPageIndex(1);
+            this.setPagerCss(null);
+            this.setPagerUrl(null);
+            this.setPagerHandler(null);
+        }
+
         this.setAutoUpdate(json.autoUpdate);
         this.setEditable(json.editable);
-        this.setTotalSize(json.total);
         __queryParams = json.queryParams;
         __queryUrl = __initStrValue(json.queryUrl, null);
         __deleteUrl = __initStrValue(json.deleteUrl, null);

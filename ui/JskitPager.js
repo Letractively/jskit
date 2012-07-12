@@ -12,10 +12,16 @@
 var JskitPager =function(rHd){
     var __hd = (typeof(rHd) == "string")?rHd:"jskitPager";
 
+    
     //public properties
-    var __pageNo = 1;
+    var __startIndex = 0;
+    this.setStartIndex = function(v){
+    	__startIndex = (v===1)?1:0;
+    };
+    var __pageNo = null;
     this.setPageNo = function(v){
-        __pageNo = (isNaN(parseInt(v)) || parseInt(v)<1)?1:parseInt(v);
+        __pageNo = (isNaN(parseInt(v)) || parseInt(v)<__startIndex)?__startIndex:parseInt(v);
+        __pageNo = (__startIndex==0)?__pageNo+1:__pageNo;
     };
     this.getPageNo = function(){
         return __pageNo;
@@ -61,12 +67,13 @@ var JskitPager =function(rHd){
     
     //#Begin Private methods
     var __gotoPage = function(rPage){
+    	var _page = (__startIndex==0)?rPage-1:rPage;
         if($t.isFunction(__action)){
-        	__action(rPage);
+        	__action(_page);
         }
-    	__url = __url.replace(/\{pageNo\}/gi, rPage-1);
-    	__url = __url.replace(/\{pageSize\}/gi, __pageSize);
-        window.location.href = __url;
+    	var _url = __url.replace(/\{page\}/gi, _page);
+    	_url = _url.replace(/\{pageSize\}/gi, __pageSize);
+        window.location.href = _url;
     };
     var __pageInput = function(){
         return '<input type="text" id="' + __inputId + '" onkeypress="' + __hd + '.__gotoPage(this.value);" />';
@@ -80,6 +87,9 @@ var JskitPager =function(rHd){
         } else {
             return '<a href="javascript:' + __hd + '.gotoPage(' + rPage + ')" class="nor"><div>' + rText + '</div></a>';
         }
+    };
+    var __pageSuspension = function () {
+        return '<a href="#" class="susp"><div>...</div></a>';
     };
     var __pageDisabled = function(rText){
         return '<a href="javascript:" class="dis"><div>' + rText + '</div></a>';
@@ -139,11 +149,11 @@ var JskitPager =function(rHd){
             for (var i = 1; i <= _ret; i++) {
                 _str += __pageAction(i, null, (i == __pageNo));
             }
-            _str += '...';
+            _str += __pageSuspension();
             _str += __pageAction(__totalPages, null, false);
         } else if (__pageNo >= _ret) {
             _str += __pageAction(1, null, false);
-            _str += '...';
+            _str += __pageSuspension();
             var _start = Math.floor(__pageNo / _ret) * _ret - 1;
             var _end = _start + _ret + 1;
             if (_end > __totalPages) _end = __totalPages;
@@ -151,7 +161,7 @@ var JskitPager =function(rHd){
                 _str += __pageAction(i, null, (i == __pageNo));
             }
             if (_end < __totalPages) {
-                _str += '...';
+                _str += __pageSuspension();
                 _str += __pageAction(__totalPages, null, false);
             }
         }
@@ -220,6 +230,7 @@ var JskitPager =function(rHd){
     //#End
     this.init = function(json){
     	__url = json.url;
+    	this.setStartIndex(json.startIndex);
         this.setPageNo(json.pageNo);
         this.setPageSize(json.pageSize);
         this.setAction(json.action);
