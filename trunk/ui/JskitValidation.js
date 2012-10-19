@@ -5,7 +5,7 @@
  * #Email        : jiang.edwon@gmail.com
  * #QQ			 : 499199
  * #Homepage     : http://www.mending.cn
- * #LastModified : 2006-12-08
+ * #LastModified : 2012-10-16
  *
  * #Require		 : /base/JskitBase.js
  * 				 : /base/JskitUtil.js
@@ -28,6 +28,7 @@ function JskitValidation(rHd){
 		this.CHECK = "check";
         this.MONEY = "money";
         this.DATETIME = "datetime";
+        this.AJAX = "ajax";
     };
     var __ValidationObject = function(){
         this.validator = null;
@@ -39,6 +40,9 @@ function JskitValidation(rHd){
         this.expression = null;//compare expression
         this.pattern = null;
         this.msg = null;
+        this.oriMsg = null;//original message
+        this.out = null;
+        this.assignedDisplayer = null;//
 		this.value = function(){
 			if(this.obj && this.obj.value){
 				return this.obj.value;
@@ -89,6 +93,12 @@ function JskitValidation(rHd){
     this.setDisplayer = function(v){
         __displayer = v;
     };
+    
+    var __succeedCssClass = "";
+    this.setSucceedCssClass = function(v){
+    	__succeedCssClass = v;
+    };
+    
     //errinfo css class
     var __errorCssClass = "";
     this.setErrorCssClass = function(v){
@@ -116,7 +126,15 @@ function JskitValidation(rHd){
 	this.setMaxLengthCheck = function(v){
 		__MaxLengthCheck = (v==true);
 	};
-
+	var __succeedMsg = null;
+	this.setSucceedMsg = function(v){
+		__succeedMsg = v;
+	};
+	//触发单个表单项进行验证的方法，如onblur,onfocus等
+	var __fireAction = null;
+	this.setFireAction = function(v){
+		__fireAction = (v!="")?v:null;
+	};
     var __settingData = null;
     var __settingType = null;
     //#End
@@ -193,6 +211,7 @@ function JskitValidation(rHd){
 		}catch(e){}
 	};
     var __displayMessage = function(){
+    	__refreshObjValidate(__vo.obj,__vo.id,false);
         var _err = __getMsgObj(__vo.id);
         if (__isMsgOpen(_err)) {
             _err.innerHTML = __getMsgHtml();
@@ -201,7 +220,11 @@ function JskitValidation(rHd){
         if (__display == "object" && __displayer !== null) {
             __displayer.innerHTML = __vo.msg;
         }else{ 
-            if (__display == "before" || __display == "up") {
+        	if(__vo.assignedDisplayer!=null){
+        		__vo.assignedDisplayer.innerHTML = __vo.msg;
+        		__vo.assignedDisplayer.className = __errorCssClass;
+        		__vo.obj.focus();
+        	}else if (__display == "before" || __display == "up") {
                 __appendMsgObject();
                 __setFocusAfterCheck();
             }else if (__display == "after" || __display == "down") {
@@ -224,8 +247,15 @@ function JskitValidation(rHd){
         _err = null;
     };
     var __cleanMessage = function(){
-        if (__display == "object" && __displayer !== null) {
+    	var bk = __refreshObjValidate(__vo.obj,__vo.id,true);
+    	if(!bk){bk=null;return;}//there are some validate not passed;
+    	if(__vo.assignedDisplayer!=null){
+        	var _msg = (typeof(__succeedMsg)=="string" && __succeedMsg.length>0)?__succeedMsg:__vo.oriMsg;
+    		__vo.assignedDisplayer.innerHTML = _msg;
+    		__vo.assignedDisplayer.className = __succeedCssClass;
+    	}else if (__display == "object" && __displayer !== null) {
             __displayer.innerHTML = "";
+    		__vo.assignedDisplayer.className = __succeedCssClass;
         } else {
             var _err = __getMsgObj(__vo.id);
             _err.innerHTML = "";
@@ -361,6 +391,12 @@ function JskitValidation(rHd){
 		return 0;
 	};
     var __doValidate = function(){
+    	//检查对象是否在运行期取消验证
+    	if(__vo.obj!=null){
+    		var _v = __vo.obj.getAttribute("validate");
+    		if(_v!=null && _v.length>0){_v = _v.toLowerCase();}
+    		if(_v==="false" || _v===false || _v==="no"){return true;}
+    	}
         switch (__vo.validator) {
             case __VALIDATOR.QUERY:
                 return __v_query();
@@ -384,10 +420,82 @@ function JskitValidation(rHd){
                 return __v_regex_money();
             case __VALIDATOR.DATETIME:
                 return __v_datetime();
+            case __VALIDATOR.AJAX:
+            	var _sign = __vo.obj.getAttribute("ajaxSucceed");
+                return (_sign==true || _sign=="true");
             default:
-                return __v_required();
+                return true;
         }
     };
+    var __refreshObjValidate = function(rObj,rTaskId,rResult){
+    	var _t = rObj.getAttribute("_vdtask_");
+    	if(rResult){
+    		_t = _t.replace(rTaskId+":1",rTaskId+":0");
+    	}else{
+        	_t = _t.replace(rTaskId+":0",rTaskId+":1");
+    	}
+    	rObj.setAttribute("_vdtask_",_t);
+    	return (_t.indexOf(":1")==-1);
+    };
+    //Begin:: Ajax validation------------------
+    var __ajax = [];
+	var __displayAjaxMessage = function(rVo){
+    	if(rVo.assignedDisplayer!=null){
+    		rVo.assignedDisplayer.innerHTML = rVo.msg;
+    		rVo.assignedDisplayer.className = __errorCssClass;
+    	}else{
+    		alert(rVo.msg);
+    	}
+	};
+	var __displayAjaxWaitingMessage = function(rVo){
+    	if(rVo.assignedDisplayer!=null){
+    		rVo.assignedDisplayer.innerHTML = rVo.expression;
+    		rVo.assignedDisplayer.className = "";
+    	}
+	};
+    var __cleanAjaxMessage = function(rVo){
+    	if(rVo.assignedDisplayer!=null){
+        	var _msg = (typeof(__succeedMsg)=="string" && __succeedMsg.length>0)?__succeedMsg:rVo.oriMsg;
+    		rVo.assignedDisplayer.innerHTML = _msg;
+    		rVo.assignedDisplayer.className = __succeedCssClass;
+    	}
+    };
+    this.ajaxValidate = function(taskId){
+    	var _vo = __getTaskById(taskId);
+    	if(_vo==null){
+        	_vo.obj.setAttribute("ajaxSucceed",true);
+        	return true;
+    	}
+    	if(_vo.obj.value.trim()==""){
+    		return true;
+    	}
+    	_vo.obj.setAttribute("ajaxSucceed",false);
+    	var _url = _vo.pattern;
+    	if(typeof(_url)=="string"){
+    		_url = _url.replace(/\{0\}/gi,_vo.obj.value);
+    	}
+        __ajax[taskId] = new JskitXmlHttpAction(_url,__hd+".ajaxCallback","text",taskId);
+        __displayAjaxWaitingMessage(_vo);
+        _url = null;
+        _vo = null;
+        return true;
+    };
+    this.ajaxCallback = function(json,taskId){
+    	__ajax[taskId] = null;
+    	var _vo = __getTaskById(taskId);
+    	if(_vo==null){return 0;}
+    	json = (typeof(json)=="string")?json.toLowerCase():"";
+        if (json==="true" || json=="yes" || json=="0" || json=="") {
+        	_vo.obj.setAttribute("ajaxSucceed",true);
+        	__cleanAjaxMessage(_vo);
+            return 0;   	
+        }
+    	_vo.obj.setAttribute("ajaxSucceed",false);
+    	__displayAjaxMessage(_vo);
+        return 1;
+    };
+    //End:: Ajax validation------------------
+
     var __getObj = function(rXPath,rValidator){
 		if(rXPath==""){return null;}
         var _o = $$(rXPath);
@@ -401,21 +509,42 @@ function JskitValidation(rHd){
             return null;
         }
     };
-    var __pushTask = function(rValidator, rObjXPath, rMsg, rPattern, rObj2XPath, rExpression){
+    var __getTaskById = function(id){
+    	for (var i= 0;i<__tasks.length;i++) {
+    		if(id==__tasks[i].id){return __tasks[i];}
+    	}
+    	return null;
+    };
+    var __registValidatorAttr = function(rObj,rKey,rValue){
+    	var v = rObj.getAttribute(rKey);
+    	if(v!=""){
+    		v += ","+rValue;
+    	}else{
+    		v = rValue;
+    	}
+    	rObj.setAttribute(rKey,v);
+    	v = null;
+    };
+    var __pushTask = function(rValidator, rObjXPath, rMsg, rPattern, rObj2XPath, rExpression,rOut){
 		if(typeof(rObjXPath)!="string" || rObjXPath.trim()=="")return;
         var _vo = new __ValidationObject();
         _vo.id = jskitUtil.guid();
         _vo.validator = rValidator;
         _vo.objXPath = rObjXPath;
         _vo.obj = __getObj(rObjXPath,rValidator);
+        _vo.out = rOut;
 		if(_vo.obj==null){
 			//__error("invalid xpath("+rObjXPath+") with  validator:"+rValidator);
 			return;
 		}
-
-		if(__realTime && typeof(_vo.obj.length)=="undefined"){
-	        _vo.obj.setAttribute("validator", _vo.id);
-            jskitEvents.add(_vo.obj, "onblur", __hd + ".check");
+		__registValidatorAttr(_vo.obj,"_vdtask_",_vo.id+":1");
+		__registValidatorAttr(_vo.obj,"_validator_",_vo.validator+":1");
+		if(_vo.validator==__VALIDATOR.AJAX){
+	        jskitEvents.add(_vo.obj, "onblur", __hd + ".ajaxValidate(\""+_vo.id+"\")");
+		}else if(__fireAction!=null && _vo.obj!=null){
+	        jskitEvents.add(_vo.obj, __fireAction, __hd + ".check(\""+_vo.id+"\")");
+		}else if(__realTime){
+	        jskitEvents.add(_vo.obj, "onblur", __hd + ".check(\""+_vo.id+"\")");
 		}
         
 		if(__VALIDATOR.COMPARE==rValidator || __VALIDATOR.EQUAL==rValidator){
@@ -424,6 +553,15 @@ function JskitValidation(rHd){
 		}
         
         _vo.msg = rMsg;
+        if($$("#"+_vo.out)!=null){
+            _vo.assignedDisplayer = $$("#"+_vo.out);
+        }else if($$("#"+_vo.obj.getAttribute("id")+"_validate_")!=null){
+            _vo.assignedDisplayer = $$("#"+_vo.obj.getAttribute("id")+"_validate_");
+        }else{
+        	_vo.assignedDisplayer = null;
+        }
+
+    	_vo.oriMsg = (_vo.assignedDisplayer!=null)?_vo.assignedDisplayer.innerHTML:"";
         _vo.pattern = rPattern;
         _vo.expression = rExpression;
         
@@ -432,15 +570,9 @@ function JskitValidation(rHd){
     };
     var __addTaskFromArray = function(){
         var _l = null;
-        //for firefox
-//        for (var i = 0; i < __settingData.length; i++) {
-//            _l = __settingData[i];
-//            __pushTask(_l[0], _l[1], _l[2], _l[3], _l[4], _l[5]);
-//        }
-        //for IE
         for (var i = __settingData.length-1; i >=0; i--) {
             _l = __settingData[i];
-            __pushTask(_l[0], _l[1], _l[2], _l[3], _l[4], _l[5]);
+            __pushTask(_l[0], _l[1], _l[2], _l[3], _l[4], _l[5],_l[6]);
         }
         _l = null;
     };
@@ -458,7 +590,8 @@ function JskitValidation(rHd){
             _message = jskitXml.childNodeText(_nl[i], "message");
             _pattern = jskitXml.childNodeText(_nl[i], "pattern");
             _expression = jskitXml.childNodeText(_nl[i], "expression");
-            __pushTask(_validator, _xpath, _message, _pattern, _campare, _expression);
+            _out = jskitXml.childNodeText(_nl[i], "out");
+            __pushTask(_validator, _xpath, _message, _pattern, _campare, _expression,_out);
         }
         _nl = _xpath = _validator = _campare = _pattern = _message = _expression = null;
     };
@@ -470,7 +603,7 @@ function JskitValidation(rHd){
 			if(__MaxLengthCheck){
 				bk += __validateMaxLength();
 			}
-			for (var i = __tasks.length-1; i >=0; i = i - 1) {
+			for (var i=__tasks.length-1;i>=0; i--) {
 				if(bk>0 && __display=="alert"){
 					return false;
 				}
@@ -499,15 +632,13 @@ function JskitValidation(rHd){
             }
         }
     };
-    this.check = function(idArray){
+    this.check = function(id){
         __vo = null;
         __alertTimes = 0;
-        for (var i = __tasks.length-1; i >=0; i = i - 1) {
-            for(var j=0;j<idArray.length;j++){
-            	if (__tasks[i].obj.getAttribute("id") === idArray[j]) {
-                    __vo = __tasks[i];
-                    if(parseInt(__doValidate())!=0){return false;}
-                }
+        for (var i = 0;i<__tasks.length; i++) {
+        	if (__tasks[i].id == id) {
+                __vo = __tasks[i];
+                if(parseInt(__doValidate())!=0){return false;}
             }
         }
         return true;
@@ -527,7 +658,8 @@ function JskitValidation(rHd){
         _xmDoc = null;
     };
     this.load = function(rArr){
-        __settingData = rArr;
+    	this.setFireAction(rArr.form.fire);
+        __settingData = rArr.fields;
         __settingType = "array";
     };
     this.getErrorLogs = function(){
@@ -542,7 +674,9 @@ function JskitValidation(rHd){
 		    frm = $$("form")[0];
 		}
 		if(frm!=null){
-			//jskitEvents.add(frm,"onsubmit",__hd+".checkAll");
+			//for submit button
+			jskitEvents.add(frm,"onsubmit",__hd+".checkAll");
+			//for simple button invoke form submit
 			frm.oldSubmit = frm.submit;
 			frm.submit = function(){
 				var _bk = __checkAll();

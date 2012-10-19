@@ -11,7 +11,7 @@ var jskitBase = new function(){
     var __hd = "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "1.0.1.20120628(B)";
+    this.version = "1.0.1.20120713(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -390,8 +390,7 @@ var $t = new function () {
     };
     this.isHTMLElement = function (v) {
         return (this.isObject(v)
-			&& typeof (v.tagName) === "string"
-			&& ((v + "").indexOf("HTML") !== -1));
+			&& typeof (v.tagName) === "string");
     };
     this.isRegex = function (v) {
         return (this.isObject(v)
