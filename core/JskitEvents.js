@@ -95,13 +95,9 @@ var jskitEvents = new function () {
                 __hdmap[_eventKey] = true;
             }
         } else {//for others
-            if (rObj == window) {
-                var _eventName = rName.replace(/on(.*)/i, '$1');
-                eval("rObj.addEventListener(\"" + _eventName + "\", function(event){" + _eventKey + "=this;return " + _handler + ";}, true);");
-            } else {
-                var _code = "rObj." + rName + "=function(event){return " + _handler + ";};";
-                eval(_code);
-            }
+            var _eventName = rName.replace(/on(.*)/i, '$1');
+            eval("rObj.addEventListener(\"" + _eventName + "\", function(event){return " + _handler + ";}, true);");
+            _eventName = null;
             __hdmap[_eventKey] = true;
             _bk = true;
         }
@@ -116,7 +112,7 @@ var jskitEvents = new function () {
                 eval("rObj.detachEvent(\"" + rName + "\"," + rHandler + ");");
             } else {//for others
                 var _eventName = rName.replace(/on(.*)/i, '$1');
-                try { eval("rObj.removeEventListener(\"" + _eventName + "\"," + _eventKey + ", true);"); }
+                try { eval("rObj.removeEventListener(\"" + _eventName + "\",0, true);"); }
                 catch (e) { }
             }
             __hdmap[_eventKey] = false;

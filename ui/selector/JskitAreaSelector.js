@@ -181,6 +181,7 @@ var JskitAreaSelector = function (rHd) {
     	}
     };
     var __renderDdl = function(ddlIdx){
+    	if(ddlIdx>=__ddls.length){return;}
 		var _ddl = __ddls[ddlIdx];
 		__cleanDdl(_ddl);
     	var _data = __loadData();
@@ -204,7 +205,8 @@ var JskitAreaSelector = function (rHd) {
 			if(_currentVal===_val){_activeIdx=i};
     	}
     	if(_activeIdx>-1){
-    		_ddl.selectedIndex = _activeIdx;
+    		_ddl.selectedIndex = (ddlIdx===0 && __ddlEmpty!=null)?_activeIdx+1:_activeIdx;
+    		__goNextSelect(ddlIdx);
     	}
     	_ddl = _opr = _data = _activeIdx = _currentVal = _val = null;
     };
@@ -233,13 +235,18 @@ var JskitAreaSelector = function (rHd) {
     		}
     	}
     };
-    this.__onNextSelect = function(e){
-    	var ddlIdx = parseInt(e.srcElement.getAttribute("idx"));
+    
+    var __goNextSelect = function(ddlIdx){
     	__resetPathBySelectChange(ddlIdx);
     	for(var i=ddlIdx+1;i<__ddls.length;i++){
     		__cleanDdl(__ddls[i]);
     	}
-		__ddlsFresh(ddlIdx+1);
+		__ddlsFresh(ddlIdx+1);  	
+    };
+    
+    this.__onNextSelect = function(e){
+    	var ddlIdx = parseInt(e.srcElement.getAttribute("idx"));
+    	__goNextSelect(ddlIdx);
 		this.__onSelected();
     };
     this.select = function(json){
@@ -314,7 +321,7 @@ var JskitAreaSelector = function (rHd) {
     	}
         if(__mode==1){//pop
         	__closePanel();
-        }
+        }   	
         if(typeof(this.onSelected)!=="undefined"){
             this.onSelected(_key,_txt.split(__separate));
         }
