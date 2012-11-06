@@ -23,56 +23,6 @@
  11 DOCUMENT_FRAGMENT_NODE
  12 NOTATION_NODE
  ********************************************************/
-var JXmlInMozilla = function () {
-    var ex;
-    XMLDocument.prototype.__proto__.__defineGetter__("xml", function () {
-        try {
-            return new XMLSerializer().serializeToString(this);
-        }
-        catch (ex) {
-            var d = document.createElement("div");
-            d.appendChild(this.cloneNode(true));
-            return d.innerHTML;
-        }
-    });
-    Element.prototype.__proto__.__defineGetter__("xml", function () {
-        try {
-            return new XMLSerializer().serializeToString(this);
-        }
-        catch (ex) {
-            var d = document.createElement("div");
-            d.appendChild(this.cloneNode(true));
-            return d.innerHTML;
-        }
-    });
-    XMLDocument.prototype.__proto__.__defineGetter__("text", function () {
-        return this.firstChild.textContent;
-    });
-    Element.prototype.__proto__.__defineGetter__("text", function () {
-        return this.textContent;
-    });
-    XMLDocument.prototype.selectSingleNode = Element.prototype.selectSingleNode = function (xpath) {
-        var x = this.selectNodes(xpath);
-        if (!x || x.length < 1) {
-            return null;
-        }
-        return x[0];
-    };
-    XMLDocument.prototype.selectNodes = Element.prototype.selectNodes = function (xpath) {
-        var xpe = new XPathEvaluator();
-        var nsResolver = xpe.createNSResolver((this.ownerDocument == null) ? this.documentElement : this.ownerDocument.documentElement);
-        var result = xpe.evaluate(xpath, this, null, 0, null);
-        var found = [];
-        var res;
-        while (res = result.iterateNext()) {
-            found.push(res);
-        }
-        return found;
-    };
-};
-if (typeof(XMLDocument)!="undefined") {
-	JXmlInMozilla();
-};
 var jskitXml = new function() {
     var __hd = "jskitXml";
     this.load = function (rSrc) {

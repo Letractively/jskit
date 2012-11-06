@@ -8,11 +8,6 @@
 *
 ******************************************************/
 //extands Mozilla
-if(window.addEventListener){
-    Event.prototype.__defineGetter__("srcElement", function () {
-        return this.target;
-    });
-};
 var jskitEvents = new function () {
     var __hd = "jskitEvents";
     var __eventsCount = 0;
