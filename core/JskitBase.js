@@ -352,7 +352,7 @@ var $$ = function(){
 /*
  * Global definition
  */
-var $ERRORS = new Array();
+var $ERRORS = [];
 var $out = function(rContent){
 	document.write(rContent);
 };
@@ -367,34 +367,36 @@ var $t = new function () {
     this.isUndefined = function (v) {
         return (typeof (v) === "undefined");
     };
+    this.isNullOrUndefined = function(v){
+    	return (v===null || typeof(v)==="undefined");
+    };
     this.isArray = function (v) {
-        return (!this.isUndefined(v) && /Array/.test(v.constructor));
+        return (!this.isNullOrUndefined(v) && /Array/.test(v.constructor));
     };
     this.isDate = function (v) {
-        return (!this.isUndefined(v) && /Date/.test(v.constructor));
+        return (!this.isNullOrUndefined(v) && /Date/.test(v.constructor));
     };
     this.isFunction = function (v) {
-        return (typeof (v) == "function");
+        return (!this.isNullOrUndefined(v) && /function/.test(v.constructor));
     };
     this.isObject = function (v) {
-        return (typeof (v) == "object" && v!=null);
+        return (!this.isNullOrUndefined(v) && /Object/.test(v.constructor));
     };
     this.isString = function (v) {
-        return (typeof (v) == "string");
+        return (!this.isNullOrUndefined(v) && /String/.test(v.constructor));
     };
     this.isBoolean = function (v) {
-        return (typeof (v) == "boolean");
+        return (!this.isNullOrUndefined(v) && /Boolean/.test(v.constructor));
     };
     this.isNumber = function (v) {
-        return (typeof (v) == "number");
+        return (!this.isNullOrUndefined(v) && /Number/.test(v.constructor));
     };
     this.isHTMLElement = function (v) {
         return (this.isObject(v)
-			&& typeof (v.tagName) === "string");
+			&& typeof(v.tagName) === "string");
     };
     this.isRegex = function (v) {
-        return (this.isObject(v)
-            && /RegExp/.test(v.constructor));
+        return (!this.isUndefined(v) && /RegExp/.test(v.constructor));
     };
 };
 
@@ -545,23 +547,136 @@ Date.prototype.toJskitString = function(){
     this.dateNumberFoart(this.getSeconds())
 };
 /*#END ====================================================================*/
-
+$UA = (function(WIN, UA) {
+	//正则列表
+	reg = {
+		browser: "(msie|safari|firefox|chrome|opera)",
+		shell: "(maxthon|theworld|360se|360ee|se|theworld|greenbrowser|qqbrowser)",
+		os: "(windows nt|macintosh|solaris|linux)"
+	},
+	//ua匹配方法
+	uaMatch = function(str) {
+		var reg = new RegExp(str + "\\b[ \\/]?([\\w\\.]*)", "i"),
+			result = UA.match(reg);
+		return result ? result.slice(1) : ["", ""];
+	},
+	//特殊浏览器检测
+	is360 = (function() {
+		var result = false;
+		try{
+			if(external && external.twGetRunPath){
+				var s = external.twGetRunPath;
+				if(s && s.toLowerCase().indexOf("360se")>-1) {
+					result = true;
+				}
+			}
+		}catch(e) {
+			alert(e.message);
+			result = false;
+		}
+		return result;
+	})(),
+	//特殊检测maxthon返回版本号
+	maxthonVer = function() {
+		try {
+			if (/(\d+\.\d)/.test(external.max_version)) {
+				return parseFloat(RegExp['\x241']);
+			}
+		} catch (e) {}
+	}(),
+	browser = uaMatch(reg.browser),
+	shell = uaMatch(reg.shell),
+	os = uaMatch(reg.os);
+	//修正部分IE外壳浏览器
+	if (browser[0].toLowerCase() === "msie") {
+		if(is360){
+			shell = ["360se",""];
+		} 
+		else if(maxthonVer) {
+			shell = ["maxthon", maxthonVer];
+		}
+	} 
+	else if(browser[0].toLowerCase() === "safari") {
+		//特殊处理sf的version
+		browser[1] = uaMatch("version") + "." + browser[1];
+	}
+	var bi = {};
+	bi.name = browser[0].toLowerCase();
+	bi.ver = browser[1];
+	return {
+		bi : bi,
+		browser: browser,
+		shell: shell,
+		os: os.join(",")
+	};
+})(window, navigator.userAgent);
 
 //#Begin Extend Firefox methods as IE
 //#[innerText]
-if (typeof(HTMLElement) == "function") {
-    HTMLElement.prototype.__defineGetter__("innerText", function(){
-        var anyString = "";
-        var childS = this.childNodes;
-        for (var i = 0; i < childS.length; i++) {
-            if (childS[i].nodeType == 1){ 
-                anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
-            }else if (childS[i].nodeType == 3) {anyString += childS[i].nodeValue;}
+if($UA.bi.name!="msie"){
+	if (typeof(HTMLElement) == "function") {
+	    HTMLElement.prototype.__defineGetter__("innerText", function(){
+	        var anyString = "";
+	        var childS = this.childNodes;
+	        for (var i = 0; i < childS.length; i++) {
+	            if (childS[i].nodeType == 1){ 
+	                anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
+	            }else if (childS[i].nodeType == 3) {anyString += childS[i].nodeValue;}
+	        }
+	        return anyString;
+	    });
+	    HTMLElement.prototype.__defineSetter__("innerText", function(sText){
+	        this.textContent = sText;
+	    });
+	};
+	if(window.addEventListener){
+	    Event.prototype.__defineGetter__("srcElement", function () {
+	        return this.target;
+	    });
+	};
+    XMLDocument.prototype.__proto__.__defineGetter__("xml", function () {
+        try {
+            return new XMLSerializer().serializeToString(this);
         }
-        return anyString;
+        catch (ex) {
+            var d = document.createElement("div");
+            d.appendChild(this.cloneNode(true));
+            return d.innerHTML;
+        }
     });
-    HTMLElement.prototype.__defineSetter__("innerText", function(sText){
-        this.textContent = sText;
+    Element.prototype.__proto__.__defineGetter__("xml", function () {
+        try {
+            return new XMLSerializer().serializeToString(this);
+        }
+        catch (ex) {
+            var d = document.createElement("div");
+            d.appendChild(this.cloneNode(true));
+            return d.innerHTML;
+        }
     });
-};
+    XMLDocument.prototype.__proto__.__defineGetter__("text", function () {
+        return this.firstChild.textContent;
+    });
+    Element.prototype.__proto__.__defineGetter__("text", function () {
+        return this.textContent;
+    });
+    XMLDocument.prototype.selectSingleNode = Element.prototype.selectSingleNode = function (xpath) {
+        var x = this.selectNodes(xpath);
+        if (!x || x.length < 1) {
+            return null;
+        }
+        return x[0];
+    };
+    XMLDocument.prototype.selectNodes = Element.prototype.selectNodes = function (xpath) {
+        var xpe = new XPathEvaluator();
+        var nsResolver = xpe.createNSResolver((this.ownerDocument == null) ? this.documentElement : this.ownerDocument.documentElement);
+        var result = xpe.evaluate(xpath, this, null, 0, null);
+        var found = [];
+        var res;
+        while (res = result.iterateNext()) {
+            found.push(res);
+        }
+        return found;
+    };
+}
 //#End

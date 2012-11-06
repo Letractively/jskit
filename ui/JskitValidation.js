@@ -223,7 +223,7 @@ function JskitValidation(rHd){
         	if(__vo.assignedDisplayer!=null){
         		__vo.assignedDisplayer.innerHTML = __vo.msg;
         		__vo.assignedDisplayer.className = __errorCssClass;
-        		__vo.obj.focus();
+        		//__vo.obj.focus();
         	}else if (__display == "before" || __display == "up") {
                 __appendMsgObject();
                 __setFocusAfterCheck();
@@ -422,9 +422,14 @@ function JskitValidation(rHd){
                 return __v_datetime();
             case __VALIDATOR.AJAX:
             	var _sign = __vo.obj.getAttribute("ajaxSucceed");
-                return (_sign==true || _sign=="true");
+                if(_sign==true || _sign=="true"){
+                	return 0;
+                }else{
+                	__ajaxValidate(__vo.id);
+                	return 1;
+                }
             default:
-                return true;
+                return 0;
         }
     };
     var __refreshObjValidate = function(rObj,rTaskId,rResult){
@@ -460,7 +465,7 @@ function JskitValidation(rHd){
     		rVo.assignedDisplayer.className = __succeedCssClass;
     	}
     };
-    this.ajaxValidate = function(taskId){
+    var __ajaxValidate = function(taskId){
     	var _vo = __getTaskById(taskId);
     	if(_vo==null){
         	_vo.obj.setAttribute("ajaxSucceed",true);
@@ -479,6 +484,9 @@ function JskitValidation(rHd){
         _url = null;
         _vo = null;
         return true;
+    };
+    this.ajaxValidate = function(taskId){
+    	__ajaxValidate(taskId);
     };
     this.ajaxCallback = function(json,taskId){
     	__ajax[taskId] = null;

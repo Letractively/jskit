@@ -47,7 +47,9 @@ var JskitGridView = function (rHd) {
     	__pagerUrl = v;
     };
     
-    
+    var __getIndex = function(rowIndex){
+    	 return (__pagerStartIndex===0)?((__pageIndex - 2) * __pageSize + rowIndex):((__pageIndex - 1) * __pageSize + rowIndex);
+    };
     
     var __data = null;
     var __oriData = null;
@@ -146,6 +148,14 @@ var JskitGridView = function (rHd) {
     this.setCanvasId = function (v) {
         __canvasId = __initStrValue(v, "");
     };
+    
+    //counter column
+    var __counter = function(){
+    	this.sum = [];
+    };
+    this.setSumColumns = function(arr){
+    	__counter.sum = ($t.isArray(arr))?arr:[];
+    };
     /*#END Properties */
 
     /*BEGIN Const def */
@@ -230,7 +240,9 @@ var JskitGridView = function (rHd) {
             if (__columns[i].visiable !== false) { _cols++; }
         }
         var _str = new Array();
-        _str.push('<tr><td colspan="' + _cols + '" ></td></tr>');
+        _str.push('<tfoot class="' + __attrFilter(__footCss) + '">');
+        _str.push(__buildCounterRow());
+        _str.push("</tfoot>");
         return _str.join('');
     };
 
@@ -260,7 +272,7 @@ var JskitGridView = function (rHd) {
         _str.push('<thead class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</thead>');
         _str.push('<tbody class="' + __attrFilter(__bodyCss) + '" id="' + __dataCanvasId + '">'+__buildDataBody()+'</tbody>');
         if(__footerVisiable===true){
-        	_str.push('<tfoot class="' + __attrFilter(__footCss) + '">' + __buildFootContent() + '</tfoot>');
+        	_str.push(__buildFootContent());
         }
         _str.push('</table>');
         _str.push('</div>');
@@ -378,7 +390,7 @@ var JskitGridView = function (rHd) {
                     } else if (_c.type == __ENUM.COL_TYPE.CHECK) {//check
                         _str.push('<div style="padding:0px;maring:0px;width:' + _c.width + 'px;overflow:hidden"><input name="' + _c.name + '" value="' + _pkValue + '" gname="' + __cbGroupName + '" type="checkbox" idx="' + i + '" onclick="' + __hd + '.onRowCheck(this,' + i + ',' + _pkValue + ')" /></div>');
                     } else if (_c.type == __ENUM.COL_TYPE.INDEX) {//index
-                        _str.push('<div style="padding:0px;maring:0px;width:' + _c.width + 'px;overflow:hidden">' + ((__pageIndex - 1) * __pageSize + i) + '</div>');
+                        _str.push(__getIndex(i));
                     } else if (_c.type == __ENUM.COL_TYPE.EDIT) {//edit
                         if (_c.template !== "" && _c.template != null) {
                             _str.push('' + __parseColumnTemplate(_c.template, i) + '');
@@ -399,6 +411,48 @@ var JskitGridView = function (rHd) {
         }
         _str.push('</tr>');
         return _str.join('');
+    };
+    var __buildCounterRow = function(){
+    	var _str = [];
+    	var _c = null;
+		_str.push('<tr>');
+		var _sumPattern = __counter.sum.join(',')+',';
+		var _avgPattern = __counter.sum.join(',')+',';
+		for (var j = 0; j < __columns.length; j++) {
+    		_c = __columns[j];
+    		if(!_c.visiable){continue;}
+    		if(_c.type==__ENUM.COL_TYPE.DATA ){
+        		if(_sumPattern.indexOf(_c.feild+",")!=-1){
+        			_str.push('<td>'+__getSum(_c.feild)+'</td>');
+        		}else if(_avgPattern.indexOf(_c.feild+",")!=-1){
+            			_str.push('<td>'+__getAvg(_c.feild)+'</td>');
+        		}else{
+        			_str.push('<td>&nbsp;</td>');
+        		}
+    		}else{
+    			_str.push('<td>&nbsp;</td>');
+    		}
+		}
+		_str.push('</tr>');
+    	return _str.join('');
+    };
+    var __getSum = function(columnName){
+    	var _c = null;
+    	try{
+	    	var _sum = 0;
+	    	for (var i = 1; i < __data.length; i++) {
+				_sum += parseFloat(__getDataByColumnName(columnName, i));
+	    	}
+	    	var _c = null;
+	    	return _sum;
+    	}catch(e){
+    		return "?";
+    	}
+    };
+    var __getAvg = function(columnName){
+    	var _sum = __getSum(columnName);
+    	if(_sum=="?"){return "?";}
+    	else{return _sum/__data.length;}
     };
     var __flushPager = function () {
     	/*
@@ -646,7 +700,7 @@ var JskitGridView = function (rHd) {
             this.setPagerUrl(null);
             this.setPagerHandler(null);
         }
-
+        this.setSumColumns(json.sum);
         this.setAutoUpdate(json.autoUpdate);
         this.setEditable(json.editable);
         __queryParams = json.queryParams;
