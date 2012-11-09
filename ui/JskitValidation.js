@@ -17,10 +17,12 @@ function JskitValidation(rHd){
     
     //#Begin Structure
     var __VALIDATOR = new function(){
+    	this.VOID = "void";
         this.QUERY = "query";
         this.REQUIRED = "required";
         this.REGEX = "regex";
         this.EQUAL = "equal";
+        this.LENGTH = "length";
         this.COMPARE = "compare";
         this.INTEGER = "integer";
         this.FLOAT = "float";
@@ -29,6 +31,7 @@ function JskitValidation(rHd){
         this.MONEY = "money";
         this.DATETIME = "datetime";
         this.AJAX = "ajax";
+        this.HTML = "html";
     };
     var __ValidationObject = function(){
         this.validator = null;
@@ -42,6 +45,8 @@ function JskitValidation(rHd){
         this.msg = null;
         this.oriMsg = null;//original message
         this.out = null;
+        this.maxLength = 0;
+        this.html = false;
         this.assignedDisplayer = null;//
 		this.value = function(){
 			if(this.obj && this.obj.value){
@@ -122,10 +127,6 @@ function JskitValidation(rHd){
     this.setShowError = function(v){
         __showError = (v==true);
     };
-	var __MaxLengthCheck = true;
-	this.setMaxLengthCheck = function(v){
-		__MaxLengthCheck = (v==true);
-	};
 	var __succeedMsg = null;
 	this.setSucceedMsg = function(v){
 		__succeedMsg = v;
@@ -135,6 +136,7 @@ function JskitValidation(rHd){
 	this.setFireAction = function(v){
 		__fireAction = (v!="")?v:null;
 	};
+
     var __settingData = null;
     var __settingType = null;
     //#End
@@ -297,6 +299,14 @@ function JskitValidation(rHd){
         __cleanMessage();
         return 0;
     };
+    var __v_length = function(){
+        if (__vo.pattern>0 && __vo.value().getByteLength()>__vo.pattern) {
+            __displayMessage();
+            return 1;
+        }
+        __cleanMessage();
+        return 0;
+    };
     var __v_required = function(){
         if (__vo.value().trim() === "") {
             __displayMessage();
@@ -362,34 +372,6 @@ function JskitValidation(rHd){
 		//no good method now
         return 0;
 	};
-	var __MaxLengthErrorMessage = unescape("?%u8F93%u5165%u7684%u5185%u5BB9%u8D85%u8FC7%u4E86%u6700%u5927%u7684%u957F%u5EA6%u8981%u6C42%uFF0C%u8BF7%u8F93%u5165%u5C0F%u4E8E?%u4E2A%u5B57%u7B26%u7684%u5185%u5BB9\n%uFF08%u6BCF%u4E2A%u6C49%u5B57%u76F8%u5F53%u4E8E%u4E24%u4E2A%u5B57%u7B26%uFF09");
-	var __validateMaxLength = function(){
-		//check all input element whitin MaxLength attribute
-		var _nl = $$("input[@maxlength]");
-		if(_nl!=null && _nl.length){
-			var len = null;
-			var max = null;
-			var item = null;
-			var title = null;
-			for(var i=0;i<_nl.length;i++){
-				item = _nl[i];
-				max = parseInt(item.getAttribute("maxlength"));
-				if(max==2147483647){continue;}
-				title = item.getAttribute("title");
-				title = (typeof(title)!="string")?title="":"["+title+"]";
-				if(!isNaN(max)){
-					len = item.value.getByteLength();
-					if(len>max){
-						alert(__MaxLengthErrorMessage.replace(/\?/,title).replace(/\?/,"["+max+"]"));
-						item.focus();
-						return 1;
-					}
-				}
-			}
-			_nl = item = max = len = null;
-		}
-		return 0;
-	};
     var __doValidate = function(){
     	//检查对象是否在运行期取消验证
     	if(__vo.obj!=null){
@@ -408,6 +390,8 @@ function JskitValidation(rHd){
                 return __v_compare();
             case __VALIDATOR.REGEX:
                 return __v_regex();
+            case __VALIDATOR.LENGTH:
+                return __v_length();
             case __VALIDATOR.INTEGER:
                 return __v_regex(__PATTERN.INTEGER);
             case __VALIDATOR.FLOAT:
@@ -533,18 +517,23 @@ function JskitValidation(rHd){
     	rObj.setAttribute(rKey,v);
     	v = null;
     };
-    var __pushTask = function(rValidator, rObjXPath, rMsg, rPattern, rObj2XPath, rExpression,rOut){
+    var __pushTask = function(rValidator, rObjXPath, rMsg, rPattern, rObj2XPath, rExpression,rOut,rMaxLength,rHtml){
 		if(typeof(rObjXPath)!="string" || rObjXPath.trim()=="")return;
         var _vo = new __ValidationObject();
         _vo.id = jskitUtil.guid();
         _vo.validator = rValidator;
         _vo.objXPath = rObjXPath;
         _vo.obj = __getObj(rObjXPath,rValidator);
-        _vo.out = rOut;
 		if(_vo.obj==null){
 			//__error("invalid xpath("+rObjXPath+") with  validator:"+rValidator);
 			return;
 		}
+        _vo.out = rOut;
+        _vo.maxLength = (typeof(rMaxLength)=="string")?rMaxLength.toInt(0):0;
+        if(_vo.maxLength>0){
+        	_vo.obj.setAttribute("maxlength",_vo.maxLength);
+        }
+        _vo.html = (rHtml===true || rHtml==="1" || rHtml===1 || rHtml==="yes" || rHtml==="true");
 		__registValidatorAttr(_vo.obj,"_vdtask_",_vo.id+":1");
 		__registValidatorAttr(_vo.obj,"_validator_",_vo.validator+":1");
 		if(_vo.validator==__VALIDATOR.AJAX){
@@ -570,7 +559,11 @@ function JskitValidation(rHd){
         }
 
     	_vo.oriMsg = (_vo.assignedDisplayer!=null)?_vo.assignedDisplayer.innerHTML:"";
-        _vo.pattern = rPattern;
+    	if(_vo.validator===__VALIDATOR.LENGTH){
+            _vo.pattern = rPattern.toInt(0);
+    	}else{
+            _vo.pattern = rPattern;
+    	}
         _vo.expression = rExpression;
         
         __tasks.push(_vo);
@@ -580,10 +573,11 @@ function JskitValidation(rHd){
         var _l = null;
         for (var i = __settingData.length-1; i >=0; i--) {
             _l = __settingData[i];
-            __pushTask(_l[0], _l[1], _l[2], _l[3], _l[4], _l[5],_l[6]);
+            __pushTask(_l[0], _l[1], _l[2], _l[3], _l[4], _l[5],_l[6],_l[7],_l[8]);
         }
         _l = null;
     };
+    /* some problems here */
     var __addTaskFromXml = function(){
         var _nl = __settingData.selectNodes("//JskitValidation/field");
         var _xpath = null;
@@ -591,6 +585,10 @@ function JskitValidation(rHd){
         var _campare = null;
         var _pattern = null;
         var _message = null;
+        var _expression = null;
+        var _out = null;
+        var _maxLength = null;
+        var _html = null;
         for (var i = 0; i < _nl.length; i++) {
             _xpath = jskitXml.childNodeText(_nl[i], "xpath");
             _validator = jskitXml.childNodeText(_nl[i], "validator");
@@ -599,31 +597,35 @@ function JskitValidation(rHd){
             _pattern = jskitXml.childNodeText(_nl[i], "pattern");
             _expression = jskitXml.childNodeText(_nl[i], "expression");
             _out = jskitXml.childNodeText(_nl[i], "out");
-            __pushTask(_validator, _xpath, _message, _pattern, _campare, _expression,_out);
+            _maxLength = jskitXml.childNodeText(_nl[i], "maxlength");
+            _html = jskitXml.childNodeText(_nl[i], "html");
+            __pushTask(_validator, _xpath, _message, _pattern, _campare, _expression,_out,_maxLength,_html);
         }
-        _nl = _xpath = _validator = _campare = _pattern = _message = _expression = null;
+        _nl = _xpath = _validator = _campare = _pattern = _message = _expression = _out = _maxLength = _html = null;
     };
 
-    var __checkAll = function(){
+    var __check = function(taskIndex){
+		__vo = __tasks[taskIndex];
+		if(__vo.htmlInput!==true){
+			__vo.setValue(__vo.value().clearOffHTML());
+		}
+		return parseInt(__doValidate());
+    };
+    var __checkAll = function(e){
         var bk = 0;
         __alertTimes = 0;
 		try{
-			if(__MaxLengthCheck){
-				bk += __validateMaxLength();
-			}
 			for (var i=__tasks.length-1;i>=0; i--) {
 				if(bk>0 && __display=="alert"){
 					return false;
 				}
-				__vo = __tasks[i];
-				bk += parseInt(__doValidate());
+				bk += __check(i);
 				__vo = null;
 			}
-			return (bk == 0);
-		}catch(e){
-			alert(e.message);
-			return false;
+		}catch(ex){
+			alert("CheckALL:"+e.message);
 		}
+		return true;
     };
     //#End(Private Methods)
     
@@ -644,9 +646,8 @@ function JskitValidation(rHd){
         __vo = null;
         __alertTimes = 0;
         for (var i = 0;i<__tasks.length; i++) {
-        	if (__tasks[i].id == id) {
-                __vo = __tasks[i];
-                if(parseInt(__doValidate())!=0){return false;}
+        	if (__tasks[i].obj.id == id) {
+                return (__check(i)===0);
             }
         }
         return true;
@@ -688,7 +689,7 @@ function JskitValidation(rHd){
 			frm.oldSubmit = frm.submit;
 			frm.submit = function(){
 				var _bk = __checkAll();
-				if(_bk){frm.oldSubmit();}
+				if(_bk===true){frm.oldSubmit();}
 				else{return false;}
 			};
 		}else{

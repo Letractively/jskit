@@ -392,13 +392,13 @@ var $t = new function () {
         return (!this.isNullOrUndefined(v) && /Number/.test(v.constructor));
     };
     this.isHTMLElement = function (v) {
-        return (this.isObject(v)
-			&& typeof(v.tagName) === "string");
+        return (!this.isNullOrUndefined(v) && typeof(v.tagName) === "string");
     };
     this.isRegex = function (v) {
         return (!this.isUndefined(v) && /RegExp/.test(v.constructor));
     };
 };
+var $HTMLTAG = "!DOCTYPE|a|abbr|acronym|address|applet|area|b|base|basefont|bdo|big|blockquote|body|br|button|caption|center|cite|code|col|colgroup|dd|del|dir|div|dfn|dl|dt|em|fieldset|font|form|frame|frameset|h1|head|hr|html|i|iframe|img|input|ins|isindex|kbd|label|legend|li|link|map|menu|meta|noframes|noscript|object|ol|optgroup|option|p|param|pre|q|s|samp|script|select|small|span|strike|strong|style|sub|sup|table|tbody|td|textarea|tfoot|th|thead|title|tr|tt|u|ul|var|article|aside|audio|bdi|canvas|command|datalist|details|embed|fieldset|figcaption|figure|footer|header|hgroup|keygen|mark|meter|nav|output|progress|rp|rt|ruby|section|source|summary|time|track|video|xmp";
 
 /*#END ====================================================================*/
 /*#BEGIN ( expand System Object methods ) =================================*/
@@ -491,6 +491,23 @@ String.prototype.replaceAll = function (rPattern, rNewStr,rOptions) {
         return _str;
     } catch (e) { return this; }
 };
+String.prototype.clearOffHTML = function () {
+	var v = this;
+    if(v.length>0){
+		v = v.replace(/<\!--/gi,"");
+		v = v.replace(/--[ ]*>/gi,"");
+		var re = null;
+		re = new RegExp("<\\s*("+$HTMLTAG+")\\s?([^/|>]*/?\\s*>)","gi");
+		v = v.replace(re,"");
+		re = new RegExp("<\\s*/\\s*("+$HTMLTAG+")[^>]*>","gi");
+		v = v.replace(re,"");
+		re = new RegExp("<\\s*/","gi");
+		v = v.replace(re,"");
+		re = null;
+	}
+	return v;
+};
+
 /*#END ====================================================================*/
 /*#BEGIN ( Jskit Date definition ) =====================================*/
 Date.prototype.toString = function(rFormat){

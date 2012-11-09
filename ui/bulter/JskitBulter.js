@@ -1,4 +1,5 @@
-var JskitBulter = function(){
+var JskitBulter = function(rHd){
+	var __hd = (typeof(rHd)=="string")?rHd:"jskitBulter";
     //#Begin message
     var __MsgFunction = function(){
 		//	mode:TIP(1),DEBUG(2),INFO(3),WARN(4),ERROR(5),EXCEPTION(4),CONFIRM(6);
@@ -14,6 +15,7 @@ var JskitBulter = function(){
             this.CallBack = "";
         };
         var __msg = null;
+        var __autoHideSecond = 0;
         var __initPanel = function(){
             if(__msgPanel==null){
 				__msgPanel = document.createElement("div");
@@ -22,10 +24,20 @@ var JskitBulter = function(){
                 $$("body").appendChild(__msgPanel);
             }
         };
+        this.clear = function(){
+        	if(__msgPanel!=null){
+            	__msgPanel.style.display = "none";
+        	}
+        	if(__timer!=null){
+            	window.clearTimeout(__timer);
+        	}
+        };
+        var __timer = null;
 		var __display = function(){
             //build div content
 			if(__displayMode===1){
 				__msgPanel.innerHTML = __msg.Content;
+				__msgPanel.style.display = "";
 			}else{
 				var _str = '<div class="bulter_body">';
 				_str += '<div class="bulter_title">'+__msg.Title+'</div>';
@@ -36,19 +48,23 @@ var JskitBulter = function(){
 				_str += '<div style="height:10px;"></div>';
 				_str += '</div>';
 				__msgPanel.innerHTML = _str;
+				__msgPanel.style.display = "";
 				jskitUtil.doc.centre(__msgPanel);
 			}
-			__msgPanel.style.display = "block";
+			if(__autoHideSecond>0){
+				__timer = window.setTimeout(__hd+".msg.clear()",__autoHideSecond*1000);
+			}
 		};
-        this.show = function(rData,rPanel){
+        this.show = function(rData,rPanel,rAutoHideSecond){
 			if(!$t.isObject(rData)){
 				return false;
 			}
 			__msg = rData;
+			__autoHideSecond = (isNaN(parseInt(rAutoHideSecond)))?0:parseInt(rAutoHideSecond);
             //push a center div
-            if($t.isHTMLElement(rPanel)){
+			if($t.isHTMLElement(rPanel)){
 				__msgPanel = rPanel;
-				__msgPanelId = __msgPanel.id;
+				__msgPanelId = rPanel.id;
 				__displayMode = 1;
 			}else{
 				__initPanel();

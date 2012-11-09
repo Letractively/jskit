@@ -85,13 +85,13 @@ var jskitEvents = new function () {
         var _bk = false;
         var _handler = (typeof (rHandler) == "string" && rHandler.indexOf(")") == (rHandler.length - 1)) ? rHandler : rHandler + "(event)";
         if ($jvm["event"]) {//for browsers which support window.event
-            eval("_bk = rObj.attachEvent(\"" + rName + "\", function(){return " + _handler + ";})");
+            eval("_bk = rObj.attachEvent(\"" + rName + "\", function(){var bk=" + _handler + ";if(bk===false){event.returnValue=false;}return (bk!==false);})");
             if (_bk) {
                 __hdmap[_eventKey] = true;
             }
         } else {//for others
             var _eventName = rName.replace(/on(.*)/i, '$1');
-            eval("rObj.addEventListener(\"" + _eventName + "\", function(event){return " + _handler + ";}, true);");
+            eval("rObj.addEventListener(\"" + _eventName + "\", function(event){var bk=" + _handler + ";if(bk===false){event.preventDefault();}return (bk!==false);}, false);");
             _eventName = null;
             __hdmap[_eventKey] = true;
             _bk = true;

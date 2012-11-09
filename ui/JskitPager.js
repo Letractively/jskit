@@ -171,18 +171,15 @@ var JskitPager =function(rHd){
     	return '共'+__totalSize+'条/每页'+__pageSize+'条';
     };
     var __buildContent = function(rPage){
-        var _str = '<div class="JskitPager"><table cellspacing="0" cellpadding="0">';
-        _str += '<tr>';
-        _str += '<td class="base">'+__baseContent()+'</td>';
-        _str += '<td>';    
+        var _str = '';
+        _str += '<div class="info">'+__baseContent()+'</div>';
+        _str += '<div class="bar">';
         if (__style == "number") {
             _str += __numberContent(rPage);
         } else {
         	_str += __fpnlContent(rPage);
         }
-        _str += '</td>';
-        _str += '</tr>';
-        _str += '</table></div>';
+        _str += '</div>';
         return _str;
     };
     
