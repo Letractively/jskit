@@ -29,7 +29,7 @@ var JskitPager =function(rHd){
 
     var __totalSize = 0;
     this.setTotalSize = function(v){
-    	__totalSize = (isNaN(parseInt(v)) || parseInt(v)<1)?1:parseInt(v);
+    	__totalSize = (isNaN(parseInt(v)) || parseInt(v)<0)?0:parseInt(v);
     };
     this.getTotalSize = function(){
         return __totalSize;
