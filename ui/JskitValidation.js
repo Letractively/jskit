@@ -616,16 +616,16 @@ function JskitValidation(rHd){
         __alertTimes = 0;
 		try{
 			for (var i=__tasks.length-1;i>=0; i--) {
-				if(bk>0 && __display=="alert"){
-					return false;
-				}
 				bk += __check(i);
 				__vo = null;
+				if(bk>0 && __display=="alert"){
+					break;
+				}
 			}
 		}catch(ex){
 			alert("CheckALL:"+e.message);
 		}
-		return true;
+		return (bk===0);
     };
     //#End(Private Methods)
     

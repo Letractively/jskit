@@ -37,7 +37,7 @@ var JskitBulter = function(rHd){
             //build div content
 			if(__displayMode===1){
 				__msgPanel.innerHTML = __msg.Content;
-				__msgPanel.style.display = "";
+				__msgPanel.style.display = "block";
 			}else{
 				var _str = '<div class="bulter_body">';
 				_str += '<div class="bulter_title">'+__msg.Title+'</div>';
