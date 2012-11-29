@@ -12,10 +12,18 @@
 		var _url = $$("#txtUrl").value;
 		var _type = $$("#ddlDataType").value;
 		__ajax = new JskitXmlHttpAction(_url,"doAjaxCallback",_type); 
-		$$("#mtxtResult").value = "loading...";
+		$$("#info").innerHTML = "正在请求链接中....";
 	}
 	function doAjaxCallback(data){
 		__ajax = null;
+		$$("#info").innerHTML = "回调成功";
+		if(typeof(data)=="string"){
+			$$("#info").innerHTML += "，返回字节数："+ Math.round(data.length /1024)+"KB";
+		}else if(typeof(data)=="object"){
+			$$("#info").innerHTML += "，返回对象";
+		}else{
+			$$("#info").innerHTML += "，返回了未知的内容";
+		}
 		$$("#mtxtResult").value = data;
 	}
 	function doClear(){
@@ -67,7 +75,7 @@
 			<tr>
 				<td class="regex_title">URL:</td>
 				<td>
-					<input type="text" size="100" id="txtUrl" value="http://test.sososell.com/static/taobao/itemcat/data/nullcategoryPropValueCsv_50005700" />
+					<input type="text" size="100" id="txtUrl" value="" />
 				</td>
 			</tr>
 			<tr>
@@ -94,9 +102,14 @@
 				</td>
 			</tr>
 			<tr>
+				<td colspan="2"
+					<div id="info" style="text-align:center;color:#ff5500"></div>
+				</td>
+			</tr>
+			<tr>
 				<td class="regex_title">结果:</td>
 				<td>
-					<textarea id="mtxtResult" cols="100" rows="20"></textarea>
+					<textarea id="mtxtResult" cols="80" rows="10"></textarea>
 				</td>
 			</tr>
 		</table>
