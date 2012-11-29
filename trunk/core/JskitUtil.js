@@ -175,6 +175,16 @@ var jskitUtil = new function () {
                 return _url.substring(0, _url.lastIndexOf("/"));
             }
         };
+		this.getShortPath = function(){
+            var _url = window.location.href.toLowerCase();
+			_url = _url.substr(_url.indexOf("://")+3);
+			_url = (_url.indexOf("/")==-1)?"/":_url.substr(_url.indexOf("/"));
+			if(_url.indexOf("?")==-1){
+				return _url;
+			}else{
+				return _url.substring(0,_url.indexOf("?"));
+			}
+		};
         this.get = function (rKey) {
             this.__getParameters();
             return this.__map[rKey];
