@@ -283,18 +283,6 @@ var JskitGridView = function (rHd) {
 	            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;"><div class="'+__attrFilter(__pagerCss)+'"  id="' + __pagerCanvasId + '"></div></div>');
 	        }
         }
-        /* DIV STYLE
-        _str.push('<div style="float:none;clear:both;width:' + __width + 'px;overflow:hidden;"  class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</div>');
-        var _c = null;
-        var _r = null;
-        _str.push('<div  style="float:none;clear:both;width:' + __width + 'px" class="' + __attrFilter(__bodyCss) + '" id="' + __hd + '_data_canvas">');
-        _str.push('</div>');
-        if (__pagerVisiable === true) {
-        _str.push('<div class="' + __pagerCss + '" style="float:none;clear:both;width:' + __width + 'px;overflow:hidden;" id="' + __hd + '_pager_canvas">');
-        _str.push('</div>');
-        }
-        _str.push('<div style="clear:both;float:none;"></div>');
-        */
         return _str.join('');
     };
     var __parseColumnIndex = function (rColumnName) {
@@ -306,18 +294,44 @@ var JskitGridView = function (rHd) {
         }
         return -1;
     };
+    var __parseColumnDef = function(rColumnName){
+        if (__columns == null || __columns.length <= 0) { return null; }
+        for (var i = 0; i < __columns.length; i++) {
+            if (__columns[i].feild == rColumnName) {
+                return __columns[i];
+            }
+        }
+        return null;
+    };
     var __getDataByColumnName = function (name, rowIndex) {
         try {
             var _ci = __parseColumnIndex(name);
             if (_ci >= 0) {
-                return __data[rowIndex][_ci];
+                var _val = __data[rowIndex][_ci];
+                var _col = __parseColumnDef(name);
+                if(_col!=null && typeof(_col.format)==="string" && typeof(_val)!="undefined"){
+                	_val += "";
+                	var _f = _col.format;
+                	_f = _f.replace(/[\{|\}]/gi,"");
+                	var _t = _f.split(':')[0];
+                	if(_t==="f"){//number
+                		_val = _val.toFormatFloat("",_f.split(':')[1]);
+                	}else if(_t==="s"){//string
+                		_val = _val.cut(_f.split(':')[1],"...");
+                	}else{
+                		_val+= _col.format;
+                	}
+                	_t = _f = null;
+                }
+                _col = null;
+            	return _val;
             } else {
-                return "";
+                return ""+_ci;
                 //return name+","+_ci+","+rowIndex;
             }
         } catch (e) {
             //alert("JskitGridView Exception: \n Parse data by column name failed!");
-            return "";
+            return "?";
         }
     };
     var __findFieldValueByPk = function (pkValue, columnName) {
@@ -367,7 +381,7 @@ var JskitGridView = function (rHd) {
     };
     var __buildDataBody = function () {
     	if(!$t.isArray(__data)){
-    		return;
+    		return "";
     	}
         var _str = new Array();
         var _dataColIndex = null;

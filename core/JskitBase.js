@@ -446,13 +446,28 @@ String.prototype.toFloat = function(rDefault){
     }
 };
 String.prototype.toFormatFloat = function(rDefault,rLength){
-    var rStr = this.replace(/^0*/, "");
 	rLength = (typeof(rLength)=="number")?rLength:2;
+	if(isNaN(parseFloat(this))){
+		return rDefault;
+	}
+	var __fillZero = function(s,num){
+		for(var i=0;i<num;i++){
+			s += "0";
+		}
+		return s;
+	};
+	var s = this;
 	if(this.indexOf(".")==-1){
-		return this.toInt(rDefault);
+		s += ".";
+		return __fillZero(s,rLength);
 	}else{
-		var tail = this.substr(this.indexOf("."));
-		return (this.substr(0,this.indexOf("."))+ tail.cut(rLength+1)).toFloat(rDefault);
+		var tail = s.substr(s.indexOf(".")+1);
+		if(tail.length<=rLength){
+			return __fillZero(s,rLength-tail.length);
+		}else{
+			tail = Math.round(tail.substr(0,rLength)+"."+tail.substr(rLength))+"";
+			return __fillZero(s.substr(0,s.indexOf(".")+1),rLength-tail.length)+tail;
+		}
 	}
 };
 
@@ -492,20 +507,17 @@ String.prototype.replaceAll = function (rPattern, rNewStr,rOptions) {
     } catch (e) { return this; }
 };
 String.prototype.clearOffHTML = function () {
-	var v = this;
-    if(v.length>0){
-		v = v.replace(/<\!--/gi,"");
-		v = v.replace(/--[ ]*>/gi,"");
-		var re = null;
-		re = new RegExp("<\\s*("+$HTMLTAG+")\\s?([^/|>]*/?\\s*>)","gi");
-		v = v.replace(re,"");
-		re = new RegExp("<\\s*/\\s*("+$HTMLTAG+")[^>]*>","gi");
-		v = v.replace(re,"");
-		re = new RegExp("<\\s*/","gi");
-		v = v.replace(re,"");
-		re = null;
-	}
-	return v;
+    if(this.length>0){
+		var v = this;
+		var p = ["<\\s*\\!\\s*--[^>]*>","<\\s*\\!\\s*--","--\\s*>","<([^:]*:)?\\s*("+$HTMLTAG+")\\s*([^>]*>)?","</\\s*([^:]*:)?\\s*("+$HTMLTAG+")[^>]*>","<\\s*/","javascript\\s*:","vbscript\\s*:"];
+		var reg = null;
+		for(var i=0;i<p.length;i++){
+			reg = new RegExp(p[i],"gi");
+			v = v.replace(reg,"");
+		}
+		p = reg = null;
+		return v;
+	}else{return this;}
 };
 
 /*#END ====================================================================*/
