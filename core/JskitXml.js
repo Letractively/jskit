@@ -31,17 +31,21 @@ var jskitXml = new function() {
             var req = new XMLHttpRequest();
             req.open("GET", rSrc, false);
             req.send(null);
-            _dom = req.responseXML;
+            if($UA.bi.name=="chrome"){//chrome
+            	_dom = req.responseXML.documentElement;
+                _dom.async = false;
+            }else{//firefox
+                _dom = req.responseXML;
+                _dom.async = false;
+                _dom.load(rSrc);
+            }
+        } else if (window.ActiveXObject) {//ie
+            var _dom = new ActiveXObject("Microsoft.XMLDOM");
+            _dom.async = false;
+            _dom.load(rSrc);
         } else {
-            if (window.ActiveXObject) {
-                var _dom = new ActiveXObject("Microsoft.XMLDOM");
-            }
-            else {
-                alert('Your browser can\'t handle this script');
-            }
+            alert('Your browser can\'t handle this script');
         }
-        _dom.async = false;
-        _dom.load(rSrc);
         return _dom;
     };
     this.loadXml = function (rSrc) {

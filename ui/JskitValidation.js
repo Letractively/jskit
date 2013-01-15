@@ -78,7 +78,7 @@ function JskitValidation(rHd){
         this.SPACELINE = "\\n\\s*\\r";
         this.HTML = "<(\\S*?)[^>]*>.*?</\\1>|<.*? />";
         this.TRIM = "^\\s*|\\s*$";
-        this.MONEY = "^[1-9][0-9]{0,}(\\.)?([0-9]{0,2})$";
+        this.MONEY = "^[0-9]*(\\.)?([0-9]{2})$";
     };
     var __errorLogs = new Array();
     //#End
@@ -606,7 +606,7 @@ function JskitValidation(rHd){
 
     var __check = function(taskIndex){
 		__vo = __tasks[taskIndex];
-		if(__vo.htmlInput!==true){
+		if(__vo.html!==true){
 			__vo.setValue(__vo.value().clearOffHTML());
 		}
 		return parseInt(__doValidate());

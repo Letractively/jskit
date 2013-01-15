@@ -16,12 +16,13 @@ var JskitGridView = function (rHd) {
         this.orderBy = "";
         this.orderRule = 0;
         this.lock = false;
+        this.editable = false;
     };
     var __lang = [];
     /*#BEGIN Properties */
-    var __totalSize = 1;
+    var __totalSize = 0;
     this.setTotalSize = function (v) {
-        __totalSize = (!isNaN(parseInt(v)) && v > 0) ? v : 20;
+        __totalSize = (!isNaN(parseInt(v)) && v > 0) ? v : 0;
     };
     var __pageSize = 20;
     this.setPageSize = function (v) {
@@ -55,14 +56,14 @@ var JskitGridView = function (rHd) {
     var __oriData = null;
     this.setData = function (v) {
         __oriData = __data = v;
-        __pkColumnIndex = __parseColumnIndex(__pkColumnFeild);
+        __pkColumnIndex = __parseFieldIndex(__pkColumnField);
     };
     this.getData = function (v) {
         return __data;
     };
 
     var __columns = null;
-    //columns data example: [{title:"",feild:"",checkname:"",visiable:true,editable:true,template:"",width:}];
+    //columns data example: [{title:"",field:"",checkname:"",visiable:true,editable:true,template:"",width:}];
     this.setColumns = function (v) {
         __columns = v;
     };
@@ -81,6 +82,7 @@ var JskitGridView = function (rHd) {
     this.setEditable = function (v) {
         __editable = (v !== false && v !== 0 && v !== "no");
     };
+    
 
     var __width = 0;
     this.setWidth = function (v) {
@@ -94,9 +96,9 @@ var JskitGridView = function (rHd) {
     this.setLineWidth = function (v) {
         __lineWidth = (!isNaN(parseInt(v)) && v >= 0) ? v : 1;
     };
-
+    
     var __pkColumnIndex = null;
-    var __pkColumnFeild = null;
+    var __pkColumnField = null;
     var __queryParams = null;
     var __queryUrl = null;
     var __deleteUrl = null;
@@ -172,7 +174,11 @@ var JskitGridView = function (rHd) {
 
     /*BEGIN Private methods */
     var __countPages = function () {
-        return Math.ceil(__totalSize / __pageSize);
+    	if(__totalSize==0){
+    		return 1;
+    	}else{
+            return Math.ceil(__totalSize / __pageSize);
+    	}
     };
     var __attrFilter = function (v) {
         if (typeof (v) === "number") { return v + ""; }
@@ -264,7 +270,7 @@ var JskitGridView = function (rHd) {
         /* TABLE STYLE */
         var _str = new Array();
         if (!isNaN(parseFloat(__width)) && __width > 0) {
-            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow-x:auto;">');
+            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow-x:auto;position:relative;">');
         } else {
             _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;">');
         }
@@ -285,10 +291,18 @@ var JskitGridView = function (rHd) {
         }
         return _str.join('');
     };
-    var __parseColumnIndex = function (rColumnName) {
+    var __parseFieldIndex = function (rFieldName) {
         if (__data == null || __data.length < 0) { return -1; }
         for (var i = 0; i < __data[0].length; i++) {
-            if (__data[0][i] == rColumnName) {
+            if (__data[0][i] == rFieldName) {
+                return i;
+            }
+        }
+        return -1;
+    };
+    var __parseColumnIndex = function (rFieldName) {
+    	for (var i = 0; i < __columns.length; i++) {
+            if (__columns[i].field == rFieldName) {
                 return i;
             }
         }
@@ -297,7 +311,7 @@ var JskitGridView = function (rHd) {
     var __parseColumnDef = function(rColumnName){
         if (__columns == null || __columns.length <= 0) { return null; }
         for (var i = 0; i < __columns.length; i++) {
-            if (__columns[i].feild == rColumnName) {
+            if (__columns[i].field == rColumnName) {
                 return __columns[i];
             }
         }
@@ -305,7 +319,7 @@ var JskitGridView = function (rHd) {
     };
     var __getDataByColumnName = function (name, rowIndex) {
         try {
-            var _ci = __parseColumnIndex(name);
+            var _ci = __parseFieldIndex(name);
             if (_ci >= 0) {
                 var _val = __data[rowIndex][_ci];
                 var _col = __parseColumnDef(name);
@@ -335,7 +349,7 @@ var JskitGridView = function (rHd) {
         }
     };
     var __findFieldValueByPk = function (pkValue, columnName) {
-        var _tgIdx = __parseColumnIndex(columnName);
+        var _tgIdx = __parseFieldIndex(columnName);
         for (var i = 1; i < __data.length; i++) {
             if (__data[i][__pkColumnIndex] == pkValue) {
                 return __data[i][_tgIdx];
@@ -343,9 +357,26 @@ var JskitGridView = function (rHd) {
         }
         return "";
     };
+    var __findCell = function(pkValue,fieldName){
+        var _colIdx = __parseColumnIndex(fieldName);
+        if(_colIdx>=0){
+            var _rowId = __getRowId(pkValue);
+            if($$("#"+_rowId)!=null){
+                var _cellList = $$("#"+_rowId).childNodes;
+                var n = null;
+                for(var i=0;i<_cellList.length;i++){
+                	n = _cellList[i];
+                	if(n.tagName==="TD" && n.getAttribute && n.getAttribute("_gv_col_")===(_colIdx+"")){
+                		return n;
+                	}
+                }
+            }
+        }
+        return null;
+    };
     var __getGridDataByFk = function (fkName, fkValue) {
         if (__oriData == null || __oriData.length < 0) { return []; }
-        var _ci = __parseColumnIndex(fkName);
+        var _ci = __parseFieldIndex(fkName);
         var _arr = [];
         _arr.push(__oriData[0]);
         for (var i = 1; i < __oriData.length; i++) {
@@ -367,7 +398,7 @@ var JskitGridView = function (rHd) {
         var _pattarn = /\{([^\}]*)\}/gi;
         var _arr = template.match(_pattarn);
         if (_arr == null) { return template; }
-        var _feild = null;
+        var _field = null;
         var _val = null;
         for (var i = 0; i < _arr.length; i++) {
             _val = __getDataByColumnName(_arr[i].replace("{", "").replace("}", ""), rowIndex);
@@ -388,18 +419,22 @@ var JskitGridView = function (rHd) {
         var _pkValue = "";
         for (var i = 1; i < __data.length; i++) {
             _r = __data[i];
-            _pkValue = __attrFilter(__getDataByColumnName(__pkColumnFeild, i));
+            _pkValue = __attrFilter(__getDataByColumnName(__pkColumnField, i));
             _str.push('<tr id="' + __getRowId(_pkValue) + '" pk="' + _pkValue + '" ondblclick="' + __hd + '.onRowDblClick(this,' + i + ',' + _pkValue + ')">');
             _dataColIndex = 0;
             for (var j = 0; j < __columns.length; j++) {
                 _c = __columns[j];
                 if (_c.visiable !== false) {
-                    _str.push('<td>');
+                	if(_c.editable===true){
+                        _str.push('<td _gv_editable_="1" _gv_col_="'+j+'">');
+                	}else{
+                        _str.push('<td _gv_col_="'+j+'">');
+                	}
                     if (_c.type == __ENUM.COL_TYPE.DATA) {
                         if (_c.template !== "" && _c.template != null) {
                             _str.push('' + __parseColumnTemplate(_c.template, i) + '');
                         } else {
-                            _str.push('' + __getDataByColumnName(_c.feild, i) + '');
+                            _str.push('' + __getDataByColumnName(_c.field, i) + '');
                         }
                     } else if (_c.type == __ENUM.COL_TYPE.CHECK) {//check
                         _str.push('<div style="padding:0px;maring:0px;width:' + _c.width + 'px;overflow:hidden"><input name="' + _c.name + '" value="' + _pkValue + '" gname="' + __cbGroupName + '" type="checkbox" idx="' + i + '" onclick="' + __hd + '.onRowCheck(this,' + i + ',' + _pkValue + ')" /></div>');
@@ -436,10 +471,10 @@ var JskitGridView = function (rHd) {
     		_c = __columns[j];
     		if(!_c.visiable){continue;}
     		if(_c.type==__ENUM.COL_TYPE.DATA ){
-        		if(_sumPattern.indexOf(_c.feild+",")!=-1){
-        			_str.push('<td>'+__getSum(_c.feild)+'</td>');
-        		}else if(_avgPattern.indexOf(_c.feild+",")!=-1){
-            			_str.push('<td>'+__getAvg(_c.feild)+'</td>');
+        		if(_sumPattern.indexOf(_c.field+",")!=-1){
+        			_str.push('<td>'+__getSum(_c.field)+'</td>');
+        		}else if(_avgPattern.indexOf(_c.field+",")!=-1){
+            			_str.push('<td>'+__getAvg(_c.field)+'</td>');
         		}else{
         			_str.push('<td>&nbsp;</td>');
         		}
@@ -495,7 +530,7 @@ var JskitGridView = function (rHd) {
         return null;
     };
     var __getActionUrl = function (type, rowIndex) {
-        var _pkValue = __getDataByColumnName(__pkColumnFeild, rowIndex);
+        var _pkValue = __getDataByColumnName(__pkColumnField, rowIndex);
         var _url = "";
         if (type === __ENUM.ACTION.D) {
             _url = __deleteUrl;
@@ -505,7 +540,7 @@ var JskitGridView = function (rHd) {
             return null;
         }
         _url += (_url.indexOf("?") == -1) ? ("?" + jskitUtil.guid()) : ("&" + jskitUtil.guid());
-        _url += "&" + __pkColumnFeild + "=" + _pkValue;
+        _url += "&" + __pkColumnField + "=" + _pkValue;
         return _url;
     };
     var __loadingBox = null;
@@ -592,6 +627,197 @@ var JskitGridView = function (rHd) {
     this.onRowDblClick = function (sender, rowIndex, pkValue) {
         return false;
     };
+    
+    
+    /* BEGIN: edit */
+    var __EDIT_ACTOR = function(){
+    	this.obj = null;
+    	this.innerCode = "";
+    	this.key = null;
+    	this.field = null;
+    	this.val = null;
+    	this.format = null;
+    };
+    
+    var __editTd = null;
+    var __editTip = null;
+    var __editTipSrc = null;
+    var __editTipType = null;
+    var __editTipCss = "";
+    var __editPanel = null;
+    var __editPanelCss = "";
+    var __editTipText = "Click for edit";
+    var __editAction = {url:"?k={key}&f={field}&v={val}",key:"{key}",field:"{field}",val:"{val}"};
+    var __editAjax = null;
+    var __editHandler = null;
+    this.setEditConfig = function(json){
+    	__editPanelCss = json.editPanelCss;
+    	__editAction = json.editAction;
+    	__editHandler = json.editHandler;
+    	__editTipCss = json.tipCss;
+    	__editTipText = json.tipText;
+    	__editTipType = json.tipType;
+		jskitEvents.add($$("body"),"onmousemove",__hd+".onMouseMove4Edit");
+		jskitEvents.add($$("body"),"onclick",__hd+".onClick4Edit");
+    };
+    var __buildEditActionUrl = function(){
+    	var _url = __editAction.url;
+    	_url = _url.replace(__editAction.key,__editTd.key);
+    	_url = _url.replace(__editAction.field,__editTd.field);
+    	return _url;
+    };
+    
+    var __editing = false;//0: none,1:editing
+    var __showEditTip = function(e,sender){
+    	if(__editTipType=="text"){
+        	if(__editTip==null){
+        		__editTip = document.createElement("div");
+        		__editTip.style.display = "none";
+        		__editTip.style.position = "absolute";
+        		$$("body").appendChild(__editTip);
+        		__editTip.innerHTML = __editTipText;
+        		__editTip.style.zIndex = 999;
+        	}
+        	__editTip.className = __editTipCss;
+        	__editTip.style.top = (e.clientY-10+document.documentElement.scrollTop)+"px";
+        	__editTip.style.left = (e.clientX+10+document.documentElement.scrollLeft)+"px";
+        	__editTip.style.display = "block";
+    	}else{
+    		__closeEditTip();
+        	__editTipSrc = sender;
+    		sender.className = sender.className+ " "+__editTipCss;
+    	}
+    };
+    var __closeEditTip = function(){
+    	if(__editTipType=="text"){
+    		if(__editTip!=null){__editTip.style.display="none";}
+    	}else{
+    		if(__editTipSrc!=null){
+    			__editTipSrc.className = __editTipSrc.className.replace(" "+__editTipCss,"");
+    			__editTipSrc=null;
+    		}
+    	}
+    };
+    
+    var __showEditPanel = function(x,y,val){
+    	if(__editPanel==null){
+    		__editPanel = document.createElement("div");
+    		__editPanel.style.display = "none";
+    		__editPanel.style.position = "absolute";
+    		$$("body").appendChild(__editPanel);
+    		__editPanel.innerHTML = '<input tyoe="text" id="_gv_edit_input" value="'+val+'" onkeydown="'+__hd+'.editOnKeyDown(event)"/>';
+    		__editPanel.style.zIndex = 999;
+    		__editPanel.className = __editPanelCss;
+    	}else{
+    		$$("#_gv_edit_input").value = val;
+    	}
+    	$$("#_gv_edit_input").style.width = (val.length>6)?((val.length*15)+"px"):"90px";
+    	__editPanel.style.top = (y)+"px";
+    	__editPanel.style.left = (x)+"px";
+    	__editPanel.style.display = "block";
+    	__focus2End($$("#_gv_edit_input"));
+    };
+    var __closeEditPanel = function(){
+    	if(__editPanel!=null){
+    		__editPanel.style.display = "none";
+    	}
+    };
+  
+    var __focus2End = function(obj){
+    	obj.focus();
+    	var len = obj.value.length;
+    	if (document.selection) {
+    		var sel = obj.createTextRange();
+    		sel.moveStart('character', len);
+    		sel.collapse();
+    		sel.select();
+    	} else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+    		obj.selectionStart = obj.selectionEnd = len;
+    	}
+    };
+    this.onMouseMove4Edit = function(e){
+    	if(__editing===true){__closeEditTip();return;}
+    	var sender = __fixValidCell(e.srcElement);
+    	if(sender==null){
+        	__closeEditTip();
+    	}else{
+    		__showEditTip(e,sender);
+    	}
+    };
+    var __fixValidCell = function(obj){
+    	while(obj!=null && obj.getAttribute && obj.parentNode!=null && obj.tagName!="TR"){
+    		if(obj.getAttribute("_gv_editable_")==="1"){
+    			return obj;
+    		}
+    		obj = obj.parentNode;
+    	}
+    	return null;
+    };
+    
+    this.onClick4Edit = function(e){
+    	var sender = e.srcElement;
+    	if(__editing===true){
+        	if(sender.tagName=='INPUT'){
+        		return;
+        	}else{
+        		__editing = false;
+        		this.editComplete();
+        		return;
+        	}
+    	} 
+    	sender = __fixValidCell(sender);
+    	if(sender!=null){
+    		__editing = true;
+    		__editTd = new __EDIT_ACTOR();
+    		__editTd.obj = sender;
+    		__editTd.val = sender.innerText;
+    		__editTd.key = sender.parentNode.getAttribute("pk");
+    		var _col = __columns[sender.getAttribute("_gv_col_")];
+    		__editTd.field = _col.field;
+    		__editTd.format = _col.editFormat;
+    		__editTd.innerCode = sender.innerHTML;
+    		__editTd.innerCode = __editTd.innerCode.replace(__editTd.val,"{__v__}");
+    		__showEditPanel($$(sender).getX(),$$(sender).getY()-3+sender.offsetHeight,__editTd.val);
+    	}
+    };
+    
+    this.editOnKeyDown = function(e){
+    	if(e.keyCode==13){
+    		this.editComplete();
+    	}
+    };
+    this.editComplete = function(sender){
+    	__editing = false;
+    	if(__editTd!=null){
+    		var val = $$("#_gv_edit_input").value;
+    		if(typeof(__editTd.format)=="string"){
+    			if(!(new RegExp(__editTd.format,"gi")).test(val)){
+    				alert("请输入正确格式的数据");
+    				return;
+    			}
+    		}
+    		__closeEditPanel();
+    		if(__editTd.val!=val){
+        		__closeEditPanel();
+        		__editTd.obj.innerHTML = __editTd.innerCode.replace("{__v__}",val);
+        		if(typeof(__editHandler)=="function"){
+        			__editHandler(__editTd.key,__editTd.field,val);
+        		}else if(__editAction!=null){
+            		try{
+                		__editAjax = new JskitXmlHttpAction(__buildEditActionUrl(),__hd+".editCompleteCallback","text");
+            		}catch(e){
+            			//alert(e.message);
+            		}
+        		}
+    		}
+    		__editTd = null;
+    	}
+    };
+    this.editCompleteCallback = function(){
+    	__editAjax = null;
+    	//alert("Edit saved!");
+    };
+    /*END edit */
     /*END Action methods */
 
 
@@ -638,7 +864,7 @@ var JskitGridView = function (rHd) {
                 var arr = new Array();
                 for (var i = 0; i < __data[0].length; i++) {
                     arr[title] = __data[0][i];
-                    arr[feild] = __data[0][i];
+                    arr[field] = __data[0][i];
                     arr[visiable] = true;
                     arr[editable] = true;
                     arr[template] = "";
@@ -647,10 +873,10 @@ var JskitGridView = function (rHd) {
                 }
             }
         }
-        if (__pkColumnFeild != null) {
-            __pkColumnIndex = __parseColumnIndex(__pkColumnFeild);
+        if (__pkColumnField != null) {
+            __pkColumnIndex = __parseFieldIndex(__pkColumnField);
             if (__pkColumnIndex == null) {
-                alert("JskitGridView Error:\n PK(" + __pkColumnFeild + ") is invalid column feild");
+                alert("JskitGridView Error:\n PK(" + __pkColumnField + ") is invalid column field");
                 return;
             }
         }
@@ -670,8 +896,11 @@ var JskitGridView = function (rHd) {
         }
         return _i;
     };
-    this.findValue = function (pkValue, columnName) {
-        return __findFieldValueByPk(pkValue, columnName);
+    this.findValue = function (pkValue, fieldName) {
+        return __findFieldValueByPk(pkValue, fieldName);
+    };
+    this.findCell = function(pkValue,fieldName){
+        return __findCell(pkValue,fieldName);
     };
     this.show = function (rCanvasId) {
         if (typeof (rCanvasId) === "string" && rCanvasId != "") {
@@ -721,8 +950,8 @@ var JskitGridView = function (rHd) {
         __queryUrl = __initStrValue(json.queryUrl, null);
         __deleteUrl = __initStrValue(json.deleteUrl, null);
         __updateUrl = __initStrValue(json.updateUrl, null);
-        __pkColumnFeild = json.pk;
-        __pkColumnIndex = __parseColumnIndex(__pkColumnFeild);
+        __pkColumnField = json.pk;
+        __pkColumnIndex = __parseFieldIndex(__pkColumnField);
         this.setLineWidth(json.lineWidth);
         __lang = json.properties;
         if (typeof (__lang) != "undefined") {
@@ -735,7 +964,7 @@ var JskitGridView = function (rHd) {
     };
     /*END Public methods */
     var __EXT = function () {
-        var __parseColumnIndex = function (data, rColumnName) {
+        var __parseFieldIndex = function (data, rColumnName) {
             if (data == null || data.length < 0) { return -1; }
             for (var i = 0; i < data[0].length; i++) {
                 if (data[0][i] == rColumnName) {
@@ -745,8 +974,8 @@ var JskitGridView = function (rHd) {
             return -1;
         };
         this.findValueList = function (data, colName, colValue, dstColName) {
-            var _tgIdx = __parseColumnIndex(data, dstColName);
-            var _srcIdx = __parseColumnIndex(data, colName);
+            var _tgIdx = __parseFieldIndex(data, dstColName);
+            var _srcIdx = __parseFieldIndex(data, colName);
             var _arr = [];
             for (var i = 1; i < data.length; i++) {
                 if (data[i][_srcIdx] == colValue) {
@@ -756,8 +985,8 @@ var JskitGridView = function (rHd) {
             return _arr;
         };
         this.findValue = function (data, pkName, pkValue, columnName) {
-            var _tgIdx = __parseColumnIndex(data, columnName);
-            var _srcIdx = __parseColumnIndex(data, pkName);
+            var _tgIdx = __parseFieldIndex(data, columnName);
+            var _srcIdx = __parseFieldIndex(data, pkName);
             for (var i = 1; i < data.length; i++) {
                 if (data[i][_srcIdx] == pkValue) {
                     return data[i][_tgIdx];
