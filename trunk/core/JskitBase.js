@@ -643,21 +643,19 @@ $UA = (function(WIN, UA) {
 //#Begin Extend Firefox methods as IE
 //#[innerText]
 if($UA.bi.name!="msie"){
-	if (typeof(HTMLElement) == "function") {
-	    HTMLElement.prototype.__defineGetter__("innerText", function(){
-	        var anyString = "";
-	        var childS = this.childNodes;
-	        for (var i = 0; i < childS.length; i++) {
-	            if (childS[i].nodeType == 1){ 
-	                anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
-	            }else if (childS[i].nodeType == 3) {anyString += childS[i].nodeValue;}
-	        }
-	        return anyString;
-	    });
-	    HTMLElement.prototype.__defineSetter__("innerText", function(sText){
-	        this.textContent = sText;
-	    });
-	};
+	HTMLElement.prototype.__defineGetter__("innerText", function(){
+		var anyString = "";
+		var childS = this.childNodes;
+		for (var i = 0; i < childS.length; i++) {
+			if (childS[i].nodeType == 1){ 
+				anyString += childS[i].tagName == "BR" ? '\n' : childS[i].innerText;
+			}else if (childS[i].nodeType == 3) {anyString += childS[i].nodeValue;}
+		}
+		return anyString;
+	});
+	HTMLElement.prototype.__defineSetter__("innerText", function(sText){
+		this.textContent = sText;
+	});
 	if(window.addEventListener){
 	    Event.prototype.__defineGetter__("srcElement", function () {
 	        return this.target;

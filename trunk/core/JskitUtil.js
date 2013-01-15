@@ -96,7 +96,7 @@ var jskitUtil = new function () {
         this.makeChsFirstlyPy = function (str) {
             if (typeof (str) != "string") {
                 return str;
-                //throw new Error(-1,"ÐèÒª×Ö·û´®ÀàÐÍ²ÎÊý!");
+                //throw new Error(-1,"ï¿½ï¿½Òªï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½!");
             }
             var arrResult = new Array();
             for (var i = 0, len = str.length; i < len; i++) {
@@ -473,8 +473,9 @@ var jskitUtil = new function () {
         this.centre = function (div) {
             if (!$t.isHTMLElement(div)) {return null;}
 			div.style.position = "absolute";
-			div.style.left = ((document.documentElement.clientWidth - div.offsetWidth) / 2 + document.documentElement.scrollLeft) - $$("body").scrollLeft + "px";
-			div.style.top = ((document.documentElement.clientHeight - div.offsetHeight) / 2 + document.documentElement.scrollTop) - $$("body").scrollTop + "px";
+			div.style.display = "block";
+			div.style.left = ((document.documentElement.clientWidth - div.offsetWidth) / 2 + document.documentElement.scrollLeft) + "px";
+			div.style.top = ((document.documentElement.clientHeight - div.offsetHeight) / 2 + document.documentElement.scrollTop)+ "px";
             return div;
         };
         this.newDiv = function (rWidth, rHeight, rLeft, rTop) {
