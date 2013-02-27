@@ -91,6 +91,48 @@ var jskitUtil = new function () {
         this.isNullOrEmpty = function (rStr) {
             return (typeof (rStr) != "string" || rStr == "undefined" || rStr == "");
         };
+        this.format = function(v,f,d){
+        	if(typeof(f)!="string"){
+        		return v;
+        	}
+        	if(typeof(v)=="undefined" || v==null || v==""){
+        		return "";
+        	}
+        	if(typeof(d)==null || typeof(d)=="undefined"){d="";}
+        	v = v.toString();
+        	_f = f.replace(/[\{|\}]/gi,"");
+        	var _t = _f.split(':')[0];
+        	if(_t==="f"){//float
+				if(isNaN(parseFloat(v))){
+					return d;
+				}else{
+	        		v = Math.abs(parseFloat(v)).toString().toFormatFloat(d,_f.split(':')[1],true);
+				}
+        	}else if(_t==="F"){//float,0
+				if(isNaN(parseFloat(v))){
+					return d;
+				}else{
+					var p = (v<0)?"-":"";
+		        	v = p+Math.abs(parseFloat(v)).toString().toFormatFloat(d,_f.split(':')[1],true);
+				}
+        	}else if(_t==="d"){//integer
+				if(isNaN(parseInt(v,10))){
+					return d;
+				}else{
+		        	v = Math.abs(parseInt(v,10)).toString().toFormatInt(d,_f.split(':')[1],true);
+				}
+        	}else if(_t==="D"){//integer
+				if(isNaN(parseInt(v,10))){
+					return d;
+				}else{
+					var p = (v<0)?"-":"";
+		        	v = p+Math.abs(parseInt(v,10)).toString().toFormatInt(d,_f.split(':')[1],true);
+				}
+        	}else if(_t==="s"){//string
+        		v = v.cut(_f.split(':')[1],"...");
+        	}
+        	return v;
+        };
     };
     this.lang = new function () {
         this.makeChsFirstlyPy = function (str) {
@@ -606,6 +648,18 @@ var jskitUtil = new function () {
             } catch (e) { }
             return true;
         };
+		this.focus2End = function(obj){
+			try{obj.focus();}catch(e){}
+			var len = obj.value.length;
+			if (document.selection) {
+				var sel = obj.createTextRange();
+				sel.moveStart('character', len);
+				sel.collapse();
+				sel.select();
+			} else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+				obj.selectionStart = obj.selectionEnd = len;
+			}
+		};
     };
     /*#End ==================================================*/
     /*#Begin Dom package ====================================*/

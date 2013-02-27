@@ -75,15 +75,21 @@ var jskitEvents = new function () {
             alert("[JskitEvents::add]:rObj is null or not a HtmlObject");
             return false;
         }
-        if (typeof (rObj.id) != "undefined" && rObj.id == "") {
-            rObj.id = jskitUtil.guid();
-        }
-        var _eventKey = __getEventKey(rObj, rName, rHandler);
-        if (__isAdded(_eventKey)) {
-            //return true;
-        }
         var _bk = false;
-        var _handler = (typeof (rHandler) == "string" && rHandler.indexOf(")") == (rHandler.length - 1)) ? rHandler : rHandler + "(event)";
+        var _handler = rHandler;
+		try{
+			if(typeof(_handler)!="string"){
+				_handler = "void(0)";
+			}else if(_handler.indexOf("(")==-1){
+				_handler += "(event)";
+			}else if(_handler.indexOf("()")!=-1){
+				_handler = _handler.replace("()","(event)");
+			}else{
+				_handler = _handler.replace("(","(event,");
+			}
+		}catch(e){
+			_handler = "void(0)";
+		}
         if ($jvm["event"]) {//for browsers which support window.event
             eval("_bk = rObj.attachEvent(\"" + rName + "\", function(){var bk=" + _handler + ";if(bk===false){event.returnValue=false;}return (bk!==false);})");
             if (_bk) {
@@ -93,7 +99,6 @@ var jskitEvents = new function () {
             var _eventName = rName.replace(/on(.*)/i, '$1');
             eval("rObj.addEventListener(\"" + _eventName + "\", function(event){var bk=" + _handler + ";if(bk===false){event.preventDefault();}return (bk!==false);}, false);");
             _eventName = null;
-            __hdmap[_eventKey] = true;
             _bk = true;
         }
         __eventsCount++;
