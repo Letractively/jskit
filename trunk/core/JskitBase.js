@@ -11,7 +11,7 @@ var jskitBase = new function(){
     var __hd = "jskitBase";
     
     this.author = "Jiang Xingbo";
-    this.version = "1.0.1.20120713(B)";
+    this.version = "1.0.1.20130226(B)";
     this.homepage = "http://www.jskit.org";
     this.email = "jskit.org@gmail.com";
     this.copyright = "CopyRight(c)jskit.org, All right reserved";
@@ -445,22 +445,41 @@ String.prototype.toFloat = function(rDefault){
         return parseFloat(rStr);
     }
 };
-String.prototype.toFormatFloat = function(rDefault,rLength){
-	rLength = (typeof(rLength)=="number")?rLength:2;
-	if(isNaN(parseFloat(this))){
+String.prototype.toFormatInt = function(rDefault,rLength){
+	rLength = (typeof(rLength)=="number")?rLength:0;
+	if(isNaN(parseInt(this,10))){
 		return rDefault;
 	}
+	var _str = parseInt(this,10);
+	if(this.length<rLength){
+		for(var i=0;i<rLength-this.length;i++){
+			_str = "0" + _str;
+		}
+	}
+	return _str;
+};
+String.prototype.toFormatFloat = function(rDefault,rLength,rAbs){
+	var s = this;
+	if(isNaN(parseFloat(s))){
+		return rDefault;
+	}else{
+		s = (rAbs===false)?(parseFloat(s)+""):(Math.abs(parseFloat(s))+"");
+	}
+	rLength = (isNaN(parseInt(rLength)))?2:parseInt(rLength);
 	var __fillZero = function(s,num){
 		for(var i=0;i<num;i++){
 			s += "0";
 		}
 		return s;
 	};
-	var s = this;
-	if(this.indexOf(".")==-1){
-		s += ".";
-		return __fillZero(s,rLength);
+	if(s.indexOf(".")==-1){
+		if(rLength<=0){return s;}
+		else{
+			s += ".";
+			return __fillZero(s,rLength);
+		}
 	}else{
+		if(rLength<=0){return Math.round(s)+"";}
 		var tail = s.substr(s.indexOf(".")+1);
 		if(tail.length<=rLength){
 			return __fillZero(s,rLength-tail.length);
