@@ -35,7 +35,7 @@ var JskitGridView = function (rHd) {
     };
     var __pagerVisiable = true;
     this.setPagerVisiable = function (v) {
-        __pagerVisiable = (v !== false && v !== 0 && v !== "no");
+        __pagerVisiable = (v === true && v ===1 && v === "yes");
     };
     
     var __pagerStartIndex = 0;
@@ -158,6 +158,32 @@ var JskitGridView = function (rHd) {
     this.setSumColumns = function(arr){
     	__counter.sum = ($t.isArray(arr))?arr:[];
     };
+    this.setColumns = function(colList){
+    	var cols = [];
+    	if(typeof(colList)=="object"){
+    		var v = null;
+    		var _c = null;
+    		for(var i=0;i<colList.length;i++){
+    			v = colList[i];
+    	    	_c = {"type":"data","title":"?","name":null,"cssClass":null, "field":"", "visiable":false,"format":null, "editable":false, "template":"","width":null};
+        		if(typeof(v)=="object"){
+	    	    	_c.type = (typeof(v.type)=="string")?v.type:"data";
+	        		_c.title = (typeof(v.title)=="string")?v.title:"?";
+	        		_c.field = (typeof(v.field)=="string")?v.field:"";
+	        		_c.visiable = (typeof(v.visiable)=="undefined" || v.visiable!==false);
+	        		_c.editable = (typeof(v.editable)!="undefined" && v.editable===true);
+	        		_c.template = (typeof(v.template)=="string")?v.template:"";
+	        		_c.width = (typeof(v.width)=="number")?v.width:null;
+	        		_c.format = (typeof(v.format)=="string")?v.format:null;
+	        		_c.cssClass = (typeof(v.cssClass)=="string")?v.cssClass:null;
+	        		_c.name = (typeof(v.name)=="string")?v.name:null;
+        		}
+        		cols.push(_c);
+    		}
+    		_c = v = null;
+    	}
+    	return cols;
+    };
     /*#END Properties */
 
     /*BEGIN Const def */
@@ -188,6 +214,21 @@ var JskitGridView = function (rHd) {
             return "";
         }
     };
+    var __buildColDefContent = function(){
+        var _str = new Array();
+        var _c = null;
+        for (var i = 0; i < __columns.length; i++) {
+            _c = __columns[i];
+            if (_c.visiable !== false) {
+                if (!isNaN(parseFloat(_c.width)) && _c.width > 0) {
+                    _str.push('<colgroup width="' + _c.width + 'px"></colgroup>');
+                } else {
+                    _str.push('<colgroup></colgroup>');
+                }
+            }
+        }
+        return _str.join('');
+    };
     var __buildHeadContent = function () {
        var _str = new Array();
         var _c = null;
@@ -195,19 +236,13 @@ var JskitGridView = function (rHd) {
         for (var i = 0; i < __columns.length; i++) {
             _c = __columns[i];
             if (_c.visiable !== false) {
-                if (!isNaN(parseFloat(_c.width)) && _c.width > 0) {
-                    _str.push('<th title="' + __attrFilter(_c.title) + '"  style="width:' + _c.width + 'px">');
-                    _str.push('<div style="width:' + _c.width + 'px" >');
-                } else {
-                    _str.push('<th title="' + __attrFilter(_c.title) + '">');
-                    _str.push('<div >');
-                }
+                _str.push('<td title="' + __attrFilter(_c.title) + '" >');
                 if (_c.type === __ENUM.COL_TYPE.CHECK) {
                     _str.push('<input type="checkbox" id="' + __topCbId + '" onclick="' + __hd + '.checkAll()" />');
                 } else {
                     _str.push(_c.title);
                 }
-                _str.push('</div></th>');
+                _str.push('</td>');
             }
         }
         _str.push('</tr>');
@@ -269,19 +304,14 @@ var JskitGridView = function (rHd) {
     var __buildTable = function () {
         /* TABLE STYLE */
         var _str = new Array();
-        if (!isNaN(parseFloat(__width)) && __width > 0) {
-            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow-x:auto;position:relative;">');
-        } else {
-            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;">');
-        }
-        _str.push('<table cellspacing="' + __lineWidth + '" cellpadding="0" border="0" class="' + __tableCss + '">');
+        _str.push('<table class="' + __tableCss + '">');
+        _str.push(__buildColDefContent());
         _str.push('<thead class="' + __attrFilter(__headCss) + '">' + __buildHeadContent() + '</thead>');
         _str.push('<tbody class="' + __attrFilter(__bodyCss) + '" id="' + __dataCanvasId + '">'+__buildDataBody()+'</tbody>');
         if(__footerVisiable===true){
         	_str.push(__buildFootContent());
         }
         _str.push('</table>');
-        _str.push('</div>');
         if(__pagerVisiable===true){
 	        if (!isNaN(parseFloat(__width)) && __width > 0) {
 	            _str.push('<div style="padding:0px;margin:0px;clear:both;float:none;width:' + __width + 'px;overflow:hidden;"><div class="'+__attrFilter(__pagerCss)+'"  id="' + __pagerCanvasId + '"></div></div>');
@@ -324,23 +354,12 @@ var JskitGridView = function (rHd) {
                 var _val = __data[rowIndex][_ci];
                 var _col = __parseColumnDef(name);
                 if(_col!=null && typeof(_col.format)==="string" && typeof(_val)!="undefined"){
-                	_val += "";
-                	var _f = _col.format;
-                	_f = _f.replace(/[\{|\}]/gi,"");
-                	var _t = _f.split(':')[0];
-                	if(_t==="f"){//number
-                		_val = _val.toFormatFloat("",_f.split(':')[1]);
-                	}else if(_t==="s"){//string
-                		_val = _val.cut(_f.split(':')[1],"...");
-                	}else{
-                		_val+= _col.format;
-                	}
-                	_t = _f = null;
+                	_val = jskitUtil.str.format(_val,_col.format);
                 }
                 _col = null;
             	return _val;
             } else {
-                return ""+_ci;
+                return "";
                 //return name+","+_ci+","+rowIndex;
             }
         } catch (e) {
@@ -395,17 +414,44 @@ var JskitGridView = function (rHd) {
         template = template.replace(/\{a:edit\}/gi, "javascript:" + __hd + ".onRowEdit(" + rowIndex + ")");
         template = template.replace(/\{e:delete\}/gi, __hd + ".deleteRow(" + rowIndex + ")");
         template = template.replace(/\{e:edit\}/gi, __hd + ".onRowEdit(" + rowIndex + ")");
+        //check function
+        var _p = /\{\s*func:([^,]*),\s*params:([^}]*)\}/gi;
+        var _m = _p.exec(template);
+        while(_m!=null){
+        	var _func = null;
+        	var _params = null;
+        	var _vals = "";
+        	for(var i=0;i<_m.length;i++){
+        		_func = _m[1];
+            	_vals = "";
+        		if(_m[2]!=null && _m[2].trim()!=""){
+            		_params = _m[2].split(',');
+            		for(var j=0;j<_params.length;j++){
+            			if(j>0){_vals+=",";}
+            			_vals += "\""+__getDataByColumnName(_params[j], rowIndex)+"\"";
+            		}
+            		try{
+                		eval("template = template.replace(\""+_m[0]+"\","+_func+"("+_vals+"));");
+            		}catch(e){
+                		eval("template = template.replace(\""+_m[0]+"\",\"["+e.message+"]\");");
+            		}
+        		}
+        	}
+        	_m = _p.exec(template);
+        }
+        //check normal field 
         var _pattarn = /\{([^\}]*)\}/gi;
         var _arr = template.match(_pattarn);
-        if (_arr == null) { return template; }
-        var _field = null;
-        var _val = null;
-        for (var i = 0; i < _arr.length; i++) {
-            _val = __getDataByColumnName(_arr[i].replace("{", "").replace("}", ""), rowIndex);
-            if (_val != null) {
-                template = template.replace(_arr[i], _val);
-            } else {
-                template = template.replace(_arr[i], "null");
+        if (_arr != null && _arr.length>0) {
+            var _field = null;
+            var _val = null;
+            for (var i = 0; i < _arr.length; i++) {
+                _val = __getDataByColumnName(_arr[i].replace("{", "").replace("}", ""), rowIndex);
+                if (_val != null) {
+                    template = template.replace(_arr[i], _val);
+                } else {
+                    template = template.replace(_arr[i], "null");
+                }
             }
         }
         return template;
@@ -417,6 +463,7 @@ var JskitGridView = function (rHd) {
         var _str = new Array();
         var _dataColIndex = null;
         var _pkValue = "";
+        var _cssClass = "";
         for (var i = 1; i < __data.length; i++) {
             _r = __data[i];
             _pkValue = __attrFilter(__getDataByColumnName(__pkColumnField, i));
@@ -424,11 +471,12 @@ var JskitGridView = function (rHd) {
             _dataColIndex = 0;
             for (var j = 0; j < __columns.length; j++) {
                 _c = __columns[j];
+                _cssClass = (typeof(_c.cssClass)=="string")?' class="'+_c.cssClass+'" ':'';
                 if (_c.visiable !== false) {
                 	if(_c.editable===true){
-                        _str.push('<td _gv_editable_="1" _gv_col_="'+j+'">');
+                        _str.push('<td '+_cssClass+' _gv_editable_="1" _gv_col_="'+j+'">');
                 	}else{
-                        _str.push('<td _gv_col_="'+j+'">');
+                        _str.push('<td '+_cssClass+' _gv_col_="'+j+'">');
                 	}
                     if (_c.type == __ENUM.COL_TYPE.DATA) {
                         if (_c.template !== "" && _c.template != null) {
@@ -437,7 +485,7 @@ var JskitGridView = function (rHd) {
                             _str.push('' + __getDataByColumnName(_c.field, i) + '');
                         }
                     } else if (_c.type == __ENUM.COL_TYPE.CHECK) {//check
-                        _str.push('<div style="padding:0px;maring:0px;width:' + _c.width + 'px;overflow:hidden"><input name="' + _c.name + '" value="' + _pkValue + '" gname="' + __cbGroupName + '" type="checkbox" idx="' + i + '" onclick="' + __hd + '.onRowCheck(this,' + i + ',' + _pkValue + ')" /></div>');
+                        _str.push('<input name="' + _c.name + '" value="' + _pkValue + '" gname="' + __cbGroupName + '" type="checkbox" idx="' + i + '" onclick="' + __hd + '.onRowCheck(this,' + i + ',' + _pkValue + ')" />');
                     } else if (_c.type == __ENUM.COL_TYPE.INDEX) {//index
                         _str.push(__getIndex(i));
                     } else if (_c.type == __ENUM.COL_TYPE.EDIT) {//edit
@@ -632,117 +680,31 @@ var JskitGridView = function (rHd) {
     /* BEGIN: edit */
     var __EDIT_ACTOR = function(){
     	this.obj = null;
-    	this.innerCode = "";
+    	this.html = "";
     	this.key = null;
     	this.field = null;
+    	this.title = null;
     	this.val = null;
     	this.format = null;
-    };
-    
-    var __editTd = null;
-    var __editTip = null;
-    var __editTipSrc = null;
-    var __editTipType = null;
-    var __editTipCss = "";
-    var __editPanel = null;
-    var __editPanelCss = "";
-    var __editTipText = "Click for edit";
-    var __editAction = {url:"?k={key}&f={field}&v={val}",key:"{key}",field:"{field}",val:"{val}"};
-    var __editAjax = null;
-    var __editHandler = null;
-    this.setEditConfig = function(json){
-    	__editPanelCss = json.editPanelCss;
-    	__editAction = json.editAction;
-    	__editHandler = json.editHandler;
-    	__editTipCss = json.tipCss;
-    	__editTipText = json.tipText;
-    	__editTipType = json.tipType;
-		jskitEvents.add($$("body"),"onmousemove",__hd+".onMouseMove4Edit");
-		jskitEvents.add($$("body"),"onclick",__hd+".onClick4Edit");
-    };
-    var __buildEditActionUrl = function(){
-    	var _url = __editAction.url;
-    	_url = _url.replace(__editAction.key,__editTd.key);
-    	_url = _url.replace(__editAction.field,__editTd.field);
-    	return _url;
-    };
-    
-    var __editing = false;//0: none,1:editing
-    var __showEditTip = function(e,sender){
-    	if(__editTipType=="text"){
-        	if(__editTip==null){
-        		__editTip = document.createElement("div");
-        		__editTip.style.display = "none";
-        		__editTip.style.position = "absolute";
-        		$$("body").appendChild(__editTip);
-        		__editTip.innerHTML = __editTipText;
-        		__editTip.style.zIndex = 999;
-        	}
-        	__editTip.className = __editTipCss;
-        	__editTip.style.top = (e.clientY-10+document.documentElement.scrollTop)+"px";
-        	__editTip.style.left = (e.clientX+10+document.documentElement.scrollLeft)+"px";
-        	__editTip.style.display = "block";
-    	}else{
-    		__closeEditTip();
-        	__editTipSrc = sender;
-    		sender.className = sender.className+ " "+__editTipCss;
-    	}
-    };
-    var __closeEditTip = function(){
-    	if(__editTipType=="text"){
-    		if(__editTip!=null){__editTip.style.display="none";}
-    	}else{
-    		if(__editTipSrc!=null){
-    			__editTipSrc.className = __editTipSrc.className.replace(" "+__editTipCss,"");
-    			__editTipSrc=null;
+    	this.valHtml = function(v){
+    		if(typeof(this.html)=="string"){
+        		return this.html.replace("{__v__}",v);
+    		}else{
+    			return v;
     		}
-    	}
+    	};
+    	this.custom = null;
     };
-    
-    var __showEditPanel = function(x,y,val){
-    	if(__editPanel==null){
-    		__editPanel = document.createElement("div");
-    		__editPanel.style.display = "none";
-    		__editPanel.style.position = "absolute";
-    		$$("body").appendChild(__editPanel);
-    		__editPanel.innerHTML = '<input tyoe="text" id="_gv_edit_input" value="'+val+'" onkeydown="'+__hd+'.editOnKeyDown(event)"/>';
-    		__editPanel.style.zIndex = 999;
-    		__editPanel.className = __editPanelCss;
-    	}else{
-    		$$("#_gv_edit_input").value = val;
-    	}
-    	$$("#_gv_edit_input").style.width = (val.length>6)?((val.length*15)+"px"):"90px";
-    	__editPanel.style.top = (y)+"px";
-    	__editPanel.style.left = (x)+"px";
-    	__editPanel.style.display = "block";
-    	__focus2End($$("#_gv_edit_input"));
-    };
-    var __closeEditPanel = function(){
-    	if(__editPanel!=null){
-    		__editPanel.style.display = "none";
-    	}
-    };
-  
-    var __focus2End = function(obj){
-    	obj.focus();
-    	var len = obj.value.length;
-    	if (document.selection) {
-    		var sel = obj.createTextRange();
-    		sel.moveStart('character', len);
-    		sel.collapse();
-    		sel.select();
-    	} else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
-    		obj.selectionStart = obj.selectionEnd = len;
-    	}
-    };
-    this.onMouseMove4Edit = function(e){
-    	if(__editing===true){__closeEditTip();return;}
-    	var sender = __fixValidCell(e.srcElement);
-    	if(sender==null){
-        	__closeEditTip();
-    	}else{
-    		__showEditTip(e,sender);
-    	}
+    var __editTd = null;
+    var __editing = false;//0: none,1:editing
+    var __editOnComplete = null;
+    var __editOnEdit = null;
+    var __editOnClose = null;
+    var __editOnTipShow = null;
+    var __editOnTipHide = null;
+    var __customParameter = null;
+    var __fixAction = function(f){
+    	return (typeof(f)=="function")?f:(function(){});
     };
     var __fixValidCell = function(obj){
     	while(obj!=null && obj.getAttribute && obj.parentNode!=null && obj.tagName!="TR"){
@@ -753,6 +715,30 @@ var JskitGridView = function (rHd) {
     	}
     	return null;
     };
+    var __editComplete = function(e){
+    	__editOnTipHide(e);
+		__editOnComplete(__editTd);
+		__editTd = null;
+    	__editing = false;
+    };
+    this.editInvoke = function(fName){
+    	if(fName==="complete"){
+    		__editOnComplete(__editTd);
+    	}else if(fName==="edit"){
+    		__editOnEdit(__editTd);
+    	}else{
+    		
+    	}
+    };
+    this.onMouseMove4Edit = function(e){
+    	if(__editing===true){return;}
+    	var sender = __fixValidCell(e.srcElement);
+    	if(sender==null){
+    		__editOnTipHide(e);
+    	}else{
+    		__editOnTipShow(e,sender);
+    	}
+    };
     
     this.onClick4Edit = function(e){
     	var sender = e.srcElement;
@@ -761,62 +747,39 @@ var JskitGridView = function (rHd) {
         		return;
         	}else{
         		__editing = false;
-        		this.editComplete();
+        		__editOnClose(e);
         		return;
         	}
     	} 
     	sender = __fixValidCell(sender);
     	if(sender!=null){
+    		__editOnTipShow(e,sender);
     		__editing = true;
     		__editTd = new __EDIT_ACTOR();
+    		__editTd.custom = __customParameter;
     		__editTd.obj = sender;
     		__editTd.val = sender.innerText;
     		__editTd.key = sender.parentNode.getAttribute("pk");
     		var _col = __columns[sender.getAttribute("_gv_col_")];
     		__editTd.field = _col.field;
-    		__editTd.format = _col.editFormat;
-    		__editTd.innerCode = sender.innerHTML;
-    		__editTd.innerCode = __editTd.innerCode.replace(__editTd.val,"{__v__}");
-    		__showEditPanel($$(sender).getX(),$$(sender).getY()-3+sender.offsetHeight,__editTd.val);
+    		__editTd.title = _col.title;
+    		__editTd.format = _col.format;
+    		__editTd.html = sender.innerHTML;
+    		__editTd.html = __editTd.html.replace(__editTd.val,"{__v__}");
+			__editOnEdit(__editTd);
     	}
     };
-    
-    this.editOnKeyDown = function(e){
-    	if(e.keyCode==13){
-    		this.editComplete();
-    	}
+    this.initFieldEdit = function(json){
+    	__editOnComplete = __fixAction(json.onComplete);
+    	__editOnEdit = __fixAction(json.onEdit);
+    	__editOnClose = __fixAction(json.onClose);
+    	__editOnTipShow = __fixAction(json.onTipShow);
+    	__editOnTipHide = __fixAction(json.onTipHide);
+    	__customParameter = json.custom;
+		jskitEvents.add($$("body"),"onmousemove",__hd+".onMouseMove4Edit");
+		jskitEvents.add($$("body"),"onclick",__hd+".onClick4Edit");
     };
-    this.editComplete = function(sender){
-    	__editing = false;
-    	if(__editTd!=null){
-    		var val = $$("#_gv_edit_input").value;
-    		if(typeof(__editTd.format)=="string"){
-    			if(!(new RegExp(__editTd.format,"gi")).test(val)){
-    				alert("请输入正确格式的数据");
-    				return;
-    			}
-    		}
-    		__closeEditPanel();
-    		if(__editTd.val!=val){
-        		__closeEditPanel();
-        		__editTd.obj.innerHTML = __editTd.innerCode.replace("{__v__}",val);
-        		if(typeof(__editHandler)=="function"){
-        			__editHandler(__editTd.key,__editTd.field,val);
-        		}else if(__editAction!=null){
-            		try{
-                		__editAjax = new JskitXmlHttpAction(__buildEditActionUrl(),__hd+".editCompleteCallback","text");
-            		}catch(e){
-            			//alert(e.message);
-            		}
-        		}
-    		}
-    		__editTd = null;
-    	}
-    };
-    this.editCompleteCallback = function(){
-    	__editAjax = null;
-    	//alert("Edit saved!");
-    };
+
     /*END edit */
     /*END Action methods */
 
@@ -902,6 +865,17 @@ var JskitGridView = function (rHd) {
     this.findCell = function(pkValue,fieldName){
         return __findCell(pkValue,fieldName);
     };
+    this.fixColumn = function(fieldName,attrName,attrVal){
+    	for(var i=0;i<__columns.length;i++){
+    		if(fieldName==__columns[i].field){
+    			if(typeof(attrVal)=="string"){
+        			eval("__columns[i]."+attrName+" = \""+attrVal+"\";");
+    			}else{
+        			eval("__columns[i]."+attrName+" = "+attrVal+";");
+    			}
+    		}
+    	}
+    };
     this.show = function (rCanvasId) {
         if (typeof (rCanvasId) === "string" && rCanvasId != "") {
             __canvas = $$("#" + rCanvasId);
@@ -918,7 +892,7 @@ var JskitGridView = function (rHd) {
         var json = arguments[0];
         __canvasId = (typeof (json.canvasId) === "string") ? json.canvasId : null;
         __oriData = __data = json.data;
-        __columns = json.columns;
+        __columns = this.setColumns(json.columns);
         this.setFooterVisiable(json.footVisiable);
         this.setTableCss(json.cssTable);
         this.setLoadingCss(json.cssLoading);

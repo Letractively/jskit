@@ -49,8 +49,8 @@ function JskitAnimation(rHd){
 			__next();
 		}else{
 			if(__mode==3 && __obj!=null){
-				__obj.style.width = __tw;
-				__obj.style.height = __th;
+				__obj.style.width = __tw+"px";
+				__obj.style.height = __th+"px";
 			}
 			__y = null;
 			__obj = null;
@@ -103,15 +103,17 @@ function JskitAnimation(rHd){
 			if(step>Math.abs(len-offset)){step=Math.abs(len-offset);}
 			if(len<0){step=(-1)*step;}
 	
-			__obj.style.left = x = x + step;
+			x = x + step;
+			__obj.style.left = x+"px";
 			var step_y = (step)*(__ty-__oy)/len;
 			__y += step_y;
 			if(Math.abs(__y+step_y-y)>1){
-				__obj.style.top = y = __y+step_y; 
+				y = __y+step_y; 
+				__obj.style.top = y+"px";
 			}		
 			offset = x-__ox;
 			if(x==__tx || Math.abs(offset)>=Math.abs(len)){
-				__obj.style.top = __ty;
+				__obj.style.top = __ty+"px";
 				__finish();
 				return;
 			}
@@ -140,8 +142,8 @@ function JskitAnimation(rHd){
 			if(step>Math.abs(len-offset)){step=Math.abs(len-offset);}
 			if(len<0){step=(-1)*step;}
 	
-			__obj.style.top = y = y+step;
-	
+			y = y+step;
+			__obj.style.top = y+"px";
 			offset = y-__oy;
 			if(y==__ty || Math.abs(offset)>=Math.abs(len)){
 				__finish();
@@ -161,8 +163,10 @@ function JskitAnimation(rHd){
 		__next();
 		if(typeof(__path)!="object" || __pathIndex==__path.length)return;
 		__obj.style.position = "absolute";
-		__obj.style.left = __ox = __tx;
-		__obj.style.top= __oy = __y = __ty;
+		__ox = __tx;
+		__obj.style.left = __ox+"px";
+		__oy = __y = __ty;
+		__obj.style.top = __oy+"px";
 		__speed = (isNaN(parseInt(rSpeed)) || rSpeed<1)?10:rSpeed;
 		__onFinish = rOnFinish;
 		
@@ -180,8 +184,9 @@ function JskitAnimation(rHd){
 		__ox = __obj.getX();
 		__oy = __obj.getY();
 		__obj.style.position = "absolute";
-		__obj.style.left = __ox;
-		__obj.style.top = __y = __oy;
+		__obj.style.left = __ox+"px";
+		__y = __oy;
+		__obj.style.top = __y+"px";
 		__tx = (typeof(rx)=="number")?rx:0;
 		__ty = (typeof(ry)=="number")?ry:0;
 		if(isNaN(parseInt(rSpeed)) || rSpeed>100 || rSpeed<10)rSpeed=50;
@@ -200,8 +205,9 @@ function JskitAnimation(rHd){
 		__ox = __obj.getX();
 		__oy = __obj.getY();
 		__obj.style.position = "absolute";
-		__obj.style.left = __ox;
-		__obj.style.top = __y = __oy;
+		__obj.style.left = __ox+"px";
+		__y = __oy;
+		__obj.style.top = __y+"px";
 		__tx = (typeof(rx)=="number")?rx:0;
 		__ty = (typeof(ry)=="number")?ry:0;
 		__ow = __obj.offsetWidth;
